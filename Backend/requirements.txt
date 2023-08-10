@@ -1,4 +1,4 @@
 flask
-nltk
 python-dotenv
+nltk
 spacy
