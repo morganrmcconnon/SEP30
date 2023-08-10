@@ -8,11 +8,13 @@ In order to locally run project, you will need to:
 
    `git clone git@github.com:morganrmcconnon/SEP30.git`
 
-3. Nagivate to frontend folder and install required dependencies:
-
+2. Nagivate to frontend folder and install required dependencies:
+   
+   `cd frontend`
+   
    `npm install`
 
-5. Run dev environment:
+4. Run dev environment:
 
    `npm run dev`
 
