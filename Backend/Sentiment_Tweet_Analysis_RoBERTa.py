@@ -13,12 +13,17 @@ import torch
 drive.mount('/content/drive')
 
 # Load tokenizer and RoBERTa model
-tokenizer = RobertaTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
-model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment", num_labels=3)
+tokenizer = RobertaTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest")
+model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment-latest", num_labels=3)
 
 # Data pre-processing function
 def preprocess_text(text):
-    return " ".join(text.split())  # Remove extra spaces, etc.
+    new_text = []
+    for t in text.split(" "):
+        t = '@user' if t.startswith('@') and len(t) > 1 else t
+        t = 'http' if t.startswith('http') else t
+        new_text.append(t)
+    return " ".join(new_text)
 
 # Sentiment classification function
 def classify_sentiment(model, tokenizer, text):
