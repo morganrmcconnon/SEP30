@@ -12,7 +12,7 @@ import torch
 # Mount Google Drive
 drive.mount('/content/drive')
 
-# Load tokenizer and model
+# Load tokenizer and RoBERTa model
 tokenizer = RobertaTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
 model = RobertaForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment", num_labels=3)
 
