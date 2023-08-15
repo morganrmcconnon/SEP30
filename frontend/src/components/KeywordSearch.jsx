@@ -1,4 +1,5 @@
 import search from "../assets/search.svg";
+import useState from "react";
 
 const KeywordSearch = () => {
   return (
@@ -10,8 +11,8 @@ const KeywordSearch = () => {
           type="text"
           id="keyword"
           name="keyword"
-          placeholder="Search Data"
-        ></input>
+          placeholder="Search Term"
+        />
       </form>
     </div>
   );
