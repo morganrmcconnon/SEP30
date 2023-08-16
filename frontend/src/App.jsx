@@ -3,6 +3,7 @@ import "./styles/styles.css";
 import MyPost from "./components/MyPost";
 import Sidebar from "./components/Sidebar";
 import KeywordSerch from "./components/KeywordSearch";
+import DashboardVis from "./components/DashboardVis";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <KeywordSerch />
       </div>
       <div className="dashboard-container">
-        <MyPost />
+        <DashboardVis />
       </div>
     </div>
   );
