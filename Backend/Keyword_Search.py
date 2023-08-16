@@ -9,7 +9,7 @@ def search_keyword_in_tweet(tweet, keyword):
     return False
 
 # Keyword to search for
-keyword_to_search = "hello"
+keyword_to_search = "happy"
 
 # Open the file and read JSON objects line by line
 matching_tweets = []
