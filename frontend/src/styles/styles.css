@@ -123,8 +123,10 @@ h3
 }
 
 .keywordsearch-container{
+	display:flex;
     grid-column: 2 / 3;
     grid-row: 1 / 2;
+	align-items: center;
 }
 
 .keywordsearch-bar{
