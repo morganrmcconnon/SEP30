@@ -12,7 +12,7 @@ const DashboardVis = () => {
 
   const items = [
     { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 1 },
-    { i: "Map", vis: <Map />, x: 4, y: 0, w: 2, h: 1 },
+    { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 1 },
   ];
   return (
     <div>
@@ -27,11 +27,7 @@ const DashboardVis = () => {
       >
         {items.map((item) => {
           return (
-            <div
-              key={item.i}
-              style={{ backgroundColor: "#FFFFFF" }}
-              data-grid={{ x: item.x, y: item.y }}
-            >
+            <div key={item.i} data-grid={{ x: item.x, y: item.y }}>
               {item.vis}
             </div>
           );

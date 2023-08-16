@@ -160,16 +160,24 @@ h3
 
 .vis-container{
 	padding:8px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	border-radius:3%;
 }
 
 .vis-header{
 	border-bottom: 1px solid black;
 	display:flex;
+	align-items: center;
 }
 
 .vis-drag-handle{
-	background-color: var(--color-secondary);
-	border: 1px solid var(--color-dark)
+	width:15px;
+	display:flex;
+	background-color: #F5F5F5;
+	align-items: center;
+	margin:5px;
+	padding:10px;	
+	border-radius: 50%;
 }
 
 .react-grid-item.react-grid-placeholder{
