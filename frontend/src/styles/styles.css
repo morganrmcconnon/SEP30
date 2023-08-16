@@ -162,6 +162,16 @@ h3
 	padding:8px;
 }
 
+.vis-header{
+	border-bottom: 1px solid black;
+	display:flex;
+}
+
+.vis-drag-handle{
+	background-color: var(--color-secondary);
+	border: 1px solid var(--color-dark)
+}
+
 .react-grid-item.react-grid-placeholder{
 	background: var(--color-grey)
 }
