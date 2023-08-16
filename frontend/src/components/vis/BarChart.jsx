@@ -15,7 +15,9 @@ const BarChart = () => {
     var data = [trace1];
 
     var layout = {
-        title: 'Least Used Feature'
+        title: 'Least Used Feature',
+        plot_bgcolor: '#d0ebff',
+        paper_bgcolor: '#d3f9d8'
     };      
 
     return <div className="vis-container"><Plot data={data} layout={layout} /></div>;
