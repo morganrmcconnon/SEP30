@@ -20,9 +20,18 @@ const BarChart = () => {
   var data = [trace1];
 
   var layout = {
-    title: "Least Used Feature",
+    // title: "Least Used Feature",
     plot_bgcolor: "#d0ebff",
     paper_bgcolor: "#d3f9d8",
+    width: 395,
+    height: 200,
+    margin: {
+      l: 30,
+      r: 30,
+      b: 30,
+      t: 30,
+      pad: 4
+    },
   };
 
   return (
