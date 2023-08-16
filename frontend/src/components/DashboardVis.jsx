@@ -1,6 +1,5 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
 import BarChart from "./vis/BarChart";
 import PieChart from "./vis/PieChart";
 import WordCloud from "./vis/WordCloud";
@@ -23,6 +22,7 @@ const DashboardVis = () => {
         layouts={{ lg: items }}
         breakpoints={{ lg: 1200, md: 996, sm: 768 }}
         cols={{ lg: 12, md: 10, sm: 6 }}
+        isResizable={false}
       >
         {items.map((item) => {
           return (
