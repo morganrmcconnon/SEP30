@@ -21,26 +21,26 @@ const Sidebar = () => {
       <ul className="sidebar-list">
         <li>
           <img className="sidebar-icon" src={dashboard} alt="overview" />
-          Overview
+          <h3>Overview</h3>
         </li>
         <li>
           <img className="sidebar-icon" src={file} alt="dashboard" />
-          Dashboard
+          <h3>Dashboard</h3>
         </li>
         <li>
           <img className="sidebar-icon" src={contact} alt="contact" />
-          Contact
+          <h3>Contact</h3>
         </li>
         <li>
           <img className="sidebar-icon" src={information} alt="about" />
-          About us
+          <h3>About us</h3>
         </li>
       </ul>
       <h3 className="sidebar-title">PREFERENCES</h3>
       <ul className="sidebar-list">
         <li>
           <img className="sidebar-icon" src={settings} alt="settings" />
-          Settings
+          <h3>Settings</h3>
         </li>
       </ul>
     </div>
