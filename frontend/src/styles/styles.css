@@ -165,30 +165,45 @@ h3
 	/* padding:8px; */
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 	border-radius:3%;
+	background-color:white;
 }
 
 .vis-header{
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--color-secondary);
 	display:flex;
 	align-items: center;
+	padding: 5px 0px 5px 0px;
+	width:100%;
 }
+
 
 .vis-header-title > *{
 	justify-content:center;
 	display:flex;
 	flex-direction: column;
-	margin: 0px 0px 0px 20px;
-	padding:0px;
+	margin:0px;
+	padding:0px
 }
 
 .vis-drag-handle{
 	width:15px;
+	height:15px;
 	display:flex;
-	background-color: #F5F5F5;
+	background-color: var(--color-secondary);
 	align-items: center;
-	margin:5px;
+	margin:5px 15px 5px 5px;
 	padding:10px;	
 	border-radius: 50%;
+	line-height: 15px;
+}
+
+.vis-dots{
+	width:15px;
+	height:15px;
+	padding:10px;	
+	margin-left: auto;
+	margin-right:20px;
+	scale:150%;
 }
 
 .react-grid-item.react-grid-placeholder{

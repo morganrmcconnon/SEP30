@@ -1,4 +1,5 @@
 import arrowAll from "../../assets/arrow-all.svg";
+import dotsVertical from "../../assets/dots-vertical.svg";
 
 const Map = () => {
   return (
@@ -6,11 +7,12 @@ const Map = () => {
       <div className="vis-header">
         <div className="vis-drag-handle">
           <img src={arrowAll} />
-          <div className="vis-header-title">
-            <h3>Map</h3>
-            <p className="text-subtitle">Location</p>
-          </div>
         </div>
+        <div className="vis-header-title">
+          <h3>Map</h3>
+          <p className="text-subtitle">Subtitle</p>
+        </div>
+        <img className="vis-dots" src={dotsVertical} />
       </div>
     </div>
   );

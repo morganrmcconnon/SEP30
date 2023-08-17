@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Plot from "react-plotly.js";
 import arrowAll from "../../assets/arrow-all.svg";
+import dotsVertical from "../../assets/dots-vertical.svg";
 
 const BarChart = () => {
   var trace1 = {
@@ -31,7 +32,7 @@ const BarChart = () => {
       r: 30,
       b: 30,
       t: 30,
-      pad: 4
+      pad: 4,
     },
   };
 
@@ -41,6 +42,11 @@ const BarChart = () => {
         <div className="vis-drag-handle">
           <img src={arrowAll} />
         </div>
+        <div className="vis-header-title">
+          <h3>BarChart</h3>
+          <p className="text-subtitle">Subtitle</p>
+        </div>
+        <img className="vis-dots" src={dotsVertical} />
       </div>
       <Plot data={data} layout={layout} />
     </div>
