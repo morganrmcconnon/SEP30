@@ -12,5 +12,6 @@
 }
 
 .react-grid-item.react-grid-placeholder{
-	background: var(--color-grey)
+	background: var(--color-grey);
+	border-radius:15px;
 }
