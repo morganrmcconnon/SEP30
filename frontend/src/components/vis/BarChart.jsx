@@ -1,9 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 import arrowAll from "../../assets/arrow-all.svg";
 import dotsVertical from "../../assets/dots-vertical.svg";
 
 const BarChart = () => {
+
+  const chartRef = useRef(null);
+
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [layout, setLayout] = useState({});
+
+  useEffect(() => {
+    if (chartRef.current) {
+      console.log(chartRef.current.parentElement.clientWidth);
+      setWidth(chartRef.current.parentElement.clientWidth);
+      setHeight(chartRef.current.parentElement.clientHeight);
+      setLayout({
+        // title: "Least Used Feature",
+        plot_bgcolor: "#d0ebff",
+        paper_bgcolor: "#d3f9d8",
+        // width: width,
+        height: height,
+        margin: {
+          l: 40,
+          r: 40,
+          b: 40,
+          t: 100,
+        },
+      })
+    }
+  }, []);
+
   var trace1 = {
     x: ["Feature A", "Feature B", "Feature C", "Feature D", "Feature E"],
     y: [20, 14, 23, 25, 22],
@@ -21,34 +49,22 @@ const BarChart = () => {
 
   var data = [trace1];
 
-  var layout = {
-    // title: "Least Used Feature",
-    plot_bgcolor: "#d0ebff",
-    paper_bgcolor: "#d3f9d8",
-    width: 400,
-    height: 300,
-    margin: {
-      l: 30,
-      r: 30,
-      b: 30,
-      t: 80,
-      pad: 4,
-    },
-  };
+  var config = { responsive: true }
 
   return (
-    <div>
-      <div className="vis-header" style={{ position: 'absolute' }}>
-        <div className="vis-drag-handle">
+    <div className="vis-container" ref={chartRef}>
+      <div className="vis-header" style={{ position: 'absolute', zIndex: 1, pointerEvents: 'none' }}>
+        <div className="vis-drag-handle" style={{ pointerEvents: 'auto', cursor: 'move' }}>
           <img src={arrowAll} />
         </div>
-        <div className="vis-header-title">
+        <div className="vis-header-title" style={{ pointerEvents: 'auto' }}>
           <h3>Bar Chart</h3>
           <p className="text-subtitle">Subtitle</p>
         </div>
-        <img className="vis-dots" src={dotsVertical} />
+        <img className="vis-dots" src={dotsVertical} style={{ pointerEvents: 'none', cursor: 'grab' }} />
       </div>
-      <Plot data={data} layout={layout} style={{ position: 'absolute', zIndex: -1, opacity: 1 }} />
+      <Plot data={data} layout={layout} config={config} useResizeHandler={true}
+        style={{ width: '100%', height: '100%' }} />
     </div>
   );
 };
