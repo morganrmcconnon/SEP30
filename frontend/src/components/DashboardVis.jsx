@@ -22,7 +22,7 @@ const DashboardVis = () => {
         layouts={{ lg: items }}
         breakpoints={{ lg: 1200, md: 996, sm: 768 }}
         cols={{ lg: 12, md: 10, sm: 6 }}
-        isResizable={false}
+        isResizable={true}
         draggableHandle=".vis-drag-handle"
       >
         {items.map((item) => {
