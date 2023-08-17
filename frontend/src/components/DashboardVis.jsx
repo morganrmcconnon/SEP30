@@ -13,7 +13,7 @@ const DashboardVis = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 3, h: 1 },
+    { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 2 },
     { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 3 },
   ];
   return (

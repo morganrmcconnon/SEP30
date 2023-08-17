@@ -25,30 +25,30 @@ const BarChart = () => {
     // title: "Least Used Feature",
     plot_bgcolor: "#d0ebff",
     paper_bgcolor: "#d3f9d8",
-    width: 395,
-    height: 200,
+    width: 400,
+    height: 300,
     margin: {
       l: 30,
       r: 30,
       b: 30,
-      t: 30,
+      t: 80,
       pad: 4,
     },
   };
 
   return (
-    <div className="vis-container">
-      <div className="vis-header">
+    <div>
+      <div className="vis-header" style={{ position: 'absolute' }}>
         <div className="vis-drag-handle">
           <img src={arrowAll} />
         </div>
         <div className="vis-header-title">
-          <h3>BarChart</h3>
+          <h3>Bar Chart</h3>
           <p className="text-subtitle">Subtitle</p>
         </div>
         <img className="vis-dots" src={dotsVertical} />
       </div>
-      <Plot data={data} layout={layout} />
+      <Plot data={data} layout={layout} style={{ position: 'absolute', zIndex: -1, opacity: 1 }} />
     </div>
   );
 };
