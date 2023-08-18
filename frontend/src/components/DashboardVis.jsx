@@ -4,7 +4,7 @@ import BarChart from "./vis/BarChart";
 import PieChart from "./vis/PieChart";
 import WordCloud from "./vis/WordCloud";
 import Map from "./vis/Map";
-import LollipopPlot from "./vis/LollipopPlot";
+import LollipopChart from "./vis/LollipopChart";
 import "../styles/override.css";
 
 const DashboardVis = () => {

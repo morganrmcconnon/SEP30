@@ -1,5 +1,5 @@
-const LollipopPlot = () => {
+const LollipopChart = () => {
   return <div className="vis-container">LollipopPlot</div>;
 };
 
-export default LollipopPlot;
+export default LollipopChart;
