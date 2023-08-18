@@ -1,13 +1,9 @@
 from flask import Flask, request
 import time
 import os
-# from flask_vite import Vite
-
 import sentiment_analysis_with_vader
 import sentiment_analysis_with_roberta
-
-
-
+# from flask_vite import Vite
 
 # # Get and set directory for static files (ie. index.html, css, and bundled JS)
 # # defaults to 'dist', the default name of Parcel's build directory
@@ -44,7 +40,6 @@ def get_current_time():
 def check_sentiment_with_vader():
     # Get content from client, process it on server, and return it
     data = request.get_json()
-    print(data)
     text = data["text"]
     compound_score, sentiment_label = sentiment_analysis_with_vader.check_sentiment(text)
     return { 'compound_score': compound_score, 'sentiment_label': sentiment_label }
@@ -54,9 +49,8 @@ def check_sentiment_with_vader():
 def check_sentiment_with_roberta():
     # Get content from client, process it on server, and return it
     data = request.get_json()
-    print(data)
     text = data["text"]
     # Analyze the sentiment of text
-    result = sentiment_analysis_with_roberta.classify_sentiment(text=text)
+    sentiment_result, confidence_probabilities = sentiment_analysis_with_roberta.classify_sentiment(text=text)
 
-    return { "sentiment_result": int(result) }
+    return { 'sentiment_result': sentiment_result, 'confidence_probabilities': confidence_probabilities }

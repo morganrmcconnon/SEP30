@@ -39,8 +39,14 @@ def classify_sentiment(text):
         logits = outputs.logits
         probs = softmax(logits.numpy(), axis=1)[0]
 
-    print([type(d) for d in probs])
-
     sentiment = np.argmax(probs)
 
-    return sentiment
+    confidence_probabilities = {
+        'negative': float(probs[0]),
+        'neutral': float(probs[1]),
+        'positive': float(probs[2])
+    }
+
+    sentiment_result = 'negative' if sentiment == 0 else 'neutral' if sentiment == 1 else 'positive'
+
+    return sentiment_result, confidence_probabilities

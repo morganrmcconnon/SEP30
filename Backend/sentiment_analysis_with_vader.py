@@ -11,6 +11,7 @@ analyzer = SentimentIntensityAnalyzer()
 def check_sentiment(text):
     # Analyze the sentiment of text
     scores = analyzer.polarity_scores(text)
+    print(scores)
     compound_score = scores['compound']
 
     # Determine the sentiment label based on the compound score

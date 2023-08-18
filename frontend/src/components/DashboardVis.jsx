@@ -6,7 +6,7 @@ import WordCloud from "./vis/WordCloud";
 import Map from "./vis/Map";
 import LollipopChart from "./vis/LollipopChart";
 import "../styles/override.css";
-import MyPost from "./MyPost";
+import { TestRoBERTa, TestVader } from "./MyPost";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -16,7 +16,8 @@ const DashboardVis = () => {
   const items = [
     { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 2 },
     { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 3 },
-    { i: "Sentiment", vis: <MyPost />, x: 0, y: 4, w: 3, h: 3 },
+    { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 4, w: 3, h: 2 },
+    { i: "SentimentVader", vis: <TestVader />, x: 4, y: 4, w: 3, h: 2 },
   ];
   return (
     <div>
