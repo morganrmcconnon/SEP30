@@ -51,11 +51,28 @@ const BarChart = () => {
 
   var data = [trace1];
 
-  var config = { responsive: true }
+  var config = { 
+    responsive: true, 
+    toggleSpikelines: true,
+    // scrollZoom: true,
+    // staticPlot: true, 
+    editable: true,
+    // toImageButtonOptions: {
+    //   format: 'svg', // one of png, svg, jpeg, webp
+    //   filename: 'custom_image',
+    //   height: 500,
+    //   width: 700,
+    //   scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
+    // }
+  }
 
   return (
     <div className="vis-container" ref={chartRef}>
-      <div className="vis-header" style={{ position: 'absolute', zIndex: 1, pointerEvents: 'none' }}>
+      <div className="vis-header" style={{
+        position: 'absolute',
+        zIndex: 1,
+        pointerEvents: 'none'
+      }}>
         <div className="vis-drag-handle" style={{ pointerEvents: 'auto', cursor: 'move' }}>
           <img src={arrowAll} />
         </div>
