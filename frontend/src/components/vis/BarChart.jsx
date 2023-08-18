@@ -19,22 +19,23 @@ const BarChart = () => {
       setLayout({
         // title: "Least Used Feature",
         plot_bgcolor: "#d0ebff",
-        paper_bgcolor: "#d3f9d8",
+        // paper_bgcolor: "#d3f9d8",
         // width: width,
         height: height,
         margin: {
-          l: 40,
+          l: 100,
           r: 40,
           b: 40,
           t: 100,
+          pad: 4
         },
       })
     }
   }, []);
 
   var trace1 = {
-    x: ["Feature A", "Feature B", "Feature C", "Feature D", "Feature E"],
-    y: [20, 14, 23, 25, 22],
+    y: ["Feature A", "Feature B", "Feature C", "Feature D", "Feature E"],
+    x: [20, 14, 23, 25, 22],
     marker: {
       color: [
         "rgba(204,204,204,1)",
@@ -45,6 +46,7 @@ const BarChart = () => {
       ],
     },
     type: "bar",
+    orientation: "h",
   };
 
   var data = [trace1];
@@ -64,7 +66,8 @@ const BarChart = () => {
         <img className="vis-dots" src={dotsVertical} style={{ pointerEvents: 'none', cursor: 'grab' }} />
       </div>
       <Plot data={data} layout={layout} config={config} useResizeHandler={true}
-        style={{ width: '100%', height: '100%' }} />
+        style={{ width: '100%', height: '100%' }} >
+      </Plot>
     </div>
   );
 };
