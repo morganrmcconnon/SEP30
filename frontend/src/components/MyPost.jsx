@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import VisHeader from './VisHeader';
 
 const MyPost = () => {
     const [text, setText] = useState("");
     const [resultText, setResultText] = useState("");
-    const [resultScore, setResultScore] = useState("");
 
     const clearText = () => {
         setText("");
@@ -20,8 +20,7 @@ const MyPost = () => {
         fetch("/api/sentiment", requestOptions)
             .then((res) => res.json())
             .then((data) => {
-                setResultText(data.sentiment_label);
-                setResultScore(data.compound_score);
+                setResultText(data['sentiment_result']);
             })
             .catch((err) => {
                 console.log("Something went wrong NASA!");
@@ -30,27 +29,29 @@ const MyPost = () => {
     };
 
     return (
-        <article>
-            <h2>Test POST request</h2>
-            <form onSubmit={getResult}>
-                <div>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        placeholder="Enter a sentence..."
-                    />
-                </div>
-                <div>
-                    <button type="submit">Check sentiment</button>
-                </div>
-                <div>
-                    <button type="button" onClick={clearText}>Clear</button>
-                </div>
-            </form>
-            <p>{resultText}</p>
-            <p>{resultScore}</p>
-        </article>
+        <div className="vis-container">
+            <VisHeader title="Test Sentiment Analysis" subtitle="Enter a sentence to check its sentiment" />
+            <article>
+                <form onSubmit={getResult}>
+                    <div>
+                        <input
+                            type="text"
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            placeholder="Enter a sentence..."
+                        />
+                    </div>
+                    <div>
+                        <button type="submit">Check sentiment</button>
+                    </div>
+                    <div>
+                        <button type="button" onClick={clearText}>Clear</button>
+                    </div>
+                </form>
+                <p>{resultText}</p>
+            </article>
+        </div>
+
     );
 };
 

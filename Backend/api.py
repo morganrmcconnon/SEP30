@@ -1,15 +1,12 @@
 from flask import Flask, request
 import time
 import os
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 # from flask_vite import Vite
 
-# Download the required data (run this only once)
-nltk.download('vader_lexicon')
+import sentiment_analysis_with_vader
+import sentiment_analysis_with_roberta
 
-# Create a SentimentIntensityAnalyzer object
-analyzer = SentimentIntensityAnalyzer()
+
 
 
 # # Get and set directory for static files (ie. index.html, css, and bundled JS)
@@ -43,21 +40,23 @@ def get_current_time():
     return {'time': time.time()}
 
 
-@app.route("/sentiment", methods=["POST"])
-def check_sentiment():
+@app.route("/sentiment_vader", methods=["POST"])
+def check_sentiment_with_vader():
     # Get content from client, process it on server, and return it
     data = request.get_json()
+    print(data)
     text = data["text"]
-    # Analyze the sentiment of each text
-    scores = analyzer.polarity_scores(text)
-    compound_score = scores['compound']
+    compound_score, sentiment_label = sentiment_analysis_with_vader.check_sentiment(text)
+    return { 'compound_score': compound_score, 'sentiment_label': sentiment_label }
 
-    # Determine the sentiment label based on the compound score
-    if compound_score >= 0.05:
-        sentiment_label = 'Positive'
-    elif compound_score <= -0.05:
-        sentiment_label = 'Negative'
-    else:
-        sentiment_label = 'Neutral'
 
-    return {"sentiment_label": sentiment_label, "compound_score": compound_score, "text": text}
+@app.route("/sentiment", methods=["POST"])
+def check_sentiment_with_roberta():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    print(data)
+    text = data["text"]
+    # Analyze the sentiment of text
+    result = sentiment_analysis_with_roberta.classify_sentiment(text=text)
+
+    return { "sentiment_result": int(result) }
