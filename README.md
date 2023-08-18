@@ -20,6 +20,8 @@ In order to locally run project, you will need to:
 
 ## Backend
 
+Refer to https://flask.palletsprojects.com/en/2.3.x/installation/.
+
 To run the backend app, first navigate to the back-end folder, create a virtual environment, activate it, and install the dependencies.
 
 ```bash
