@@ -1,6 +1,6 @@
 import React from "react";
-import arrowAll from "../assets/arrow-all.svg";
-import dotsVertical from "../assets/dots-vertical.svg";
+import arrowAll from "/src/assets/arrow-all.svg";
+import dotsVertical from "/src/assets/dots-vertical.svg";
 
 const VisHeader = ({ title, subtitle }) => {
 
