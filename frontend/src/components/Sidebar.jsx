@@ -18,31 +18,35 @@ const Sidebar = () => {
         </div>
       </div>
       <h3 className="sidebar-title">MAIN MENU</h3>
-      <ul className="sidebar-list">
-        <li>
-          <img className="sidebar-icon" src={dashboard} alt="overview" />
-          <h3>Overview</h3>
-        </li>
-        <li>
-          <img className="sidebar-icon" src={file} alt="dashboard" />
-          <h3>Dashboard</h3>
-        </li>
-        <li>
-          <img className="sidebar-icon" src={contact} alt="contact" />
-          <h3>Contact</h3>
-        </li>
-        <li>
-          <img className="sidebar-icon" src={information} alt="about" />
-          <h3>About us</h3>
-        </li>
-      </ul>
+      <nav>
+        <ul className="sidebar-list">
+          <li>
+            <img className="sidebar-icon" src={dashboard} alt="overview" />
+            <h3>Overview</h3>
+          </li>
+          <li>
+            <img className="sidebar-icon" src={file} alt="dashboard" />
+            <h3>Dashboard</h3>
+          </li>
+          <li>
+            <img className="sidebar-icon" src={contact} alt="contact" />
+            <h3>Contact</h3>
+          </li>
+          <li>
+            <img className="sidebar-icon" src={information} alt="about" />
+            <h3>About us</h3>
+          </li>
+        </ul>
+      </nav>
       <h3 className="sidebar-title">PREFERENCES</h3>
-      <ul className="sidebar-list">
-        <li>
-          <img className="sidebar-icon" src={settings} alt="settings" />
-          <h3>Settings</h3>
-        </li>
-      </ul>
+      <nav>
+        <ul className="sidebar-list">
+          <li>
+            <img className="sidebar-icon" src={settings} alt="settings" />
+            <h3>Settings</h3>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
