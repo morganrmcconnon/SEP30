@@ -20,6 +20,8 @@ In order to locally run project, you will need to:
 
 ## Backend
 
+### Installation and run
+
 Refer to https://flask.palletsprojects.com/en/2.3.x/installation/.
 
 To run the backend app, first navigate to the back-end folder, create a virtual environment, activate it, and install the dependencies.
@@ -55,6 +57,16 @@ or
 
 ```bash
 python app.py
+```
+
+### Development
+
+#### Auto genereate `requirements.txt`
+
+To auto generate `requirements.txt` file, run the following command while in the virtual environment:
+
+```bash
+pip freeze > requirements.txt
 ```
 
 ## Prototype sketch
