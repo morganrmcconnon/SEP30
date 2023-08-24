@@ -4,7 +4,8 @@ body
 {
 	padding:0;
 	margin:0;
-	font-family:'Inter',sans-serif
+	font-family:'Inter',sans-serif;
+	background-color: var(--color-white);
 }
 
 :root
@@ -51,6 +52,7 @@ body
 		align-self: center;
 		margin-left:auto;
 		margin-right:auto;
+		padding-bottom:30px
 	}
 	
 
@@ -161,11 +163,8 @@ h3
 	list-style:none;
 	padding:10px;
 	align-items:center;
-	max-width:200px
+	max-width:175px
 }
-
-
-
 
 .sidebar-list .sidebar-icon{
 	filter:var(--filter-dark);
@@ -229,6 +228,7 @@ h3
     background-color: var(--color-secondary);
     grid-column: 2/3;
     grid-row:2/3;
+	border-top-left-radius:15px;
 }
 
 .dashboard-title{
@@ -287,4 +287,13 @@ h3
 	margin-right:20px;
 	scale:150%;
 	filter:var(--filter-dark);
+}
+
+.vis-svg-container{
+	height: calc(100% - 66px);
+}
+
+.vis-svg{
+	height:100%;
+	width:100%;
 }

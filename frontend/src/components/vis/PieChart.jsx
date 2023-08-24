@@ -62,8 +62,8 @@ const PieChart = () => {
         </div>
         <img className="vis-dots" src={dotsVertical} />
       </div>
-      <div>
-        <svg ref={svgRef}></svg>
+      <div className="vis-svg-container">
+        <svg className="vis-svg" ref={svgRef}></svg>
       </div>
     </div>
   );
