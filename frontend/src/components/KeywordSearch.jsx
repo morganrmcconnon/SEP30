@@ -2,9 +2,12 @@ import search from "../assets/search.svg";
 import { useState } from "react";
 import light from "../assets/light.svg";
 import dark from "../assets/dark.svg";
+import { useActionData, useNavigate, Form } from "react-router-dom";
 
 const KeywordSearch = () => {
   const [mode, setMode] = useState(true);
+
+  const actionData = useActionData();
 
   function toggleTheme() {
     let element = document.body;
@@ -15,7 +18,7 @@ const KeywordSearch = () => {
   return (
     <div className="keywordsearch-bar">
       <img className="sidebar-icon" src={search} alt="search" />
-      <form>
+      <Form method="post" action="/search">
         <input
           className="keywordsearch-input"
           type="text"
@@ -23,7 +26,7 @@ const KeywordSearch = () => {
           name="keyword"
           placeholder="Search Term"
         />
-      </form>
+      </Form>
       <div></div>
       <img
         className="toggle-mode"
@@ -35,3 +38,13 @@ const KeywordSearch = () => {
 };
 
 export default KeywordSearch;
+
+export const keywordAction = async ({ request }) => {
+  const data = await request.formData();
+
+  const submission = {
+    keyword: data.get(keyword),
+  };
+
+  console.log(submission);
+};
