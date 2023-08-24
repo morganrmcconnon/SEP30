@@ -52,7 +52,7 @@ body
 		align-self: center;
 		margin-left:auto;
 		margin-right:auto;
-		padding-bottom:30px
+		margin-bottom:30px
 	}
 	
 
@@ -144,12 +144,18 @@ h3
 	margin-bottom:40px;
 	display:flex;
 	justify-content:center;
-	align-items:center
+	align-items:center;
+	
 }
+
+a {
+  text-decoration: none;
+}
+
 
 .sidebar-logo h1,.sidebar-logo p
 {
-	margin:0
+	margin:0;
 }
 
 .sidebar-logo-image
