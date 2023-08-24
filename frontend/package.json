@@ -14,9 +14,11 @@
     "lodash": "^4.17.21",
     "plotly.js": "^2.25.2",
     "react": "^18.2.0",
+    "react-d3-library": "^1.1.8",
     "react-dom": "^18.2.0",
     "react-grid-layout": "^1.3.4",
-    "react-plotly.js": "^2.6.0"
+    "react-plotly.js": "^2.6.0",
+    "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

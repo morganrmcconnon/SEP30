@@ -1,6 +1,8 @@
 import arrowAll from "../../assets/arrow-all.svg";
 import dotsVertical from "../../assets/dots-vertical.svg";
 
+import * as d3 from "d3";
+
 const Map = () => {
   return (
     <div className="vis-container">
