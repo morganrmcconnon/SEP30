@@ -27,6 +27,7 @@ Fiona==1.9.4.post1
 Flask==2.3.2
 fonttools==4.42.1
 fsspec==2023.6.0
+gensim==4.3.1
 geographiclib==2.0
 geopandas==0.13.2
 geopy==2.3.0
