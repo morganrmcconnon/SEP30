@@ -17,8 +17,7 @@ def read_jsonl(local_path):
 
 def get_tweet_text(tweet):
     """ 
-    Retrieve the text of a tweet, considering extended tweets and text ranges.
-    Removing unnecessary URLs or RT,... inside tweet text.
+    Retrieve the text section of a tweet, considering extended tweets and text ranges.
 
     Parameters:
     - tweet (dict): Twitter API v1 Object.
