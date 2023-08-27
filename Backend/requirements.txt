@@ -31,7 +31,7 @@ gensim==4.3.1
 geographiclib==2.0
 geopandas==0.13.2
 geopy==2.3.0
-googletrans==3.0.0
+googletrans==3.1.0a0
 h11==0.9.0
 h2==3.2.0
 hpack==3.0.0
