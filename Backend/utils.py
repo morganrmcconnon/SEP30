@@ -1,3 +1,45 @@
+import json
+
+
+def read_jsonl(local_path):
+    """
+    Read a JSONL file.
+
+    Parameters:
+    - local_path (str): Path to the JSONL file.
+
+    Returns:
+    - A list of dictionaries.
+    """
+    with open(local_path, "r") as f:
+        return [json.loads(line) for line in f]
+
+
+def get_tweet_text(tweet):
+    """ 
+    Retrieve the text of a tweet, considering extended tweets and text ranges.
+    Removing unnecessary URLs or RT,... inside tweet text.
+
+    Parameters:
+    - tweet (dict): Twitter API v1 Object.
+
+    Returns:
+    - text (str).
+    """
+    if "extended_tweet" in tweet:
+        extended_tweet = tweet["extended_tweet"]
+        display_text_range = extended_tweet.get("display_text_range")
+        if display_text_range and len(display_text_range) >= 2:
+            return extended_tweet["full_text"][
+                display_text_range[0] : display_text_range[1]
+            ]
+        return extended_tweet["full_text"]
+    display_text_range = tweet.get("display_text_range")
+    if display_text_range and len(display_text_range) >= 2:
+        return tweet["text"][display_text_range[0] : display_text_range[1]]
+    return tweet["text"]
+
+
 def remove_none_entries(list_of_dicts, inplace=True):
     """
     Remove keys with None values from each dictionary in the list.
@@ -23,6 +65,7 @@ def remove_none_entries(list_of_dicts, inplace=True):
             # Create a new dictionary with keys filtered
             d = {key: value for key, value in d.items() if value is not None}
         return new_list
+
 
 def complete_dict_entries(list_of_dicts, inplace=True):
     """
