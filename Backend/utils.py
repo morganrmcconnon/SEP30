@@ -1,4 +1,24 @@
 import json
+import re
+
+
+def clean_tweet_text(tweet_text):
+    """
+    Clean a tweet text.
+    
+    Parameters:
+    - tweet_text (str): Tweet text to clean.
+
+    Returns:
+    - Cleaned tweet text (str).
+    """
+    # Remove RT, links, mentions, and other noise
+    cleaned_text = re.sub(r'^RT[\s]+', '', tweet_text)  # Remove RT
+    cleaned_text = re.sub(r'https?:\/\/\S+', '', cleaned_text)  # Remove links
+    cleaned_text = re.sub(r'@[A-Za-z0-9]+', '', cleaned_text)  # Remove mentions
+    cleaned_text = re.sub(r'#', '', cleaned_text)  # Remove hashtags
+
+    return cleaned_text
 
 
 def read_jsonl(local_path):
@@ -96,3 +116,25 @@ def complete_dict_entries(list_of_dicts, inplace=True):
                 if key not in d:
                     d[key] = None
         return new_list
+
+
+def shared_keys(dicts):
+    """
+    Given a list of dictionaries, return the keys that occur in all dictionaries, and all other keys.
+    """
+    if not dicts:
+        return []
+
+    # Create a dictionary to store key counts
+    key_counts = {}
+
+    # Count the occurrence of keys in each dictionary
+    for d in dicts:
+        for key in d.keys():
+            key_counts[key] = key_counts.get(key, 0) + 1
+
+    # Filter keys that occur in all dictionaries
+    common_keys = [key for key, count in key_counts.items() if count == len(dicts)]
+    non_common_keys = [key for key, count in key_counts.items() if count != len(dicts)]
+
+    return common_keys, non_common_keys
