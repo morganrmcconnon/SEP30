@@ -16,6 +16,7 @@ const DashboardVis = () => {
   const items = [
     { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 2 },
     { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 3 },
+    { i: "PieChart", vis: <PieChart />, x: 4, y: 0, w: 3, h: 3 },
     { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 4, w: 3, h: 2 },
     { i: "SentimentVader", vis: <TestVader />, x: 4, y: 4, w: 3, h: 2 },
   ];
