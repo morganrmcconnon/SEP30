@@ -1,12 +1,14 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import BarChart from "./vis/BarChart";
-import PieChart from "./vis/PieChart";
+import PieChart from "./vis/PieChartVis";
 import WordCloud from "./vis/WordCloud";
+import LineChartVis from "./vis/LineChartVis";
 import Map from "./vis/Map";
 import LollipopChart from "./vis/LollipopChart";
 import "../styles/override.css";
 import { TestRoBERTa, TestVader } from "./MyPost";
+import BarChartVis from "./vis/BarChartVis";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -15,10 +17,26 @@ const DashboardVis = () => {
   //vis defines the component that will be mapped in dashboard render
   const items = [
     { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 2 },
-    { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 3 },
-    { i: "PieChart", vis: <PieChart />, x: 4, y: 0, w: 3, h: 3 },
+    { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 2 },
+    { i: "PieChart", vis: <PieChart />, x: 7, y: 0, w: 2, h: 3 },
     { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 4, w: 3, h: 2 },
-    { i: "SentimentVader", vis: <TestVader />, x: 4, y: 4, w: 3, h: 2 },
+    { i: "SentimentVader", vis: <TestVader />, x: 3, y: 4, w: 3, h: 2 },
+    {
+      i: "LineChartVis",
+      vis: <LineChartVis />,
+      x: 3,
+      y: 4,
+      w: 3,
+      h: 3,
+    },
+    {
+      i: "BarChartVis",
+      vis: <BarChartVis />,
+      x: 3,
+      y: 4,
+      w: 3,
+      h: 3,
+    },
   ];
   return (
     <div>

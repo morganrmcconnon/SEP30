@@ -4,7 +4,6 @@ import arrowAll from "../../assets/arrow-all.svg";
 import dotsVertical from "../../assets/dots-vertical.svg";
 
 const BarChart = () => {
-
   const chartRef = useRef(null);
 
   const [width, setWidth] = useState(0);
@@ -27,9 +26,9 @@ const BarChart = () => {
           r: 40,
           b: 40,
           t: 100,
-          pad: 4
+          pad: 4,
         },
-      })
+      });
     }
   }, []);
 
@@ -51,11 +50,11 @@ const BarChart = () => {
 
   var data = [trace1];
 
-  var config = { 
-    responsive: true, 
+  var config = {
+    responsive: true,
     toggleSpikelines: true,
     // scrollZoom: true,
-    // staticPlot: true, 
+    // staticPlot: true,
     editable: true,
     // toImageButtonOptions: {
     //   format: 'svg', // one of png, svg, jpeg, webp
@@ -64,27 +63,41 @@ const BarChart = () => {
     //   width: 700,
     //   scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
     // }
-  }
+  };
 
   return (
     <div className="vis-container" ref={chartRef}>
-      <div className="vis-header" style={{
-        position: 'absolute',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }}>
-        <div className="vis-drag-handle" style={{ pointerEvents: 'auto', cursor: 'move' }}>
+      <div
+        className="vis-header"
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          className="vis-drag-handle"
+          style={{ pointerEvents: "auto", cursor: "move" }}
+        >
           <img src={arrowAll} />
         </div>
-        <div className="vis-header-title" style={{ pointerEvents: 'auto' }}>
+        <div className="vis-header-title" style={{ pointerEvents: "auto" }}>
           <h3>Bar Chart</h3>
           <p className="text-subtitle">Subtitle</p>
         </div>
-        <img className="vis-dots" src={dotsVertical} style={{ pointerEvents: 'none', cursor: 'grab' }} />
+        <img
+          className="vis-dots"
+          src={dotsVertical}
+          style={{ pointerEvents: "none", cursor: "grab" }}
+        />
       </div>
-      <Plot data={data} layout={layout} config={config} useResizeHandler={true}
-        style={{ width: '100%', height: '100%' }} >
-      </Plot>
+      <Plot
+        data={data}
+        layout={layout}
+        config={config}
+        useResizeHandler={true}
+        style={{ width: "100%", height: "100%" }}
+      ></Plot>
     </div>
   );
 };

@@ -15,7 +15,9 @@ function Search() {
       <div className="keywordsearch-container">
         <KeywordSerch />
       </div>
-      <p>Keyword: {keyword}</p>
+      <div className="dashboard-container">
+        <h2>Keyword: {keyword}</h2>
+      </div>
     </div>
   );
 }
