@@ -57,7 +57,7 @@ def check_sentiment_with_roberta():
     return { 'sentiment_result': sentiment_result, 'confidence_probabilities': confidence_probabilities }
 
 @app.route("/test", methods=["GET"])
-def get_data():
+def get_data_test():
     # Return content from server
     r = mySource()
     return {"topics": r[0], "\nnegative tweets": r[1][0], "\npositive tweets": r[1][1],"\nneutral tweets": r[1][2]}
