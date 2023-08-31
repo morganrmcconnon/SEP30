@@ -3,16 +3,6 @@ import * as d3 from 'd3'; // Import D3 library
 import VisHeader from '../VisHeader';
 import { Tooltip } from 'recharts';
 
-
-const numNodes = 100; // Number of nodes
-const numLinks = 150; // Number of links
-
-const nodes = d3.range(numNodes).map(i => ({ id: `Node ${i}`, group: i % 10 + 1 }));
-const links = d3.range(numLinks).map(i => ({ source: i % numNodes, target: (i + 10) % numNodes, value: 10 }));
-console.log(nodes);
-console.log(links);
-
-
 const KnowledgeGraph = ({
   data = {
     nodes: [
@@ -31,6 +21,9 @@ const KnowledgeGraph = ({
       [
         { source: 'Node 1', target: 'Node 2', value: 10 },
         { source: 'Node 1', target: 'Node 3', value: 20 },
+        { source: 'Node 3', target: 'Node 4', value: 30 },
+        { source: 'Node 2', target: 'Node 5', value: 10 },
+        { source: 'Node 2', target: 'Node 6', value: 50 },
         // Add more links
       ]
     ,
@@ -42,8 +35,8 @@ const KnowledgeGraph = ({
   const simulationRef = useRef(null);
 
   useEffect(() => {
-    const width = 300;
-    const height = 200;
+    const width = 500;
+    const height = 300;
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     const links = data.links.map(d => ({ ...d }));

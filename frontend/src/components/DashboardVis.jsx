@@ -10,6 +10,7 @@ import "../styles/override.css";
 import { TestRoBERTa, TestVader } from "./MyPost";
 import BarChartVis from "./vis/BarChartVis";
 import AreaChartVis from "./vis/AreaChartVis";
+import KnowledgeGraph from "./vis/KnowledgeGraph";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -22,22 +23,9 @@ const DashboardVis = () => {
     { i: "PieChart", vis: <PieChart />, x: 6, y: 0, w: 2, h: 3 },
     { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 3, w: 3, h: 2 },
     { i: "SentimentVader", vis: <TestVader />, x: 3, y: 3, w: 3, h: 2 },
-    {
-      i: "LineChartVis",
-      vis: <LineChartVis />,
-      x: 3,
-      y: 0,
-      w: 3,
-      h: 3,
-    },
-    {
-      i: "BarChartVis",
-      vis: <BarChartVis />,
-      x: 0,
-      y: 0,
-      w: 3,
-      h: 3,
-    },
+    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 6, y: 4, w: 5, h: 3 },
+    { i: "LineChartVis", vis: <LineChartVis />, x: 3, y: 0, w: 3, h: 3 },
+    { i: "BarChartVis", vis: <BarChartVis />, x: 0, y: 0, w: 3, h: 3 },
   ];
   return (
     <div>
