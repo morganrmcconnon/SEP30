@@ -16,24 +16,24 @@ const DashboardVis = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { i: "BarChart", vis: <BarChart />, x: 0, y: 0, w: 4, h: 2 },
-    { i: "Map", vis: <Map />, x: 4, y: 0, w: 3, h: 2 },
-    { i: "PieChart", vis: <PieChart />, x: 7, y: 0, w: 2, h: 3 },
+    { i: "BarChart", vis: <BarChart />, x: 4, y: 1, w: 4, h: 2 },
+    { i: "Map", vis: <Map />, x: 0, y: 1, w: 4, h: 2 },
+    { i: "PieChart", vis: <PieChart />, x: 6, y: 0, w: 2, h: 3 },
     { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 4, w: 3, h: 2 },
     { i: "SentimentVader", vis: <TestVader />, x: 3, y: 4, w: 3, h: 2 },
     {
       i: "LineChartVis",
       vis: <LineChartVis />,
       x: 3,
-      y: 4,
+      y: 0,
       w: 3,
       h: 3,
     },
     {
       i: "BarChartVis",
       vis: <BarChartVis />,
-      x: 3,
-      y: 4,
+      x: 0,
+      y: 0,
       w: 3,
       h: 3,
     },
