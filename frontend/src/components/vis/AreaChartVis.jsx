@@ -11,6 +11,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
 const data = [
@@ -82,23 +83,24 @@ const AreaChartVis = () => {
               type="monotone"
               dataKey="Positive"
               stackId="1"
-              stroke="#8884d8"
-              fill="#8884d8"
+              stroke={ColorVar.blue}
+              fill={ColorVar.blue}
             />
             <Area
               type="monotone"
               dataKey="Neutral"
               stackId="1"
-              stroke="#82ca9d"
-              fill="#82ca9d"
+              stroke={ColorVar.orange}
+              fill={ColorVar.orange}
             />
             <Area
               type="monotone"
               dataKey="Negative"
               stackId="1"
-              stroke="#ffc658"
-              fill="#ffc658"
+              stroke={ColorVar.red}
+              fill={ColorVar.red}
             />
+            <Legend />
           </AreaChart>
         </ResponsiveContainer>
       </div>
