@@ -33,7 +33,7 @@ def mySource():
 
     location_data = save_extracted_location_data('data\\location.json', data)
 
-    age_data = save_extracted_age('data\\age.json', location_data)
+    #age_data = save_extracted_age('data\\age.json', location_data)
 
     return topics, sentiment_analysis_result
 
