@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import arrowAll from "../../assets/arrow-all.svg";
 import ColorVar from "../ColorVar";
 import dotsVertical from "../../assets/dots-vertical.svg";
+import VisHeader from "../VisHeader";
 import {
   BarChart,
   Bar,
@@ -69,16 +70,7 @@ const data = [
 const BarChartVis = () => {
   return (
     <div className="vis-container">
-      <div className="vis-header">
-        <div className="vis-drag-handle">
-          <img src={arrowAll} />
-        </div>
-        <div className="vis-header-title">
-          <h3>Bar Chart</h3>
-          <p className="text-subtitle">Subtitle</p>
-        </div>
-        <img className="vis-dots" src={dotsVertical} />
-      </div>
+      <VisHeader title="Bar Chart" subtitle="Bar Subtitle" />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
