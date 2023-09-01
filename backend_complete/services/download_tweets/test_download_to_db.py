@@ -9,14 +9,15 @@ collection = db['original_tweets']
 
 # Store tweets in MongoDB
 def store_tweets_in_db(tweets):
-    for tweet_json_object in tweets:
-        result = collection.insert_one(tweet_json_object)
-        print('One tweet: {0}'.format(result.inserted_id))
 
+    # Insert all tweets in MongoDB. Set id_str as the primary key - `_id`
+    result = collection.insert_many([{**tweet, '_id': tweet['id_str']} for tweet in tweets])
+
+    print(f'Inserted {len(result.inserted_ids)} tweets')
 
 if __name__ == "__main__":
     # Get download url
-    url = get_download_url(2022, 11, 1, 0, 0)
+    url = get_download_url(2011, 11, 1, 0, 0)
     # Download tweets
     tweets = download_tweets(url)
     # Store tweets in MongoDB
