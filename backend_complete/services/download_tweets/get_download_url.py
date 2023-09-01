@@ -136,11 +136,11 @@ def get_download_url(year, month, day, hour, minute):
     bz2_file = bz2_pattern_decrypt(pattern_codes[1], year, month, day, hour, minute)
 
     if(len(pattern_codes) == 3):
-        year_folder = pattern_codes[2]
-        month_folder = pattern_codes[3]
+        year_folder = str(pattern_codes[2])
+        month_folder = str(pattern_codes[3])
     else:
-        year_folder = year
-        month_folder = month
+        year_folder = str(year)
+        month_folder = str(month)
 
     base_file = f"archiveteam-twitter-json-2011" if(year_folder == '2011') else f"archiveteam-twitter-stream-{year_folder}-{month_folder}"
 

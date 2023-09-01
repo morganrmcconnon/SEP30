@@ -17,7 +17,8 @@ def store_tweets_in_db(tweets):
 
 if __name__ == "__main__":
     # Get download url
-    url = get_download_url(2011, 11, 1, 0, 0)
+    url = get_download_url(2011, 9, 27, 19, 48)
+    print(url)
     # Download tweets
     tweets = download_tweets(url)
     # Store tweets in MongoDB
