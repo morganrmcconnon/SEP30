@@ -66,9 +66,9 @@ def process_topic_modelling(tweet_data):
     # Train LDA model
     lda_model = LdaModel(corpus, num_topics=10, id2word=dictionary, passes=15)
 
-    file_path = "data\keywords2.txt"  # Replace with the actual path to your file
+    # file_path = "data\keywords2.txt"  # Replace with the actual path to your file
 
-    keywords = load_mental_health_keywords(file_path)
+    # keywords = load_mental_health_keywords(file_path)
 
     # Print topics and associated words
     topics = lda_model.print_topics(num_words=5)

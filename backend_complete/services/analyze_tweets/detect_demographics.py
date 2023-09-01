@@ -9,7 +9,7 @@ M3TWITTER = M3Twitter(
 )
 
 
-def detect_demographics(users):
+def detect_demographics(users : list[dict]):
     """
     Detect demographics of users using the m3inference model.
 
