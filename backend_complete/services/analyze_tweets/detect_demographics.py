@@ -73,6 +73,7 @@ def preprocess_user_object_for_m3inference(
     screen_name_key="screen_name",
     description_key="description",
     lang_key="lang",
+    use_translator_if_necessary=True
 ):
     """
     Preprocess a user object that is compatible with the input data structure required by the m3inference model.
@@ -106,15 +107,19 @@ def preprocess_user_object_for_m3inference(
     if user_origninal_lang == None or user_origninal_lang not in LANGS:
 
         # Detect language of description and translate to English
-        translated = TRANSLATOR.translate(user_origninal_description, dest="en")
-        user_english_description = translated.text
-        user_detected_lang = translated.src
+        if use_translator_if_necessary:
+            translated = TRANSLATOR.translate(user_origninal_description, dest="en")
+            user_english_description = translated.text
+            user_detected_lang = translated.src
 
-        if user_detected_lang not in LANGS:
-            new_user["lang"] = "en"
-            new_user["description"] = user_english_description
+            if user_detected_lang not in LANGS:
+                new_user["lang"] = "en"
+                new_user["description"] = user_english_description
+            else:
+                new_user["lang"] = user_detected_lang
+                new_user["description"] = user_origninal_description
         else:
-            new_user["lang"] = user_detected_lang
+            new_user["lang"] = UNKNOWN_LANG
             new_user["description"] = user_origninal_description
 
     else:

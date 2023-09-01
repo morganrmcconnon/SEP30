@@ -2,7 +2,7 @@ from geopy.geocoders import Nominatim
 GEOLOCATOR = Nominatim(user_agent="location_detection", timeout=60)
 
 
-def detect_coordinates(location_in_english):
+def detect_coordinates(location_description, language="en"):
     """
     Detect the location of a location description text in English using geopy.
 
@@ -49,7 +49,7 @@ def detect_coordinates(location_in_english):
 
     """
     try:
-        location = GEOLOCATOR.geocode(location_in_english, timeout=60)
+        location = GEOLOCATOR.geocode(location_description, timeout=60, language=language)
         if location:
             return location.latitude, location.longitude
         else:
