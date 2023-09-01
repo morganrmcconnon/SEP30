@@ -2,6 +2,31 @@ import json
 import re
 
 
+def get_tweet_text(tweet):
+    """
+    Retrieve the text section of a tweet, considering extended tweets and text ranges.
+
+    Use for Twitter API v1.1.
+
+    Parameters:
+    - tweet (dict): Twitter API v1 Object.
+
+    Returns:
+    - text (str).
+    """
+    if "extended_tweet" in tweet:
+        extended_tweet = tweet["extended_tweet"]
+        display_text_range = extended_tweet.get("display_text_range")
+        if display_text_range and len(display_text_range) >= 2:
+            return extended_tweet["full_text"][display_text_range[0]: display_text_range[1]]
+        return extended_tweet["full_text"]
+    display_text_range = tweet.get("display_text_range")
+    if display_text_range and len(display_text_range) >= 2:
+        return tweet["text"][display_text_range[0]: display_text_range[1]]
+    return tweet["text"]
+
+
+
 def clean_tweet_text(tweet_text):
     """
     Clean a tweet text.
@@ -33,30 +58,6 @@ def read_jsonl(local_path):
     """
     with open(local_path, "r") as f:
         return [json.loads(line) for line in f]
-
-
-def get_tweet_text(tweet):
-    """
-    Retrieve the text section of a tweet, considering extended tweets and text ranges.
-
-    Parameters:
-    - tweet (dict): Twitter API v1 Object.
-
-    Returns:
-    - text (str).
-    """
-    if "extended_tweet" in tweet:
-        extended_tweet = tweet["extended_tweet"]
-        display_text_range = extended_tweet.get("display_text_range")
-        if display_text_range and len(display_text_range) >= 2:
-            return extended_tweet["full_text"][
-                   display_text_range[0]: display_text_range[1]
-                   ]
-        return extended_tweet["full_text"]
-    display_text_range = tweet.get("display_text_range")
-    if display_text_range and len(display_text_range) >= 2:
-        return tweet["text"][display_text_range[0]: display_text_range[1]]
-    return tweet["text"]
 
 
 def remove_none_entries(list_of_dicts, inplace=True):
