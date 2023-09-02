@@ -11,6 +11,9 @@ import { TestRoBERTa, TestVader } from "./MyPost";
 import BarChartVis from "./vis/BarChartVis";
 import AreaChartVis from "./vis/AreaChartVis";
 import KnowledgeGraph from "./vis/KnowledgeGraph";
+import CounterCard from "./testcontext/CounterCard";
+import ResultCard from "./testcontext/ResultCard";
+import { CounterProvider } from "./testcontext/CounterContext";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -18,36 +21,40 @@ const DashboardVis = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { i: "BarChart", vis: <BarChart />, x: 0, y: 4, w: 4, h: 2 },
-    { i: "AreaChartVis", vis: <AreaChartVis />, x: 9, y: 0, w: 4, h: 3 },
+    { i: "BarChartVis", vis: <BarChartVis />, x: 0, y: 0, w: 3, h: 3 },
+    { i: "LineChartVis", vis: <LineChartVis />, x: 3, y: 0, w: 3, h: 3 },
     { i: "PieChart", vis: <PieChart />, x: 6, y: 0, w: 2, h: 3 },
+    { i: "AreaChartVis", vis: <AreaChartVis />, x: 9, y: 0, w: 4, h: 3 },
     { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 3, w: 3, h: 2 },
     { i: "SentimentVader", vis: <TestVader />, x: 3, y: 3, w: 3, h: 2 },
-    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 6, y: 4, w: 5, h: 3 },
-    { i: "LineChartVis", vis: <LineChartVis />, x: 3, y: 0, w: 3, h: 3 },
-    { i: "BarChartVis", vis: <BarChartVis />, x: 0, y: 0, w: 3, h: 3 },
+    { i: "Counter", vis: <CounterCard />, x: 6, y: 3, w: 3, h: 2 },
+    { i: "Card", vis: <ResultCard />, x: 9, y: 3, w: 3, h: 2 },
+    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 0, y: 5, w: 5, h: 3 },
+    { i: "BarChart", vis: <BarChart />, x: 5, y: 5, w: 4, h: 2 },
   ];
   return (
     <div>
       <h2>Dashboard</h2>
-      <ResponsiveGridLayout
-        className="layout"
-        layouts={{ lg: items }}
-        breakpoints={{ lg: 1200, md: 996, sm: 768 }}
-        cols={{ lg: 12, md: 10, sm: 6 }}
-        isResizable={false}
-        //Determines which className controls draggable handle for components
-        draggableHandle=".vis-drag-handle"
-      >
-        {items.map((item) => {
-          //Renders each vis component as defined in items array
-          return (
-            <div key={item.i} data-grid={{ x: item.x, y: item.y }}>
-              {item.vis}
-            </div>
-          );
-        })}
-      </ResponsiveGridLayout>
+      <CounterProvider>
+        <ResponsiveGridLayout
+          className="layout"
+          layouts={{ lg: items }}
+          breakpoints={{ lg: 1200, md: 996, sm: 768 }}
+          cols={{ lg: 12, md: 10, sm: 6 }}
+          isResizable={false}
+          //Determines which className controls draggable handle for components
+          draggableHandle=".vis-drag-handle"
+        >
+          {items.map((item) => {
+            //Renders each vis component as defined in items array
+            return (
+              <div key={item.i} data-grid={{ x: item.x, y: item.y }}>
+                {item.vis}
+              </div>
+            );
+          })}
+        </ResponsiveGridLayout>
+      </CounterProvider>
     </div>
   );
 };
