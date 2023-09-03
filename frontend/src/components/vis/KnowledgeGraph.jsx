@@ -37,8 +37,8 @@ const KnowledgeGraph = ({
       <div className="vis-svg-container">
         <ForceGraph2D
           graphData={data}
-          width={svgRef.current ? svgRef.current.clientWidth : 490}
-          height={svgRef.current ? svgRef.current.clientHeight : 390}
+          width={490}
+          height={390}
           onNodeClick={(node) => console.log('Clicked:', node)}
           nodeAutoColorBy="group"
           nodeCanvasObject={(node, ctx, globalScale) => {
