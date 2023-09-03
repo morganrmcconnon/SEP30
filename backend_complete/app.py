@@ -61,3 +61,16 @@ def get_data_test():
     # Return content from server
     r = mySource()
     return {"topics": r[0], "\nnegative tweets": r[1][0], "\npositive tweets": r[1][1],"\nneutral tweets": r[1][2]}
+
+# New endpoints/functions:
+@app.route("/download_tweet", methods=["POST"])
+def download_tweet():
+    return {"message": "Download tweet endpoint"}
+
+@app.route("/analyze_tweet", methods=["POST"])
+def analyze_tweet():
+    return {"message": "Analyze tweet endpoint"}
+
+@app.route("/get_all_data", methods=["GET"])
+def get_all_data():
+    return {"message": "Get all data endpoint"}
