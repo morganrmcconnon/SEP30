@@ -2,7 +2,6 @@ from features import utils
 import pandas as pd
 from m3inference import M3Twitter
 from m3inference.consts import UNKNOWN_LANG, LANGS
-from m3inference.utils import transform_jsonl_object_for_m3inference_text_model
 from googletrans import Translator
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
