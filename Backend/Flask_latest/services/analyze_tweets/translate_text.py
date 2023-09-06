@@ -17,8 +17,8 @@ def detect_and_translate_language(text, dest: str = "en", src: str = "auto"):
 
     translated = TRANSLATOR.translate(text, dest="en")
     return (
-        translated.src,
         translated.text,
+        translated.src,
         translated.pronunciation,
         translated.extra_data,
     )
