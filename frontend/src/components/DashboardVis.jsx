@@ -14,6 +14,13 @@ import KnowledgeGraph from "./vis/KnowledgeGraph";
 import CounterCard from "./testcontext/CounterCard";
 import ResultCard from "./testcontext/ResultCard";
 import { CounterProvider } from "./testcontext/CounterContext";
+import DemographicAnalysis from "./DemographicAnalysis";
+import TopTrends from "./TopTrends";
+import TopicModelling from "./TopicModelling";
+import SentimentAnalysis from "./SentimentAnalysis";
+import DemoGraphic1 from "./DemoGraphic1";
+import DemoGraphic2 from "./DemoGraphic2";
+import DemoGraphic3 from "./DemoGraphic3";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -21,16 +28,23 @@ const DashboardVis = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { i: "BarChartVis", vis: <BarChartVis />, x: 0, y: 0, w: 3, h: 3 },
-    { i: "LineChartVis", vis: <LineChartVis />, x: 3, y: 0, w: 3, h: 3 },
-    { i: "PieChart", vis: <PieChart />, x: 6, y: 0, w: 2, h: 3 },
-    { i: "AreaChartVis", vis: <AreaChartVis />, x: 9, y: 0, w: 4, h: 3 },
-    { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 3, w: 3, h: 2 },
-    { i: "SentimentVader", vis: <TestVader />, x: 3, y: 3, w: 3, h: 2 },
-    { i: "Counter", vis: <CounterCard />, x: 6, y: 3, w: 3, h: 2 },
-    { i: "Card", vis: <ResultCard />, x: 9, y: 3, w: 3, h: 2 },
-    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 0, y: 5, w: 5, h: 3 },
-    { i: "BarChart", vis: <BarChart />, x: 5, y: 5, w: 4, h: 2 },
+    { i: 'DemographicAnalysis', vis: <DemographicAnalysis />, x: 0, y: 0, w: 8, h: 3 },
+    { i: 'TopTrends', vis: <TopTrends />, x: 8, y: 0, w: 4, h: 3 },
+    { i: 'TopicModelling', vis: <TopicModelling />, x: 0, y: 1, w: 4, h: 3 },
+    { i: 'SentimentAnalysis', vis: <SentimentAnalysis />, x: 4, y: 1, w: 4, h: 3 },
+    { i: 'DemoGraphic1', vis: <DemoGraphic1 />, x: 8, y: 1, w: 4, h: 3 },
+    { i: 'DemoGraphic2', vis: <DemoGraphic2 />, x: 0, y: 2, w: 4, h: 3 },
+    { i: 'DemoGraphic3', vis: <DemoGraphic3 />, x: 4, y: 2, w: 8, h: 3 },
+    { i: "BarChartVis", vis: <BarChartVis />, x: 0, y: 5, w: 3, h: 3 },
+    { i: "LineChartVis", vis: <LineChartVis />, x: 3, y: 5, w: 3, h: 3 },
+    { i: "PieChart", vis: <PieChart />, x: 6, y: 5, w: 2, h: 3 },
+    { i: "AreaChartVis", vis: <AreaChartVis />, x: 9, y: 5, w: 4, h: 3 },
+    { i: "SentimentRoBERTa", vis: <TestRoBERTa />, x: 0, y: 8, w: 3, h: 2 },
+    { i: "SentimentVader", vis: <TestVader />, x: 3, y: 8, w: 3, h: 2 },
+    { i: "Counter", vis: <CounterCard />, x: 6, y: 8, w: 3, h: 2 },
+    { i: "Card", vis: <ResultCard />, x: 9, y: 8, w: 3, h: 2 },
+    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 0, y: 10, w: 5, h: 3 },
+    { i: "BarChart", vis: <BarChart />, x: 5, y: 10, w: 4, h: 2 },
   ];
   return (
     <div>
