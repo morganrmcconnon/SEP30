@@ -1,46 +1,15 @@
-from workflow import *
 import json
-from services.analyze_pipeline import *
-from datetime import datetime, timedelta
-from services.download_tweets.download_tweets import *
-from services.download_tweets.get_download_url import *
 import time
+import os
+from datetime import datetime, timedelta
 
-def mySource():
-    # data = download_tweets(0)
-    # return {2,3}, [2,3,1]
-    data = []
+from services.download_tweets.download_tweets import download_tweets
+from services.download_tweets.get_download_url import get_download_url
 
-    file_path = "data\\test.json"  # Replace with the actual path to your file
-    with open(file_path, "r") as json_file:
-        for line in json_file:
-            data.append((json.loads(line)))
+from services.analyze_tweets.spacy_matcher import filter_tweet
 
-    data = filter_tweets(data)  # output is a list of dict
+from services.analyze_pipeline import analyze_multiple_tweet
 
-    # this file will contain all data fields of interest
-    filtered_data_full_tweets = save_data_full('data\\full_0.json', data)
-
-    # this file will contain tweets only which have been translated
-    data = save_complete_data('data\\data.json', filtered_data_full_tweets)
-
-    print(data)
-
-    tweet_data = []
-    for text in data:
-        tweet_data.append(text["text_original"])
-
-    keywords = topic_modelling(tweet_data)
-
-    topics = topic_modelling_define_topics(keywords)
-
-    sentiment_analysis_result = sentiment_analysis(tweet_data)
-
-    # location_data = save_extracted_location_data('data\\location.json', data)
-
-    # age_data = save_extracted_age('data\\age.json', location_data)
-
-    return topics, sentiment_analysis_result
 
 
 def analyze_multiple_tweets(period = 5):
@@ -57,6 +26,8 @@ def analyze_multiple_tweets(period = 5):
 
     # Extract the day and month from the current date
     current_day, current_month, current_hour, current_minute = current_datetime.day, current_datetime.month, current_datetime.hour, current_datetime.minute
+
+    current_day, current_month, current_hour, current_minute = 1,1,1,1
 
     current_year = 2022
 
@@ -81,7 +52,7 @@ def analyze_multiple_tweets(period = 5):
             #data.append((json.loads(line)))
 
     tweets["total"] = len(data)
-    data = filter_tweets(data)  # output is a list of dict
+    data = filter_tweet(data)  # output is a list of dict
     tweets["mentalhealthtweets"] = len(data)
 
     return analyze_multiple_tweet(data), tweets

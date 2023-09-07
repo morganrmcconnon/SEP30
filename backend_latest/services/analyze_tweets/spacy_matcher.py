@@ -1,7 +1,6 @@
 import spacy
 from nltk.stem import WordNetLemmatizer
 from spacy.matcher import Matcher
-import json
 
 
 def filter_tweet(json_data):

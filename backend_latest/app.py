@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify
 import time
 import os
 import json
-from features import sentiment_analysis_with_vader
-from features import sentiment_analysis_with_roberta
-from source import *
-from services.download_tweets.test_download_to_db import *
+from services.analyze_tweets.sentiment_vader import check_sentiment
+from services.analyze_tweets.sentiment_analysis import classify_sentiment
+from services.analyze_pipeline import analyze_multiple_user
+from my_source import mySource
+from source import wrap_tweet_analyzed_result, wrap_user_analyzed_result, analyze_multiple_tweets
 
 # from flask_vite import Vite
 
@@ -47,7 +48,7 @@ def check_sentiment_with_vader():
     # Get content from client, process it on server, and return it
     data = request.get_json()
     text = data["text"]
-    compound_score, sentiment_label = sentiment_analysis_with_vader.check_sentiment(text)
+    compound_score, sentiment_label = check_sentiment(text)
     return {'compound_score': compound_score, 'sentiment_label': sentiment_label}
 
 
@@ -57,7 +58,7 @@ def check_sentiment_with_roberta():
     data = request.get_json()
     text = data["text"]
     # Analyze the sentiment of text
-    sentiment_result, confidence_probabilities = sentiment_analysis_with_roberta.classify_sentiment(text=text)
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
     return {'sentiment_result': sentiment_result, 'confidence_probabilities': confidence_probabilities}
 
 
@@ -131,16 +132,11 @@ def get_data_test_2():
 def get_data_test_3():
     # Return content from server
 
-    data = json.load(open(os.path.join(os.path.dirname(__file__), "data\\cache_tweet_analyzed_result.json"), "r"))
-
-    get_writing_time = data[0]["time"]
-
-    sentiment_analysis_result, tweets, topics = {}, {}, {}
+    tweets, topics = {}, {}
 
     for i in range(5):
         topics[i] = 0
 
-    # if (time.time() - get_writing_time > 6000):
     data, tweets = analyze_multiple_tweets()
 
     #store_tweets_in_db(data)
@@ -152,17 +148,4 @@ def get_data_test_3():
 
     user_data = analyze_multiple_user(user_data)
 
-    # topics, sentiment_analysis_result = wrap_tweet_analyzed_result(data, tweets)
-
-    # country_names, genders, ages = wrap_user_analyzed_result(user_data)
-
     return jsonify(data, tweets, user_data)
-    
-    # else:
-    #     sentiment_analysis_result = data[1]
-    #     topics = data[2]
-    #     tweets = data[3]
-    #     data = json.load(open(os.path.join(os.path.dirname(__file__), "data\\cache_user_analyzed_result.json"), "r"))
-    #     country_names, genders, ages = data[1], data[2], data[3]
-
-    #     return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages)
