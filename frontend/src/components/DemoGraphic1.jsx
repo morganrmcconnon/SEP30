@@ -1,39 +1,69 @@
-import React from 'react';
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import VisHeader from './VisHeader';
-import DATATYPES from '../constants/dataTypes';
-import { Col, Row } from 'antd';
+import React from "react";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import VisHeader from "./VisHeader";
+import DATATYPES from "../constants/dataTypes";
+import { Col, Row } from "antd";
+import { SearchProvider, useSearch } from "./SearchContext";
 
 const data = DATATYPES.demoGraphic1;
 
 export default function DemoGraphic1() {
+  const { search, updateSearch } = useSearch();
   return (
-    <div className='vis-container'>
+    <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
-      <div className='vis-svg-container'>
-        <ResponsiveContainer width='100%' height={260}>
-          <PieChart>
-            <Pie dataKey='percent' data={data.data} cy={130} innerRadius={60} outerRadius={100} fill='#82ca9d'>
-              {data.data.map((item, index) => (
-                <Cell key={`cell-${index}`} fill={item.color} strokeWidth={10} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-        <Row style={{ margin: '20px' }}>
+      <div className="vis-svg-container">
+        <SearchProvider>
+          <ResponsiveContainer width="100%" height={260}>
+            <PieChart>
+              <Pie
+                dataKey="percent"
+                data={data.data}
+                cy={130}
+                innerRadius={60}
+                outerRadius={100}
+                fill="#82ca9d"
+              >
+                {data.data.map((item, index) => (
+                  <Cell
+                    onClick={() => {
+                      updateSearch({ ...search, age: item.name });
+                    }}
+                    key={`cell-${index}`}
+                    fill={item.color}
+                    strokeWidth={10}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </SearchProvider>
+        <Row style={{ margin: "20px" }}>
           {data.data.map((item, index) => (
             <Col
               span={12}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 18,
+              }}
               key={index}
             >
               <div
                 style={{
                   width: 6,
                   height: 6,
-                  border: '3px solid',
-                  borderRadius: '100%',
+                  border: "3px solid",
+                  borderRadius: "100%",
                   marginRight: 6,
                   borderColor: item.color,
                 }}

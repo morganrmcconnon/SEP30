@@ -5,8 +5,10 @@ import information from "../assets/information.svg";
 import settings from "../assets/settings.svg";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import { useSearch } from "./SearchContext";
 
 const Sidebar = () => {
+  const { search } = useSearch();
   return (
     <div>
       <Link to="/">
@@ -50,6 +52,16 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
+      <div>
+        <p>Search Data</p>
+        <ul>
+          {Object.entries(search).map(([key, value]) => (
+            <li key={key}>
+              {key}: {value.toString()}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

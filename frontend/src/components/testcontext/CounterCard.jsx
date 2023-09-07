@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import VisHeader from "../VisHeader";
-import { useCounter } from './CounterContext';
+import { useCounter } from "./CounterContext";
 
 function CounterCard() {
   const { count, increment, decrement } = useCounter();
