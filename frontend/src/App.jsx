@@ -13,7 +13,6 @@ function App() {
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
-
           <Counter />
         </div>
         <div className="keywordsearch-container">
