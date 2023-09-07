@@ -117,7 +117,7 @@ def analyze_multiple_tweet(tweet_objects, create_new_topic_model=False, topic_mo
     '''
     Analyze multiple tweet objects
     
-    The keys in the user object follows the Twitter API v1.1 dictionary.
+    The keys in the tweet object follows the Twitter API v1.1 dictionary.
     '''
 
     new_tweet_objects = []
