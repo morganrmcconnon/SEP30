@@ -39,7 +39,6 @@ def analyze_multiple_tweets(tweet_objects, create_new_topic_model=False, topic_m
     # Extract the day and month from the current date
     current_day, current_month, current_hour, current_minute = current_datetime.day, current_datetime.month, current_datetime.hour, current_datetime.minute
 
-    current_day, current_month, current_hour, current_minute = 1, 1, 1, 1
 
     current_year = 2022
 
