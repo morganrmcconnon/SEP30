@@ -4,7 +4,7 @@ import os
 import json
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-from services.analyze_pipeline import analyze_multiple_user
+from source import analyze_multiple_user
 from my_source import mySource
 from source import wrap_tweet_analyzed_result, wrap_user_analyzed_result, analyze_multiple_tweets
 
@@ -130,7 +130,7 @@ def get_data_test_2():
 
 @app.route("/analyze_multiple_tweet_full", methods=["GET"])
 def get_data_test_3():
-    # Return content from server
+    # Return content from server 
 
     tweets, topics = {}, {}
 
