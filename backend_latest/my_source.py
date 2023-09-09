@@ -1,4 +1,5 @@
 import json
+import os
 from googletrans import Translator
 
 from services.analyze_tweets.tweet_text import get_tweet_text
@@ -103,7 +104,9 @@ def mySource():
     # return {2,3}, [2,3,1]
     data = []
 
-    file_path = "data\\test.json"  # Replace with the actual path to your file
+
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, "data", "test.json")
     with open(file_path, "r") as json_file:
         for line in json_file:
             data.append((json.loads(line)))
