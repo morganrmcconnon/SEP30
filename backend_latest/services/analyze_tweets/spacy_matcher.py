@@ -13,7 +13,8 @@ def filter_tweet(json_data):
     # Initialize Matcher
     matcher = Matcher(nlp.vocab)
 
-    keywords_file_path = "data\keywords2.txt"  # Replace with the actual path to your file
+    current_dir = os.path.dirname(__file__)
+    keywords_file_path = os.path.join(current_dir, "..", "..", "data", "keywords2.txt")
     keywords = set()
 
     with open(keywords_file_path, "r") as keyword_file:
@@ -82,7 +83,8 @@ def create_matcher_model():
     # Load spaCy language model
     NLP = spacy.load("en_core_web_sm")
 
-    keywords_file_path = "data/keywords2.txt"  # Replace with the actual path to your file
+    current_dir = os.path.dirname(__file__)
+    keywords_file_path = os.path.join(current_dir, "..", "..", "data", "keywords2.txt")
 
     with open(keywords_file_path, "r") as keyword_file:
         lines = keyword_file.readlines()
