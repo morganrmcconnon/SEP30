@@ -24,7 +24,7 @@ GEOJSON_KEY_FOR_COUNTRY_NAME = 'ADMIN'
 
 
 #Merged analyze_multiple_tweet with analyze_multiple_tweets
-def analyze_multiple_tweets(tweet_objects, create_new_topic_model=False, topic_model_num_topics=10, period=5):
+def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics=10, period=5):
     data = []
 
     tweets = {
@@ -69,7 +69,7 @@ def analyze_multiple_tweets(tweet_objects, create_new_topic_model=False, topic_m
     # Analyze multiple tweet objects (code from analyze_multiple_tweet)
     new_tweet_objects = []
 
-    for tweet_object in tweet_objects:
+    for tweet_object in tweets:
 
         # Get the full, cleaned text of the tweet object
         tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
