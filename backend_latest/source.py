@@ -69,7 +69,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
     # Analyze multiple tweet objects (code from analyze_multiple_tweet)
     new_tweet_objects = []
 
-    for tweet_object in tweets:
+    for tweet_object in data:
 
         # Get the full, cleaned text of the tweet object
         tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
