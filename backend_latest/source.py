@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
 from services.analyze_tweets.spacy_matcher import filter_tweet
-from services.analyze_pipeline import analyze_multiple_tweet
 
 #From analyze_pipeline.py
 from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text

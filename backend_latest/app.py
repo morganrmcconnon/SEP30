@@ -8,42 +8,32 @@ from source import analyze_multiple_user
 from my_source import mySource
 from source import wrap_tweet_analyzed_result, wrap_user_analyzed_result, analyze_multiple_tweets
 
-# from flask_vite import Vite
 
-# # Get and set directory for static files (ie. index.html, css, and bundled JS)
-# # defaults to 'dist', the default name of Parcel's build directory
-# build_dir = os.getenv("BUILD_DIR", "dist")
-# print("Build dir:", build_dir)
-
-# app = Flask(__name__, static_folder=f"../{build_dir}", static_url_path="/")
-
-app = Flask(__name__)
+app = Flask(__name__, static_folder=f"../frontend/dist", static_url_path="/")
 
 
-# vite = Vite(app)
-
-# # or
-# vite = Vite()
-# vite.init_app(app)
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 
-@app.route("/")
+@app.route("/api/")
 def hello_world():
     return "<p>Hello, there!</p>"
 
 
-@app.route("/data", methods=["GET"])
+@app.route("/api/data", methods=["GET"])
 def get_data():
     # Return content from server
     return {"greeting": "Hello!!!!!!"}
 
 
-@app.route('/time')
+@app.route("/api/time")
 def get_current_time():
     return {'time': time.time()}
 
 
-@app.route("/sentiment_vader", methods=["POST"])
+@app.route("/api/sentiment_vader", methods=["POST"])
 def check_sentiment_with_vader():
     # Get content from client, process it on server, and return it
     data = request.get_json()
@@ -52,7 +42,7 @@ def check_sentiment_with_vader():
     return {'compound_score': compound_score, 'sentiment_label': sentiment_label}
 
 
-@app.route("/sentiment", methods=["POST"])
+@app.route("/api/sentiment", methods=["POST"])
 def check_sentiment_with_roberta():
     # Get content from client, process it on server, and return it
     data = request.get_json()
@@ -62,7 +52,7 @@ def check_sentiment_with_roberta():
     return {'sentiment_result': sentiment_result, 'confidence_probabilities': confidence_probabilities}
 
 
-# @app.route("/test", methods=["GET"])
+# @app.route("/api/test", methods=["GET"])
 # def get_data_test():
 #     # Return content from server
 #     topics, sentiment_analysis_result = mySource()
@@ -75,7 +65,7 @@ def check_sentiment_with_roberta():
 # frontend - toend: post
 # backend - frontend: get -> return json REST API
 
-@app.route("/test")
+@app.route("/api/test")
 def get_data_test():
     # Return content from server
     topics, sentiment_analysis_result = mySource()
@@ -89,7 +79,7 @@ def get_data_test():
     return jsonify(data)
 
 
-@app.route("/analyze_multiple_tweet")
+@app.route("/api/analyze_multiple_tweet")
 def get_data_test_2():
     # Return content from server
 
@@ -128,7 +118,7 @@ def get_data_test_2():
 
 
 
-@app.route("/analyze_multiple_tweet_full", methods=["GET"])
+@app.route("/api/analyze_multiple_tweet_full", methods=["GET"])
 def get_data_test_3():
     # Return content from server 
 
