@@ -99,3 +99,68 @@ python3 wsgi.py &
 
 # End tmux session if you want to
 tmux kill-session -t backend
+
+
+# 4. Install MongoDB
+
+
+# Reference: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
+
+# From a terminal, install gnupg and curl if they are not already available:
+sudo apt-get install gnupg curl
+
+# To import the MongoDB public GPG key from https://pgp.mongodb.com/server-7.0.asc, run the following command:
+curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+   --dearmor
+
+# Create a list file for MongoDB
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+# Reload local package database
+sudo apt-get update
+
+# Install the MongoDB packages
+sudo apt-get install -y mongodb-org
+
+# Start MongoDB
+sudo systemctl start mongod
+
+# Verify that MongoDB has started successfully
+sudo systemctl status mongod
+
+# Stop MongoDB
+sudo systemctl stop mongod
+
+# Restart MongoDB
+sudo systemctl restart mongod
+
+
+
+# 5. Use MongoDB
+
+
+# Begin using MongoDB
+mongosh
+
+
+# Create or switch to the 'twitter_db' database
+use twitter_db;
+
+# Create 'original_tweets' collection
+db.createCollection('original_tweets');
+
+# Create 'analyzed_tweets' collection
+db.createCollection('analyzed_tweets');
+
+# Create 'analyzed_users' collection
+db.createCollection('analyzed_users');
+
+# Show collections
+show collections;
+
+# Show databases
+show dbs;
+
+# Exit mongosh
+exit;
