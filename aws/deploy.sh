@@ -38,7 +38,7 @@ git pull
 
 
 # Copy the nginx config file
-sudo cp SEP30/nginx/ubuntu/default /etc/nginx/sites-available/default
+sudo cp ~/SEP30/nginx/ubuntu/default /etc/nginx/sites-available/default
 
 
 # 2. - Configure the frontend
@@ -79,8 +79,8 @@ sudo systemctl restart nginx
 # Check the status of nginx
 sudo systemctl status nginx
 
-# # Stop nginx
-# sudo systemctl stop nginx
+# Stop nginx
+sudo systemctl stop nginx
 
 
 # 3. - Backend
