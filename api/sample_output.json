@@ -1,0 +1,3274 @@
+[
+    [
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 19:00:58 +0000 2022",
+            "display_text_range": [
+                17,
+                139
+            ],
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1081457453974413300,
+                        "id_str": "1081457453974413313",
+                        "indices": [
+                            0,
+                            16
+                        ],
+                        "name": "Pickettsburgh",
+                        "screen_name": "steelersrants69"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569038308239614000,
+            "id_str": "1569038308239613954",
+            "in_reply_to_screen_name": "steelersrants69",
+            "in_reply_to_status_id": 1569038063745237000,
+            "in_reply_to_status_id_str": "1569038063745236992",
+            "in_reply_to_user_id": 1081457453974413300,
+            "in_reply_to_user_id_str": "1081457453974413313",
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+            "text": "@steelersrants69 Im trying not too be, but our offense is genuinely stressing me out. We need to score, we need to get the ball down field…",
+            "text_analyzed": {
+                "in_english": "Im trying not too be, but our offense is genuinely stressing me out. We need to score, we need to get the ball down field…",
+                "lang_detected": "en",
+                "original": "Im trying not too be, but our offense is genuinely stressing me out. We need to score, we need to get the ball down field…",
+                "processed": [
+                    "trying",
+                    "offense",
+                    "genuinely",
+                    "stressing",
+                    "need",
+                    "score",
+                    "need",
+                    "ball",
+                    "field"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.7863719463348389,
+                        "neutral": 0.19214917719364166,
+                        "positive": 0.021478796377778053
+                    },
+                    "result": "negative"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.02003282494843006
+                    ],
+                    [
+                        1,
+                        0.11835256218910217
+                    ],
+                    [
+                        2,
+                        0.2995641529560089
+                    ],
+                    [
+                        3,
+                        0.38461920619010925
+                    ],
+                    [
+                        4,
+                        0.17743122577667236
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922858663",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Sun Jul 31 01:37:57 +0000 2016",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "#herewego",
+                "favourites_count": 15465,
+                "follow_request_sent": null,
+                "followers_count": 332,
+                "following": null,
+                "friends_count": 344,
+                "geo_enabled": false,
+                "id": 759563716396318700,
+                "id_str": "759563716396318721",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 1,
+                "location": "Colorado, USA",
+                "name": "watts the buzz",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/759563716396318721/1661174006",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1561703043153874944/2ybfk7zU_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1561703043153874944/2ybfk7zU_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "kpickettszn",
+                "statuses_count": 2667,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 19:01:14 +0000 2022",
+            "display_text_range": [
+                0,
+                111
+            ],
+            "entities": {
+                "hashtags": [],
+                "media": [
+                    {
+                        "display_url": "pic.twitter.com/4s63WACNZp",
+                        "expanded_url": "https://twitter.com/WrestlingMindse/status/1569038375356710920/photo/1",
+                        "id": 1569038368566087700,
+                        "id_str": "1569038368566087680",
+                        "indices": [
+                            112,
+                            135
+                        ],
+                        "media_url": "http://pbs.twimg.com/media/FcZYFUVXEAAzkn7.jpg",
+                        "media_url_https": "https://pbs.twimg.com/media/FcZYFUVXEAAzkn7.jpg",
+                        "sizes": {
+                            "large": {
+                                "h": 1080,
+                                "resize": "fit",
+                                "w": 1080
+                            },
+                            "medium": {
+                                "h": 1080,
+                                "resize": "fit",
+                                "w": 1080
+                            },
+                            "small": {
+                                "h": 680,
+                                "resize": "fit",
+                                "w": 680
+                            },
+                            "thumb": {
+                                "h": 150,
+                                "resize": "crop",
+                                "w": 150
+                            }
+                        },
+                        "type": "photo",
+                        "url": "https://t.co/4s63WACNZp"
+                    }
+                ],
+                "symbols": [],
+                "urls": [
+                    {
+                        "display_url": "wrestlingmindset.com/#trial",
+                        "expanded_url": "https://www.wrestlingmindset.com/#trial",
+                        "indices": [
+                            88,
+                            111
+                        ],
+                        "url": "https://t.co/z0QwiNGnnT"
+                    }
+                ],
+                "user_mentions": []
+            },
+            "extended_entities": {
+                "media": [
+                    {
+                        "display_url": "pic.twitter.com/4s63WACNZp",
+                        "expanded_url": "https://twitter.com/WrestlingMindse/status/1569038375356710920/photo/1",
+                        "id": 1569038368566087700,
+                        "id_str": "1569038368566087680",
+                        "indices": [
+                            112,
+                            135
+                        ],
+                        "media_url": "http://pbs.twimg.com/media/FcZYFUVXEAAzkn7.jpg",
+                        "media_url_https": "https://pbs.twimg.com/media/FcZYFUVXEAAzkn7.jpg",
+                        "sizes": {
+                            "large": {
+                                "h": 1080,
+                                "resize": "fit",
+                                "w": 1080
+                            },
+                            "medium": {
+                                "h": 1080,
+                                "resize": "fit",
+                                "w": 1080
+                            },
+                            "small": {
+                                "h": 680,
+                                "resize": "fit",
+                                "w": 680
+                            },
+                            "thumb": {
+                                "h": 150,
+                                "resize": "crop",
+                                "w": 150
+                            }
+                        },
+                        "type": "photo",
+                        "url": "https://t.co/4s63WACNZp"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569038375356711000,
+            "id_str": "1569038375356710920",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "possibly_sensitive": false,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "source": "<a href=\"https://app.sendible.com\" rel=\"nofollow\">Sendible</a>",
+            "text": "We're here to build winning mindsets on AND off the mat!\n\nStart your free trial today!\n\nhttps://t.co/z0QwiNGnnT https://t.co/4s63WACNZp",
+            "text_analyzed": {
+                "in_english": "We're here to build winning mindsets on AND off the mat!\n\nStart your free trial today!\n\n",
+                "lang_detected": "en",
+                "original": "We're here to build winning mindsets on AND off the mat!\n\nStart your free trial today!\n\n",
+                "processed": [
+                    "build",
+                    "winning",
+                    "mindset",
+                    "mat",
+                    "start",
+                    "free",
+                    "trial",
+                    "today"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.0029519584495574236,
+                        "neutral": 0.05869028717279434,
+                        "positive": 0.9383577704429626
+                    },
+                    "result": "positive"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.20864981412887573
+                    ],
+                    [
+                        1,
+                        0.02621711604297161
+                    ],
+                    [
+                        2,
+                        0.025079471990466118
+                    ],
+                    [
+                        3,
+                        0.1681687831878662
+                    ],
+                    [
+                        4,
+                        0.57188481092453
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922874665",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Wed Jun 05 03:14:43 +0000 2013",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "We help wrestlers and teams overcome mental blocks and win more. Build unstoppable confidence, wrestle more aggressively and relax under pressure #MentalEdge",
+                "favourites_count": 58896,
+                "follow_request_sent": null,
+                "followers_count": 21207,
+                "following": null,
+                "friends_count": 5829,
+                "geo_enabled": true,
+                "id": 1483901430,
+                "id_str": "1483901430",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 99,
+                "location": null,
+                "name": "Wrestling Mindset",
+                "notifications": null,
+                "profile_background_color": "C0DEED",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1483901430/1519228069",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/544922074041421825/HkS013sn_normal.jpeg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/544922074041421825/HkS013sn_normal.jpeg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "WrestlingMindse",
+                "statuses_count": 27987,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": "https://linktr.ee/wrestlingmindset",
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 19:01:47 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 287453721,
+                        "id_str": "287453721",
+                        "indices": [
+                            3,
+                            18
+                        ],
+                        "name": "Gary Goodridge",
+                        "screen_name": "garyhgoodridge"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569038513773113300,
+            "id_str": "1569038513773113345",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 15:38:49 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [],
+                    "user_mentions": []
+                },
+                "favorite_count": 3135,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1568987435777785900,
+                "id_str": "1568987435777785857",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "quote_count": 20,
+                "reply_count": 49,
+                "retweet_count": 909,
+                "retweeted": false,
+                "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                "text": "Maturity is a mindset. It has nothing to do with age.",
+                "truncated": false,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Mon Apr 25 01:19:28 +0000 2011",
+                    "default_profile": true,
+                    "default_profile_image": false,
+                    "description": "Fought in UFC, IVC champ, Pride K-1 - Arm Wrestling World Champion - Actor - Advocate for #CTE #TBI #MentalHealth #Motivation #Positivity #MMA #AFC トラスペクト",
+                    "favourites_count": 385194,
+                    "follow_request_sent": null,
+                    "followers_count": 285672,
+                    "following": null,
+                    "friends_count": 234538,
+                    "geo_enabled": true,
+                    "id": 287453721,
+                    "id_str": "287453721",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 1217,
+                    "location": "Barrie, Ontario, Canada 🇨🇦 ",
+                    "name": "Gary Goodridge",
+                    "notifications": null,
+                    "profile_background_color": "C0DEED",
+                    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/287453721/1646509146",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1498349744552300544/0ra10nlW_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1498349744552300544/0ra10nlW_normal.jpg",
+                    "profile_link_color": "1DA1F2",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "garyhgoodridge",
+                    "statuses_count": 97132,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": null,
+                    "utc_offset": null,
+                    "verified": true,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "text": "RT @garyhgoodridge: Maturity is a mindset. It has nothing to do with age.",
+            "text_analyzed": {
+                "in_english": ": Maturity is a mindset. It has nothing to do with age.",
+                "lang_detected": "en",
+                "original": ": Maturity is a mindset. It has nothing to do with age.",
+                "processed": [
+                    "maturity",
+                    "mindset",
+                    "age"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.0273220706731081,
+                        "neutral": 0.7629131078720093,
+                        "positive": 0.2097647488117218
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.050142768770456314
+                    ],
+                    [
+                        1,
+                        0.05004031956195831
+                    ],
+                    [
+                        2,
+                        0.050132185220718384
+                    ],
+                    [
+                        3,
+                        0.05004088208079338
+                    ],
+                    [
+                        4,
+                        0.799643874168396
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922907666",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Thu Dec 17 04:26:46 +0000 2020",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "Introvert//Cry baby🥺❤️‍🩹//Taurus♉ // Student// God's child//",
+                "favourites_count": 53337,
+                "follow_request_sent": null,
+                "followers_count": 4187,
+                "following": null,
+                "friends_count": 1639,
+                "geo_enabled": false,
+                "id": 1339426683926024200,
+                "id_str": "1339426683926024193",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 0,
+                "location": "Omusati ,Namibia ",
+                "name": "Its_Salmy🤍",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1339426683926024193/1662130412",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1567793698129289217/zsWtFPKP_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1567793698129289217/zsWtFPKP_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "itssalmy",
+                "statuses_count": 24547,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 19:00:01 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [
+                    {
+                        "display_url": "twitter.com/i/web/status/1…",
+                        "expanded_url": "https://twitter.com/i/web/status/1569038069143306241",
+                        "indices": [
+                            116,
+                            139
+                        ],
+                        "url": "https://t.co/wINHh398o2"
+                    }
+                ],
+                "user_mentions": []
+            },
+            "extended_tweet": {
+                "display_text_range": [
+                    0,
+                    275
+                ],
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [],
+                    "user_mentions": []
+                },
+                "full_text": "Honey I can’t talk rn Nick DiRamio made a video on a movie about cyber bullying my therapist in highschool made me watch when I was being cyberbullied and I can’t think about anything witty to say in order to cope with the trauma no modern therapist seems to be equipped with"
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569038069143306200,
+            "id_str": "1569038069143306241",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "source": "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>",
+            "text": "Honey I can’t talk rn Nick DiRamio made a video on a movie about cyber bullying my therapist in highschool made me… https://t.co/wINHh398o2",
+            "text_analyzed": {
+                "in_english": "Honey I can’t talk rn Nick DiRamio made a video on a movie about cyber bullying my therapist in highschool made me watch when I was being cyberbullied and I can’t think about anything witty to say in order to cope with the trauma no modern therapist seems to be equipped with",
+                "lang_detected": "en",
+                "original": "Honey I can’t talk rn Nick DiRamio made a video on a movie about cyber bullying my therapist in highschool made me watch when I was being cyberbullied and I can’t think about anything witty to say in order to cope with the trauma no modern therapist seems to be equipped with",
+                "processed": [
+                    "honey",
+                    "talk",
+                    "nick",
+                    "diramio",
+                    "video",
+                    "movie",
+                    "cyber",
+                    "bullying",
+                    "therapist",
+                    "highschool",
+                    "watch",
+                    "cyberbullied",
+                    "think",
+                    "witty",
+                    "order",
+                    "cope",
+                    "trauma",
+                    "modern",
+                    "therapist",
+                    "equipped"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.8515543341636658,
+                        "neutral": 0.13483834266662598,
+                        "positive": 0.013607378117740154
+                    },
+                    "result": "negative"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.26849251985549927
+                    ],
+                    [
+                        1,
+                        0.1005459874868393
+                    ],
+                    [
+                        2,
+                        0.37676554918289185
+                    ],
+                    [
+                        3,
+                        0.24157436192035675
+                    ],
+                    [
+                        4,
+                        0.012621548026800156
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922801658",
+            "truncated": true,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Mon Jun 08 02:12:56 +0000 2020",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "🇩🇴🇨🇺 🏳️‍🌈 💖💜💙•26•she/they• co-creator of The Tale of Orpheus and Other Love Songs w/@niccygayboi ☆Trekkie at best;Artist at worst☆",
+                "favourites_count": 27040,
+                "follow_request_sent": null,
+                "followers_count": 239,
+                "following": null,
+                "friends_count": 222,
+                "geo_enabled": false,
+                "id": 1269814577023398000,
+                "id_str": "1269814577023397889",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 8,
+                "location": "San Junipero 🌺",
+                "name": "Jollie da Vinci🧃@ 🎃🔪feeling spooky 🎃🔪",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1269814577023397889/1646419852",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1468069068695552012/1SKffdZK_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1468069068695552012/1SKffdZK_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "Jolliejackdaw",
+                "statuses_count": 10076,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": "https://jolliejackdaw.carrd.co/",
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 19:00:09 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [
+                    {
+                        "display_url": "bbc.in/3DgNIO8",
+                        "expanded_url": "https://bbc.in/3DgNIO8",
+                        "indices": [
+                            48,
+                            71
+                        ],
+                        "url": "https://t.co/PxLAmTnKdj"
+                    }
+                ],
+                "user_mentions": [
+                    {
+                        "id": 742143,
+                        "id_str": "742143",
+                        "indices": [
+                            3,
+                            12
+                        ],
+                        "name": "BBC News (World)",
+                        "screen_name": "BBCWorld"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569038102718554000,
+            "id_str": "1569038102718554123",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "possibly_sensitive": false,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 18:59:05 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [
+                        {
+                            "display_url": "bbc.in/3DgNIO8",
+                            "expanded_url": "https://bbc.in/3DgNIO8",
+                            "indices": [
+                                34,
+                                57
+                            ],
+                            "url": "https://t.co/PxLAmTnKdj"
+                        }
+                    ],
+                    "user_mentions": []
+                },
+                "favorite_count": 28,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1569037833578467300,
+                "id_str": "1569037833578467334",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "possibly_sensitive": false,
+                "quote_count": 0,
+                "reply_count": 0,
+                "retweet_count": 8,
+                "retweeted": false,
+                "source": "<a href=\"http://www.socialflow.com\" rel=\"nofollow\">SocialFlow</a>",
+                "text": "William and Harry united in grief\nhttps://t.co/PxLAmTnKdj",
+                "truncated": false,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Thu Feb 01 07:44:29 +0000 2007",
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "description": "News, features and analysis from the World's newsroom. Breaking news, follow @BBCBreaking. UK news, @BBCNews. Latest sports news @BBCSport",
+                    "favourites_count": 1,
+                    "follow_request_sent": null,
+                    "followers_count": 38198063,
+                    "following": null,
+                    "friends_count": 18,
+                    "geo_enabled": true,
+                    "id": 742143,
+                    "id_str": "742143",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 133049,
+                    "location": "London, UK",
+                    "name": "BBC News (World)",
+                    "notifications": null,
+                    "profile_background_color": "FFFFFF",
+                    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/742143/1662659220",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1529107170448523264/q3VwEx38_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1529107170448523264/q3VwEx38_normal.jpg",
+                    "profile_link_color": "1F527B",
+                    "profile_sidebar_border_color": "FFFFFF",
+                    "profile_sidebar_fill_color": "FFFFFF",
+                    "profile_text_color": "5A5A5A",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "BBCWorld",
+                    "statuses_count": 351288,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": "http://www.bbc.com/news",
+                    "utc_offset": null,
+                    "verified": true,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "text": "RT @BBCWorld: William and Harry united in grief\nhttps://t.co/PxLAmTnKdj",
+            "text_analyzed": {
+                "in_english": ": William and Harry united in grief\n",
+                "lang_detected": "en",
+                "original": ": William and Harry united in grief\n",
+                "processed": [
+                    "william",
+                    "harry",
+                    "united",
+                    "grief"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.4244525134563446,
+                        "neutral": 0.5443766117095947,
+                        "positive": 0.03117084503173828
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.43823546171188354
+                    ],
+                    [
+                        1,
+                        0.04008667543530464
+                    ],
+                    [
+                        2,
+                        0.04008657485246658
+                    ],
+                    [
+                        3,
+                        0.24010775983333588
+                    ],
+                    [
+                        4,
+                        0.24148353934288025
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922809663",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Sun Nov 26 02:48:24 +0000 2017",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "Americano contra injusticia contra corrupción  y en pro mejor vivir",
+                "favourites_count": 11155,
+                "follow_request_sent": null,
+                "followers_count": 112,
+                "following": null,
+                "friends_count": 783,
+                "geo_enabled": false,
+                "id": 934614789703323600,
+                "id_str": "934614789703323648",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 1,
+                "location": "Colombia",
+                "name": "Francisco Zarate Barrero",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+                "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "franciszarate69",
+                "statuses_count": 40343,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:59:13 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1248746013009084400,
+                        "id_str": "1248746013009084416",
+                        "indices": [
+                            3,
+                            13
+                        ],
+                        "name": "🌻 Sunlightly 🪶",
+                        "screen_name": "Sunmothly"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037867820662800,
+            "id_str": "1569037867820662787",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 18:19:10 +0000 2022",
+                "display_text_range": [
+                    0,
+                    140
+                ],
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [
+                        {
+                            "display_url": "twitter.com/i/web/status/1…",
+                            "expanded_url": "https://twitter.com/i/web/status/1569027790187515905",
+                            "indices": [
+                                117,
+                                140
+                            ],
+                            "url": "https://t.co/nO3KECdXh8"
+                        }
+                    ],
+                    "user_mentions": []
+                },
+                "extended_tweet": {
+                    "display_text_range": [
+                        0,
+                        126
+                    ],
+                    "entities": {
+                        "hashtags": [],
+                        "media": [
+                            {
+                                "display_url": "pic.twitter.com/ZxUHT91kkT",
+                                "expanded_url": "https://twitter.com/Sunmothly/status/1569027790187515905/photo/1",
+                                "id": 1569027785795985400,
+                                "id_str": "1569027785795985413",
+                                "indices": [
+                                    127,
+                                    150
+                                ],
+                                "media_url": "http://pbs.twimg.com/media/FcZOdUcWYAUvwvc.jpg",
+                                "media_url_https": "https://pbs.twimg.com/media/FcZOdUcWYAUvwvc.jpg",
+                                "sizes": {
+                                    "large": {
+                                        "h": 1024,
+                                        "resize": "fit",
+                                        "w": 1007
+                                    },
+                                    "medium": {
+                                        "h": 1024,
+                                        "resize": "fit",
+                                        "w": 1007
+                                    },
+                                    "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 669
+                                    },
+                                    "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                    }
+                                },
+                                "type": "photo",
+                                "url": "https://t.co/ZxUHT91kkT"
+                            }
+                        ],
+                        "symbols": [],
+                        "urls": [],
+                        "user_mentions": []
+                    },
+                    "extended_entities": {
+                        "media": [
+                            {
+                                "display_url": "pic.twitter.com/ZxUHT91kkT",
+                                "expanded_url": "https://twitter.com/Sunmothly/status/1569027790187515905/photo/1",
+                                "id": 1569027785795985400,
+                                "id_str": "1569027785795985413",
+                                "indices": [
+                                    127,
+                                    150
+                                ],
+                                "media_url": "http://pbs.twimg.com/media/FcZOdUcWYAUvwvc.jpg",
+                                "media_url_https": "https://pbs.twimg.com/media/FcZOdUcWYAUvwvc.jpg",
+                                "sizes": {
+                                    "large": {
+                                        "h": 1024,
+                                        "resize": "fit",
+                                        "w": 1007
+                                    },
+                                    "medium": {
+                                        "h": 1024,
+                                        "resize": "fit",
+                                        "w": 1007
+                                    },
+                                    "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 669
+                                    },
+                                    "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                    }
+                                },
+                                "type": "photo",
+                                "url": "https://t.co/ZxUHT91kkT"
+                            }
+                        ]
+                    },
+                    "full_text": "Cw || blood, injuries \n\nKind of a stress relief?? Just felt like drawing something like this\n\nMe when pixel lobby matches haha https://t.co/ZxUHT91kkT"
+                },
+                "favorite_count": 9,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1569027790187516000,
+                "id_str": "1569027790187515905",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "possibly_sensitive": false,
+                "quote_count": 0,
+                "reply_count": 4,
+                "retweet_count": 1,
+                "retweeted": false,
+                "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                "text": "Cw || blood, injuries \n\nKind of a stress relief?? Just felt like drawing something like this\n\nMe when pixel lobby m… https://t.co/nO3KECdXh8",
+                "truncated": true,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Fri Apr 10 22:54:27 +0000 2020",
+                    "default_profile": true,
+                    "default_profile_image": false,
+                    "description": "🇧🇷🏳️‍🌈🏳️‍⚧️\nHi, i'm Sun! I draw! || 15 || agender || bi || Priv: @SadSunnyCatto (Friends and mutuals only!) \n❌DO NOT REPOST MY ART!!!❌\n\n🧡@RareROG🧡",
+                    "favourites_count": 24315,
+                    "follow_request_sent": null,
+                    "followers_count": 575,
+                    "following": null,
+                    "friends_count": 332,
+                    "geo_enabled": false,
+                    "id": 1248746013009084400,
+                    "id_str": "1248746013009084416",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 5,
+                    "location": "They/She/He/It | p:@cupidlotte",
+                    "name": "🌻 Sunlightly 🪶",
+                    "notifications": null,
+                    "profile_background_color": "F5F8FA",
+                    "profile_background_image_url": "",
+                    "profile_background_image_url_https": "",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1248746013009084416/1662039064",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1565332219782209536/r2yKF4Yz_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1565332219782209536/r2yKF4Yz_normal.jpg",
+                    "profile_link_color": "1DA1F2",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "Sunmothly",
+                    "statuses_count": 2657,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": null,
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+            "text": "RT @Sunmothly: Cw || blood, injuries \n\nKind of a stress relief?? Just felt like drawing something like this\n\nMe when pixel lobby matches ha…",
+            "text_analyzed": {
+                "in_english": ": Cw || blood, injuries \n\nKind of a stress relief?? Just felt like drawing something like this\n\nMe when pixel lobby matches ha…",
+                "lang_detected": "en",
+                "original": ": Cw || blood, injuries \n\nKind of a stress relief?? Just felt like drawing something like this\n\nMe when pixel lobby matches ha…",
+                "processed": [
+                    "blood",
+                    "injury",
+                    "kind",
+                    "stress",
+                    "relief",
+                    "felt",
+                    "like",
+                    "drawing",
+                    "like",
+                    "pixel",
+                    "lobby",
+                    "match"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.2590843439102173,
+                        "neutral": 0.6379011869430542,
+                        "positive": 0.10301443934440613
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.3800349235534668
+                    ],
+                    [
+                        1,
+                        0.32921674847602844
+                    ],
+                    [
+                        2,
+                        0.15154646337032318
+                    ],
+                    [
+                        3,
+                        0.018525755032896996
+                    ],
+                    [
+                        4,
+                        0.12067612260580063
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922753659",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Mon Mar 22 22:36:15 +0000 2010",
+                "default_profile": false,
+                "default_profile_image": false,
+                "description": "Just a random Longma that likes to make people happy.",
+                "favourites_count": 54972,
+                "follow_request_sent": null,
+                "followers_count": 354,
+                "following": null,
+                "friends_count": 1525,
+                "geo_enabled": false,
+                "id": 125465346,
+                "id_str": "125465346",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 2,
+                "location": "Indianapolis, IN",
+                "name": "Baltoist",
+                "notifications": null,
+                "profile_background_color": "000000",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/125465346/1600828392",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1557365086804656128/L4jL5DwJ_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1557365086804656128/L4jL5DwJ_normal.jpg",
+                "profile_link_color": "981CEB",
+                "profile_sidebar_border_color": "000000",
+                "profile_sidebar_fill_color": "000000",
+                "profile_text_color": "000000",
+                "profile_use_background_image": false,
+                "protected": false,
+                "screen_name": "baltoist",
+                "statuses_count": 27860,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:59:30 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 38363750,
+                        "id_str": "38363750",
+                        "indices": [
+                            3,
+                            19
+                        ],
+                        "name": "Nate Worthington",
+                        "screen_name": "NateWorthington"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037939119644700,
+            "id_str": "1569037939119644676",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sat Sep 10 19:47:26 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [
+                        {
+                            "display_url": "twitter.com/i/web/status/1…",
+                            "expanded_url": "https://twitter.com/i/web/status/1568687614039052289",
+                            "indices": [
+                                117,
+                                140
+                            ],
+                            "url": "https://t.co/fmmcVHIh7I"
+                        }
+                    ],
+                    "user_mentions": []
+                },
+                "extended_tweet": {
+                    "display_text_range": [
+                        0,
+                        206
+                    ],
+                    "entities": {
+                        "hashtags": [],
+                        "symbols": [],
+                        "urls": [],
+                        "user_mentions": []
+                    },
+                    "full_text": "I don’t know who needs to hear this but it’s perfectly okay to be a Christian and see a licensed therapist and if your pastor tells you otherwise or pushes “pastoral counseling” bullshit, find a new church."
+                },
+                "favorite_count": 477,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1568687614039052300,
+                "id_str": "1568687614039052289",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "quote_count": 7,
+                "reply_count": 23,
+                "retweet_count": 29,
+                "retweeted": false,
+                "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                "text": "I don’t know who needs to hear this but it’s perfectly okay to be a Christian and see a licensed therapist and if y… https://t.co/fmmcVHIh7I",
+                "truncated": true,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Thu May 07 04:01:02 +0000 2009",
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "description": "Paid for by Jesus. Pursuer of Ashley. Parent of Emma & Grace. Purveyor of soccer. Pourer of coffee. Professional counselor in training. PHX via PA. he/him. 6w7.",
+                    "favourites_count": 4626,
+                    "follow_request_sent": null,
+                    "followers_count": 763,
+                    "following": null,
+                    "friends_count": 241,
+                    "geo_enabled": true,
+                    "id": 38363750,
+                    "id_str": "38363750",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 21,
+                    "location": "Phoenix, AZ",
+                    "name": "Nate Worthington",
+                    "notifications": null,
+                    "profile_background_color": "C0DEED",
+                    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_tile": true,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/38363750/1505397762",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1542362839783944193/h-ojYfe3_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1542362839783944193/h-ojYfe3_normal.jpg",
+                    "profile_link_color": "0084B4",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "NateWorthington",
+                    "statuses_count": 16508,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": null,
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+            "text": "RT @NateWorthington: I don’t know who needs to hear this but it’s perfectly okay to be a Christian and see a licensed therapist and if your…",
+            "text_analyzed": {
+                "in_english": ": I don’t know who needs to hear this but it’s perfectly okay to be a Christian and see a licensed therapist and if your…",
+                "lang_detected": "en",
+                "original": ": I don’t know who needs to hear this but it’s perfectly okay to be a Christian and see a licensed therapist and if your…",
+                "processed": [
+                    "know",
+                    "need",
+                    "hear",
+                    "perfectly",
+                    "okay",
+                    "christian",
+                    "licensed",
+                    "therapist"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.06075439602136612,
+                        "neutral": 0.5933960676193237,
+                        "positive": 0.34584954380989075
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.026094695553183556
+                    ],
+                    [
+                        1,
+                        0.5756105184555054
+                    ],
+                    [
+                        2,
+                        0.34617820382118225
+                    ],
+                    [
+                        3,
+                        0.026067538186907768
+                    ],
+                    [
+                        4,
+                        0.02604905143380165
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922770658",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Sun Oct 14 00:26:04 +0000 2012",
+                "default_profile": false,
+                "default_profile_image": false,
+                "description": "Official Twitter account of J O'Hagans. I do not suffer fools gladly. If you do not like what I am saying, get off my twitter feed. #BLM",
+                "favourites_count": 570839,
+                "follow_request_sent": null,
+                "followers_count": 1549,
+                "following": null,
+                "friends_count": 1593,
+                "geo_enabled": false,
+                "id": 878999767,
+                "id_str": "878999767",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 30,
+                "location": null,
+                "name": "Don’t Drink The Kool Aid😷 🇺🇸 🏳️‍🌈 💉💉💉💉",
+                "notifications": null,
+                "profile_background_color": "000000",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/878999767/1645728949",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1462553196291891204/mv5UI6Ui_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1462553196291891204/mv5UI6Ui_normal.jpg",
+                "profile_link_color": "981CEB",
+                "profile_sidebar_border_color": "000000",
+                "profile_sidebar_fill_color": "000000",
+                "profile_text_color": "000000",
+                "profile_use_background_image": false,
+                "protected": false,
+                "screen_name": "JLOHagans",
+                "statuses_count": 165062,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:58:26 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 872867769204613100,
+                        "id_str": "872867769204613121",
+                        "indices": [
+                            3,
+                            19
+                        ],
+                        "name": "Maureen A. Griswold",
+                        "screen_name": "mgriswoldauthor"
+                    },
+                    {
+                        "id": 897988113452150800,
+                        "id_str": "897988113452150786",
+                        "indices": [
+                            21,
+                            37
+                        ],
+                        "name": "Critter 🕊️ 🇺🇦🌻",
+                        "screen_name": "asclepiasyriaca"
+                    },
+                    {
+                        "id": 270132611,
+                        "id_str": "270132611",
+                        "indices": [
+                            38,
+                            46
+                        ],
+                        "name": "Lindy Li",
+                        "screen_name": "lindyli"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037670697017300,
+            "id_str": "1569037670697017344",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 02:58:15 +0000 2022",
+                "display_text_range": [
+                    26,
+                    140
+                ],
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [
+                        {
+                            "display_url": "twitter.com/i/web/status/1…",
+                            "expanded_url": "https://twitter.com/i/web/status/1568796033764982784",
+                            "indices": [
+                                117,
+                                140
+                            ],
+                            "url": "https://t.co/AMfhzSAROa"
+                        }
+                    ],
+                    "user_mentions": [
+                        {
+                            "id": 897988113452150800,
+                            "id_str": "897988113452150786",
+                            "indices": [
+                                0,
+                                16
+                            ],
+                            "name": "Critter 🕊️ 🇺🇦🌻",
+                            "screen_name": "asclepiasyriaca"
+                        },
+                        {
+                            "id": 270132611,
+                            "id_str": "270132611",
+                            "indices": [
+                                17,
+                                25
+                            ],
+                            "name": "Lindy Li",
+                            "screen_name": "lindyli"
+                        }
+                    ]
+                },
+                "extended_tweet": {
+                    "display_text_range": [
+                        26,
+                        137
+                    ],
+                    "entities": {
+                        "hashtags": [],
+                        "media": [
+                            {
+                                "display_url": "pic.twitter.com/hWr7WbHkxS",
+                                "expanded_url": "https://twitter.com/mgriswoldauthor/status/1568796033764982784/photo/1",
+                                "id": 1568796029356773400,
+                                "id_str": "1568796029356773377",
+                                "indices": [
+                                    138,
+                                    161
+                                ],
+                                "media_url": "http://pbs.twimg.com/media/FcV7rUbakAEBW2G.jpg",
+                                "media_url_https": "https://pbs.twimg.com/media/FcV7rUbakAEBW2G.jpg",
+                                "sizes": {
+                                    "large": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "medium": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "small": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                    }
+                                },
+                                "type": "photo",
+                                "url": "https://t.co/hWr7WbHkxS"
+                            }
+                        ],
+                        "symbols": [],
+                        "urls": [],
+                        "user_mentions": [
+                            {
+                                "id": 897988113452150800,
+                                "id_str": "897988113452150786",
+                                "indices": [
+                                    0,
+                                    16
+                                ],
+                                "name": "Critter 🕊️ 🇺🇦🌻",
+                                "screen_name": "asclepiasyriaca"
+                            },
+                            {
+                                "id": 270132611,
+                                "id_str": "270132611",
+                                "indices": [
+                                    17,
+                                    25
+                                ],
+                                "name": "Lindy Li",
+                                "screen_name": "lindyli"
+                            }
+                        ]
+                    },
+                    "extended_entities": {
+                        "media": [
+                            {
+                                "display_url": "pic.twitter.com/hWr7WbHkxS",
+                                "expanded_url": "https://twitter.com/mgriswoldauthor/status/1568796033764982784/photo/1",
+                                "id": 1568796029356773400,
+                                "id_str": "1568796029356773377",
+                                "indices": [
+                                    138,
+                                    161
+                                ],
+                                "media_url": "http://pbs.twimg.com/media/FcV7rUbakAEBW2G.jpg",
+                                "media_url_https": "https://pbs.twimg.com/media/FcV7rUbakAEBW2G.jpg",
+                                "sizes": {
+                                    "large": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "medium": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "small": {
+                                        "h": 449,
+                                        "resize": "fit",
+                                        "w": 465
+                                    },
+                                    "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                    }
+                                },
+                                "type": "photo",
+                                "url": "https://t.co/hWr7WbHkxS"
+                            }
+                        ]
+                    },
+                    "full_text": "@asclepiasyriaca @lindyli This is apparently the mindset of most SCOTUS justices. Questioning their legitimacy is absolutely appropriate. https://t.co/hWr7WbHkxS"
+                },
+                "favorite_count": 15,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1568796033764982800,
+                "id_str": "1568796033764982784",
+                "in_reply_to_screen_name": "asclepiasyriaca",
+                "in_reply_to_status_id": 1568787424125517800,
+                "in_reply_to_status_id_str": "1568787424125517825",
+                "in_reply_to_user_id": 897988113452150800,
+                "in_reply_to_user_id_str": "897988113452150786",
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "possibly_sensitive": false,
+                "quote_count": 0,
+                "reply_count": 0,
+                "retweet_count": 10,
+                "retweeted": false,
+                "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                "text": "@asclepiasyriaca @lindyli This is apparently the mindset of most SCOTUS justices. Questioning their legitimacy is a… https://t.co/AMfhzSAROa",
+                "truncated": true,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Thu Jun 08 17:27:48 +0000 2017",
+                    "default_profile": true,
+                    "default_profile_image": false,
+                    "description": "Author of The Grey Forest, Can't Fool All of the People All of the Time, former Army nurse, print journalist, & full-time cookie devotee.🍪 #amwriting",
+                    "favourites_count": 34559,
+                    "follow_request_sent": null,
+                    "followers_count": 954,
+                    "following": null,
+                    "friends_count": 1499,
+                    "geo_enabled": false,
+                    "id": 872867769204613100,
+                    "id_str": "872867769204613121",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 5,
+                    "location": "Planet Earth 🌎",
+                    "name": "Maureen A. Griswold",
+                    "notifications": null,
+                    "profile_background_color": "F5F8FA",
+                    "profile_background_image_url": "",
+                    "profile_background_image_url_https": "",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/872867769204613121/1498034215",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/872871208970199041/fo6y1UMG_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/872871208970199041/fo6y1UMG_normal.jpg",
+                    "profile_link_color": "1DA1F2",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "mgriswoldauthor",
+                    "statuses_count": 5555,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": "http://www.maureen-griswold.com",
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+            "text": "RT @mgriswoldauthor: @asclepiasyriaca @lindyli This is apparently the mindset of most SCOTUS justices. Questioning their legitimacy is abso…",
+            "text_analyzed": {
+                "in_english": ":   This is apparently the mindset of most SCOTUS justices. Questioning their legitimacy is abso…",
+                "lang_detected": "en",
+                "original": ":   This is apparently the mindset of most SCOTUS justices. Questioning their legitimacy is abso…",
+                "processed": [
+                    "apparently",
+                    "mindset",
+                    "scotus",
+                    "justice",
+                    "questioning",
+                    "legitimacy",
+                    "abso"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.6676486730575562,
+                        "neutral": 0.32033056020736694,
+                        "positive": 0.012020787224173546
+                    },
+                    "result": "negative"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.05013786256313324
+                    ],
+                    [
+                        1,
+                        0.050137683749198914
+                    ],
+                    [
+                        2,
+                        0.30210739374160767
+                    ],
+                    [
+                        3,
+                        0.29989922046661377
+                    ],
+                    [
+                        4,
+                        0.297717809677124
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922706661",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Fri Apr 29 02:35:28 +0000 2011",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "Proud of America. Frightened of Republicans.",
+                "favourites_count": 149502,
+                "follow_request_sent": null,
+                "followers_count": 939,
+                "following": null,
+                "friends_count": 421,
+                "geo_enabled": true,
+                "id": 289702880,
+                "id_str": "289702880",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 175,
+                "location": "Encino, CA",
+                "name": "Casper Schnookums' mum. 🇺🇸",
+                "notifications": null,
+                "profile_background_color": "C0DEED",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1540486811704651776/3Pv3oh-D_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1540486811704651776/3Pv3oh-D_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "srivlin",
+                "statuses_count": 245347,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:58:45 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1087789384315875300,
+                        "id_str": "1087789384315875328",
+                        "indices": [
+                            3,
+                            17
+                        ],
+                        "name": "Dr Robert 'Rob' Zands PhD",
+                        "screen_name": "DrRobertZands"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037750388637700,
+            "id_str": "1569037750388637697",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 18:57:36 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [
+                        {
+                            "display_url": "twitter.com/i/web/status/1…",
+                            "expanded_url": "https://twitter.com/i/web/status/1569037461308809217",
+                            "indices": [
+                                117,
+                                140
+                            ],
+                            "url": "https://t.co/IOY14ZTfGX"
+                        }
+                    ],
+                    "user_mentions": []
+                },
+                "extended_tweet": {
+                    "display_text_range": [
+                        0,
+                        148
+                    ],
+                    "entities": {
+                        "hashtags": [],
+                        "symbols": [],
+                        "urls": [],
+                        "user_mentions": []
+                    },
+                    "full_text": "If Sweeney is satisfied (having consulted the 2 best psychiatrists in the world) that nuclear war is deeply unlikely then that's good enough for me."
+                },
+                "favorite_count": 3,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1569037461308809200,
+                "id_str": "1569037461308809217",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "quote_count": 0,
+                "reply_count": 0,
+                "retweet_count": 1,
+                "retweeted": false,
+                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                "text": "If Sweeney is satisfied (having consulted the 2 best psychiatrists in the world) that nuclear war is deeply unlikel… https://t.co/IOY14ZTfGX",
+                "truncated": true,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Tue Jan 22 19:09:34 +0000 2019",
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "description": "Distance runner // Red Wine Expert // Lead Guitarist // Academic // Politics Dude // Law Guy // Contributing Editor @BAZAKEmedia // Viral Superstar",
+                    "favourites_count": 22722,
+                    "follow_request_sent": null,
+                    "followers_count": 6155,
+                    "following": null,
+                    "friends_count": 1127,
+                    "geo_enabled": false,
+                    "id": 1087789384315875300,
+                    "id_str": "1087789384315875328",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 43,
+                    "location": "Kuntsford, Cheshire",
+                    "name": "Dr Robert 'Rob' Zands PhD",
+                    "notifications": null,
+                    "profile_background_color": "000000",
+                    "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1087789384315875328/1642769016",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1471180016645988362/Ky3CrKu4_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1471180016645988362/Ky3CrKu4_normal.jpg",
+                    "profile_link_color": "ABB8C2",
+                    "profile_sidebar_border_color": "000000",
+                    "profile_sidebar_fill_color": "000000",
+                    "profile_text_color": "000000",
+                    "profile_use_background_image": false,
+                    "protected": false,
+                    "screen_name": "DrRobertZands",
+                    "statuses_count": 29053,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": "https://www.bazake.co.uk/about",
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "text": "RT @DrRobertZands: If Sweeney is satisfied (having consulted the 2 best psychiatrists in the world) that nuclear war is deeply unlikely the…",
+            "text_analyzed": {
+                "in_english": ": If Sweeney is satisfied (having consulted the 2 best psychiatrists in the world) that nuclear war is deeply unlikely the…",
+                "lang_detected": "en",
+                "original": ": If Sweeney is satisfied (having consulted the 2 best psychiatrists in the world) that nuclear war is deeply unlikely the…",
+                "processed": [
+                    "sweeney",
+                    "satisfied",
+                    "having",
+                    "consulted",
+                    "best",
+                    "psychiatrist",
+                    "world",
+                    "nuclear",
+                    "war",
+                    "deeply",
+                    "unlikely"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.09051908552646637,
+                        "neutral": 0.7797116637229919,
+                        "positive": 0.12976928055286407
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.020222913473844528
+                    ],
+                    [
+                        1,
+                        0.31137481331825256
+                    ],
+                    [
+                        2,
+                        0.3760044276714325
+                    ],
+                    [
+                        3,
+                        0.13501673936843872
+                    ],
+                    [
+                        4,
+                        0.15738116204738617
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922725661",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Sun Jan 10 21:24:23 +0000 2016",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "#NotMyPrince",
+                "favourites_count": 24084,
+                "follow_request_sent": null,
+                "followers_count": 210,
+                "following": null,
+                "friends_count": 1392,
+                "geo_enabled": false,
+                "id": 4767968242,
+                "id_str": "4767968242",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 0,
+                "location": "Repubblica del Galles",
+                "name": "Mika Longue",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/4767968242/1631648872",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1420704776447266823/pnZNurXY_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1420704776447266823/pnZNurXY_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "MikaLongue",
+                "statuses_count": 12340,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:58:45 +0000 2022",
+            "display_text_range": [
+                15,
+                125
+            ],
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1187835922118787000,
+                        "id_str": "1187835922118787073",
+                        "indices": [
+                            0,
+                            14
+                        ],
+                        "name": "Lavern Spicer 🇺🇸",
+                        "screen_name": "lavern_spicer"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037750380249000,
+            "id_str": "1569037750380249088",
+            "in_reply_to_screen_name": "lavern_spicer",
+            "in_reply_to_status_id": 1567931036784287700,
+            "in_reply_to_status_id_str": "1567931036784287745",
+            "in_reply_to_user_id": 1187835922118787000,
+            "in_reply_to_user_id_str": "1187835922118787073",
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+            "text": "@lavern_spicer You think speaking up against racism put her through stress. So what did the drama with Prince Andrew do then?",
+            "text_analyzed": {
+                "in_english": "You think speaking up against racism put her through stress. So what did the drama with Prince Andrew do then?",
+                "lang_detected": "en",
+                "original": "You think speaking up against racism put her through stress. So what did the drama with Prince Andrew do then?",
+                "processed": [
+                    "think",
+                    "speaking",
+                    "racism",
+                    "stress",
+                    "drama",
+                    "prince",
+                    "andrew"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.3884775936603546,
+                        "neutral": 0.5949212312698364,
+                        "positive": 0.016601167619228363
+                    },
+                    "result": "neutral"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.4825040102005005
+                    ],
+                    [
+                        1,
+                        0.3172627091407776
+                    ],
+                    [
+                        2,
+                        0.025195522233843803
+                    ],
+                    [
+                        3,
+                        0.025064129382371902
+                    ],
+                    [
+                        4,
+                        0.14997363090515137
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922725659",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Thu May 06 16:39:37 +0000 2021",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": null,
+                "favourites_count": 4830,
+                "follow_request_sent": null,
+                "followers_count": 8,
+                "following": null,
+                "friends_count": 97,
+                "geo_enabled": false,
+                "id": 1390345429959721000,
+                "id_str": "1390345429959720965",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 1,
+                "location": null,
+                "name": "LondonBae_21",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1390345673640456199/nnTgud23_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1390345673640456199/nnTgud23_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "21Londonbae",
+                "statuses_count": 1151,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:57:17 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1358168471406747600,
+                        "id_str": "1358168471406747649",
+                        "indices": [
+                            3,
+                            16
+                        ],
+                        "name": "bombay bandar",
+                        "screen_name": "bandarmoment"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037381290041300,
+            "id_str": "1569037381290041344",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 06:57:58 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [],
+                    "user_mentions": []
+                },
+                "favorite_count": 54,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1568856358715551700,
+                "id_str": "1568856358715551744",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "quote_count": 2,
+                "reply_count": 3,
+                "retweet_count": 14,
+                "retweeted": false,
+                "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                "text": "ur in his dms im in therapy bec of him good luck bro he’s a menace",
+                "truncated": false,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Sat Feb 06 21:39:39 +0000 2021",
+                    "default_profile": true,
+                    "default_profile_image": false,
+                    "description": "i be that pretty motherfucker • 🏳️‍🌈 she/they",
+                    "favourites_count": 25556,
+                    "follow_request_sent": null,
+                    "followers_count": 5797,
+                    "following": null,
+                    "friends_count": 838,
+                    "geo_enabled": true,
+                    "id": 1358168471406747600,
+                    "id_str": "1358168471406747649",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 6,
+                    "location": "mumbai / pune",
+                    "name": "bombay bandar",
+                    "notifications": null,
+                    "profile_background_color": "F5F8FA",
+                    "profile_background_image_url": "",
+                    "profile_background_image_url_https": "",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1358168471406747649/1643025753",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1548189760874680322/jP7b1Ven_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1548189760874680322/jP7b1Ven_normal.jpg",
+                    "profile_link_color": "1DA1F2",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "bandarmoment",
+                    "statuses_count": 25333,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": "https://instagram.com/alishalalwanii?igshid=YmMyMTA2M2Y=",
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "text": "RT @bandarmoment: ur in his dms im in therapy bec of him good luck bro he’s a menace",
+            "text_analyzed": {
+                "in_english": ": ur in his dms im in therapy bec of him good luck bro he’s a menace",
+                "lang_detected": "en",
+                "original": ": ur in his dms im in therapy bec of him good luck bro he’s a menace",
+                "processed": [
+                    "dm",
+                    "therapy",
+                    "bec",
+                    "good",
+                    "luck",
+                    "bro",
+                    "menace"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.8585394024848938,
+                        "neutral": 0.12024693191051483,
+                        "positive": 0.021213598549365997
+                    },
+                    "result": "negative"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.4157487154006958
+                    ],
+                    [
+                        1,
+                        0.3173949122428894
+                    ],
+                    [
+                        2,
+                        0.03431858867406845
+                    ],
+                    [
+                        3,
+                        0.19903135299682617
+                    ],
+                    [
+                        4,
+                        0.03350641205906868
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922637661",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Sun Jul 24 22:59:04 +0000 2022",
+                "default_profile": true,
+                "default_profile_image": false,
+                "description": "one thing about me is i......",
+                "favourites_count": 552,
+                "follow_request_sent": null,
+                "followers_count": 36,
+                "following": null,
+                "friends_count": 28,
+                "geo_enabled": false,
+                "id": 1551341074320224300,
+                "id_str": "1551341074320224256",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 0,
+                "location": "last acc i swear",
+                "name": "t2s",
+                "notifications": null,
+                "profile_background_color": "F5F8FA",
+                "profile_background_image_url": "",
+                "profile_background_image_url_https": "",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/1551341074320224256/1661329888",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1565425548859682816/wUe2rfFi_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1565425548859682816/wUe2rfFi_normal.jpg",
+                "profile_link_color": "1DA1F2",
+                "profile_sidebar_border_color": "C0DEED",
+                "profile_sidebar_fill_color": "DDEEF6",
+                "profile_text_color": "333333",
+                "profile_use_background_image": true,
+                "protected": false,
+                "screen_name": "t4nushr33",
+                "statuses_count": 444,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        },
+        {
+            "contributors": null,
+            "coordinates": null,
+            "created_at": "Sun Sep 11 18:57:24 +0000 2022",
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "urls": [],
+                "user_mentions": [
+                    {
+                        "id": 1192449009702621200,
+                        "id_str": "1192449009702621184",
+                        "indices": [
+                            3,
+                            18
+                        ],
+                        "name": "ivy ਏਓ",
+                        "screen_name": "soojinsrevenge"
+                    }
+                ]
+            },
+            "favorite_count": 0,
+            "favorited": false,
+            "filter_level": "low",
+            "geo": null,
+            "id": 1569037410650005500,
+            "id_str": "1569037410650005505",
+            "in_reply_to_screen_name": null,
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "is_quote_status": false,
+            "lang": "en",
+            "place": null,
+            "quote_count": 0,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "retweeted_status": {
+                "contributors": null,
+                "coordinates": null,
+                "created_at": "Sun Sep 11 14:31:46 +0000 2022",
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "urls": [],
+                    "user_mentions": []
+                },
+                "favorite_count": 149,
+                "favorited": false,
+                "filter_level": "low",
+                "geo": null,
+                "id": 1568970559450665000,
+                "id_str": "1568970559450664960",
+                "in_reply_to_screen_name": null,
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "is_quote_status": false,
+                "lang": "en",
+                "place": null,
+                "quote_count": 1,
+                "reply_count": 3,
+                "retweet_count": 35,
+                "retweeted": false,
+                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                "text": "\"men's mental health isn't taken seriously\". women who showed any emotion was put in mental institutions for \"female hysteria\" 😐",
+                "truncated": false,
+                "user": {
+                    "contributors_enabled": false,
+                    "created_at": "Thu Nov 07 14:29:49 +0000 2019",
+                    "default_profile": true,
+                    "default_profile_image": false,
+                    "description": "im plastic if you drop me i'll be staying in perfect shape",
+                    "favourites_count": 38579,
+                    "follow_request_sent": null,
+                    "followers_count": 433,
+                    "following": null,
+                    "friends_count": 182,
+                    "geo_enabled": false,
+                    "id": 1192449009702621200,
+                    "id_str": "1192449009702621184",
+                    "is_translator": false,
+                    "lang": null,
+                    "listed_count": 0,
+                    "location": "♀, 23",
+                    "name": "ivy ਏਓ",
+                    "notifications": null,
+                    "profile_background_color": "F5F8FA",
+                    "profile_background_image_url": "",
+                    "profile_background_image_url_https": "",
+                    "profile_background_tile": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1192449009702621184/1662670737",
+                    "profile_image_url": "http://pbs.twimg.com/profile_images/1567980830114430976/yHRUgX8S_normal.jpg",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1567980830114430976/yHRUgX8S_normal.jpg",
+                    "profile_link_color": "1DA1F2",
+                    "profile_sidebar_border_color": "C0DEED",
+                    "profile_sidebar_fill_color": "DDEEF6",
+                    "profile_text_color": "333333",
+                    "profile_use_background_image": true,
+                    "protected": false,
+                    "screen_name": "soojinsrevenge",
+                    "statuses_count": 13924,
+                    "time_zone": null,
+                    "translator_type": "none",
+                    "url": "https://stillrebandvodka.tumblr.com",
+                    "utc_offset": null,
+                    "verified": false,
+                    "withheld_in_countries": []
+                }
+            },
+            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+            "text": "RT @soojinsrevenge: \"men's mental health isn't taken seriously\". women who showed any emotion was put in mental institutions for \"female hy…",
+            "text_analyzed": {
+                "in_english": ": \"men's mental health isn't taken seriously\". women who showed any emotion was put in mental institutions for \"female hy…",
+                "lang_detected": "en",
+                "original": ": \"men's mental health isn't taken seriously\". women who showed any emotion was put in mental institutions for \"female hy…",
+                "processed": [
+                    "men",
+                    "mental",
+                    "health",
+                    "isn",
+                    "taken",
+                    "seriously",
+                    "woman",
+                    "showed",
+                    "emotion",
+                    "mental",
+                    "institution",
+                    "female"
+                ],
+                "sentiment": {
+                    "confidence_probabilities": {
+                        "negative": 0.8770402669906616,
+                        "neutral": 0.11723411083221436,
+                        "positive": 0.0057256813161075115
+                    },
+                    "result": "negative"
+                },
+                "topics": [
+                    [
+                        0,
+                        0.01732528954744339
+                    ],
+                    [
+                        1,
+                        0.18371160328388214
+                    ],
+                    [
+                        2,
+                        0.274042010307312
+                    ],
+                    [
+                        3,
+                        0.41834357380867004
+                    ],
+                    [
+                        4,
+                        0.10657753795385361
+                    ]
+                ]
+            },
+            "timestamp_ms": "1662922644661",
+            "truncated": false,
+            "user": {
+                "contributors_enabled": false,
+                "created_at": "Thu Jan 29 18:35:41 +0000 2015",
+                "default_profile": false,
+                "default_profile_image": false,
+                "description": "Deleted my old account but back on my bs 🤸🏾‍♀️",
+                "favourites_count": 49762,
+                "follow_request_sent": null,
+                "followers_count": 136,
+                "following": null,
+                "friends_count": 194,
+                "geo_enabled": false,
+                "id": 3004221177,
+                "id_str": "3004221177",
+                "is_translator": false,
+                "lang": "en",
+                "listed_count": 1,
+                "location": "In the Chao Garden ",
+                "name": "🧥 Patagonia Princess 👸🏾",
+                "notifications": null,
+                "profile_background_color": "000000",
+                "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+                "profile_background_tile": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/3004221177/1586327858",
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1540865280536203264/CL1qK3EK_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1540865280536203264/CL1qK3EK_normal.jpg",
+                "profile_link_color": "F5ABB5",
+                "profile_sidebar_border_color": "000000",
+                "profile_sidebar_fill_color": "000000",
+                "profile_text_color": "000000",
+                "profile_use_background_image": false,
+                "protected": false,
+                "screen_name": "BaddieFatty",
+                "statuses_count": 9416,
+                "time_zone": null,
+                "translator_type": "none",
+                "url": null,
+                "utc_offset": null,
+                "verified": false,
+                "withheld_in_countries": []
+            }
+        }
+    ],
+    {
+        "mentalhealthtweets": 13,
+        "total": 14234
+    },
+    [
+        {
+            "contributors_enabled": false,
+            "created_at": "Sun Jul 31 01:37:57 +0000 2016",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0733,
+                    "30-39": 0.0045,
+                    "<=18": 0.9134,
+                    ">=40": 0.0088
+                },
+                "gender": {
+                    "female": 0.4736,
+                    "male": 0.5264
+                },
+                "org": {
+                    "is-org": 0.0329,
+                    "non-org": 0.9671
+                }
+            },
+            "description": "#herewego",
+            "favourites_count": 15465,
+            "follow_request_sent": null,
+            "followers_count": 332,
+            "following": null,
+            "friends_count": 344,
+            "geo_enabled": false,
+            "id": 759563716396318700,
+            "id_str": "759563716396318721",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 1,
+            "location": "Colorado, USA",
+            "location_analyzed": {
+                "country_name": "United States of America",
+                "in_english": "Colorado, USA",
+                "lang_detected": "es",
+                "latitude": 38.7251776,
+                "longitude": -105.607716
+            },
+            "name": "watts the buzz",
+            "notifications": null,
+            "profile_background_color": "F5F8FA",
+            "profile_background_image_url": "",
+            "profile_background_image_url_https": "",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/759563716396318721/1661174006",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1561703043153874944/2ybfk7zU_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1561703043153874944/2ybfk7zU_normal.jpg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "kpickettszn",
+            "statuses_count": 2667,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Wed Jun 05 03:14:43 +0000 2013",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0086,
+                    "30-39": 0.0875,
+                    "<=18": 0.0874,
+                    ">=40": 0.8165
+                },
+                "gender": {
+                    "female": 0.3068,
+                    "male": 0.6932
+                },
+                "org": {
+                    "is-org": 0.97,
+                    "non-org": 0.03
+                }
+            },
+            "description": "We help wrestlers and teams overcome mental blocks and win more. Build unstoppable confidence, wrestle more aggressively and relax under pressure #MentalEdge",
+            "favourites_count": 58896,
+            "follow_request_sent": null,
+            "followers_count": 21207,
+            "following": null,
+            "friends_count": 5829,
+            "geo_enabled": true,
+            "id": 1483901430,
+            "id_str": "1483901430",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 99,
+            "location": null,
+            "location_analyzed": {
+                "country_name": "Italy",
+                "in_english": "",
+                "lang_detected": "en",
+                "latitude": 44.933143,
+                "longitude": 7.540121
+            },
+            "name": "Wrestling Mindset",
+            "notifications": null,
+            "profile_background_color": "C0DEED",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1483901430/1519228069",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/544922074041421825/HkS013sn_normal.jpeg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/544922074041421825/HkS013sn_normal.jpeg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "WrestlingMindse",
+            "statuses_count": 27987,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": "https://linktr.ee/wrestlingmindset",
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Thu Dec 17 04:26:46 +0000 2020",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.2477,
+                    "30-39": 0.0113,
+                    "<=18": 0.7382,
+                    ">=40": 0.0028
+                },
+                "gender": {
+                    "female": 0.7968,
+                    "male": 0.2032
+                },
+                "org": {
+                    "is-org": 0.0055,
+                    "non-org": 0.9945
+                }
+            },
+            "description": "Introvert//Cry baby🥺❤️‍🩹//Taurus♉ // Student// God's child//",
+            "favourites_count": 53337,
+            "follow_request_sent": null,
+            "followers_count": 4187,
+            "following": null,
+            "friends_count": 1639,
+            "geo_enabled": false,
+            "id": 1339426683926024200,
+            "id_str": "1339426683926024193",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 0,
+            "location": "Omusati ,Namibia ",
+            "location_analyzed": {
+                "country_name": "Namibia",
+                "in_english": "Omusati, Namibia",
+                "lang_detected": "sn",
+                "latitude": -18.2862314,
+                "longitude": 14.8856679
+            },
+            "name": "Its_Salmy🤍",
+            "notifications": null,
+            "profile_background_color": "F5F8FA",
+            "profile_background_image_url": "",
+            "profile_background_image_url_https": "",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1339426683926024193/1662130412",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1567793698129289217/zsWtFPKP_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1567793698129289217/zsWtFPKP_normal.jpg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "itssalmy",
+            "statuses_count": 24547,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Mon Jun 08 02:12:56 +0000 2020",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.2969,
+                    "30-39": 0.1629,
+                    "<=18": 0.5082,
+                    ">=40": 0.032
+                },
+                "gender": {
+                    "female": 0.7738,
+                    "male": 0.2262
+                },
+                "org": {
+                    "is-org": 0.0337,
+                    "non-org": 0.9663
+                }
+            },
+            "description": "🇩🇴🇨🇺 🏳️‍🌈 💖💜💙•26•she/they• co-creator of The Tale of Orpheus and Other Love Songs w/@niccygayboi ☆Trekkie at best;Artist at worst☆",
+            "favourites_count": 27040,
+            "follow_request_sent": null,
+            "followers_count": 239,
+            "following": null,
+            "friends_count": 222,
+            "geo_enabled": false,
+            "id": 1269814577023398000,
+            "id_str": "1269814577023397889",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 8,
+            "location": "San Junipero 🌺",
+            "location_analyzed": {
+                "country_name": "United States of America",
+                "in_english": "San Junipero 🌺",
+                "lang_detected": "ceb",
+                "latitude": 37.5457699,
+                "longitude": -122.3166362
+            },
+            "name": "Jollie da Vinci🧃@ 🎃🔪feeling spooky 🎃🔪",
+            "notifications": null,
+            "profile_background_color": "F5F8FA",
+            "profile_background_image_url": "",
+            "profile_background_image_url_https": "",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1269814577023397889/1646419852",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1468069068695552012/1SKffdZK_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1468069068695552012/1SKffdZK_normal.jpg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "Jolliejackdaw",
+            "statuses_count": 10076,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": "https://jolliejackdaw.carrd.co/",
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Sun Nov 26 02:48:24 +0000 2017",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0005,
+                    "30-39": 0.0511,
+                    "<=18": 0.0016,
+                    ">=40": 0.9469
+                },
+                "gender": {
+                    "female": 0.0003,
+                    "male": 0.9997
+                },
+                "org": {
+                    "is-org": 0.792,
+                    "non-org": 0.208
+                }
+            },
+            "description": "Americano contra injusticia contra corrupción  y en pro mejor vivir",
+            "favourites_count": 11155,
+            "follow_request_sent": null,
+            "followers_count": 112,
+            "following": null,
+            "friends_count": 783,
+            "geo_enabled": false,
+            "id": 934614789703323600,
+            "id_str": "934614789703323648",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 1,
+            "location": "Colombia",
+            "location_analyzed": {
+                "country_name": "Colombia",
+                "in_english": "Colombia",
+                "lang_detected": "en",
+                "latitude": 4.099917,
+                "longitude": -72.9088133
+            },
+            "name": "Francisco Zarate Barrero",
+            "notifications": null,
+            "profile_background_color": "F5F8FA",
+            "profile_background_image_url": "",
+            "profile_background_image_url_https": "",
+            "profile_background_tile": false,
+            "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+            "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "franciszarate69",
+            "statuses_count": 40343,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Mon Mar 22 22:36:15 +0000 2010",
+            "default_profile": false,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0969,
+                    "30-39": 0.1835,
+                    "<=18": 0.5823,
+                    ">=40": 0.1372
+                },
+                "gender": {
+                    "female": 0.2445,
+                    "male": 0.7555
+                },
+                "org": {
+                    "is-org": 0.3299,
+                    "non-org": 0.6701
+                }
+            },
+            "description": "Just a random Longma that likes to make people happy.",
+            "favourites_count": 54972,
+            "follow_request_sent": null,
+            "followers_count": 354,
+            "following": null,
+            "friends_count": 1525,
+            "geo_enabled": false,
+            "id": 125465346,
+            "id_str": "125465346",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 2,
+            "location": "Indianapolis, IN",
+            "location_analyzed": {
+                "country_name": "United States of America",
+                "in_english": "Indianapolis, IN",
+                "lang_detected": "en",
+                "latitude": 39.7683331,
+                "longitude": -86.1583502
+            },
+            "name": "Baltoist",
+            "notifications": null,
+            "profile_background_color": "000000",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/125465346/1600828392",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1557365086804656128/L4jL5DwJ_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1557365086804656128/L4jL5DwJ_normal.jpg",
+            "profile_link_color": "981CEB",
+            "profile_sidebar_border_color": "000000",
+            "profile_sidebar_fill_color": "000000",
+            "profile_text_color": "000000",
+            "profile_use_background_image": false,
+            "protected": false,
+            "screen_name": "baltoist",
+            "statuses_count": 27860,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Sun Oct 14 00:26:04 +0000 2012",
+            "default_profile": false,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0261,
+                    "30-39": 0.0899,
+                    "<=18": 0.0062,
+                    ">=40": 0.8778
+                },
+                "gender": {
+                    "female": 0.0413,
+                    "male": 0.9587
+                },
+                "org": {
+                    "is-org": 0.3946,
+                    "non-org": 0.6054
+                }
+            },
+            "description": "Official Twitter account of J O'Hagans. I do not suffer fools gladly. If you do not like what I am saying, get off my twitter feed. #BLM",
+            "favourites_count": 570839,
+            "follow_request_sent": null,
+            "followers_count": 1549,
+            "following": null,
+            "friends_count": 1593,
+            "geo_enabled": false,
+            "id": 878999767,
+            "id_str": "878999767",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 30,
+            "location": null,
+            "location_analyzed": {
+                "country_name": "Italy",
+                "in_english": "",
+                "lang_detected": "en",
+                "latitude": 44.933143,
+                "longitude": 7.540121
+            },
+            "name": "Don’t Drink The Kool Aid😷 🇺🇸 🏳️‍🌈 💉💉💉💉",
+            "notifications": null,
+            "profile_background_color": "000000",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/878999767/1645728949",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1462553196291891204/mv5UI6Ui_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1462553196291891204/mv5UI6Ui_normal.jpg",
+            "profile_link_color": "981CEB",
+            "profile_sidebar_border_color": "000000",
+            "profile_sidebar_fill_color": "000000",
+            "profile_text_color": "000000",
+            "profile_use_background_image": false,
+            "protected": false,
+            "screen_name": "JLOHagans",
+            "statuses_count": 165062,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Fri Apr 29 02:35:28 +0000 2011",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.0096,
+                    "30-39": 0.1213,
+                    "<=18": 0.0153,
+                    ">=40": 0.8538
+                },
+                "gender": {
+                    "female": 0.0383,
+                    "male": 0.9617
+                },
+                "org": {
+                    "is-org": 0.5953,
+                    "non-org": 0.4047
+                }
+            },
+            "description": "Proud of America. Frightened of Republicans.",
+            "favourites_count": 149502,
+            "follow_request_sent": null,
+            "followers_count": 939,
+            "following": null,
+            "friends_count": 421,
+            "geo_enabled": true,
+            "id": 289702880,
+            "id_str": "289702880",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 175,
+            "location": "Encino, CA",
+            "location_analyzed": {
+                "country_name": "United States of America",
+                "in_english": "Encino, CA",
+                "lang_detected": "en",
+                "latitude": 34.1591324,
+                "longitude": -118.5016166
+            },
+            "name": "Casper Schnookums' mum. 🇺🇸",
+            "notifications": null,
+            "profile_background_color": "C0DEED",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1540486811704651776/3Pv3oh-D_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1540486811704651776/3Pv3oh-D_normal.jpg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "srivlin",
+            "statuses_count": 245347,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Thu May 06 16:39:37 +0000 2021",
+            "default_profile": true,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.2396,
+                    "30-39": 0.2118,
+                    "<=18": 0.5014,
+                    ">=40": 0.0472
+                },
+                "gender": {
+                    "female": 0.7555,
+                    "male": 0.2445
+                },
+                "org": {
+                    "is-org": 0.1648,
+                    "non-org": 0.8352
+                }
+            },
+            "description": null,
+            "favourites_count": 4830,
+            "follow_request_sent": null,
+            "followers_count": 8,
+            "following": null,
+            "friends_count": 97,
+            "geo_enabled": false,
+            "id": 1390345429959721000,
+            "id_str": "1390345429959720965",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 1,
+            "location": null,
+            "location_analyzed": {
+                "country_name": "Italy",
+                "in_english": "",
+                "lang_detected": "en",
+                "latitude": 44.933143,
+                "longitude": 7.540121
+            },
+            "name": "LondonBae_21",
+            "notifications": null,
+            "profile_background_color": "F5F8FA",
+            "profile_background_image_url": "",
+            "profile_background_image_url_https": "",
+            "profile_background_tile": false,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1390345673640456199/nnTgud23_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1390345673640456199/nnTgud23_normal.jpg",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "protected": false,
+            "screen_name": "21Londonbae",
+            "statuses_count": 1151,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        },
+        {
+            "contributors_enabled": false,
+            "created_at": "Thu Jan 29 18:35:41 +0000 2015",
+            "default_profile": false,
+            "default_profile_image": false,
+            "demographics": {
+                "age": {
+                    "19-29": 0.5212,
+                    "30-39": 0.2488,
+                    "<=18": 0.2003,
+                    ">=40": 0.0297
+                },
+                "gender": {
+                    "female": 0.9264,
+                    "male": 0.0736
+                },
+                "org": {
+                    "is-org": 0.004,
+                    "non-org": 0.996
+                }
+            },
+            "description": "Deleted my old account but back on my bs 🤸🏾‍♀️",
+            "favourites_count": 49762,
+            "follow_request_sent": null,
+            "followers_count": 136,
+            "following": null,
+            "friends_count": 194,
+            "geo_enabled": false,
+            "id": 3004221177,
+            "id_str": "3004221177",
+            "is_translator": false,
+            "lang": "en",
+            "listed_count": 1,
+            "location": "In the Chao Garden ",
+            "location_analyzed": {
+                "country_name": "China",
+                "in_english": "In the Chao Garden",
+                "lang_detected": "en",
+                "latitude": 32.0418624,
+                "longitude": 112.13068265063018
+            },
+            "name": "🧥 Patagonia Princess 👸🏾",
+            "notifications": null,
+            "profile_background_color": "000000",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/3004221177/1586327858",
+            "profile_image_url": "http://pbs.twimg.com/profile_images/1540865280536203264/CL1qK3EK_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/1540865280536203264/CL1qK3EK_normal.jpg",
+            "profile_link_color": "F5ABB5",
+            "profile_sidebar_border_color": "000000",
+            "profile_sidebar_fill_color": "000000",
+            "profile_text_color": "000000",
+            "profile_use_background_image": false,
+            "protected": false,
+            "screen_name": "BaddieFatty",
+            "statuses_count": 9416,
+            "time_zone": null,
+            "translator_type": "none",
+            "url": null,
+            "utc_offset": null,
+            "verified": false,
+            "withheld_in_countries": []
+        }
+    ]
+]
