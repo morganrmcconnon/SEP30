@@ -2,7 +2,8 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # Download the required data (run this only once)
-nltk.download(info_or_id='vader_lexicon', download_dir='nltk_data')
+nltk.download(info_or_id='vader_lexicon')
+
 
 # Create a SentimentIntensityAnalyzer object
 analyzer = SentimentIntensityAnalyzer()

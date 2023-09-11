@@ -6,24 +6,22 @@ from datetime import datetime, timedelta
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
 from services.analyze_tweets.spacy_matcher import filter_tweet
-
-#From analyze_pipeline.py
 from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
 from services.analyze_tweets.translate_text import detect_and_translate_language
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, \
-    topic_modelling
+from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling
 from services.analyze_tweets.detect_coordinates import detect_coordinates
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
 from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
 
-GEOJSON_FILE = os.path.join(os.path.dirname(__file__), "data\countries.geojson")
-GEOJSON_KEY_FOR_COUNTRY_NAME = 'ADMIN'
+CURRENT_DIR = os.path.dirname(__file__)
+TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, "services/topic_model/lda_model.model")
+CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 
 
 
 #Merged analyze_multiple_tweet with analyze_multiple_tweets
-def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics=10, period=5):
+def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics=5, period=5):
     data = []
 
     tweets = {
@@ -117,10 +115,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
         lda_topic_model, topics_values = topic_modelling(tweets, num_topics=topic_model_num_topics)
 
     else:
-        lda_topic_model = load_model(
-            os.path.join(os.path.dirname(__file__), "topic_model\lda_model.model")
-        )
-        topics_values = json.load(open(os.path.join(os.path.dirname(__file__), "topic_model\\topics.json"), "r"))
+        lda_topic_model = load_model(TOPIC_MODEL_FILE)
 
     for tweet in new_tweet_objects:
         # Topic modelling for each tweet
@@ -152,7 +147,7 @@ def wrap_tweet_analyzed_result(data, tweets):
     # print(data)
 
     # Open the JSON file in write mode
-    with open(os.path.join(os.path.dirname(__file__), "data\\cache_tweets.json"), "w") as json_file:
+    with open(os.path.join(CACHE_FOLDER, "cache_tweets.json"), "w") as json_file:
         # Convert data to a JSON-formatted string and write it to the file
         json.dump(data, json_file)
 
@@ -177,11 +172,11 @@ def wrap_tweet_analyzed_result(data, tweets):
         , topics
         , tweets]
 
-    with open(os.path.join(os.path.dirname(__file__), "data\\cache_tweet_analyzed_result.json"), "w") as json_file:
+    with open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "w") as json_file:
         # Convert data to a JSON-formatted string and write it to the file
         json.dump(tweet_analyzed_result, json_file)
 
-    with open(os.path.join(os.path.dirname(__file__), "data\\cache_tweet_realtime.json"), "a") as json_file:
+    with open(os.path.join(CACHE_FOLDER, "cache_tweet_realtime.json"), "a") as json_file:
         tweets["analyzed_at"] = time.time()
         # Convert data to a JSON-formatted string and write it to the file
         json.dump(tweets, json_file)
@@ -206,7 +201,7 @@ def wrap_user_analyzed_result(data):
         '>=40': 0
     }
 
-    with open(os.path.join(os.path.dirname(__file__), "data\\cache_users.json"), "w") as json_file:
+    with open(os.path.join(CACHE_FOLDER, "cache_users.json"), "w") as json_file:
         # Convert data to a JSON-formatted string and write it to the file
         json.dump([{ "time": time.time()}, data] , json_file)
 
@@ -234,7 +229,7 @@ def wrap_user_analyzed_result(data):
         , genders
         , ages]
 
-    with open(os.path.join(os.path.dirname(__file__), "data\\cache_user_analyzed_result.json"), "w") as json_file:
+    with open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "w") as json_file:
         # Convert data to a JSON-formatted string and write it to the file
         json.dump(user_analyzed_result, json_file)
 
@@ -276,9 +271,7 @@ def analyze_one_tweet(tweet_object):
         tweet_text_in_english)  # tweet_text_processed
     # print(sentiment_result, sentiment_confidence_probabilities, tweet_text_in_english)
     # Topic modelling
-    lda_topic_model = load_model(
-        os.path.join(os.path.dirname(__file__), "topic_model/lda_model.model")
-    )
+    lda_topic_model = load_model(TOPIC_MODEL_FILE)
 
     topics = apply_lda(tweet_text_in_english, lda_topic_model)  # tweet_text_processed
 
@@ -328,8 +321,7 @@ def analyze_one_user(user_object):
     latitude, longitude = detect_coordinates(location, language=location_lang_detected)
 
     # Detect polygon. This is to display the country name in the map.
-    country_name = detect_geojson_ploygon(latitude, longitude, geojson_file=GEOJSON_FILE,
-                                          country_name_key=GEOJSON_KEY_FOR_COUNTRY_NAME)  # The country name key is "ADMIN" in the geojson file
+    country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
 
     return {
         **user_object,
@@ -377,7 +369,7 @@ def analyze_multiple_user(user_objects):
         latitude, longitude = coordinates[0], coordinates[1]
 
         # Detect polygon. This is to display the country name in the map.
-        country_name = detect_geojson_ploygon(latitude, longitude, geojson_file=GEOJSON_FILE, country_name_key_in_properties=GEOJSON_KEY_FOR_COUNTRY_NAME)  # The country name key is "ADMIN" in the geojson file
+        country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
 
         new_user_objects.append(
             {

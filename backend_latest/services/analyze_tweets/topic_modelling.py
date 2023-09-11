@@ -3,9 +3,9 @@ from gensim.models import LdaModel
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
 import nltk
+from nltk.stem import WordNetLemmatizer
 
 nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer
 
 
 # Preprocessing: tokenization, stopword removal, and lemmatization

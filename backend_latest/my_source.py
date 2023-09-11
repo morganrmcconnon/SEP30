@@ -35,7 +35,7 @@ def save_files_full(file_path, data, users):
 def save_complete_processed_data(file_path, data):
     TRANSLATOR = Translator()
 
-    with open('test_translated.json', 'w') as f:
+    with open('data/test_translated.json', 'w') as f:
         new_data = []
         for new_tweet in data:
             if new_tweet['lang'] != 'en':
