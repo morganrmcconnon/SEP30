@@ -16,6 +16,7 @@ from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygo
 
 CURRENT_DIR = os.path.dirname(__file__)
 TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, "services/topic_model/lda_model.model")
+TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 
 
@@ -60,13 +61,13 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
             #data.append((json.loads(line)))
 
     tweets["total"] = len(data)
-    data = filter_tweet(data)  # output is a list of dict
-    tweets["mentalhealthtweets"] = len(data)
+    tweet_objects = filter_tweet(data)  # filter tweets to only contain mental health tweets
+    tweets["mentalhealthtweets"] = len(tweet_objects)
 
     # Analyze multiple tweet objects (code from analyze_multiple_tweet)
     new_tweet_objects = []
 
-    for tweet_object in data:
+    for tweet_object in tweet_objects:
 
         # Get the full, cleaned text of the tweet object
         tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
@@ -116,6 +117,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
 
     else:
         lda_topic_model = load_model(TOPIC_MODEL_FILE)
+        topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
 
     for tweet in new_tweet_objects:
         # Topic modelling for each tweet
@@ -237,9 +239,76 @@ def wrap_user_analyzed_result(data):
 
 
 
+def analyze_multiple_user(user_objects):
+    '''
+    Analyze multiple user object
+    
+    The keys in the user object follows the Twitter API v1.1 dictionary.
+    '''
+
+    new_user_objects = []
+
+    for user_object in user_objects:
+
+        # Get original location description
+        location = user_object["location"]
+
+        # Detect the language of the location description and translate it to English
+        # Might be uneccessary if the user's lang is already defined
+        location_in_english, location_lang_detected, _, _ = detect_and_translate_language(location)
+
+        # If the language is not detected, set it to the detected location language, or the tweet's language (See [1] in this code file)
+        if user_object['lang'] == None:
+            user_object['lang'] = location_lang_detected
+
+        # Detect coordinates
+        print(user_object)
+        coordinates = detect_coordinates(location, language=location_lang_detected)
+
+        if coordinates == None:
+            continue
+
+        latitude, longitude = coordinates[0], coordinates[1]
+
+        # Detect polygon. This is to display the country name in the map.
+        country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
+
+        new_user_objects.append(
+            {
+                **user_object,
+                "location_analyzed": {
+                    "in_english": location_in_english,
+                    "lang_detected": location_lang_detected,
+                    "latitude": latitude,
+                    "longitude": longitude,
+                    "country_name": country_name
+                }
+            }
+        )
+
+    users_demographics_input = []
+
+    # Preprocess user object for m3inference
+    for user_object in new_user_objects:
+        user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, id_key="id_str", name_key="name",
+                                                                          screen_name_key="screen_name",
+                                                                          description_key="description",
+                                                                          lang_key="lang",
+                                                                          use_translator_if_necessary=True)
+
+        users_demographics_input.append(user_object_preprocessed)
+
+    # Detect demographics using m3inference
+    users_demographics = detect_demographics(users_demographics_input)
+
+    # For each user object, store the demographics detection result
+    for user_object in new_user_objects:
+        user_object["demographics"] = users_demographics[user_object["id_str"]]
+
+    return new_user_objects
 
 
-#Code Merged from analyze_pipeline.py
+
 def analyze_one_tweet(tweet_object):
     '''
     Analyze one tweet object
@@ -337,70 +406,4 @@ def analyze_one_user(user_object):
 
 
 
-def analyze_multiple_user(user_objects):
-    '''
-    Analyze multiple user object
-    
-    The keys in the user object follows the Twitter API v1.1 dictionary.
-    '''
 
-    new_user_objects = []
-
-    for user_object in user_objects:
-
-        # Get original location description
-        location = user_object["location"]
-
-        # Detect the language of the location description and translate it to English
-        # Might be uneccessary if the user's lang is already defined
-        location_in_english, location_lang_detected, _, _ = detect_and_translate_language(location)
-
-        # If the language is not detected, set it to the detected location language, or the tweet's language (See [1] in this code file)
-        if user_object['lang'] == None:
-            user_object['lang'] = location_lang_detected
-
-        # Detect coordinates
-        print(user_object)
-        coordinates = detect_coordinates(location, language=location_lang_detected)
-
-        if coordinates == None:
-            continue
-
-        latitude, longitude = coordinates[0], coordinates[1]
-
-        # Detect polygon. This is to display the country name in the map.
-        country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
-
-        new_user_objects.append(
-            {
-                **user_object,
-                "location_analyzed": {
-                    "in_english": location_in_english,
-                    "lang_detected": location_lang_detected,
-                    "latitude": latitude,
-                    "longitude": longitude,
-                    "country_name": country_name
-                }
-            }
-        )
-
-    users_demographics_input = []
-
-    # Preprocess user object for m3inference
-    for user_object in new_user_objects:
-        user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, id_key="id_str", name_key="name",
-                                                                          screen_name_key="screen_name",
-                                                                          description_key="description",
-                                                                          lang_key="lang",
-                                                                          use_translator_if_necessary=True)
-
-        users_demographics_input.append(user_object_preprocessed)
-
-    # Detect demographics using m3inference
-    users_demographics = detect_demographics(users_demographics_input)
-
-    # For each user object, store the demographics detection result
-    for user_object in new_user_objects:
-        user_object["demographics"] = users_demographics[user_object["id_str"]]
-
-    return new_user_objects
