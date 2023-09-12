@@ -2,6 +2,18 @@
 cd /path/to/frontend
 npm run build
 
+# SSH into the EC2 instance
+ssh -i "path/to/your-key-pair-file.pem" ubuntu@ec2-ip-address.compute-1.amazonaws.com
+
+# Remove the contents of the nginx root
+sudo rm -rf /var/www/html/*
+
+# Remove the dist folder
+sudo rm -rf ~/SEP30/frontend/dist
+
+# Exit the ssh session and go back to your local machine
+exit
+
 # Copy the dist folder from your local machine to /home/ubuntu/SEP30/frontend
 scp -i "path/to/your-key-pair-file.pem" -r "path/to/dist/*" ubuntu@ec2-ip-address.compute-1.amazonaws.com:~/SEP30/frontend/
 
