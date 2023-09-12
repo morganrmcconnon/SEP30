@@ -1,3 +1,7 @@
+# Build the frontend
+cd /path/to/frontend
+npm run build
+
 # Copy the dist folder from your local machine to /home/ubuntu/SEP30/frontend
 scp -i "path/to/your-key-pair-file.pem" -r "path/to/dist/*" ubuntu@ec2-ip-address.compute-1.amazonaws.com
 
