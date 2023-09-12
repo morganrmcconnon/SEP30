@@ -7,6 +7,12 @@ ssh -i "path/to/your-key-pair-file.pem" ubuntu@ec2-ip-address.compute-1.amazonaw
 # Copy the dist folder to the nginx root
 sudo cp -r ~/SEP30/frontend/dist/* /var/www/html/
 
+# Start nginx
+sudo systemctl start nginx
+
+# Or restart nginx
+sudo systemctl restart nginx
+
 # Git pull
 cd ~/SEP30
 git pull
