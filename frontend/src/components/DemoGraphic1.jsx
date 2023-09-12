@@ -12,10 +12,11 @@ import DATATYPES from "../constants/dataTypes";
 import { Col, Row } from "antd";
 import { SearchProvider, useSearch } from "./SearchContext";
 
-const data = DATATYPES.demoGraphic1;
+let data = DATATYPES.demoGraphic1;
 
 export default function DemoGraphic1() {
-  const { search, updateSearch } = useSearch();
+  const { search, updateSearch, demoGraphic1 } = useSearch();
+  data = demoGraphic1;
   return (
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
