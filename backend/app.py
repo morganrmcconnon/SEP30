@@ -78,12 +78,14 @@ def get_data_test():
     print(data)
     return jsonify(data)
 
+CURRENT_DIR = os.path.dirname(__file__)
+CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 
 @app.route("/api/analyze_multiple_tweet")
 def get_data_test_2():
     # Return content from server
 
-    data = json.load(open(os.path.join(os.path.dirname(__file__), "data\\cache_tweet_analyzed_result.json"), "r"))
+    data = json.load(open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "r"))
 
     get_writing_time = data[0]["time"]
 
@@ -111,7 +113,7 @@ def get_data_test_2():
         sentiment_analysis_result = data[1]
         topics = data[2]
         tweets = data[3]
-        data = json.load(open(os.path.join(os.path.dirname(__file__), "data\\cache_user_analyzed_result.json"), "r"))
+        data = json.load(open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "r"))
         country_names, genders, ages = data[1], data[2], data[3]
 
     return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages)
