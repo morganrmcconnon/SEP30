@@ -141,3 +141,24 @@ def get_data_test_3():
     user_data = analyze_multiple_user(user_data)
 
     return jsonify(data, tweets, user_data)
+
+
+@app.route("/api/analyze_multiple_tweet_cached")
+def get_data_test_cached():
+    # Return cached analyzed result
+
+    data = json.load(open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "r"))
+
+    sentiment_analysis_result, tweets, topics = {}, {}, {}
+
+    sentiment_analysis_result = data[1]
+
+    topics = data[2]
+
+    tweets = data[3]
+
+    data = json.load(open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "r"))
+
+    country_names, genders, ages = data[1], data[2], data[3]
+
+    return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages)
