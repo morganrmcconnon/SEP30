@@ -8,6 +8,11 @@ from source import analyze_multiple_user
 from my_source import mySource
 from source import wrap_tweet_analyzed_result, wrap_user_analyzed_result, analyze_multiple_tweets
 
+CURRENT_DIR = os.path.dirname(__file__)
+CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
+# A static folder for storing static files
+CACHE_STATIC_FOLDER = os.path.join(CURRENT_DIR, "cache_static") 
+
 
 app = Flask(__name__, static_folder=f"../frontend/dist", static_url_path="/")
 
@@ -78,8 +83,7 @@ def get_data_test():
     print(data)
     return jsonify(data)
 
-CURRENT_DIR = os.path.dirname(__file__)
-CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
+
 
 @app.route("/api/analyze_multiple_tweet")
 def get_data_test_2():
@@ -147,7 +151,7 @@ def get_data_test_3():
 def get_data_test_cached():
     # Return cached analyzed result
 
-    data = json.load(open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "r"))
+    data = json.load(open(os.path.join(CACHE_STATIC_FOLDER, "cache_tweet_analyzed_result.json"), "r"))
 
     sentiment_analysis_result, tweets, topics = {}, {}, {}
 
@@ -157,7 +161,7 @@ def get_data_test_cached():
 
     tweets = data[3]
 
-    data = json.load(open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "r"))
+    data = json.load(open(os.path.join(CACHE_STATIC_FOLDER, "cache_user_analyzed_result.json"), "r"))
 
     country_names, genders, ages = data[1], data[2], data[3]
 
