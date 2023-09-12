@@ -22,6 +22,7 @@ import DemoGraphic1 from "./DemoGraphic1";
 import DemoGraphic2 from "./DemoGraphic2";
 import DemoGraphic3 from "./DemoGraphic3";
 import { SearchProvider, useSearch } from "./SearchContext";
+import TestEndpoint from "./TestEndpoint";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -59,7 +60,7 @@ const DashboardVis = () => {
     { i: "Counter", vis: <CounterCard />, x: 6, y: 8, w: 3, h: 2 },
     { i: "Card", vis: <ResultCard />, x: 9, y: 8, w: 3, h: 2 },
     { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 0, y: 10, w: 5, h: 3 },
-    { i: "BarChart", vis: <BarChart />, x: 5, y: 10, w: 4, h: 2 },
+    { i: "TestEndpoint", vis: <TestEndpoint />, x: 5, y: 10, w: 4, h: 2 },
   ];
   return (
     <div>

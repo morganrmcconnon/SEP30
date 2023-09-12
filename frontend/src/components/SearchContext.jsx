@@ -12,6 +12,21 @@ export const SearchProvider = ({ children }) => {
     age: false,
   });
 
+  const [realData, setRealData] = useState({});
+
+  const updateRealData = (data) => {
+    console.log("in SearchContext.jsx, before updateRealData:");
+    console.log("realData value:");
+    console.log(realData);
+    console.log("data received:");
+    console.log(data);
+    setRealData(data);
+    console.log("after setRealData:");
+    console.log("realData value:");
+    console.log(realData);
+  };
+  
+
   const updateSearch = ({
     sentiment,
     topic,
@@ -31,7 +46,7 @@ export const SearchProvider = ({ children }) => {
   };
 
   return (
-    <SearchContext.Provider value={{ search, updateSearch }}>
+    <SearchContext.Provider value={{ search, updateSearch, realData, updateRealData }}>
       {children}
     </SearchContext.Provider>
   );
