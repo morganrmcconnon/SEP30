@@ -15,8 +15,7 @@ import { SearchProvider, useSearch } from "./SearchContext";
 let data = DATATYPES.demoGraphic1;
 
 export default function DemoGraphic1() {
-  const { search, updateSearch, demoGraphic1 } = useSearch();
-  data = demoGraphic1;
+  const { search, updateSearch } = useSearch();
   return (
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
