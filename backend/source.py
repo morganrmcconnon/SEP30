@@ -32,8 +32,6 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
         starting_time -= timedelta(minutes=1)
         print(starting_time.strftime("%Y-%m-%d %H:%M:%S"))
         url = get_download_url(starting_time.year, starting_time.month, starting_time.day, starting_time.hour, starting_time.minute)
-        all_downloaded_tweets_list.extend(download_tweets(url))
-        print(url)
         # Download tweets
         downloaded_tweets = download_tweets(url)
         all_downloaded_tweets_list.extend(downloaded_tweets)
@@ -45,7 +43,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
     # Preprocess tweet text
     # ----------------------------------
 
-    for tweet_object in related_tweet_objects_list:
+    for tweet_object in all_downloaded_tweets_list:
 
         # Get the full, cleaned text of the tweet object
         # The 'text' key in the tweet object is not always the full text of the tweet, so we need to get the full text from the 'extended_tweet' key
