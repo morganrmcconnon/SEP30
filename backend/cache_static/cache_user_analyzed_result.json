@@ -1,1 +1,1 @@
-[{"time": 1693905808.3061786}, {"Italy": 7, "United States of America": 6, "Canada": 1, "United Kingdom": 1, "Chad": 1, "Ghana": 1, "Yemen": 1, "France": 1}, {"female": 12, "male": 7}, {"19-29": 7, "30-39": 6, "<=18": 3, ">=40": 3}]
+{"time": 1694717300.0788915, "countries_count,": {"GBR": 1, "USA": 2, "": 13, "NZL": 1, "CAN": 1, "CHN": 1, "VNM": 2}, "genders_count,": {"female": 13, "male": 8}, "age_groups_count": {"19-29": 3, "30-39": 3, "<=18": 12, ">=40": 3}}

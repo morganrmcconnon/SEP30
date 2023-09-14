@@ -2,11 +2,11 @@ from flask import Flask, request, jsonify
 import time
 import os
 import json
+
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-from source import analyze_multiple_user
 from my_source import mySource
-from source import analyze_multiple_tweets
+from source import download_tweets_during_time_period, analyze_multiple_tweets, analyze_multiple_users, aggregate_tweet_objects_analysis_result, aggregate_user_objects_analysis_result
 
 CURRENT_DIR = os.path.dirname(__file__)
 CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
@@ -28,13 +28,14 @@ def hello_world():
     return "<p>Hello, there!</p>"
 
 
-@app.route("/api/example_endpoint_test", methods=["GET"])
+@app.route("/api/example_endpoint_get", methods=["GET"])
 def endpoint_test_example_get_data():
     # Return content from server
     return {"greeting": "Hello!!!!!!"}
 
 
 @app.route("/api/time")
+@app.route("/backend/time")
 def get_current_time():
     return {"time": time.time()}
 
@@ -87,206 +88,144 @@ def get_data_test():
 
 
 @app.route("/api/analyze_multiple_tweet_full", methods=["GET"])
+@app.route("/backend/get_analyzed_data_full", methods=["GET"])
 def get_analyzed_data_full():
-    # Analyze multiple tweets and return the unformatted result
 
-    tweet_objects_list, tweets_info, topics_values = analyze_multiple_tweets()
+    start_analysis_at = time.time()
+
+    all_downloaded_tweets_list = download_tweets_during_time_period()
+
+    analyzed_tweet_objects_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list)
+
+    tweets_amount_info = {
+        "total_tweets_count": len(all_downloaded_tweets_list),
+        "mental_health_related_tweets_count": len(analyzed_tweet_objects_list)
+    }
+
+    complete_tweet_objects_analysis_at = time.time()
 
     # store_tweets_in_db(tweet_objects_list)
 
-    user_objects_list = [tweet_object["user"] for tweet_object in tweet_objects_list]
-
-    user_objects_list = analyze_multiple_user(user_objects_list)
-
-    return jsonify(
-        {
-            "tweets_info": tweets_info,
-            "tweets": tweet_objects_list,
-            "users": user_objects_list,
-            "topics": topics_values,
-        }
-    )
-
-
-def wrap_tweet_analyzed_result(tweet_objects_list, tweets_amount_info):
-    sentiment_analysis_result = {"negative": 0, "positive": 0, "neutral": 0}
-
-    topics = {}
-    for i in range(10):
-        topics[i] = 0
-
-    # Data to write to the JSON file
-
-    # print(data)
-
-    # Cached the analyzed result into a JSON file
+    # Cache the analyzed tweet objects into a JSON file
     with open(os.path.join(CACHE_FOLDER, "cache_tweets.json"), "w") as json_file:
-        json.dump([{"time": time.time()}, tweet_objects_list], json_file)
+        json.dump({
+            "time": complete_tweet_objects_analysis_at, 
+            "tweet_objects": analyzed_tweet_objects_list
+        }, json_file)
 
-    for tweet_object in tweet_objects_list:
-        # print(tweet_object)
-        text_analyzed_result = tweet_object["text_analyzed"]
+    # Analyze the users of the tweets
 
-        # ---------topic processing----------#
-        topic = text_analyzed_result["topics"]
-        highest_score_topic = max(topic, key=lambda x: x[1])
-        if(highest_score_topic[0] not in topics):
-            topics[highest_score_topic[0]] = 1
-        else:
-            topics[highest_score_topic[0]] += 1
-        # ---------topic processing----------#
+    user_objects_list = [tweet_object["user"] for tweet_object in analyzed_tweet_objects_list]
 
-        # ---------sentiment processing----------#
-        sentiment_result = text_analyzed_result["sentiment"]["result"]
-        if sentiment_result not in sentiment_analysis_result:
-            sentiment_analysis_result[sentiment_result] = 1
-        else:
-            sentiment_analysis_result[sentiment_result] += 1
-        # ---------sentiment processing----------#
+    analyzed_user_objects_list = analyze_multiple_users(user_objects_list)
+
+    complete_user_objects_analysis_at = time.time()
+
+    with open(os.path.join(CACHE_FOLDER, "cache_users.json"), "w") as json_file:
+        json.dump({
+            "time": complete_user_objects_analysis_at, 
+            "user_objects": analyzed_user_objects_list
+        }, json_file)
+
+    topics_count, sentiment_count, keywords_count, keywords_pairs = aggregate_tweet_objects_analysis_result(analyzed_tweet_objects_list)
+
+    complete_aggregating_tweet_objects_analysis_at = time.time()
 
     # Cached the tweet_analyzed_result into a JSON file
-
-    tweet_analyzed_result = {
-        "time": time.time(),
-        "sentiment_analysis_result" : sentiment_analysis_result,
-        "topics" : topics,
-        "tweets_amount_info" : tweets_amount_info,
-    }
-
     with open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "w") as json_file:
-        json.dump(tweet_analyzed_result, json_file)
+        json.dump({
+            "time": complete_aggregating_tweet_objects_analysis_at,
+            "tweets_amount_info" : tweets_amount_info,
+            "sentiment_count" : sentiment_count,
+            "keywords_pairs": keywords_pairs,
+            "keywords_count" : keywords_count,
+            "topics_count" : topics_count,
+        }, json_file)
 
     # Cached the tweets_amount_info into a JSON file
     with open(os.path.join(CACHE_FOLDER, "cache_tweet_realtime.json"), "a") as json_file:
         tweets_amount_info["analyzed_at"] = time.time()
-        json.dump(tweets_amount_info, json_file)
-        json.dump("\n", json_file)
+        json_file.write('\n' + json.dumps(tweets_amount_info))
 
-    return topics, sentiment_analysis_result
+    countries_count, genders_count, age_groups_count = aggregate_user_objects_analysis_result(analyzed_user_objects_list)
 
-
-def wrap_user_analyzed_result(data):
-    country_names = {}
-
-    genders = {"female": 0, "male": 0}
-
-    ages = {"19-29": 0, "30-39": 0, "<=18": 0, ">=40": 0}
-
-    with open(os.path.join(CACHE_FOLDER, "cache_users.json"), "w") as json_file:
-        # Convert data to a JSON-formatted string and write it to the file
-        json.dump([{"time": time.time()}, data], json_file)
-
-    for user_object in data:
-        # print(user_object)
-
-        # ---------location processing----------#
-        country_name = user_object["location_analyzed"]["country_name"]
-        country_names[country_name] = country_names.get(country_name, 0) + 1
-        # ---------location processing----------#
-
-        # ---------gender processing----------#
-        gender_scores = user_object["demographics"]["gender"]
-        gender = max(gender_scores, key=gender_scores.get)
-        genders[gender] += 1
-
-        # ---------age processing----------#
-        age_scores = user_object["demographics"]["age"]
-        age = max(age_scores, key=age_scores.get)
-        ages[age] += 1
-
-    user_analyzed_result = {
-        "time": time.time(),
-        "country_names": country_names, 
-        "genders": genders, 
-        "ages": ages,
-    } 
+    complete_aggregating_user_objects_analysis_result_at = time.time()
 
     with open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "w") as json_file:
         # Convert data to a JSON-formatted string and write it to the file
-        json.dump(user_analyzed_result, json_file)
+        json.dump({
+            "time": complete_aggregating_user_objects_analysis_result_at,
+            "countries_count,": countries_count, 
+            "genders_count,": genders_count, 
+            "age_groups_count": age_groups_count,
+        } , json_file)
 
-    return country_names, genders, ages
-
-
-@app.route("/api/analyze_multiple_tweet")
-def get_data_test_2():
-    # Return content from server
-
-    cached_tweets_data = json.load(open(os.path.join(CACHE_FOLDER, "cache_tweet_analyzed_result.json"), "r"))
-
-    get_writing_time = cached_tweets_data[0]["time"]
-
-    print(get_writing_time)
-
-    sentiment_analysis_result = {}
-    
-    tweets_amount_info = {}
-
-    if time.time() - get_writing_time > 6000:
-        
-        tweet_objects_list, tweets_amount_info, topics_values = analyze_multiple_tweets()
-
-        # store_tweets_in_db(data)
-
-        user_objects_list = [tweet_object["user"] for tweet_object in tweet_objects_list]
-
-        user_objects_list = analyze_multiple_user(user_objects_list)
-
-        topics, sentiment_analysis_result = wrap_tweet_analyzed_result(tweet_objects_list, tweets_amount_info)
-
-        country_names, genders, ages = wrap_user_analyzed_result(user_objects_list)
-    else:
-        sentiment_analysis_result = cached_tweets_data["sentiment_analysis_result"]
-        topics = cached_tweets_data["topics"]
-        tweets_amount_info = cached_tweets_data["tweets_amount_info"]
-
-        cached_users_data = json.load(open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "r"))
-        country_names = cached_users_data['country_names']
-        genders = cached_users_data['genders']
-        ages  = cached_users_data['ages']
-        topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
-
-    return jsonify({
-        "topics": topics,
-        "sentiment_analysis_result": sentiment_analysis_result,
+    full_analysis_result = {
+        "analysis_timestamps": {
+            "start_analysis_at": start_analysis_at,
+            "complete_tweet_objects_analysis_at": complete_tweet_objects_analysis_at,
+            "complete_user_objects_analysis_at": complete_user_objects_analysis_at,
+            "complete_aggregating_tweet_objects_analysis_at": complete_aggregating_tweet_objects_analysis_at,
+            "complete_aggregating_user_objects_analysis_result_at": complete_aggregating_user_objects_analysis_result_at,
+            "end_analysis_at": time.time(),
+        },
         "tweets_amount_info": tweets_amount_info,
-        "country_names": country_names,
-        "genders": genders,
-        "ages": ages,
+        "aggregated_result": {
+            "sentiment_count": sentiment_count,
+            "topics_count": topics_count,
+            "countries_count": countries_count,
+            "genders_count": genders_count,
+            "age_groups_count": age_groups_count,
+            "keywords_count": keywords_count,
+            "keywords_pairs": keywords_pairs,
+        },
         "topics_values": topics_values,
-    })
+        "tweet_objects": analyzed_tweet_objects_list,
+        "user_objects": analyzed_user_objects_list,
+    }
+
+    # Cache the analyzed result into a JSON file
+    with open(os.path.join(CACHE_FOLDER, "cache_analysis_result.json"), "w") as json_file:
+        json.dump(full_analysis_result, json_file)
+    
+    return full_analysis_result
 
 
 @app.route("/api/analyze_multiple_tweet_cached")
-def get_data_test_cached():
+@app.route("/backend/get_analyzed_data_cached", methods=["GET"])
+def get_analyzed_data_cached():
     # Return cached analyzed result
 
-    data = json.load(
-        open(os.path.join(CACHE_STATIC_FOLDER, "cache_tweet_analyzed_result.json"), "r")
-    )
+    cached_analysis_result = json.load(open(os.path.join(CACHE_FOLDER, "cache_analysis_result.json"), "r"))
 
-    sentiment_analysis_result, tweets, topics = {}, {}, {}
+    return cached_analysis_result
 
-    sentiment_analysis_result = data[1]
+@app.route("/api/analyze_multiple_tweet_cached_static")
+@app.route("/backend/get_analyzed_data_cached_static", methods=["GET"])
+@app.route("/backend/get_cached_static", methods=["GET"])
+def get_analyzed_data_cached_static():
+    # Return cached analyzed result from static folder
 
-    topics = data[2]
+    cached_analysis_result = json.load(open(os.path.join(CACHE_STATIC_FOLDER, "cache_analysis_result.json"), "r"))
 
-    tweets = data[3]
+    return cached_analysis_result
 
-    data = json.load(
-        open(os.path.join(CACHE_STATIC_FOLDER, "cache_user_analyzed_result.json"), "r")
-    )
 
-    country_names, genders, ages = data[1], data[2], data[3]
 
-    topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
+@app.route("/api/analyze_multiple_tweet")
+@app.route("/backend/get_analyzed_data", methods=["GET"])
+def get_analyze_multiple_tweet_data():
+    # Return content from server
 
-    return jsonify(
-        topics,
-        sentiment_analysis_result,
-        tweets,
-        country_names,
-        genders,
-        ages,
-        topics_values,
-    )
+    cached_analysis_result = json.load(open(os.path.join(CACHE_STATIC_FOLDER, "cache_analysis_result.json"), "r"))
+
+    end_analysis_at = cached_analysis_result['analysis_timestamps']['end_analysis_at']
+
+    print(end_analysis_at)
+
+    # If the cached data is older than 10 minutes ago, re-analyze the tweets
+    if time.time() - end_analysis_at > 6000:
+        return get_analyzed_data_full()
+        
+    else:
+        return get_analyzed_data_cached()

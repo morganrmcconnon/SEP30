@@ -18,7 +18,7 @@ TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, "services/topic_model/lda_model.mod
 TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 
 
-def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
+def download_tweets_during_time_period(time_period=5):
 
     # Download tweets from the Internet Archive Twitter Stream collection in the span of [period] minutes
 
@@ -44,20 +44,18 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
 
     print(len(all_downloaded_tweets_list))
 
+    return all_downloaded_tweets_list
+
+
+def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
     # ----------------------------------
     # Filter tweets
     # ----------------------------------
 
     # Filter all downloaded tweets to only contain mental health tweets 
     matcher_obj, nlp_obj = create_matcher_model()
-    related_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
+    related_tweet_objects_list = [tweet_object for tweet_object in tweet_objects if text_is_related_to_mental_health(clean_tweet_text(get_tweet_text(tweet_object)), matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
     
-    tweets_amount_info = {
-        "total": len(all_downloaded_tweets_list),
-        "mentalhealthtweets": len(related_tweet_objects_list)
-    }
-    print(tweets_amount_info) # DEBUG
-
 
     # ----------------------------------
     # Preprocess tweet text
@@ -117,9 +115,6 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
 
         new_tweet_objects_list.append(new_tweet_object)
 
-    
-
-    new_tweet_objects_list = related_tweet_objects_list
 
     # ----------------------------------
     # Sentiment analysis of each tweet
@@ -149,7 +144,11 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
         topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
 
     # Get the keywords of the topic model
-    keywords_of_topic_model = [[keyword for keyword, _ in topic] for topic in topics_values]
+    keywords_of_topic_model = []
+    for topic in topics_values:
+        for keyword, _ in topic:
+            if keyword not in keywords_of_topic_model:
+                keywords_of_topic_model.append(keyword)
 
     # Topic modelling for each tweet
     for tweet_object in new_tweet_objects_list:
@@ -166,61 +165,84 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
         tweet_object["text_analyzed"]['associated_keywords'] = associated_keywords
 
-    return new_tweet_objects_list, tweets_amount_info, topics_values
+    return new_tweet_objects_list, topics_values
 
 
-
-
-def analyze_multiple_user(user_objects_list):
+def analyze_multiple_users(user_objects_list):
     '''
     Analyze multiple user object
     
     The keys in the user object follows the Twitter API v1.1 dictionary.
     '''
 
-    new_user_object_list = []
+    new_user_objects_list = []
 
     for user_object in user_objects_list:
 
         # Get original location description
-        location = user_object["location"]
+        location_description = user_object["location"]
+
+        if(location_description == None or location_description == ""):
+
+            
+            new_user_object = {
+                **user_object,
+                "location_analyzed": {
+                    "in_english": "",
+                    "lang_detected": "",
+                    "latitude": None,
+                    "longitude": None,
+                    "country_name": "",
+                    "country_code": ""
+                }
+            }
+
+            new_user_objects_list.append(new_user_object)
+
+            continue
 
         # Detect the language of the location description and translate it to English
         # Might be uneccessary if the user's lang is already defined
-        location_in_english, location_lang_detected, _, _ = detect_and_translate_language(location)
+        location_in_english, location_lang_detected, _, _ = detect_and_translate_language(location_description)
 
         # If the language is not detected, set it to the detected location language, or the tweet's language (See [1] in this code file)
         if user_object['lang'] == None:
             user_object['lang'] = location_lang_detected
 
         # Detect coordinates
-        print(user_object)
-        coordinates = detect_coordinates(location, language=location_lang_detected)
+        coordinates = detect_coordinates(location_description, language=location_lang_detected)
 
         if coordinates == None:
-            latitude, longitude = None, None
+            latitude = None
+            longitude = None
+            country_name = ""
+            country_code = ""
+
         else:
-            latitude, longitude = coordinates[0], coordinates[1]
+            latitude = coordinates[0]
+            longitude = coordinates[1]
 
-        # Detect polygon. This is to display the country name in the map.
-        country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
+            # Detect polygon. This is to display the country name in the map.
+            country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
+            country_code = detect_geojson_ploygon(latitude, longitude, country_name_key_in_properties="ISO_A3")  # The country code key is "ISO_A3" in the geojson file
 
-        new_user_object_list.append(
-            {
-                **user_object,
-                "location_analyzed": {
-                    "in_english": location_in_english,
-                    "lang_detected": location_lang_detected,
-                    "latitude": latitude,
-                    "longitude": longitude,
-                    "country_name": country_name
-                }
+        new_user_object = {
+            **user_object,
+            "location_analyzed": {
+                "in_english": location_in_english,
+                "lang_detected": location_lang_detected,
+                "latitude": latitude,
+                "longitude": longitude,
+                "country_name": country_name,
+                "country_code": country_code
             }
-        )
+        }
+
+        new_user_objects_list.append(new_user_object)
 
     # Preprocess user object for m3inference
     users_demographics_input_list = []
-    for user_object in new_user_object_list:
+    for user_object in new_user_objects_list:
         user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
                                                                           id_key="id_str", 
                                                                           name_key="name",
@@ -235,108 +257,80 @@ def analyze_multiple_user(user_objects_list):
     users_demographics = detect_demographics(users_demographics_input_list)
 
     # For each user object, store the demographics detection result
-    for user_object in new_user_object_list:
+    for user_object in new_user_objects_list:
         user_object["demographics"] = users_demographics[user_object["id_str"]]
 
-    return new_user_object_list
+    return new_user_objects_list
 
 
-
-def analyze_one_tweet(tweet_object):
-    '''
-    Analyze one tweet object
+def aggregate_tweet_objects_analysis_result(tweet_objects_list):
     
-    The keys in the tweet object follows the Twitter API v1.1 dictionary.
-    '''
+    sentiment_count = {"negative": 0, "positive": 0, "neutral": 0}
 
-    # Get the full, cleaned text of the tweet object
-    tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
+    topics_count = {i : 0 for i in range(NUM_TOPICS)}
 
-    tweet_lang = tweet_object["lang"]
+    keywords_count = {}
 
-    if tweet_lang == "en":
-        tweet_text_in_english = tweet_text
-        tweet_lang_detected = "en"
-    else:
-        # Detect the language of the tweet and translate it to English
-        tweet_text_in_english, tweet_lang_detected, _, _ = detect_and_translate_language(tweet_text)
+    keywords_pairs = {}
 
-    # If the user's language is not detected, set it to the detected tweet language [1]
-    if tweet_object['user']['lang'] == None:
-        tweet_object['user']['lang'] = tweet_lang_detected
+    for tweet_object in tweet_objects_list:
+        # print(tweet_object)
+        text_analyzed_result = tweet_object["text_analyzed"]
 
-    # Text tokenized, lemmatized, and stemmed
-    tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(tweet_text_in_english)
+        # ---------topic processing----------#
+        topic = text_analyzed_result["topics"]
+        highest_score_topic = max(topic, key=lambda x: x[1])
+        topics_count[highest_score_topic[0]] = topics_count.get(highest_score_topic[0], 0) + 1
+        # ---------topic processing----------#
 
-    # Sentiment analysis
-    sentiment_result, sentiment_confidence_probabilities = classify_sentiment(
-        tweet_text_in_english)  # tweet_text_processed
-    # print(sentiment_result, sentiment_confidence_probabilities, tweet_text_in_english)
-    # Topic modelling
-    lda_topic_model = load_model(TOPIC_MODEL_FILE)
-
-    topics = apply_lda(tweet_text_in_english, lda_topic_model)  # tweet_text_processed
-
-    return {
-        **tweet_object,
-        "text_analyzed": {
-            "original": tweet_text,
-            "in_english": tweet_text_in_english,
-            "lang_detected": tweet_lang_detected,
-            "processed": tweet_text_processed,
-            "sentiment": {
-                "result": sentiment_result,
-                "confidence_probabilities": sentiment_confidence_probabilities
-            },
-            "topics": topics
-        },
-
-    }
+        # ---------sentiment processing----------#
+        sentiment_result = text_analyzed_result["sentiment"]["result"]
+        sentiment_count[sentiment_result] = sentiment_count.get(sentiment_result, 0) + 1
+        # ---------sentiment processing----------#
 
 
-def analyze_one_user(user_object):
-    '''
-    Analyze one user object
-    
-    The keys in the user object follows the Twitter API v1.1 dictionary.
-    '''
-    # Preprocess user object for m3inference
-    user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, id_key="id_str", name_key="name",
-                                                                      screen_name_key="screen_name",
-                                                                      description_key="description", lang_key="lang")
+        keywords = text_analyzed_result["associated_keywords"]
 
-    # Detect demographics
-    demographics = detect_demographics([user_object_preprocessed])
+        # ---------keyword count----------#
+        for keyword in keywords:
+            keywords_count[keyword] = keywords_count.get(keyword, 0) + 1
 
-    # Get original location description
-    location = user_object["location"]
+        # ---------keyword pairs----------#
+        # For each pair of keywords, add the pair to the dictionary and increment the count
+        for i in range(len(keywords)):
+            for j in range(i+1, len(keywords)):
+                keywords_pair = (keywords[i], keywords[j]) if keywords[i] < keywords[j] else (keywords[j], keywords[i])
+                keywords_pairs[keywords_pair] = keywords_pairs.get(keywords_pair, 0) + 1
 
-    # Detect the language of the location description and translate it to English
-    # Might be uneccessary if the user's lang is already defined
-    location_in_english, location_lang_detected, _, _ = detect_and_translate_language(location)
+    keywords_pairs = [{"keywords": list(keywords_pair), "count": count} for keywords_pair, count in keywords_pairs.items()]
 
-    # If the language is not detected, set it to the detected location language, or the tweet's language (See [1] in this code file)
-    if user_object['lang'] == None:
-        user_object['lang'] = location_lang_detected
-
-    # Detect coordinates
-    latitude, longitude = detect_coordinates(location, language=location_lang_detected)
-
-    # Detect polygon. This is to display the country name in the map.
-    country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
-
-    return {
-        **user_object,
-        "demographics": demographics,
-        "location_analyzed": {
-            "in_english": location_in_english,
-            "lang_detected": location_lang_detected,
-            "latitude": latitude,
-            "longitude": longitude,
-            "country_name": country_name
-        }
-    }
+    return topics_count, sentiment_count, keywords_count, keywords_pairs
 
 
+def aggregate_user_objects_analysis_result(data):
+    countries_count = {}
 
+    genders_count = {"female": 0, "male": 0}
+
+    age_groups_count = {"19-29": 0, "30-39": 0, "<=18": 0, ">=40": 0}
+
+    for user_object in data:
+        # print(user_object)
+
+        # ---------location processing----------#
+        country_code = user_object["location_analyzed"]["country_code"]
+        countries_count[country_code] = countries_count.get(country_code, 0) + 1
+        # ---------location processing----------#
+
+        # ---------gender processing----------#
+        gender_scores = user_object["demographics"]["gender"]
+        gender = max(gender_scores, key=gender_scores.get)
+        genders_count[gender] += 1
+
+        # ---------age processing----------#
+        age_scores = user_object["demographics"]["age"]
+        age = max(age_scores, key=age_scores.get)
+        age_groups_count[age] += 1
+
+    return countries_count, genders_count, age_groups_count
 
