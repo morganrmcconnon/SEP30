@@ -33,25 +33,48 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
         print(starting_time.strftime("%Y-%m-%d %H:%M:%S"))
         url = get_download_url(starting_time.year, starting_time.month, starting_time.day, starting_time.hour, starting_time.minute)
         # Download tweets
+        print(starting_time)
+        print(url)
         downloaded_tweets = download_tweets(url)
+        print(starting_time)
+        print(url)
         all_downloaded_tweets_list.extend(downloaded_tweets)
 
     # Analyze multiple tweet objects
-    new_tweet_objects_list = []
+
+    print(len(all_downloaded_tweets_list))
+
+    # ----------------------------------
+    # Filter tweets
+    # ----------------------------------
+
+    # Filter all downloaded tweets to only contain mental health tweets 
+    matcher_obj, nlp_obj = create_matcher_model()
+    related_tweet_objects_list = [tweet_object for tweet_object in new_tweet_objects_list if text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
+    
+    tweets_amount_info = {
+        "total": len(all_downloaded_tweets_list),
+        "mentalhealthtweets": len(related_tweet_objects_list)
+    }
+    print(tweets_amount_info) # DEBUG
+
 
     # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
 
-    for tweet_object in all_downloaded_tweets_list:
+    new_tweet_objects_list = []
+    for tweet_object in related_tweet_objects_list:
 
         # Get the full, cleaned text of the tweet object
         # The 'text' key in the tweet object is not always the full text of the tweet, so we need to get the full text from the 'extended_tweet' key
         # We also need to clean the text to remove the URLs and handles and other noise
         tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
+        print(tweet_text)
 
         # Get the language of the tweet as detected by Twitter
         tweet_lang = tweet_object["lang"]
+        print(tweet_lang)
 
         # If the tweet is in English, skip the language detection and translation
         # Else, detect the language of the tweet and translate it to English
@@ -70,6 +93,8 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
             if type(tweet_lang_detected) == list:
                 print(tweet_lang_detected)
                 tweet_lang_detected = tweet_lang_detected[0]
+        print(tweet_text_in_english)
+        print(tweet_lang_detected)
 
         # If the user's language is not detected, set it to the detected tweet language [1]
         if tweet_object['user']['lang'] == None:
@@ -77,6 +102,8 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
 
         # Text tokenized, lemmatized, and stemmed. You can change the tweet_text_in_english to just tweet_text if you want to keep the original language.
         tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(tweet_text_in_english)
+
+        print(tweet_text_processed)
 
         new_tweet_object = {
             **tweet_object,
@@ -90,19 +117,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
 
         new_tweet_objects_list.append(new_tweet_object)
 
-    # ----------------------------------
-    # Filter tweets
-    # ----------------------------------
-
-    # Filter all downloaded tweets to only contain mental health tweets 
-    matcher_obj, nlp_obj = create_matcher_model()
-    related_tweet_objects_list = [tweet_object for tweet_object in new_tweet_objects_list if text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
     
-    tweets_amount_info = {
-        "total": len(all_downloaded_tweets_list),
-        "mentalhealthtweets": len(related_tweet_objects_list)
-    }
-    print(tweets_amount_info) # DEBUG
 
     new_tweet_objects_list = related_tweet_objects_list
 
