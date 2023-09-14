@@ -167,4 +167,6 @@ def get_data_test_cached():
 
     country_names, genders, ages = data[1], data[2], data[3]
 
-    return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages)
+    topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
+
+    return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages, topics_values)
