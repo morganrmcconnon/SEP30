@@ -50,7 +50,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, time_period=5):
 
     # Filter all downloaded tweets to only contain mental health tweets 
     matcher_obj, nlp_obj = create_matcher_model()
-    related_tweet_objects_list = [tweet_object for tweet_object in new_tweet_objects_list if text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
+    related_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
     
     tweets_amount_info = {
         "total": len(all_downloaded_tweets_list),
