@@ -12,6 +12,7 @@ CURRENT_DIR = os.path.dirname(__file__)
 CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 # A static folder for storing static files
 CACHE_STATIC_FOLDER = os.path.join(CURRENT_DIR, "cache_static") 
+TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 
 
 app = Flask(__name__, static_folder=f"../frontend/dist", static_url_path="/")
@@ -99,7 +100,7 @@ def get_data_test_2():
         topics[i] = 0
 
     if (time.time() - get_writing_time > 6000):
-        data, tweets = analyze_multiple_tweets()
+        data, tweets, topics_values = analyze_multiple_tweets()
 
         #store_tweets_in_db(data)
 
@@ -119,21 +120,22 @@ def get_data_test_2():
         tweets = data[3]
         data = json.load(open(os.path.join(CACHE_FOLDER, "cache_user_analyzed_result.json"), "r"))
         country_names, genders, ages = data[1], data[2], data[3]
+        topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
 
-    return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages)
+    return jsonify(topics, sentiment_analysis_result, tweets,  country_names, genders, ages, topics_values)
 
 
 
 @app.route("/api/analyze_multiple_tweet_full", methods=["GET"])
 def get_data_test_3():
-    # Return content from server 
+    # Analyze multiple tweets and return the unformatted result 
 
-    tweets, topics = {}, {}
+    tweets_info = {}
 
-    for i in range(5):
-        topics[i] = 0
+    # for i in range(5):
+    #     topics[i] = 0
 
-    data, tweets = analyze_multiple_tweets()
+    data, tweets_info, topics_values = analyze_multiple_tweets()
 
     #store_tweets_in_db(data)
 
@@ -144,7 +146,7 @@ def get_data_test_3():
 
     user_data = analyze_multiple_user(user_data)
 
-    return jsonify(data, tweets, user_data)
+    return jsonify(tweets_info, data, user_data, topics_values)
 
 
 @app.route("/api/analyze_multiple_tweet_cached")

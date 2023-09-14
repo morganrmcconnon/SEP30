@@ -120,22 +120,25 @@ def analyze_multiple_tweets(create_new_topic_model=False, period=5):
     # Topic modelling
 
     if create_new_topic_model:
-        tweets = [tweet["text_analyzed"]["processed"] for tweet in new_tweet_objects]
-        lda_topic_model, topics_values = topic_modelling(tweets, num_topics=NUM_TOPICS)
+        tweets_to_analyze = [tweet["text_analyzed"]["in_english"] for tweet in new_tweet_objects]
+        lda_topic_model, topics_values = topic_modelling(tweets_to_analyze, num_topics=NUM_TOPICS)
 
     else:
         lda_topic_model = load_model(TOPIC_MODEL_FILE)
         topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
 
+    keywords_of_topic_model = [[keyword for keyword, _ in topic] for topic in topics_values]
+
     for tweet in new_tweet_objects:
         # Topic modelling for each tweet
-        tmp = apply_lda(tweet["text_analyzed"]["in_english"], lda_topic_model)
-        topics = []
-        for topic in tmp:
-            topics.append([topic[0], float(topic[1])])
+        text_to_analyze = tweet["text_analyzed"]["in_english"]
+        tmp = apply_lda(text_to_analyze, lda_topic_model)
+        topics = [[topic[0], float(topic[1])] for topic in tmp]
+        associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
         tweet["text_analyzed"]['topics'] = topics
+        tweet["text_analyzed"]['associated_keywords'] = associated_keywords
 
-    return new_tweet_objects, tweets
+    return new_tweet_objects, tweets, topics_values
 
 
 def wrap_tweet_analyzed_result(data, tweets):
