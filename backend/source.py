@@ -9,7 +9,7 @@ from services.analyze_tweets.spacy_matcher import filter_tweet
 from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
 from services.analyze_tweets.translate_text import detect_and_translate_language
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling
+from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
 from services.analyze_tweets.detect_coordinates import detect_coordinates
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
 from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
@@ -22,7 +22,7 @@ CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 
 
 #Merged analyze_multiple_tweet with analyze_multiple_tweets
-def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics=5, period=5):
+def analyze_multiple_tweets(create_new_topic_model=False, period=5):
     data = []
 
     tweets = {
@@ -78,9 +78,17 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
             tweet_text_in_english = tweet_text
             tweet_lang_detected = "en"
         else:
-            continue
+            # continue
             # Detect the language of the tweet and translate it to English
             tweet_text_in_english, tweet_lang_detected, _, _ = detect_and_translate_language(tweet_text)
+
+            if type(tweet_text_in_english) == list:
+                print(tweet_text_in_english)
+                tweet_text_in_english = tweet_text_in_english[0]
+
+            if type(tweet_lang_detected) == list:
+                print(tweet_lang_detected)
+                tweet_lang_detected = tweet_lang_detected[0]
 
         # If the user's language is not detected, set it to the detected tweet language [1]
         if tweet_object['user']['lang'] == None:
@@ -113,7 +121,7 @@ def analyze_multiple_tweets(create_new_topic_model=False, topic_model_num_topics
 
     if create_new_topic_model:
         tweets = [tweet["text_analyzed"]["processed"] for tweet in new_tweet_objects]
-        lda_topic_model, topics_values = topic_modelling(tweets, num_topics=topic_model_num_topics)
+        lda_topic_model, topics_values = topic_modelling(tweets, num_topics=NUM_TOPICS)
 
     else:
         lda_topic_model = load_model(TOPIC_MODEL_FILE)

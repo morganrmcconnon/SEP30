@@ -1,4 +1,4 @@
-from analyze_tweets.topic_modelling import topic_modelling
+from analyze_tweets.topic_modelling import topic_modelling, NUM_TOPICS
 from analyze_tweets.tweet_text import clean_tweet_text
 import pandas as pd
 import os
@@ -23,7 +23,7 @@ if not os.path.exists(model_folder_path):
     os.makedirs(model_folder_path, exist_ok=True)
 
 # Create an LDA model
-lda_model, topics = topic_modelling(texts, num_topics=5, save_to_file=save_model_to_file)
+lda_model, topics = topic_modelling(texts, num_topics=NUM_TOPICS, save_to_file=save_model_to_file)
 
 # Convert the probabilities from float32 to float for json serialization
 topics_data = [[(topic_keywords_distribution[0], float(topic_keywords_distribution[1])) for topic_keywords_distribution in topic_keywords_distributions] for topic_keywords_distributions in topics]

@@ -7,6 +7,11 @@ from nltk.stem import WordNetLemmatizer
 
 nltk.download('wordnet')
 
+# The number of topics to be extracted
+NUM_TOPICS = 10
+# Number of the most significant words that are associated with the topic.
+NUM_KEYWORDS_PER_TOPIC = 10
+
 
 # Preprocessing: tokenization, stopword removal, and lemmatization
 def tokenize_lemmatize_and_remove_stopwords(text):
@@ -28,7 +33,7 @@ def tokenize_lemmatize_and_remove_stopwords(text):
 
 
 #  Create an lda model from a set of texts
-def topic_modelling(texts: list[str], num_topics: int = 10, save_to_file=None):
+def topic_modelling(texts: list[str], num_topics: int = NUM_TOPICS, save_to_file=None):
     '''
     Create an lda topic model from a set of texts
     :param `texts`: a list of strings
@@ -52,7 +57,7 @@ def topic_modelling(texts: list[str], num_topics: int = 10, save_to_file=None):
         lda_model.save(save_to_file)
         print(f"LDA model saved to {save_to_file}")
 
-    return lda_model, [lda_model.show_topic(topic_id, topn=100) for topic_id in range(num_topics)]
+    return lda_model, [lda_model.show_topic(topic_id, topn=NUM_KEYWORDS_PER_TOPIC) for topic_id in range(num_topics)]
 
 
 # Load the saved LDA model
@@ -70,7 +75,7 @@ def load_model(model_file):
 
 
 # Function to apply LDA model to detect the topics of a string of text
-def apply_lda(text, lda_model):
+def apply_lda(text : str, lda_model : LdaModel):
     '''
     Apply the LDA model to detect the topics of a string of text
     
