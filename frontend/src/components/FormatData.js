@@ -117,7 +117,7 @@ function display_backend_data_into_knowledge_graph(backend_data) {
     links: keywords_pairs.map((keywords_pair_obj) => {
       return {
         'source': keywords_pair_obj["keywords"][0],
-        'target': keywords_pair_obj["keywords"][0],
+        'target': keywords_pair_obj["keywords"][1],
         'value': keywords_pair_obj["count"]
       };
     })

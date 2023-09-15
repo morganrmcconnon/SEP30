@@ -9,6 +9,11 @@ const data = DATATYPES.knowledgeGraph.data;
 
 const KnowledgeGraph = () => {
 
+  console.log(data);
+
+  
+  const scaleNodeSize = d3.scaleSqrt().domain([10, 50]).range(data.nodes.map(node => node.value).sort((a, b) => a - b));
+
   return (
     <div className="vis-container">
       <VisHeader title="Knowledge Graph" subtitle="Bar Subtitle" />
@@ -21,7 +26,8 @@ const KnowledgeGraph = () => {
           nodeAutoColorBy="group"
           nodeCanvasObject={(node, ctx, globalScale) => {
             const label = node.id;
-            const fontSize = 12 / globalScale;
+            const fontSize = 2 * node.value / globalScale;
+            console.log(fontSize);
             ctx.font = `${fontSize}px Sans-Serif`;
             const textWidth = ctx.measureText(label).width;
             const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
@@ -36,12 +42,18 @@ const KnowledgeGraph = () => {
 
             node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
           }}
+          nodeRelSize={node => node.value}
           nodePointerAreaPaint={(node, color, ctx) => {
             ctx.fillStyle = color;
             const bckgDimensions = node.__bckgDimensions;
             bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
           }}
-          linkWidth={link => Math.sqrt(link.value)}
+          linkWidth={
+            link => {
+              const averageLinkValue = data.links.reduce((acc, cur) => acc + cur.value, 0) / data.links.length;
+              return (link.value / averageLinkValue) * 4;
+            }
+          }
         />
       </div>
     </div>
