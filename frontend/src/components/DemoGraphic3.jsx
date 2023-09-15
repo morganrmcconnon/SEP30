@@ -67,7 +67,9 @@ const MapChart = ({ Highlighted }) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
+                  fill={isHighlighted ? "#339AF0" : '#F6F0E9'}
+                  onClick={() => console.log(geo.properties.name)}
+                  // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
                   // onClick={() => console.log(geo.properties.name)}
                 />
               );

@@ -44,7 +44,7 @@ function display_backend_data_into_demographics1(backend_data) {
 function display_backend_data_into_demographics2(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
   let genders_count = aggregated_result['genders_count'];
-  
+
   DATATYPES.demoGraphic2.data.female.present = genders_count['female'];
   DATATYPES.demoGraphic2.data.male.present = genders_count['male'];
   return DATATYPES;
@@ -60,10 +60,10 @@ function display_backend_data_into_demographics3(backend_data) {
 
 
 function display_backend_data_into_topicModelling(backend_data) {
-  
+
   let aggregated_result = backend_data['aggregated_result'];
   let topics_count = aggregated_result['topics_count'];
-  
+
   // For each key value pair in topics_count, add a new object to the data array
   DATATYPES.topicModelling.data = Object.entries(topics_count).map(([topic, topic_count]) => {
     return { date: Date.now(), topic: topic, mentionTimes: topic_count };
@@ -88,7 +88,7 @@ function display_backend_data_into_sentimentAnalysis(backend_data) {
 
 
 function display_backend_data_into_analyticsBox(backend_data) {
-  
+
   let tweets_amount_info = backend_data['tweets_amount_info'];
 
   DATATYPES.analyticsBox.dataBoxRight[0].title = 'Total tweets';
@@ -112,20 +112,35 @@ function display_backend_data_into_knowledge_graph(backend_data) {
   let keywords_count = aggregated_result['keywords_count'];
   let keywords_pairs = aggregated_result['keywords_pairs'];
   let topic_values = backend_data['topic_values'];
+  DATATYPES.knowledgeGraph.data = {
+    nodes: Object.entries(keywords_count).map(([keyword, count]) => { return { 'id': keyword, 'group': 1, 'value': count }; }),
+    links: keywords_pairs.map((keywords_pair_obj) => {
+      return {
+        'source': keywords_pair_obj["keywords"][0],
+        'target': keywords_pair_obj["keywords"][0],
+        'value': keywords_pair_obj["count"]
+      };
+    })
+  };
+  return DATATYPES;
 
 }
 
 
 export default function display_backend_data_into_charts(backend_data) {
 
+  console.log("DATATYPES before display_backend_data_into_charts");
+  console.log(DATATYPES);
+
+  display_backend_data_into_analyticsBox(backend_data);
+  display_backend_data_into_sentimentAnalysis(backend_data);
+  display_backend_data_into_topicModelling(backend_data);
   display_backend_data_into_demographics1(backend_data);
   display_backend_data_into_demographics2(backend_data);
   display_backend_data_into_demographics3(backend_data);
-  display_backend_data_into_topicModelling(backend_data);
-  display_backend_data_into_sentimentAnalysis(backend_data);
-  display_backend_data_into_analyticsBox(backend_data);
   display_backend_data_into_top5Trends(backend_data);
   display_backend_data_into_knowledge_graph(backend_data);
+  console.log("DATATYPES after display_backend_data_into_charts");
   console.log(DATATYPES);
 
   return DATATYPES;

@@ -362,6 +362,30 @@ const DATATYPES = {
       { name: 'America', value: 78 },
     ],
   },
+  knowledgeGraph: {
+    data: {
+      nodes: [
+        { id: 'Node 1', group: 1 },
+        { id: 'Node 2', group: 1 },
+        { id: 'Node 3', group: 2 },
+        { id: 'Node 4', group: 2 },
+        { id: 'Node 5', group: 2 },
+        { id: 'Node 6', group: 2 },
+        { id: 'Node 7', group: 2 },
+        { id: 'Node 8', group: 2 },
+      ]
+      ,
+      links:
+        [
+          { source: 'Node 1', target: 'Node 2', value: 10 },
+          { source: 'Node 1', target: 'Node 3', value: 20 },
+          { source: 'Node 3', target: 'Node 4', value: 30 },
+          { source: 'Node 2', target: 'Node 5', value: 10 },
+          { source: 'Node 2', target: 'Node 6', value: 50 },
+        ]
+      ,
+    }
+  }
 };
 
 export default DATATYPES;
