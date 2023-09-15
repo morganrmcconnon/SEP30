@@ -1,21 +1,14 @@
 import React from "react";
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import VisHeader from "./VisHeader";
-import DATATYPES from "../constants/dataTypes";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Col, Row } from "antd";
-import { SearchProvider, useSearch } from "./SearchContext";
 
-let data = DATATYPES.demoGraphic1;
+import { SearchProvider, useSearchContext } from "../../contexts/SearchContext";
+import VisHeader from "../grid_components/VisHeader";
+import DATATYPES from "../../constants/dataTypes";
 
-export default function DemoGraphic1() {
-  const { search, updateSearch } = useSearch();
+export default function AgeGroups() {
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.agegroups;
   return (
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -29,7 +22,9 @@ export default function DemoGraphic1() {
                 cy={130}
                 innerRadius={60}
                 outerRadius={100}
-                fill="#82ca9d"
+                fill="#82ca9d"    
+                startAngle={-270}
+                endAngle={90}
               >
                 {data.data.map((item, index) => (
                   <Cell

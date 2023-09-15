@@ -1,5 +1,7 @@
 import { useEffect, createContext, useContext, useState } from "react";
-import display_backend_data_into_charts from "./FormatData";
+
+import display_backend_data_into_charts from "../constants/FormatData";
+import DATATYPES from "../constants/dataTypes";
 
 const SearchContext = createContext();
 
@@ -14,6 +16,8 @@ export const SearchProvider = ({ children }) => {
   });
 
   const [realData, setRealData] = useState({});
+  
+  const [dashboardData, setDashboardData] = useState(DATATYPES);
 
   const updateRealData = (response_data) => {
     console.log("in SearchContext.jsx, before updateRealData:");
@@ -28,7 +32,7 @@ export const SearchProvider = ({ children }) => {
     console.log("realData value:");
     console.log(realData);
 
-    display_backend_data_into_charts(response_data);
+    setDashboardData(display_backend_data_into_charts(response_data));
 
   };
   
@@ -41,6 +45,16 @@ export const SearchProvider = ({ children }) => {
     location,
     age,
   }) => {
+    
+    const topic_number = isNaN(topic) ? 0 : parseInt(topic);
+
+    if(realData !== undefined && realData["topics_values"]) {
+      console.log("in SearchContext.jsx, updateSearch:");
+      dashboardData.keywordsDistribution.data = realData["topics_values"][topic_number].map((item) => { return { name: item[0], value: item[1] } });
+    }
+
+    setDashboardData(dashboardData);
+
     setSearch({
       sentiment: sentiment,
       topic: topic,
@@ -49,15 +63,16 @@ export const SearchProvider = ({ children }) => {
       location: location,
       age: age,
     });
+
   };
 
   return (
-    <SearchContext.Provider value={{ search, updateSearch, realData, updateRealData }}>
+    <SearchContext.Provider value={{ search, updateSearch, realData, updateRealData, dashboardData }}>
       {children}
     </SearchContext.Provider>
   );
 };
 
-export function useSearch() {
+export function useSearchContext() {
   return useContext(SearchContext);
 }

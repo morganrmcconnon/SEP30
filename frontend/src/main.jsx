@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./pages/App.jsx";
 import Search from "./pages/Search.jsx";
 import { keywordAction } from "./components/KeywordSearch.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";

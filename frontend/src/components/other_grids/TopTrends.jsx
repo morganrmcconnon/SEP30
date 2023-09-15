@@ -1,9 +1,10 @@
 import React, { useLayoutEffect } from 'react';
-import DATATYPES from '../constants/dataTypes';
-import VisHeader from './VisHeader';
+import { HiOutlineArrowCircleDown, HiOutlineArrowCircleUp } from 'react-icons/hi';
 import { Divider, Space } from 'antd';
 import dayjs from 'dayjs';
-import { HiOutlineArrowCircleDown, HiOutlineArrowCircleUp } from 'react-icons/hi';
+
+import DATATYPES from '../constants/dataTypes';
+import VisHeader from '../grid_components/VisHeader';
 
 const data = DATATYPES.top5Trends;
 

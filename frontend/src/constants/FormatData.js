@@ -1,6 +1,7 @@
-import DATATYPES from "../constants/dataTypes";
+import DATATYPES from "./dataTypes";
+import ColorVar from "../constants/ColorVar";
 
-function display_backend_data_into_demographics1(backend_data) {
+function display_backend_data_into_age_groups(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
   let age_groups_count = aggregated_result['age_groups_count'];
   let d1 = age_groups_count["<=18"];
@@ -19,7 +20,7 @@ function display_backend_data_into_demographics1(backend_data) {
   p3 = Math.round(p3 * 100) / 100;
   p4 = Math.round(p4 * 100) / 100;
 
-  DATATYPES.demoGraphic1.data.forEach(element => {
+  DATATYPES.agegroups.data.forEach(element => {
     switch (element.name) {
       case 'Under 18':
         element.percent = p1;
@@ -41,19 +42,19 @@ function display_backend_data_into_demographics1(backend_data) {
   return DATATYPES;
 }
 
-function display_backend_data_into_demographics2(backend_data) {
+function display_backend_data_into_genders(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
   let genders_count = aggregated_result['genders_count'];
 
-  DATATYPES.demoGraphic2.data.female.present = genders_count['female'];
-  DATATYPES.demoGraphic2.data.male.present = genders_count['male'];
+  DATATYPES.genders.data.female.present = genders_count['female'];
+  DATATYPES.genders.data.male.present = genders_count['male'];
   return DATATYPES;
 }
 
-function display_backend_data_into_demographics3(backend_data) {
+function display_backend_data_into_locations(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
   let countries_count = aggregated_result['countries_count'];
-  DATATYPES.demoGraphic3.locationHighLight = Object.keys(countries_count);
+  DATATYPES.locations.locationHighLight = Object.keys(countries_count);
 
   return DATATYPES;
 }
@@ -77,12 +78,14 @@ function display_backend_data_into_sentimentAnalysis(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
   let sentiment_count = aggregated_result['sentiment_count'];
 
-  DATATYPES.sentimentAnalysis.data = [
-    { title: 'Positive Tweets', subTitle: 'Number of positive tweets', star: sentiment_count['positive'] },
-    { title: 'Negative Tweets', subTitle: 'Number of negative tweets', star: sentiment_count['negative'] },
-    { title: 'Neutral Tweets', subTitle: 'Number of neutral tweets', star: sentiment_count['neutral'] },
-  ];
+  DATATYPES.sentimentAnalysis.values.positive = sentiment_count['positive'];
+  DATATYPES.sentimentAnalysis.values.neutral = sentiment_count['neutral'];
+  DATATYPES.sentimentAnalysis.values.negative = sentiment_count['negative'];
 
+  DATATYPES.sentimentAnalysis.data.forEach(element => {
+    element.value = DATATYPES.sentimentAnalysis.values[element.value_key];
+  });
+  
   return DATATYPES;
 }
 
@@ -135,9 +138,9 @@ export default function display_backend_data_into_charts(backend_data) {
   display_backend_data_into_analyticsBox(backend_data);
   display_backend_data_into_sentimentAnalysis(backend_data);
   display_backend_data_into_topicModelling(backend_data);
-  display_backend_data_into_demographics1(backend_data);
-  display_backend_data_into_demographics2(backend_data);
-  display_backend_data_into_demographics3(backend_data);
+  display_backend_data_into_age_groups(backend_data);
+  display_backend_data_into_genders(backend_data);
+  display_backend_data_into_locations(backend_data);
   display_backend_data_into_top5Trends(backend_data);
   display_backend_data_into_knowledge_graph(backend_data);
   console.log("DATATYPES after display_backend_data_into_charts");

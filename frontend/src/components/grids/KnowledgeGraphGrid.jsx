@@ -1,26 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
-import * as d3 from 'd3'; // Import D3 library
-import VisHeader from '../VisHeader';
-import { Tooltip } from 'recharts';
 import { ForceGraph2D } from 'react-force-graph';
+
+import VisHeader from '../grid_components/VisHeader';
+import { useSearchContext } from '../../contexts/SearchContext';
 import DATATYPES from '../../constants/dataTypes';
 
-const data = DATATYPES.knowledgeGraph.data;
-
 const KnowledgeGraph = () => {
-
-  console.log(data);
-
-  
-  const scaleNodeSize = d3.scaleSqrt().domain([10, 50]).range(data.nodes.map(node => node.value).sort((a, b) => a - b));
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.knowledgeGraph;
 
   return (
     <div className="vis-container">
-      <VisHeader title="Knowledge Graph" subtitle="Bar Subtitle" />
+      <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div className="vis-svg-container">
         <ForceGraph2D
-          graphData={data}
-          width={490}
+          graphData={data.data}
+          width={390}
           height={390}
           onNodeClick={(node) => console.log('Clicked:', node)}
           nodeAutoColorBy="group"
@@ -50,7 +45,7 @@ const KnowledgeGraph = () => {
           }}
           linkWidth={
             link => {
-              const averageLinkValue = data.links.reduce((acc, cur) => acc + cur.value, 0) / data.links.length;
+              const averageLinkValue = data.data.links.reduce((acc, cur) => acc + cur.value, 0) / data.data.links.length;
               return (link.value / averageLinkValue) * 4;
             }
           }

@@ -1,16 +1,18 @@
 import React from 'react';
-import VisHeader from './VisHeader';
-import DATATYPES from '../constants/dataTypes';
 import { Col, Row, Space } from 'antd';
-import ProgressBar from './vis/ProgressBar';
 import { ComposableMap, Geographies, Geography, Graticule, Sphere } from 'react-simple-maps';
 // import { PatternLines } from '@vx/pattern';
 
+import VisHeader from '../grid_components/VisHeader';
+import ProgressBar from '../grid_components/ProgressBar';
+import DATATYPES from '../../constants/dataTypes';
+import { useSearchContext } from '../../contexts/SearchContext';
+
 const geoUrl = '/features.json';
 
-const data = DATATYPES.demoGraphic3;
-
-export default function DemoGraphic3() {
+export default function LocationsGrid() {
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.locations;
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -45,6 +47,7 @@ export default function DemoGraphic3() {
 }
 
 const MapChart = ({ Highlighted }) => {
+  const { search, updateSearch, dashboardData } = useSearchContext();
   return (
     <div style={{ width: '80%', position: 'relative', left: '50%', transform: 'translateX(-40%)', top: '-10%' }}>
       <ComposableMap projection='geoEqualEarth'>
@@ -68,9 +71,12 @@ const MapChart = ({ Highlighted }) => {
                   key={geo.rsmKey}
                   geography={geo}
                   fill={isHighlighted ? "#339AF0" : '#F6F0E9'}
-                  onClick={() => console.log(geo.properties.name)}
-                  // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
-                  // onClick={() => console.log(geo.properties.name)}
+                  onClick={() => {
+                    updateSearch({ ...search, location: geo.properties.name });
+                  }
+                  }
+                // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
+                // onClick={() => console.log(geo.properties.name)}
                 />
               );
             })

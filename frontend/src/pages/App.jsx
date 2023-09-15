@@ -1,14 +1,11 @@
-import { useActionData } from "react-router-dom";
-
 import "../styles/styles.css";
 
-import Sidebar from "../components/Sidebar";
+import DashboardVis from "../components/DashboardVis";
 import KeywordSearch from "../components/KeywordSearch";
+import Sidebar from "../components/Sidebar";
 import { SearchProvider } from "../contexts/SearchContext";
 
-function Search() {
-  const keyword = useActionData();
-
+function App() {
   return (
     <SearchProvider>
       <div className="body-container">
@@ -19,11 +16,11 @@ function Search() {
           <KeywordSearch />
         </div>
         <div className="dashboard-container">
-          <h2>Keyword: {keyword}</h2>
+          <DashboardVis />
         </div>
       </div>
     </SearchProvider>
   );
 }
 
-export default Search;
+export default App;

@@ -1,14 +1,15 @@
 import React from "react";
-import VisHeader from "./VisHeader";
-import DATATYPES from "../constants/dataTypes";
 import { FaStar } from "react-icons/fa";
 import { Divider } from "antd";
-import { useSearch } from "./SearchContext";
 
-const data = DATATYPES.sentimentAnalysis;
+import VisHeader from "../grid_components/VisHeader";
+import { useSearchContext } from "../../contexts/SearchContext";
+import DATATYPES from "../../constants/dataTypes";
+
 
 export default function SentimentAnalysis() {
-  const { search, updateSearch } = useSearch();
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -16,7 +17,7 @@ export default function SentimentAnalysis() {
         className="vis-svg-container"
         style={{ height: 350, overflow: "auto" }}
       >
-        {data?.data.map((item, index) => (
+        {data.data.map((item, index) => (
           <>
             <div
               key={index}
@@ -50,7 +51,7 @@ export default function SentimentAnalysis() {
               </div>
               <div style={{ display: "flex" }}>
                 <FaStar color="yellow" />
-                <p style={{ marginLeft: 10 }}>{item.star}</p>
+                <p style={{ marginLeft: 10 }}>{item.value}</p>
               </div>
             </div>
             <Divider style={{ margin: "10px 0" }} />

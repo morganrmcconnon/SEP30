@@ -1,18 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import arrowAll from "../../assets/arrow-all.svg";
-import ColorVar from "../ColorVar";
-import dotsVertical from "../../assets/dots-vertical.svg";
-import VisHeader from "../VisHeader";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, } from "recharts";
+
+import VisHeader from "../grid_components/VisHeader";
+import ColorVar from "../../constants/ColorVar";
 
 const data = [
   {

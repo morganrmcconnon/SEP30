@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
-import ColorVar from '../components/ColorVar';
 import { BsArrowRight } from 'react-icons/bs';
+
+import ColorVar from './ColorVar';
 
 const DATATYPES = {
   analyticsBox: {
     title: 'Real-time Analytics',
-    subTitle: 'Subtitle',
+    subTitle: 'Real-time Analysis results',
     dataChart: {
       totalData: '1.5M',
       totalDataChange: '-0.8%',
@@ -146,8 +147,8 @@ const DATATYPES = {
     ],
   },
   topicModelling: {
-    title: 'Top 10 topics mentioned',
-    subTitle: 'Subtitle',
+    title: 'Topic modelling',
+    subTitle: 'Topic modelling result',
     columns: [
       {
         title: 'Date',
@@ -166,7 +167,7 @@ const DATATYPES = {
         key: 'topic',
       },
       {
-        title: 'Mention Times',
+        title: 'Number of tweets',
         dataIndex: 'mentionTimes',
         key: 'mentionTimes',
         render: (mentionTimes) => (
@@ -191,17 +192,21 @@ const DATATYPES = {
   },
   sentimentAnalysis: {
     title: 'Sentiment Analysis',
-    subTitle: 'Subtitle',
+    subTitle: 'Sentiment Analysis',
+    values: {
+      positive: 100,
+      negative: 50,
+      neutral: 50,
+    },
     data: [
-      { title: 'Positive Tweets', subTitle: 'Subtitle', star: 199 },
-      { title: 'Negative Tweets', subTitle: 'Subtitle', star: 100 },
-      { title: 'Neutral Tweets', subTitle: 'Subtitle', star: 50 },
-      { title: 'Others', subTitle: 'Related but unsure', star: 20 },
+      { value_key: 'positive', title: 'Positive Tweets', subTitle: 'Number of positive tweets', value: 199, color: ColorVar.green },
+      { value_key: 'neutral', title: 'Neutral Tweets', subTitle: 'Number of neutral tweets', value: 50, color: ColorVar.blue },
+      { value_key: 'negative', title: 'Negative Tweets', subTitle: 'Number of negative tweets', value: 100, color: ColorVar.orange },
     ],
   },
-  demoGraphic1: {
-    title: 'Demographic 1',
-    subTitle: 'Age',
+  agegroups: {
+    title: 'Demographic Analysis - Age Groups',
+    subTitle: 'Age Groups percentage',
     data: [
       { name: 'Under 18', percent: 18, color: ColorVar.blue },
       { name: '19 - 29', percent: 40, color: '#50cc65' },
@@ -209,9 +214,9 @@ const DATATYPES = {
       { name: '40 and above', percent: 15, color: '#eeeeef' },
     ],
   },
-  demoGraphic2: {
-    title: 'Demographic 2',
-    subTitle: 'Gender',
+  genders: {
+    title: 'Demographic Analysis - Genders',
+    subTitle: 'Demographic Analysis - Genders',
     data: {
       female: {
         present: 60,
@@ -225,9 +230,9 @@ const DATATYPES = {
       },
     },
   },
-  demoGraphic3: {
-    title: 'Demographic 3',
-    subTitle: 'Location',
+  locations: {
+    title: 'Demographic Analysis - Location',
+    subTitle: 'Demographic Analysis - Location',
     locationHighLight: [
       'DEU', // Germany
       'FRA', // France
@@ -363,6 +368,8 @@ const DATATYPES = {
     ],
   },
   knowledgeGraph: {
+    title: 'Knowledge Graph',
+    subTitle: 'Knowledge Graph',
     data: {
       nodes: [
         { id: 'Node 1', group: 1 },
@@ -385,6 +392,52 @@ const DATATYPES = {
         ]
       ,
     }
+  },
+  keywordsDistribution: {
+    title: 'Keywords Distribution',
+    subTitle: "Probability Distribution of keywords of the selected topic",
+    data: [
+      {
+        name: "need",
+        value: 0.028510894626379013
+      },
+      {
+        name: "feel",
+        value: 0.013326014392077923
+      },
+      {
+        name: "like",
+        value: 0.012375205755233765
+      },
+      {
+        name: "game",
+        value: 0.011271191760897636
+      },
+      {
+        name: "person",
+        value: 0.010939954780042171
+      },
+      {
+        name: "time",
+        value: 0.010890712030231953
+      },
+      {
+        name: "home",
+        value: 0.01051084604114294
+      },
+      {
+        name: "sleep",
+        value: 0.00957251712679863
+      },
+      {
+        name: "thing",
+        value: 0.009436240419745445
+      },
+      {
+        name: "help",
+        value: 0.008520175702869892
+      }
+    ],
   }
 };
 

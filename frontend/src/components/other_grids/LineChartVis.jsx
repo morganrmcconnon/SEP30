@@ -1,10 +1,8 @@
-import * as d3 from 'd3';
-import { useState, useRef, useEffect } from 'react';
-import arrowAll from '../../assets/arrow-all.svg';
-import ColorVar from '../ColorVar';
-import dotsVertical from '../../assets/dots-vertical.svg';
-import VisHeader from '../VisHeader';
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+
+import VisHeader from '../grid_components/VisHeader';
+import ColorVar from '../../constants/ColorVar';
+
 const data = [
   { name: 'A', uv: 400 },
   { name: 'B', uv: 300 },

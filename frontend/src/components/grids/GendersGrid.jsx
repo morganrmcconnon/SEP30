@@ -1,13 +1,16 @@
 import React from 'react';
-import VisHeader from './VisHeader';
-import DATATYPES from '../constants/dataTypes';
-import ProgressBar from './vis/ProgressBar';
 import { Col, Divider, Row } from 'antd';
 import { BsCheck2 } from 'react-icons/bs';
 
-const data = DATATYPES.demoGraphic2;
+import VisHeader from '../grid_components/VisHeader';
+import ProgressBar from '../grid_components/ProgressBar';
+import DATATYPES from '../../constants/dataTypes';
+import { useSearchContext } from '../../contexts/SearchContext';
 
-export default function DemoGraphic2() {
+
+export default function GendersGrid() {
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.genders
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />

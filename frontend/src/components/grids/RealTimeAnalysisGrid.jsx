@@ -1,13 +1,17 @@
 import React from 'react';
-import VisHeader from './VisHeader';
 import { Col, Row, Space } from 'antd';
-import DATATYPES from '../constants/dataTypes';
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
-import CircleProgressVis from './vis/CircleProgressVis';
 
-const data = DATATYPES.analyticsBox;
+import VisHeader from '../grid_components/VisHeader';
+import CircleProgressVis from '../grid_components/CircleProgressVis';
+import DATATYPES from '../../constants/dataTypes';
+import { useSearchContext } from '../../contexts/SearchContext';
 
-export default function DemographicAnalysis() {
+
+export default function RealTimeAnalysis() {
+  const { search, updateSearch, dashboardData } = useSearchContext();
+  const data = dashboardData.analyticsBox;
+
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />

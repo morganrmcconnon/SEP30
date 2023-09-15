@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import VisHeader from './VisHeader';
+import VisHeader from '../grid_components/VisHeader';
 
 const TestRoBERTa = () => {
     const [text, setText] = useState("");

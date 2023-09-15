@@ -4,11 +4,13 @@ import file from "../assets/file.svg";
 import information from "../assets/information.svg";
 import settings from "../assets/settings.svg";
 import logo from "../assets/logo.png";
+
 import { Link } from "react-router-dom";
-import { useSearch } from "./SearchContext";
+
+import { useSearchContext } from "../contexts/SearchContext";
 
 const Sidebar = () => {
-  const { search } = useSearch();
+  const { search } = useSearchContext();
   return (
     <div>
       <Link to="/">
@@ -53,7 +55,7 @@ const Sidebar = () => {
         </ul>
       </nav>
       <div>
-        <p>Search Data</p>
+        <p>Filtered by:</p>
         <ul>
           {Object.entries(search).map(([key, value]) => (
             <li key={key}>

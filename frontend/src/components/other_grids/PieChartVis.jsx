@@ -1,9 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import arrowAll from "../../assets/arrow-all.svg";
-import dotsVertical from "../../assets/dots-vertical.svg";
-import ColorVar from "../ColorVar";
 import { Cell, Tooltip, PieChart, Pie, ResponsiveContainer } from "recharts";
-import VisHeader from "../VisHeader";
+
+import ColorVar from "../ColorVar";
+import VisHeader from "../grid_components/VisHeader";
 
 const PieChartVis = () => {
   const data = [
