@@ -12,6 +12,13 @@ CURRENT_DIR = os.path.dirname(__file__)
 CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
 # A static folder for storing static files
 CACHE_STATIC_FOLDER = os.path.join(CURRENT_DIR, "cache_static")
+DB_FOLDER = os.path.join(CURRENT_DIR, "db_temp")
+if not os.path.exists(CACHE_FOLDER):
+    os.makedirs(CACHE_FOLDER)
+if not os.path.exists(CACHE_STATIC_FOLDER):
+    os.makedirs(CACHE_STATIC_FOLDER)
+if not os.path.exists(DB_FOLDER):
+    os.makedirs(DB_FOLDER)
 TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 
 
@@ -95,7 +102,18 @@ def get_analyzed_data_full():
 
     all_downloaded_tweets_list = download_tweets_during_time_period()
 
-    analyzed_tweet_objects_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list)
+    # store_tweets_in_db
+    with open(os.path.join(DB_FOLDER, "original_tweets.json"), "a") as json_file:
+        for tweet_object in all_downloaded_tweets_list:
+            json_file.write('\n' + json.dumps(tweet_object))
+
+    analyzed_tweet_objects_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+
+    # store_tweets_in_db
+    with open(os.path.join(DB_FOLDER, "analyzed_tweets.json"), "a") as json_file:
+        for tweet_object in analyzed_tweet_objects_list:
+            json_file.write('\n' + json.dumps(tweet_object))
+
 
     tweets_amount_info = {
         "total_tweets_count": len(all_downloaded_tweets_list),
@@ -103,8 +121,6 @@ def get_analyzed_data_full():
     }
 
     complete_tweet_objects_analysis_at = time.time()
-
-    # store_tweets_in_db(tweet_objects_list)
 
     # Cache the analyzed tweet objects into a JSON file
     with open(os.path.join(CACHE_FOLDER, "cache_tweets.json"), "w") as json_file:
@@ -120,6 +136,13 @@ def get_analyzed_data_full():
     analyzed_user_objects_list = analyze_multiple_users(user_objects_list)
 
     complete_user_objects_analysis_at = time.time()
+
+    
+    # store_tweets_in_db
+    with open(os.path.join(DB_FOLDER, "analyzed_users.json"), "a") as json_file:
+        for user_object in analyzed_user_objects_list:
+            json_file.write('\n' + json.dumps(user_object))
+
 
     with open(os.path.join(CACHE_FOLDER, "cache_users.json"), "w") as json_file:
         json.dump({

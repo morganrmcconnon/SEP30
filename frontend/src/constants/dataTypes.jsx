@@ -5,7 +5,7 @@ import ColorVar from './ColorVar';
 
 const DATATYPES = {
   analyticsBox: {
-    title: 'Real-time Analytics',
+    title: 'Real-time Analysis',
     subTitle: 'Real-time Analysis results',
     dataChart: {
       totalData: '1.5M',
@@ -123,9 +123,16 @@ const DATATYPES = {
       ],
     },
     dataBoxRight: [
-      { title: 'Net Tweets', value: 1602, total: 2000, colorChart: 'white', bgColor: '#339af0', textColor: 'white' },
       {
-        title: 'Related Tweet',
+        title: 'Related Tweets',
+        value: 1602,
+        total: 2000,
+        colorChart: 'white',
+        bgColor: ColorVar.blue,
+        textColor: 'white'
+      },
+      {
+        title: 'Displaying',
         value: 1255,
         total: 2000,
         colorChart: ColorVar.orange,
@@ -150,21 +157,25 @@ const DATATYPES = {
     title: 'Topic modelling',
     subTitle: 'Topic modelling result',
     columns: [
-      {
-        title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
-        render: (date) => (
-          <div>
-            <p>{dayjs(date).format('YYYY/MM/DD')}</p>
-            <p>{dayjs(date).format('HH:mm')}</p>
-          </div>
-        ),
-      },
+      // {
+      //   title: 'Date',
+      //   dataIndex: 'date',
+      //   key: 'date',
+      //   render: (date) => (
+      //     <div>
+      //       <p>{dayjs(date).format('YYYY/MM/DD')}</p>
+      //       <p>{dayjs(date).format('HH:mm')}</p>
+      //     </div>
+      //   ),
+      // },
       {
         title: 'Topic',
         dataIndex: 'topic',
         key: 'topic',
+        // specify the condition of filtering result
+        // here is that finding the name started with `value`
+        onFilter: (value, record) => record.name.indexOf(value) === 0,
+        sorter: (a, b) => a.topic.length - b.topic.length,
       },
       {
         title: 'Number of tweets',
@@ -176,6 +187,7 @@ const DATATYPES = {
             <BsArrowRight />
           </div>
         ),
+        sorter: (a, b) => a.mentionTimes - b.mentionTimes,
       },
     ],
     data: [
@@ -221,12 +233,12 @@ const DATATYPES = {
       female: {
         present: 60,
         color: '#d3f9d8',
-        activeList: ['.', '.', '.', '.'],
+        activeList: ['1', '2', '3', '4'],
       },
       male: {
         present: 40,
         color: '#d0ebff',
-        activeList: ['.', '.', '.', '.'],
+        activeList: ['5', '6', '7', '8'],
       },
     },
   },

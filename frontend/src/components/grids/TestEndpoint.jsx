@@ -12,6 +12,10 @@ const TestEndpoint = () => {
     setResultData({});
   };
 
+  const setTextStatic = () => {
+    setText("/backend/get_cached_static");
+  };
+
   const getResult = (e) => {
     e.preventDefault();
     const requestOptions = {
@@ -57,7 +61,10 @@ const TestEndpoint = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
           <div>
-            <p>{JSON.stringify(realData)}</p>
+            <button type="submit" onClick={setTextStatic}>Test Dashboard</button>
+          </div>
+          <div>
+            {/* <p>{JSON.stringify(realData)}</p> */}
           </div>
         </form>
       </article>

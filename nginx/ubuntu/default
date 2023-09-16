@@ -56,6 +56,11 @@ server {
 		proxy_pass http://127.0.0.1:5000/api/;
 	}
 
+	# proxy the API requests to the Flask server listening on port 5000
+	location /backend/ {
+		proxy_pass http://127.0.0.1:5000/backend/;
+	}
+
 	# pass PHP scripts to FastCGI server
 	#
 	#location ~ \.php$ {

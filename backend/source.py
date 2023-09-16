@@ -47,14 +47,16 @@ def download_tweets_during_time_period(time_period=5):
     return all_downloaded_tweets_list
 
 
-def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
+def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, filter_tweets=True, filter_after_translating=True):
     # ----------------------------------
-    # Filter tweets
+    # Filter tweets before translated to English
     # ----------------------------------
 
-    # Filter all downloaded tweets to only contain mental health tweets 
-    matcher_obj, nlp_obj = create_matcher_model()
-    related_tweet_objects_list = [tweet_object for tweet_object in tweet_objects if text_is_related_to_mental_health(clean_tweet_text(get_tweet_text(tweet_object)), matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
+    if filter_tweets and not filter_after_translating:
+
+        # Filter all downloaded tweets to only contain mental health tweets 
+        matcher_obj, nlp_obj = create_matcher_model()
+        tweet_objects = [tweet_object for tweet_object in tweet_objects if text_is_related_to_mental_health(clean_tweet_text(get_tweet_text(tweet_object)), matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
     
 
     # ----------------------------------
@@ -62,7 +64,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
     # ----------------------------------
 
     new_tweet_objects_list = []
-    for tweet_object in related_tweet_objects_list:
+    for tweet_object in tweet_objects:
 
         # Get the full, cleaned text of the tweet object
         # The 'text' key in the tweet object is not always the full text of the tweet, so we need to get the full text from the 'extended_tweet' key
@@ -98,22 +100,25 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
         if tweet_object['user']['lang'] == None:
             tweet_object['user']['lang'] = tweet_lang_detected
 
-        # Text tokenized, lemmatized, and stemmed. You can change the tweet_text_in_english to just tweet_text if you want to keep the original language.
-        tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(tweet_text_in_english)
-
-        print(tweet_text_processed)
-
         new_tweet_object = {
             **tweet_object,
             "text_analyzed": {
                 "original": tweet_text,
                 "in_english": tweet_text_in_english,
                 "lang_detected": tweet_lang_detected,
-                "processed": tweet_text_processed,
             }
         }
 
         new_tweet_objects_list.append(new_tweet_object)
+
+    
+    # ----------------------------------
+    # Filter tweets after translated to English
+    # ----------------------------------
+    if filter_tweets and filter_after_translating:
+        # Filter all downloaded tweets to only contain mental health tweets 
+        matcher_obj, nlp_obj = create_matcher_model()
+        new_tweet_objects_list = [tweet_object for tweet_object in new_tweet_objects_list if text_is_related_to_mental_health(tweet_object["text_analyzed"]["in_english"], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
 
 
     # ----------------------------------
@@ -124,8 +129,12 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
         # We are using the English-translated text to feed to the sentiment analysis model
         text_to_analyze = tweet_object["text_analyzed"]["in_english"]
 
-        sentiment_result, sentiment_confidence_probabilities = classify_sentiment(tweet_text_in_english)
+        
+        # Text tokenized, lemmatized, and stemmed. You can change the tweet_text_in_english to just tweet_text if you want to keep the original language.
+        tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(text_to_analyze)
+        tweet_object["text_analyzed"]["processed"] = tweet_text_processed
 
+        sentiment_result, sentiment_confidence_probabilities = classify_sentiment(text_to_analyze)
         tweet_object["text_analyzed"]["sentiment"] = {
             "result": sentiment_result,
             "confidence_probabilities": sentiment_confidence_probabilities

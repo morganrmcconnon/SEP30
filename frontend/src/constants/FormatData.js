@@ -1,5 +1,4 @@
 import DATATYPES from "./dataTypes";
-import ColorVar from "../constants/ColorVar";
 
 function display_backend_data_into_age_groups(backend_data) {
   let aggregated_result = backend_data['aggregated_result'];
@@ -51,10 +50,32 @@ function display_backend_data_into_genders(backend_data) {
   return DATATYPES;
 }
 
+
+// Given coordinates, return the country name in topojson
+function getCountryNameFromCoordinates(coordinates) {
+}
+
 function display_backend_data_into_locations(backend_data) {
-  let aggregated_result = backend_data['aggregated_result'];
-  let countries_count = aggregated_result['countries_count'];
+  const aggregated_result = backend_data['aggregated_result'];
+  const countries_count = aggregated_result['countries_count'];
   DATATYPES.locations.locationHighLight = Object.keys(countries_count);
+
+  
+  
+  let locations = Object.entries(countries_count).map(([country, country_count]) => {
+    return { name: country, value: country_count };
+  }).sort((a, b) => b.value - a.value);
+  
+  // put the value of the country named "AUS" to the top of the array
+  let index = locations.findIndex((element) => element.name === "");
+  let temp = locations[0];
+  temp.name = "Country not found";
+  // Remove the element at index
+  locations.splice(index, 1);
+  // Add the element at index 0
+  locations.unshift(temp);
+
+  DATATYPES.locations.data = locations.splice(0, 5);
 
   return DATATYPES;
 }
@@ -92,13 +113,17 @@ function display_backend_data_into_sentimentAnalysis(backend_data) {
 
 function display_backend_data_into_analyticsBox(backend_data) {
 
-  let tweets_amount_info = backend_data['tweets_amount_info'];
+  const tweets_amount_info = backend_data['tweets_amount_info'];
+  const analysis_timestamps = tweets_amount_info['analysis_timestamps'];
 
-  DATATYPES.analyticsBox.dataBoxRight[0].title = 'Total tweets';
+  DATATYPES.analyticsBox.dataChart.totalData = tweets_amount_info['total_tweets_count'];
+
+
+  DATATYPES.analyticsBox.dataBoxRight[0].title = 'Mental health tweets';
   DATATYPES.analyticsBox.dataBoxRight[0].total = tweets_amount_info['total_tweets_count'];
-  DATATYPES.analyticsBox.dataBoxRight[0].value = tweets_amount_info['total_tweets_count'];
-  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Mental health tweets';
-  DATATYPES.analyticsBox.dataBoxRight[1].total = tweets_amount_info['total_tweets_count'];
+  DATATYPES.analyticsBox.dataBoxRight[0].value = tweets_amount_info['mental_health_related_tweets_count'];
+  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Displaying analysis of';
+  DATATYPES.analyticsBox.dataBoxRight[1].total = tweets_amount_info['mental_health_related_tweets_count'];
   DATATYPES.analyticsBox.dataBoxRight[1].value = tweets_amount_info['mental_health_related_tweets_count']
   return DATATYPES;
 }
@@ -116,7 +141,7 @@ function display_backend_data_into_knowledge_graph(backend_data) {
   let keywords_pairs = aggregated_result['keywords_pairs'];
   let topic_values = backend_data['topic_values'];
   DATATYPES.knowledgeGraph.data = {
-    nodes: Object.entries(keywords_count).map(([keyword, count]) => { return { 'id': keyword, 'group': 1, 'value': count }; }),
+    nodes: Object.entries(keywords_count).map(([keyword, count]) => { return { 'id': keyword, 'group': 2, 'value': count }; }),
     links: keywords_pairs.map((keywords_pair_obj) => {
       return {
         'source': keywords_pair_obj["keywords"][0],
