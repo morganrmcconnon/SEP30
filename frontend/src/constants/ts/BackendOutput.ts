@@ -21,6 +21,7 @@ export default interface BackendSampleOutput {
     "countries_count": { "GBR": 1, "USA": 2, "": 13, "NZL": 1, "CAN": 1, "CHN": 1, "VNM": 2 },
     "genders_count": { "female": 13, "male": 8 },
     "age_groups_count": { "19-29": 3, "30-39": 3, "<=18": 12, ">=40": 3 },
+    "org_count": { "is-org": 0, "non-org": 9 },
     "keywords_count": { "amp": 3, "life": 1, "health": 5, "mental": 1, "cat": 1, "year": 1, "win": 2, "real": 2, "hard": 1, "person": 1, "good": 1, "so": 9, "time": 4, "love": 5, "man": 1, "like": 1, "bitch": 1, "shit": 1, "way": 1, "pain": 1 },
     "keywords_pairs": [
       { "keywords": ["amp", "life"], "count": 1 },

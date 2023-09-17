@@ -80,14 +80,13 @@ export default interface TweetObject {
     "lang_detected": string,
     "processed": Array<string>,
     "sentiment": {
-      "result": string,
-      "confidence_probabilities": {
-        "negative": number,
-        "neutral": number,
-        "positive": number,
-      }
+      "negative": number,
+      "neutral": number,
+      "positive": number,
     },
+    "sentiment_predicted": string,
     "topics": Array<[number, number]>,
+    "topic_with_the_highest_score": number,
     "associated_keywords": Array<string>,
   }
 }

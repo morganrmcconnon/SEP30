@@ -62,5 +62,8 @@ export default interface UserObject {
       "non-org": number,
       "is-org": number,
     }
-  }
+  },
+  "age_predicted": string,
+  "gender_predicted": string,
+  "org_predicted": string,
 }

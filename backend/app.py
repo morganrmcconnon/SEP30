@@ -107,7 +107,8 @@ def get_analyzed_data_full():
         for tweet_object in all_downloaded_tweets_list:
             json_file.write('\n' + json.dumps(tweet_object))
 
-    analyzed_tweet_objects_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+    all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+    analyzed_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if tweet_object["text_analyzed"]["is_mental_health_related"]]
 
     # store_tweets_in_db
     with open(os.path.join(DB_FOLDER, "analyzed_tweets.json"), "a") as json_file:
@@ -170,7 +171,7 @@ def get_analyzed_data_full():
         tweets_amount_info["analyzed_at"] = time.time()
         json_file.write('\n' + json.dumps(tweets_amount_info))
 
-    countries_count, genders_count, age_groups_count = aggregate_user_objects_analysis_result(analyzed_user_objects_list)
+    countries_count, genders_count, age_groups_count, org_count = aggregate_user_objects_analysis_result(analyzed_user_objects_list)
 
     complete_aggregating_user_objects_analysis_result_at = time.time()
 
@@ -181,6 +182,7 @@ def get_analyzed_data_full():
             "countries_count,": countries_count, 
             "genders_count,": genders_count, 
             "age_groups_count": age_groups_count,
+            "org_count": org_count,
         } , json_file)
 
     full_analysis_result = {
@@ -199,6 +201,7 @@ def get_analyzed_data_full():
             "countries_count": countries_count,
             "genders_count": genders_count,
             "age_groups_count": age_groups_count,
+            "org_count": org_count,
             "keywords_count": keywords_count,
             "keywords_pairs": keywords_pairs,
         },

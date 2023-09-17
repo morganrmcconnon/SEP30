@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timedelta
+from tqdm import tqdm
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
@@ -18,7 +19,7 @@ TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, "services/topic_model/lda_model.mod
 TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 
 
-def download_tweets_during_time_period(time_period=5):
+def download_tweets_during_time_period(time_period=1):
 
     # Download tweets from the Internet Archive Twitter Stream collection in the span of [period] minutes
 
@@ -49,21 +50,11 @@ def download_tweets_during_time_period(time_period=5):
 
 def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, filter_tweets=True, filter_after_translating=True):
     # ----------------------------------
-    # Filter tweets before translated to English
-    # ----------------------------------
-
-    if filter_tweets and not filter_after_translating:
-
-        # Filter all downloaded tweets to only contain mental health tweets 
-        matcher_obj, nlp_obj = create_matcher_model()
-        tweet_objects = [tweet_object for tweet_object in tweet_objects if text_is_related_to_mental_health(clean_tweet_text(get_tweet_text(tweet_object)), matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
-    
-
-    # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
+    tweet_counter = 0 # DEBUG
+    tweet_count = len(tweet_objects) # DEBUG
 
-    new_tweet_objects_list = []
     for tweet_object in tweet_objects:
 
         # Get the full, cleaned text of the tweet object
@@ -71,6 +62,48 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         # We also need to clean the text to remove the URLs and handles and other noise
         tweet_text = clean_tweet_text(get_tweet_text(tweet_object))
         print(tweet_text)
+        tweet_object["text_analyzed"] = {
+            "original": tweet_text,
+            "is_mental_health_related": True,
+            "in_english": "",
+            "lang_detected": "",
+            "processed": [],
+            "sentiment": {
+                "negative": 0,
+                "positive": 0,
+                "neutral": 0
+            },
+            "sentiment_predicted": "",
+            "topics": [],
+            "topic_with_the_highest_score": "",
+            "associated_keywords": []
+        }
+
+    # ----------------------------------
+    # Filter tweets before translating to English
+    # ----------------------------------
+
+    if filter_tweets and not filter_after_translating:
+
+        # Filter all tweets to only contain mental health tweets 
+        matcher_obj, nlp_obj = create_matcher_model()
+
+        for tweet_object in tweet_objects:
+            tweet_object["text_analyzed"]["is_mental_health_related"] = text_is_related_to_mental_health(tweet_object["text_analyzed"]["original"], matcher_obj, nlp_obj)
+
+
+    # ----------------------------------
+    # Translate tweets to English
+    # ----------------------------------
+    tweet_counter = 0 # DEBUG
+    tweet_count = len(tweet_objects) # DEBUG
+
+    for tweet_object in tweet_objects:
+
+        if not tweet_object["text_analyzed"]["is_mental_health_related"]:
+            continue
+
+        tweet_text = tweet_object["text_analyzed"]["original"]
 
         # Get the language of the tweet as detected by Twitter
         tweet_lang = tweet_object["lang"]
@@ -100,31 +133,36 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         if tweet_object['user']['lang'] == None:
             tweet_object['user']['lang'] = tweet_lang_detected
 
-        new_tweet_object = {
-            **tweet_object,
-            "text_analyzed": {
-                "original": tweet_text,
-                "in_english": tweet_text_in_english,
-                "lang_detected": tweet_lang_detected,
-            }
-        }
+        
+        tweet_object["text_analyzed"]["in_english"] = tweet_text_in_english
+        tweet_object["text_analyzed"]["lang_detected"] = tweet_lang_detected
 
-        new_tweet_objects_list.append(new_tweet_object)
+        tweet_counter += 1 # DEBUG
+        print("----------------------------------")
+        print(f"{tweet_counter} / {tweet_count}")
+        print("----------------------------------")
 
     
     # ----------------------------------
-    # Filter tweets after translated to English
+    # Filter tweets after translating to English
     # ----------------------------------
     if filter_tweets and filter_after_translating:
-        # Filter all downloaded tweets to only contain mental health tweets 
+
+        # Filter all tweets to only contain mental health tweets 
         matcher_obj, nlp_obj = create_matcher_model()
-        new_tweet_objects_list = [tweet_object for tweet_object in new_tweet_objects_list if text_is_related_to_mental_health(tweet_object["text_analyzed"]["in_english"], matcher_obj, nlp_obj)]  # filter tweets to only contain mental health tweets
+
+        for tweet_object in tweet_objects:
+            tweet_object["text_analyzed"]["is_mental_health_related"] = text_is_related_to_mental_health(tweet_object["text_analyzed"]["in_english"], matcher_obj, nlp_obj)
+
 
 
     # ----------------------------------
     # Sentiment analysis of each tweet
     # ----------------------------------
-    for tweet_object in new_tweet_objects_list:
+    for tweet_object in tweet_objects:
+
+        if not tweet_object["text_analyzed"]["is_mental_health_related"]:
+            continue
         
         # We are using the English-translated text to feed to the sentiment analysis model
         text_to_analyze = tweet_object["text_analyzed"]["in_english"]
@@ -134,11 +172,9 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(text_to_analyze)
         tweet_object["text_analyzed"]["processed"] = tweet_text_processed
 
-        sentiment_result, sentiment_confidence_probabilities = classify_sentiment(text_to_analyze)
-        tweet_object["text_analyzed"]["sentiment"] = {
-            "result": sentiment_result,
-            "confidence_probabilities": sentiment_confidence_probabilities
-        }
+        sentiment_predicted, sentiment_confidence_probabilities = classify_sentiment(text_to_analyze)
+        tweet_object["text_analyzed"]["sentiment"] = sentiment_confidence_probabilities
+        tweet_object["text_analyzed"]["sentiment_predicted"] = sentiment_predicted
 
     # ----------------------------------
     # Topic modelling
@@ -146,7 +182,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
 
     # We can choose to create a new topic model or load the existing one
     if create_new_topic_model:
-        tweets_to_analyze = [tweet["text_analyzed"]["in_english"] for tweet in new_tweet_objects_list]
+        tweets_to_analyze = [tweet_object["text_analyzed"]["in_english"] for tweet_object in tweet_objects if tweet_object["text_analyzed"]["is_mental_health_related"]]
         lda_topic_model, topics_values = topic_modelling(tweets_to_analyze, num_topics=NUM_TOPICS)
     else:
         lda_topic_model = load_model(TOPIC_MODEL_FILE)
@@ -160,7 +196,9 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
                 keywords_of_topic_model.append(keyword)
 
     # Topic modelling for each tweet
-    for tweet_object in new_tweet_objects_list:
+    for tweet_object in tweet_objects:
+        if not tweet_object["text_analyzed"]["is_mental_health_related"]:
+            continue
     
         text_to_analyze = tweet_object["text_analyzed"]["in_english"]
         
@@ -169,12 +207,13 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         # Convert float32 to float
         topics = [[topic[0], float(topic[1])] for topic in topics_detected]
         tweet_object["text_analyzed"]['topics'] = topics
+        tweet_object["text_analyzed"]['topic_with_the_highest_score'] = max(topics, key=lambda x: x[1])[0]
 
         # Get the keywords associated with the tweet
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
         tweet_object["text_analyzed"]['associated_keywords'] = associated_keywords
 
-    return new_tweet_objects_list, topics_values
+    return tweet_objects, topics_values
 
 
 def analyze_multiple_users(user_objects_list):
@@ -183,31 +222,43 @@ def analyze_multiple_users(user_objects_list):
     
     The keys in the user object follows the Twitter API v1.1 dictionary.
     '''
+    # Initialize the location_analyzed and demographics keys in the user object
+    for user_object in user_objects_list:
+        user_object["location_analyzed"] = {
+            "in_english": "",
+            "lang_detected": "",
+            "latitude": None,
+            "longitude": None,
+            "country_name": "",
+            "country_code": ""
+        }
+        user_object["demographics"] = {
+            'age': {
+                '19-29': 0.1546,
+                '30-39': 0.114,
+                '<=18': 0.0481,
+                '>=40': 0.6833
+            },
+            'gender': {
+                'female': 0.0066, 
+                'male': 0.9934
+            },
+            'org': {
+                'is-org': 0.7508, 
+                'non-org': 0.2492
+            }
+        }
+        user_object["age_predicted"] = ""
+        user_object["gender_predicted"] = ""
+        user_object["org_predicted"] = ""
 
-    new_user_objects_list = []
-
+    # Analyze the location of each user
     for user_object in user_objects_list:
 
         # Get original location description
         location_description = user_object["location"]
 
         if(location_description == None or location_description == ""):
-
-            
-            new_user_object = {
-                **user_object,
-                "location_analyzed": {
-                    "in_english": "",
-                    "lang_detected": "",
-                    "latitude": None,
-                    "longitude": None,
-                    "country_name": "",
-                    "country_code": ""
-                }
-            }
-
-            new_user_objects_list.append(new_user_object)
-
             continue
 
         # Detect the language of the location description and translate it to English
@@ -235,23 +286,18 @@ def analyze_multiple_users(user_objects_list):
             country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
             country_code = detect_geojson_ploygon(latitude, longitude, country_name_key_in_properties="ISO_A3")  # The country code key is "ISO_A3" in the geojson file
 
-        new_user_object = {
-            **user_object,
-            "location_analyzed": {
-                "in_english": location_in_english,
-                "lang_detected": location_lang_detected,
-                "latitude": latitude,
-                "longitude": longitude,
-                "country_name": country_name,
-                "country_code": country_code
-            }
+        user_object["location_analyzed"] = {
+            "in_english": location_in_english,
+            "lang_detected": location_lang_detected,
+            "latitude": latitude,
+            "longitude": longitude,
+            "country_name": country_name,
+            "country_code": country_code
         }
-
-        new_user_objects_list.append(new_user_object)
-
+        
     # Preprocess user object for m3inference
     users_demographics_input_list = []
-    for user_object in new_user_objects_list:
+    for user_object in user_objects_list:
         user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
                                                                           id_key="id_str", 
                                                                           name_key="name",
@@ -266,10 +312,14 @@ def analyze_multiple_users(user_objects_list):
     users_demographics = detect_demographics(users_demographics_input_list)
 
     # For each user object, store the demographics detection result
-    for user_object in new_user_objects_list:
+    for user_object in user_objects_list:
         user_object["demographics"] = users_demographics[user_object["id_str"]]
+        user_object["age_predicted"] = max(user_object["demographics"]["age"], key=user_object["demographics"]["age"].get)
+        user_object["gender_predicted"] = max(user_object["demographics"]["gender"], key=user_object["demographics"]["gender"].get)
+        user_object["org_predicted"] = max(user_object["demographics"]["org"], key=user_object["demographics"]["org"].get)
 
-    return new_user_objects_list
+
+    return user_objects_list
 
 
 def aggregate_tweet_objects_analysis_result(tweet_objects_list):
@@ -287,14 +337,13 @@ def aggregate_tweet_objects_analysis_result(tweet_objects_list):
         text_analyzed_result = tweet_object["text_analyzed"]
 
         # ---------topic processing----------#
-        topic = text_analyzed_result["topics"]
-        highest_score_topic = max(topic, key=lambda x: x[1])
-        topics_count[highest_score_topic[0]] = topics_count.get(highest_score_topic[0], 0) + 1
+        highest_score_topic = text_analyzed_result["topic_with_the_highest_score"]
+        topics_count[highest_score_topic] = topics_count.get(highest_score_topic, 0) + 1
         # ---------topic processing----------#
 
         # ---------sentiment processing----------#
-        sentiment_result = text_analyzed_result["sentiment"]["result"]
-        sentiment_count[sentiment_result] = sentiment_count.get(sentiment_result, 0) + 1
+        sentiment_predicted = text_analyzed_result["sentiment_predicted"]
+        sentiment_count[sentiment_predicted] = sentiment_count.get(sentiment_predicted, 0) + 1
         # ---------sentiment processing----------#
 
 
@@ -319,9 +368,11 @@ def aggregate_tweet_objects_analysis_result(tweet_objects_list):
 def aggregate_user_objects_analysis_result(data):
     countries_count = {}
 
-    genders_count = {"female": 0, "male": 0}
+    genders_count = { "female": 0, "male": 0 }
 
-    age_groups_count = {"19-29": 0, "30-39": 0, "<=18": 0, ">=40": 0}
+    age_groups_count = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 }
+
+    org_count = { "is-org": 0, "non-org": 0 }
 
     for user_object in data:
         # print(user_object)
@@ -332,14 +383,15 @@ def aggregate_user_objects_analysis_result(data):
         # ---------location processing----------#
 
         # ---------gender processing----------#
-        gender_scores = user_object["demographics"]["gender"]
-        gender = max(gender_scores, key=gender_scores.get)
+        gender = user_object["gender_predicted"]
         genders_count[gender] += 1
 
         # ---------age processing----------#
-        age_scores = user_object["demographics"]["age"]
-        age = max(age_scores, key=age_scores.get)
+        age = user_object["age_predicted"]
         age_groups_count[age] += 1
 
-    return countries_count, genders_count, age_groups_count
+        org = user_object["org_predicted"]
+        org_count[org] += 1
+
+    return countries_count, genders_count, age_groups_count, org_count
 
