@@ -16,6 +16,8 @@ import LocationsGrid from "./grids/LocationsGrid";
 import KnowledgeGraph from "./grids/KnowledgeGraphGrid";
 import TestEndpoint from "./grids/TestEndpoint";
 import FilterOptionsGrid from "./grids/FilterOptionsGrid";
+import DemoRoBERTa from "./grids/DemoRoBERTa";
+import DemoVader from "./grids/DemoVader";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -33,9 +35,11 @@ const DashboardVis = () => {
     { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
     { i: "Genders", vis: <GendersGrid />, x: 0, y: 4, w: 4, h: 3 },
     { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 4, y: 3, w: 4, h: 3 },
-    { i: "Locations", vis: <LocationsGrid />, x: 0, y: 4, w: 8, h: 3 },
     { i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },
     { i: "FilterOptionsGrid", vis: <FilterOptionsGrid />, x: 8, y: 4, w: 4, h: 1.7 },
+    { i: "Locations", vis: <LocationsGrid />, x: 0, y: 4, w: 8, h: 3 },
+    { i: "TestRoBERTa", vis: <DemoRoBERTa />, x: 8, y: 4, w: 4, h: 1.5 },
+    { i: "TestVader", vis: <DemoVader />, x: 8, y: 4, w: 4, h: 1.5 },
   ];
   return (
     <ResponsiveGridLayout
