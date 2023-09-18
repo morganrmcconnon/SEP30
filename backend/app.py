@@ -138,7 +138,7 @@ def get_analyzed_data_full():
 
     start_analysis_at = time.time()
 
-    all_downloaded_tweets_list = download_tweets_during_time_period()
+    all_downloaded_tweets_list = download_tweets_during_time_period(time_period=5)
 
     if _USING_DATABASE_:
         # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
