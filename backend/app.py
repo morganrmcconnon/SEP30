@@ -2,11 +2,49 @@ from flask import Flask, request, jsonify
 import time
 import os
 import json
+from pymongo import MongoClient
 
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 from my_source import mySource
 from source import download_tweets_during_time_period, analyze_multiple_tweets, analyze_multiple_users, aggregate_tweet_objects_analysis_result, aggregate_user_objects_analysis_result
+
+
+try:
+    # Try establishing connection with MongoDB
+    MONGODB_CLIENT = MongoClient('mongodb://localhost:27017/')
+    _USING_DATABASE_ = True
+except Exception as e:
+    print('Failed to connect to MongoDB')
+    print(e)
+    _USING_DATABASE_ = False
+
+
+# Get database and collection
+if _USING_DATABASE_:
+    # create a new database if it doesn't exist
+    if 'twitter_db' not in MONGODB_CLIENT.list_database_names():
+        DATABASE = MONGODB_CLIENT['twitter_db']
+    else:
+        DATABASE = MONGODB_CLIENT['twitter_db']
+
+    # create new collections if it doesn't exist
+    if 'original_tweets' not in DATABASE.list_collection_names():
+        C_ORIGINAL_TWEETS = DATABASE.create_collection('original_tweets')
+    else:
+        C_ORIGINAL_TWEETS = DATABASE['original_tweets']
+
+    if 'analyzed_tweets' not in DATABASE.list_collection_names():
+        C_ANALYZED_TWEETS = DATABASE.create_collection('analyzed_tweets')
+    else:
+        C_ANALYZED_TWEETS = DATABASE['analyzed_tweets']
+
+    if 'analyzed_users' not in DATABASE.list_collection_names():
+        C_ANALYZED_USERS = DATABASE.create_collection('analyzed_users')
+    else:
+        C_ANALYZED_USERS = DATABASE['analyzed_users']
+        
+
 
 CURRENT_DIR = os.path.dirname(__file__)
 CACHE_FOLDER = os.path.join(CURRENT_DIR, "cache")
@@ -102,15 +140,44 @@ def get_analyzed_data_full():
 
     all_downloaded_tweets_list = download_tweets_during_time_period()
 
-    # store_tweets_in_db
+    if _USING_DATABASE_:
+        # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
+        # If the tweet with the same id_str already exists, do not insert it.
+        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in all_downloaded_tweets_list if C_ORIGINAL_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+        if len(documents_to_insert) > 0:
+            db_op_result = C_ORIGINAL_TWEETS.insert_many(documents_to_insert)
+            print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
+
     with open(os.path.join(DB_FOLDER, "original_tweets.json"), "a") as json_file:
         for tweet_object in all_downloaded_tweets_list:
             json_file.write('\n' + json.dumps(tweet_object))
 
-    all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+    if _USING_DATABASE_:
+        # Get all cached tweet objects with id in all_downloaded_tweets_list in the collection
+        list_of_already_analyzed_tweets = list(C_ANALYZED_TWEETS.find({'_id': {'$in': [tweet_object['id_str'] for tweet_object in all_downloaded_tweets_list]}}))
+
+        # If a tweet with the same id_str already exists, do not analyze it.
+        list_of_tweets_to_analyze = [tweet_object for tweet_object in all_downloaded_tweets_list if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+        
+        # Analyze the tweet objects that are not cached
+        list_of_tweets_to_analyze, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze, filter_after_translating=True)
+
+        # Save analyzed tweets into MongoDB collection. Set id_str as the primary key - `_id`
+        # If the tweet with the same id_str already exists, do not insert it.
+        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in list_of_tweets_to_analyze if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+        if len(documents_to_insert) > 0:
+            db_op_result = C_ANALYZED_TWEETS.insert_many(documents_to_insert)
+            print(f'Saved {len(db_op_result.inserted_ids)} analyzed tweets')
+    
+        # Merge the analyzed tweet objects with the cached tweet objects
+        all_downloaded_tweets_list = list_of_already_analyzed_tweets + list_of_tweets_to_analyze
+
+    else:
+        # Analyze all downloaded tweet objects
+        all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze, filter_after_translating=True)
+    
     analyzed_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if tweet_object["text_analyzed"]["is_mental_health_related"]]
 
-    # store_tweets_in_db
     with open(os.path.join(DB_FOLDER, "analyzed_tweets.json"), "a") as json_file:
         for tweet_object in analyzed_tweet_objects_list:
             json_file.write('\n' + json.dumps(tweet_object))
@@ -134,12 +201,33 @@ def get_analyzed_data_full():
 
     user_objects_list = [tweet_object["user"] for tweet_object in analyzed_tweet_objects_list]
 
-    analyzed_user_objects_list = analyze_multiple_users(user_objects_list)
+    if _USING_DATABASE_:
+
+        # Get all cached user objects with id in user_objects_list in the collection
+        list_of_already_analyzed_users = list(C_ANALYZED_USERS.find({'_id': {'$in': [user_object['id_str'] for user_object in user_objects_list]}}))
+
+        # If a user with the same id_str already exists, do not analyze it.
+        list_of_users_to_analyze = [user_object for user_object in user_objects_list if C_ANALYZED_USERS.count_documents({'_id': user_object["id_str"]}, limit = 1) == 0]
+
+        # Analyze the user objects that are not cached
+        list_of_users_to_analyze = analyze_multiple_users(list_of_users_to_analyze)
+
+        # Save analyzed users into MongoDB collection. Set id_str as the primary key - `_id`
+        # If the user with the same id_str already exists, do not insert it.
+        documents_to_insert = [{**user_object, '_id': user_object['id_str']} for user_object in list_of_users_to_analyze if C_ANALYZED_USERS.count_documents({'_id': user_object['id_str']}, limit = 1) == 0]
+        if len(documents_to_insert) > 0:
+            db_op_result = C_ANALYZED_USERS.insert_many(documents_to_insert)
+            print(f'Saved {len(db_op_result.inserted_ids)} analyzed users')
+
+        # Merge the analyzed user objects with the cached user objects
+        analyzed_user_objects_list = list_of_already_analyzed_users + list_of_users_to_analyze
+
+    else:
+        # Analyze all downloaded user objects
+        analyzed_user_objects_list = analyze_multiple_users(user_objects_list)
 
     complete_user_objects_analysis_at = time.time()
 
-    
-    # store_tweets_in_db
     with open(os.path.join(DB_FOLDER, "analyzed_users.json"), "a") as json_file:
         for user_object in analyzed_user_objects_list:
             json_file.write('\n' + json.dumps(user_object))
