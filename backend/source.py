@@ -283,8 +283,8 @@ def analyze_multiple_users(user_objects_list):
             longitude = coordinates[1]
 
             # Detect polygon. This is to display the country name in the map.
-            country_name = detect_geojson_ploygon(latitude, longitude)  # The country name key is "ADMIN" in the geojson file
-            country_code = detect_geojson_ploygon(latitude, longitude, country_name_key_in_properties="ISO_A3")  # The country code key is "ISO_A3" in the geojson file
+            country_name = detect_geojson_ploygon(latitude, longitude, geo_dataframe_key="name")  # The country name key is "ADMIN" in the geojson file
+            country_code = detect_geojson_ploygon(latitude, longitude, geo_dataframe_key="id")  # The country code key is "ISO_A3" in the geojson file
 
         user_object["location_analyzed"] = {
             "in_english": location_in_english,
