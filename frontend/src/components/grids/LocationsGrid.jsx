@@ -72,7 +72,7 @@ const MapChart = ({ Highlighted }) => {
                   geography={geo}
                   fill={isHighlighted ? "#339AF0" : '#F6F0E9'}
                   onClick={() => {
-                    updateSearch({ ...search, location: geo.properties.name });
+                    updateSearch({ ...search, location: geo.id });
                   }
                   }
                 // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}

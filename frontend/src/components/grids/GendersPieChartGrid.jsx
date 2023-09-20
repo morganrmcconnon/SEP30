@@ -12,8 +12,8 @@ export default function GendersPieChartGrid() {
   const { search, updateSearch, dashboardData } = useSearchContext();
   const griddata = dashboardData.genders;
   const data = [
-    { title: "Female", color: ColorVar.red, value: griddata.data.female.present },
-    { title: "Male", color: ColorVar.blue, value: griddata.data.male.present },
+    { id: 'female', title: "Female", color: ColorVar.red, value: griddata.data.female.present },
+    { id: 'male', title: "Male", color: ColorVar.blue, value: griddata.data.male.present },
   ];
 
   return (
@@ -36,7 +36,7 @@ export default function GendersPieChartGrid() {
               {data.map((item, index) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, gender: item.title });
+                    updateSearch({ ...search, gender: item.id });
                   }}
                   key={`cell-${index}`}
                   fill={item.color}

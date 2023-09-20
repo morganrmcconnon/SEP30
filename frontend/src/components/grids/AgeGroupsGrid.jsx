@@ -29,7 +29,7 @@ export default function AgeGroups() {
                 {data.data.map((item, index) => (
                   <Cell
                     onClick={() => {
-                      updateSearch({ ...search, age: item.name });
+                      updateSearch({ ...search, age: item.id });
                     }}
                     key={`cell-${index}`}
                     fill={item.color}

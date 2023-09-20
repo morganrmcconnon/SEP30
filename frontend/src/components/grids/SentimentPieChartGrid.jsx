@@ -31,7 +31,7 @@ export default function SentimentPieChartGrid() {
               {data.data.map((item, index) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, sentiment: item.title });
+                    updateSearch({ ...search, sentiment: item.value_key });
                   }}
                   key={`cell-${index}`}
                   fill={item.color}
