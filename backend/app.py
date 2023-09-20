@@ -13,15 +13,9 @@ from source import download_tweets_during_time_period, analyze_multiple_tweets, 
 try:
     # Try establishing connection with MongoDB
     MONGODB_CLIENT = MongoClient('mongodb://localhost:27017/')
-    _USING_DATABASE_ = True
-except Exception as e:
-    print('Failed to connect to MongoDB')
-    print(e)
-    _USING_DATABASE_ = False
 
+    # Get database and collection
 
-# Get database and collection
-if _USING_DATABASE_:
     # create a new database if it doesn't exist
     if 'twitter_db' not in MONGODB_CLIENT.list_database_names():
         DATABASE = MONGODB_CLIENT['twitter_db']
@@ -43,6 +37,13 @@ if _USING_DATABASE_:
         C_ANALYZED_USERS = DATABASE.create_collection('analyzed_users')
     else:
         C_ANALYZED_USERS = DATABASE['analyzed_users']
+    
+    _USING_DATABASE_ = True
+
+except Exception as e:
+    print('Failed to connect to MongoDB')
+    print(e)
+    _USING_DATABASE_ = False
         
 
 
