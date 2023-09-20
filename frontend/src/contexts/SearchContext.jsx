@@ -67,7 +67,7 @@ export const SearchProvider = ({ children }) => {
     if(search.age != false && search.age != undefined && search.age != null && age == search.age) {
       age = false;
     }
-    
+
     setSearch({
       sentiment: sentiment,
       topic: topic,
@@ -110,7 +110,6 @@ export const SearchProvider = ({ children }) => {
     const newDashboardData = update_dashboard_data(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count, sentiment_count, topic_count, keyword_count, keyword_pairs_count, genders_count, countries_count, age_groups_count);
 
     setDashboardData(newDashboardData);
-
   };
 
   return (
