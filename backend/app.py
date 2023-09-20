@@ -175,7 +175,7 @@ def get_analyzed_data_full():
 
     else:
         # Analyze all downloaded tweet objects
-        all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze, filter_after_translating=True)
+        all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
     
     analyzed_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if tweet_object["text_analyzed"]["is_mental_health_related"]]
 
