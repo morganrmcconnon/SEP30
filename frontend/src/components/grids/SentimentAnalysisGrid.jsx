@@ -6,7 +6,6 @@ import VisHeader from "../grid_components/VisHeader";
 import { useSearchContext } from "../../contexts/SearchContext";
 import DATATYPES from "../../constants/dataTypes";
 
-
 export default function SentimentAnalysis() {
   const { search, updateSearch, dashboardData } = useSearchContext();
   const data = dashboardData.sentimentAnalysis;
@@ -33,16 +32,16 @@ export default function SentimentAnalysis() {
                 onClick={() => {
                   switch (item.title) {
                     case "Positive Tweets":
-                      updateSearch({ ...search, sentiment: "Positive" });
+                      updateSearch({ ...search, sentiment: "positive" });
                       break;
                     case "Negative Tweets":
-                      updateSearch({ ...search, sentiment: "Negative" });
+                      updateSearch({ ...search, sentiment: "negative" });
                       break;
                     case "Neutral Tweets":
-                      updateSearch({ ...search, sentiment: "Neutral" });
+                      updateSearch({ ...search, sentiment: "neutral" });
                       break;
                     default:
-                      updateSearch({ ...search, sentiment: "Other" });
+                      updateSearch({ ...search, sentiment: "other" });
                   }
                 }}
               >
