@@ -48,6 +48,25 @@ export const SearchProvider = ({ children }) => {
     location,
     age,
   }) => {
+
+    if(search.sentiment != false && search.sentiment != undefined && search.sentiment != null && sentiment == search.sentiment) {
+      sentiment = false;
+    }
+    if(search.topic != false && search.topic != undefined && search.topic != null && topic == search.topic) {
+      topic = false;
+    }
+    if(search.keyword != false && search.keyword != undefined && search.keyword != null && keyword == search.keyword) {
+      keyword = false;
+    }
+    if(search.gender != false && search.gender != undefined && search.gender != null && gender == search.gender) {
+      gender = false;
+    }
+    if(search.location != false && search.location != undefined && search.location != null && location == search.location) {
+      location = false;
+    }
+    if(search.age != false && search.age != undefined && search.age != null && age == search.age) {
+      age = false;
+    }
     
     setSearch({
       sentiment: sentiment,
