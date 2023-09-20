@@ -9,7 +9,8 @@ function filter_tweet_objects_list_by(tweet_objects, sentiment = false, topic = 
         const text_in_english = text_analyzed['in_english'];
         return (
             (sentiment == false || sentiment_predicted === sentiment) &&
-            (topic == false || topic_with_the_highest_score === topic) &&
+            //(topic == false || topic_with_the_highest_score === topic) &&
+            (topic == false || topic_with_the_highest_score.toString() == topic.toString()) &&
             (keyword == false || associated_keywords.includes(keyword) || original_text.includes(keyword) || text_in_english.includes(keyword))
         );
     });
