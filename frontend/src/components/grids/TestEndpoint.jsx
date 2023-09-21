@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import VisHeader from '../grid_components/VisHeader';
+import React, { useState } from "react";
+import VisHeader from "../grid_components/VisHeader";
 import { useSearchContext } from "../../contexts/SearchContext";
-
 
 const TestEndpoint = () => {
   const [text, setText] = useState("");
@@ -43,7 +42,10 @@ const TestEndpoint = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Test API Endpoint" subtitle="Enter an API endpoint and check it's response in the Console." />
+      <VisHeader
+        title="Test API Endpoint"
+        subtitle="Enter an API endpoint and check it's response in the Console."
+      />
       <article>
         <form onSubmit={getResult}>
           <div>
@@ -58,20 +60,20 @@ const TestEndpoint = () => {
             <button type="submit">Console log endpoint's result</button>
           </div>
           <div>
-            <button type="button" onClick={clearText}>Clear</button>
+            <button type="button" onClick={clearText}>
+              Clear
+            </button>
           </div>
           <div>
-            <button type="submit" onClick={setTextStatic}>Test Dashboard</button>
+            <button type="submit" onClick={setTextStatic}>
+              Test Dashboard
+            </button>
           </div>
-          <div>
-            {/* <p>{JSON.stringify(realData)}</p> */}
-          </div>
+          <div>{/* <p>{JSON.stringify(realData)}</p> */}</div>
         </form>
       </article>
     </div>
-
   );
 };
-
 
 export default TestEndpoint;
