@@ -5,7 +5,7 @@ from googletrans import Translator
 TRANSLATOR = Translator()
 
 M3TWITTER = M3Twitter(
-    cache_dir="./m3twitter_cache", use_full_model=False, use_cuda=False, parallel=True
+    cache_dir="./m3twitter_cache", use_full_model=False, use_cuda=True, parallel=True
 )
 
 
