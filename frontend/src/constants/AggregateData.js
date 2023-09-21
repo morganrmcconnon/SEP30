@@ -11,8 +11,13 @@ function aggregate_tweet_objects_list(tweet_objects) {
 
     const keyword_pairs_count = {};
 
+    const female_sentiment = {positive: 0, neutral: 0, negative: 0}
+    const male_sentiment = {positive: 0, neutral: 0, negative: 0}  
+
     tweet_objects.forEach(tweet_object => {
+        
         const text_analyzed = tweet_object['text_analyzed'];
+        const user = tweet_object['user'];
         const sentiment_predicted = text_analyzed['sentiment_predicted'];
         const topic_with_the_highest_score = text_analyzed['topic_with_the_highest_score'];
         const associated_keywords = text_analyzed['associated_keywords'];
@@ -37,6 +42,24 @@ function aggregate_tweet_objects_list(tweet_objects) {
                 }
             });
         });
+
+        if (user.gender_predicted == "female"){
+            if (text_analyzed.sentiment_predicted == "positive"){
+                female_sentiment.positive++
+            } else if (text_analyzed.sentiment_predicted == "neutral"){
+                female_sentiment.neutral++
+            } else if (text_analyzed.sentiment_predicted == "negative"){
+                female_sentiment.negative++
+            }   
+        } else {
+            if (text_analyzed.sentiment_predicted == "positive"){
+                male_sentiment.positive++
+            } else if (text_analyzed.sentiment_predicted == "neutral"){
+                male_sentiment.neutral++
+            } else if (text_analyzed.sentiment_predicted == "negative"){
+                male_sentiment.negative++
+            } 
+        }
     });
 
     const keywordsPairsArray = Object.entries(keyword_pairs_count).map(([keywordsPair, count]) => {
@@ -44,6 +67,8 @@ function aggregate_tweet_objects_list(tweet_objects) {
     });
 
     return {
+        female_sentiment,
+        male_sentiment,
         sentiment_count,
         topic_count,
         keyword_count,

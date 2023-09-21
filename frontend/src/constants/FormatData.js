@@ -39,9 +39,14 @@ function display_backend_data_into_age_groups(age_groups_count) {
   return DATATYPES;
 }
 
-function display_backend_data_into_genders(genders_count) {
-
+function display_backend_data_into_genders(genders_count, female_sentiment, male_sentiment, ) {
+  if (female_sentiment){
+    DATATYPES.genders.data.female.sentiment = female_sentiment
+  } 
   DATATYPES.genders.data.female.present = genders_count['female'];
+  if (male_sentiment){
+    DATATYPES.genders.data.male.sentiment = male_sentiment
+  }
   DATATYPES.genders.data.male.present = genders_count['male'];
   return DATATYPES;
 }
@@ -178,12 +183,12 @@ function display_backend_data_into_charts(backend_data) {
 }
 
 
-function update_dashboard_data(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count, sentiments_count, topics_count, keywords_count, keywords_pairs, genders_count, countries_count, age_groups_count) {
+function update_dashboard_data(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count, sentiments_count, topics_count, keywords_count, keywords_pairs, genders_count, female_sentiment, male_sentiment, countries_count, age_groups_count) {
 
   display_backend_data_into_analyticsBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
 
   display_backend_data_into_topicModelling(topics_count);
-
+  
   display_backend_data_into_knowledge_graph(keywords_count, keywords_pairs);
 
   display_backend_data_into_sentimentAnalysis(sentiments_count);
@@ -192,7 +197,7 @@ function update_dashboard_data(total_tweets_count, mental_health_related_tweets_
   
   display_backend_data_into_age_groups(age_groups_count);
   
-  display_backend_data_into_genders(genders_count);
+  display_backend_data_into_genders(genders_count, female_sentiment, male_sentiment);
 
   return DATATYPES;
 }
