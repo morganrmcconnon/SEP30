@@ -111,16 +111,14 @@ export const SearchProvider = ({ children }) => {
       age: age,
     });
 
-    const topic_number = isNaN(topic) ? 0 : parseInt(topic);
-
     if (
       realData !== undefined &&
       realData["topics_values"] !== undefined &&
-      realData["topics_values"][topic_number] !== undefined
+      realData["topics_values"][topic] !== undefined
     ) {
       console.log("in SearchContext.jsx, updateSearch:");
       dashboardData.keywordsDistribution.data = realData["topics_values"][
-        topic_number
+        topic
       ].map((item) => {
         return { name: item[0], value: item[1] };
       });

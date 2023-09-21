@@ -103,6 +103,7 @@ export type ChartDataTypes = {
     title: string,
     subTitle: string,
     locationHighLight: Array<string>,
+    locationHighLightData: Array<number>,
     totalUser: number,
     data: Array<{
       name: string,
@@ -507,6 +508,131 @@ export const DATATYPES : ChartDataTypes = {
       'ZWE', // Zimbabwe
       'AUS', // Australia
       'USA', // United States of America
+    ],
+    locationHighLightData: [
+      1, // Germany
+      1, // France
+      1, // Italy
+      1, // Spain
+      1, // United Kingdom
+      1, // Greece
+      1, // Portugal
+      1, // Netherlands
+      1, // Belgium
+      1, // Austria
+      1, // Switzerland
+      1, // Sweden
+      1, // Norway
+      1, // Denmark
+      1, // Finland
+      1, // Poland
+      1, // Russia
+      1, // Ukraine
+      1, // Czech Republic
+      1, // Slovakia
+      1, // Hungary
+      1, // Afghanistan
+      1, // Armenia
+      1, // Azerbaijan
+      1, // Bahrain
+      1, // Bangladesh
+      1, // Bhutan
+      1, // Brunei
+      1, // Cambodia
+      1, // China
+      1, // Cyprus
+      1, // Georgia
+      1, // India
+      1, // Indonesia
+      1, // Iran
+      1, // Iraq
+      1, // Israel
+      1, // Japan
+      1, // Jordan
+      1, // Kazakhstan
+      1, // Kyrgyzstan
+      1, // Kuwait
+      1, // Laos
+      1, // Lebanon
+      1, // Malaysia
+      1, // Maldives
+      1, // Mongolia
+      1, // Myanmar (Burma)
+      1, // Nepal
+      1, // Oman
+      1, // Pakistan
+      1, // Philippines
+      1, // Qatar
+      1, // Saudi Arabia
+      1, // Singapore
+      1, // South Korea
+      1, // Sri Lanka
+      1, // Syria
+      1, // Taiwan
+      1, // Tajikistan
+      1, // Thailand
+      1, // Timor-Leste (East Timor)
+      1, // Turkey
+      1, // Turkmenistan
+      1, // United Arab Emirates
+      1, // Uzbekistan
+      1, // Vietnam
+      1, // Yemen
+      1, // Algeria
+      1, // Angola
+      1, // Benin
+      1, // Botswana
+      1, // Burkina Faso
+      1, // Burundi
+      1, // Cameroon
+      1, // Cape Verde
+      1, // Central African Republic
+      1, // Chad
+      1, // Comoros
+      1, // Democratic Republic of the Congo
+      1, // Djibouti
+      1, // Egypt
+      1, // Equatorial Guinea
+      1, // Eritrea
+      1, // Eswatini (formerly Swaziland)
+      1, // Ethiopia
+      1, // Gabon
+      1, // Gambia
+      1, // Ghana
+      1, // Guinea
+      1, // Guinea-Bissau
+      1, // Ivory Coast
+      1, // Kenya
+      1, // Lesotho
+      1, // Liberia
+      1, // Libya
+      1, // Madagascar
+      1, // Malawi
+      1, // Mali
+      1, // Mauritania
+      1, // Mauritius
+      1, // Morocco
+      1, // Mozambique
+      1, // Namibia
+      1, // Niger
+      1, // Nigeria
+      1, // Rwanda
+      1, // Sao Tome and Principe
+      1, // Senegal
+      1, // Seychelles
+      1, // Sierra Leone
+      1, // Somalia
+      1, // South Africa
+      1, // South Sudan
+      1, // Sudan
+      1, // Tanzania
+      1, // Togo
+      1, // Tunisia
+      1, // Uganda
+      1, // Zambia
+      1, // Zimbabwe
+      1, // Australia
+      1, // United States of America
     ],
     totalUser: 1300,
     data: [

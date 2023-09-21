@@ -68,6 +68,8 @@ function display_backend_data_into_locations(countries_count: Record<string, num
 
   DATATYPES.locations.locationHighLight = Object.keys(countries_count);
 
+  DATATYPES.locations.locationHighLightData = Object.values(countries_count);
+
   let locations = Object.entries(countries_count).map(([country, country_count]) => {
     return { name: country, value: country_count };
   }).sort((a, b) => b.value - a.value);
@@ -75,18 +77,18 @@ function display_backend_data_into_locations(countries_count: Record<string, num
 
   // put the value of the country named "" to the top of the array
   let index = locations.findIndex((element) => element.name === "");
-  if(index !== -1) {
-    let temp = locations[index];
-    temp.name = "Others";
-    // Remove the element at index
-    locations.splice(index, 1);
-    // Add the element at index 0
-    locations.unshift(temp);
+  
+  if (index != -1){
+	  let temp = locations[0];
+	  temp.name = "UNCATEGORISED";
+	  // Remove the element at index
+	  locations.splice(index, 1);
+	  // Add the element at index 0
+	  locations = locations.splice(0,4);
+	  // Add Others element to the end
+	  locations.push(temp);
   }
-
-  // Load features.json and detect the country name of each country code
-  // and add the country name to the locations array
-
+  
   DATATYPES.locations.data = locations.splice(0, 5);
 
   return DATATYPES;
