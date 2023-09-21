@@ -10,7 +10,7 @@ nltk.download('wordnet')
 # The number of topics to be extracted
 NUM_TOPICS = 10
 # Number of the most significant words that are associated with the topic.
-NUM_KEYWORDS_PER_TOPIC = 10
+NUM_KEYWORDS_PER_TOPIC = 100
 
 
 # Preprocessing: tokenization, stopword removal, and lemmatization
@@ -57,7 +57,16 @@ def topic_modelling(texts: list[str], num_topics: int = NUM_TOPICS, save_to_file
         lda_model.save(save_to_file)
         print(f"LDA model saved to {save_to_file}")
 
-    return lda_model, [lda_model.show_topic(topic_id, topn=NUM_KEYWORDS_PER_TOPIC) for topic_id in range(num_topics)]
+    # Get the keywords and probability distribution of each topic
+    topics_values = lda_model.show_topics(num_topics=num_topics, num_words=NUM_KEYWORDS_PER_TOPIC, formatted=False)
+    topics_values = {
+        topic_value[0]: [
+            [keyword_value[0], float(keyword_value[1])] for keyword_value in topic_value[1]
+        ]
+        for topic_value in topics_values
+    }
+
+    return lda_model, topics_values
 
 
 # Load the saved LDA model
@@ -70,7 +79,7 @@ def load_model(model_file):
     Returns the trained LDA model
 
     '''
-    lda_model = LdaModel.load(model_file)
+    lda_model : LdaModel = LdaModel.load(model_file)
     return lda_model
 
 

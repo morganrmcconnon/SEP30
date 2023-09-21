@@ -190,7 +190,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
 
     # Get the keywords of the topic model
     keywords_of_topic_model = []
-    for topic in topics_values:
+    for topic in topics_values.values():
         for keyword, _ in topic:
             if keyword not in keywords_of_topic_model:
                 keywords_of_topic_model.append(keyword)

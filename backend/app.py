@@ -139,43 +139,49 @@ def get_analyzed_data_full():
 
     start_analysis_at = time.time()
 
-    all_downloaded_tweets_list = download_tweets_during_time_period(time_period=5)
+    # all_downloaded_tweets_list = download_tweets_during_time_period(time_period=5)
 
-    if _USING_DATABASE_:
-        # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
-        # If the tweet with the same id_str already exists, do not insert it.
-        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in all_downloaded_tweets_list if C_ORIGINAL_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
-        if len(documents_to_insert) > 0:
-            db_op_result = C_ORIGINAL_TWEETS.insert_many(documents_to_insert)
-            print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
+    # if _USING_DATABASE_:
+    #     # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
+    #     # If the tweet with the same id_str already exists, do not insert it.
+    #     documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in all_downloaded_tweets_list if C_ORIGINAL_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+    #     if len(documents_to_insert) > 0:
+    #         db_op_result = C_ORIGINAL_TWEETS.insert_many(documents_to_insert)
+    #         print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 
-    with open(os.path.join(DB_FOLDER, "original_tweets.json"), "a") as json_file:
-        for tweet_object in all_downloaded_tweets_list:
-            json_file.write('\n' + json.dumps(tweet_object))
+    # with open(os.path.join(DB_FOLDER, "original_tweets.json"), "a") as json_file:
+    #     for tweet_object in all_downloaded_tweets_list:
+    #         json_file.write('\n' + json.dumps(tweet_object))
 
-    if _USING_DATABASE_:
-        # Get all cached tweet objects with id in all_downloaded_tweets_list in the collection
-        list_of_already_analyzed_tweets = list(C_ANALYZED_TWEETS.find({'_id': {'$in': [tweet_object['id_str'] for tweet_object in all_downloaded_tweets_list]}}))
+    # if _USING_DATABASE_:
+    #     # Get all cached tweet objects with id in all_downloaded_tweets_list in the collection
+    #     list_of_already_analyzed_tweets = list(C_ANALYZED_TWEETS.find({'_id': {'$in': [tweet_object['id_str'] for tweet_object in all_downloaded_tweets_list]}}))
 
-        # If a tweet with the same id_str already exists, do not analyze it.
-        list_of_tweets_to_analyze = [tweet_object for tweet_object in all_downloaded_tweets_list if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+    #     # If a tweet with the same id_str already exists, do not analyze it.
+    #     list_of_tweets_to_analyze = [tweet_object for tweet_object in all_downloaded_tweets_list if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
         
-        # Analyze the tweet objects that are not cached
-        list_of_tweets_to_analyze, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze, filter_after_translating=True)
+    #     # Analyze the tweet objects that are not cached
+    #     list_of_tweets_to_analyze, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze, filter_after_translating=True)
 
-        # Save analyzed tweets into MongoDB collection. Set id_str as the primary key - `_id`
-        # If the tweet with the same id_str already exists, do not insert it.
-        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in list_of_tweets_to_analyze if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
-        if len(documents_to_insert) > 0:
-            db_op_result = C_ANALYZED_TWEETS.insert_many(documents_to_insert)
-            print(f'Saved {len(db_op_result.inserted_ids)} analyzed tweets')
+    #     # Save analyzed tweets into MongoDB collection. Set id_str as the primary key - `_id`
+    #     # If the tweet with the same id_str already exists, do not insert it.
+    #     documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in list_of_tweets_to_analyze if C_ANALYZED_TWEETS.count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+    #     if len(documents_to_insert) > 0:
+    #         db_op_result = C_ANALYZED_TWEETS.insert_many(documents_to_insert)
+    #         print(f'Saved {len(db_op_result.inserted_ids)} analyzed tweets')
     
-        # Merge the analyzed tweet objects with the cached tweet objects
-        all_downloaded_tweets_list = list_of_already_analyzed_tweets + list_of_tweets_to_analyze
+    #     # Merge the analyzed tweet objects with the cached tweet objects
+    #     all_downloaded_tweets_list = list_of_already_analyzed_tweets + list_of_tweets_to_analyze
 
-    else:
-        # Analyze all downloaded tweet objects
-        all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+    # else:
+    #     # Analyze all downloaded tweet objects
+    #     all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
+
+    cached_analysis_result = json.load(open(os.path.join(CACHE_STATIC_FOLDER, "cache_analysis_result.json"), "r"))
+
+    all_downloaded_tweets_list = cached_analysis_result['tweet_objects']
+
+    all_downloaded_tweets_list, topics_values = analyze_multiple_tweets(all_downloaded_tweets_list, filter_after_translating=True)
     
     analyzed_tweet_objects_list = [tweet_object for tweet_object in all_downloaded_tweets_list if tweet_object["text_analyzed"]["is_mental_health_related"]]
 
