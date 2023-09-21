@@ -94,8 +94,8 @@ const MapChart = ({ Highlighted, mymaxvalue  }) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-				  //replace 0 by Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)]*4/mymaxvalue)
-                  fill={isHighlighted ? colorArray[0] : '#F6F0E9'}
+				  //replace 0 by 
+                  fill={isHighlighted ? colorArray[Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)]*4/mymaxvalue)] : '#F6F0E9'}
                   onClick={() => {
                     updateSearch({ ...search, location: geo.id });
                   }
