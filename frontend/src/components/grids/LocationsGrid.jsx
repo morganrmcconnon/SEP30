@@ -10,9 +10,27 @@ import { useSearchContext } from '../../contexts/SearchContext';
 
 const geoUrl = '/features.json';
 
+const colorArray = [
+  "#AEDFF7",
+  "#7DBDE8",
+  "#4C96D9",
+  "#2F6DB7",
+  "#1A478E"
+];
+
 export default function LocationsGrid() {
   const { search, updateSearch, dashboardData } = useSearchContext();
+  
   const data = dashboardData.locations;
+    // Initialize max to a minimum possible value
+let maxValue = -Infinity;
+
+// Iterate through the object's values
+data?.data.forEach(function(element) {
+  if (element.value > maxValue) {
+    maxValue = element.value;
+  }
+})
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -26,19 +44,23 @@ export default function LocationsGrid() {
                     <p>{item.name}</p>
                     <p className='text-data'>{item.value} Users</p>
                   </div>
+				
+
                   <ProgressBar
                     width='100%'
                     height={13}
-                    color='#339aef'
+					color={colorArray[Math.round(item.value*4/maxValue)]}
                     rounded={10}
                     percent={((item.value / data.totalUser) * 100).toFixed(0)}
                   />
                 </div>
               ))}
+			  
+
             </Space>
           </Col>
           <Col span={16} style={{ overflow: 'hidden' }}>
-            <MapChart Highlighted={data?.locationHighLight} />
+            <MapChart Highlighted={data?.locationHighLight} mymaxvalue = {maxValue}/>
           </Col>
         </Row>
       </div>
@@ -46,8 +68,10 @@ export default function LocationsGrid() {
   );
 }
 
-const MapChart = ({ Highlighted }) => {
+const MapChart = ({ Highlighted, mymaxvalue  }) => {
   const { search, updateSearch, dashboardData } = useSearchContext();
+  
+  
   return (
     <div style={{ width: '80%', position: 'relative', left: '50%', transform: 'translateX(-40%)', top: '-10%' }}>
       <ComposableMap projection='geoEqualEarth'>
@@ -70,7 +94,8 @@ const MapChart = ({ Highlighted }) => {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={isHighlighted ? "#339AF0" : '#F6F0E9'}
+				  //replace 0 by Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)]*4/mymaxvalue)
+                  fill={isHighlighted ? colorArray[0] : '#F6F0E9'}
                   onClick={() => {
                     updateSearch({ ...search, location: geo.id });
                   }

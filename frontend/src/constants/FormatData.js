@@ -61,6 +61,8 @@ function display_backend_data_into_locations(countries_count) {
   DATATYPES.locations.totalUser = Object.values(countries_count).reduce((a, b) => a + b, 0);
   
   DATATYPES.locations.locationHighLight = Object.keys(countries_count);
+  
+  DATATYPES.locations.locationHighLightData = Object.values(countries_count);
 
   let locations = Object.entries(countries_count).map(([country, country_count]) => {
     return { name: country, value: country_count };
@@ -69,15 +71,19 @@ function display_backend_data_into_locations(countries_count) {
 
   // put the value of the country named "AUS" to the top of the array
   let index = locations.findIndex((element) => element.name === "");
-  let temp = locations[0];
-  temp.name = "Country not found";
-  // Remove the element at index
-  locations.splice(index, 1);
-  // Add the element at index 0
-  locations.unshift(temp);
-
+  
+  if (index != -1){
+	  let temp = locations[0];
+	  temp.name = "UNCATEGORISED";
+	  // Remove the element at index
+	  locations.splice(index, 1);
+	  // Add the element at index 0
+	  locations = locations.splice(0,4);
+	  // Add Others element to the end
+	  locations.push(temp);
+  }
+  
   DATATYPES.locations.data = locations.splice(0, 5);
-
 
   return DATATYPES;
 }
