@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta
 import pymongo
-from bertopic import BERTopic
-BERTOPIC_ARXIV_TOPIC_MODEL = BERTopic.load("MaartenGr/BERTopic_ArXiv")
 
 
 if __name__ == '__main__':
