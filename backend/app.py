@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from datetime import datetime
 import time
 import os
 import json
@@ -350,3 +351,77 @@ def get_analyze_multiple_tweet_data():
         
     else:
         return get_analyzed_data_cached()
+
+#Additional MongoDB functionalities
+@app.route("/api/select_analyzed_tweets", methods=["GET"])
+def select_analyzed_tweets():
+    keyword = request.args.get('keyword')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    
+    # Convert date strings to datetime objects
+    start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+    end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+    
+    # Query MongoDB collection to select analyzed tweets based on keyword and date range
+    selected_tweets = C_ANALYZED_TWEETS.find({
+        'text': {'$regex': keyword, '$options': 'i'},  # Case-insensitive search
+        'created_at': {'$gte': start_datetime, '$lte': end_datetime}
+    })
+    
+    # Convert the MongoDB cursor to a list of dictionaries
+    selected_tweets_list = list(selected_tweets)
+    
+    return jsonify(selected_tweets_list)
+
+@app.route("/api/select_tweet_ids_by_date_range", methods=["GET"])
+def select_tweet_ids_by_date_range():
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    
+    # Convert date strings to datetime objects
+    start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+    end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+    
+    # Query MongoDB collection to select tweet IDs based on date range
+    selected_tweet_ids = C_ANALYZED_TWEETS.find({
+        'created_at': {'$gte': start_datetime, '$lte': end_datetime}
+    }).distinct('id_str')  # Get distinct tweet IDs
+    
+    return jsonify(selected_tweet_ids)
+
+@app.route("/api/get_analyzed_data_by_tweet_ids", methods=["POST"])
+def get_analyzed_data_by_tweet_ids():
+    # Implement the logic to check if analysis results are cached for the given tweet IDs
+    # If cached, retrieve and return the cached analysis results
+    # If not cached, analyze the list of tweets and cache the results
+    
+    tweet_ids_to_analyze = request.json.get('tweet_ids')
+    cached_analysis_results = []
+    uncached_tweet_ids = []
+    
+    # Check which tweet IDs are already cached
+    for tweet_id in tweet_ids_to_analyze:
+        cached_result = C_ANALYZED_TWEETS.find_one({'_id': tweet_id})
+        if cached_result:
+            cached_analysis_results.append(cached_result)
+        else:
+            uncached_tweet_ids.append(tweet_id)
+    
+    # Analyze the uncached tweet IDs
+    if uncached_tweet_ids:
+        # Retrieve uncached tweets from MongoDB
+        uncached_tweets = C_ORIGINAL_TWEETS.find({'id_str': {'$in': uncached_tweet_ids}})
+        
+        # Analyze the uncached tweets 
+        analyzed_results = analyze_multiple_tweets(list(uncached_tweets), filter_after_translating=True)
+        
+        # Cache the analyzed results in MongoDB
+        documents_to_insert = [{**result, '_id': result['id_str']} for result in analyzed_results]
+        if documents_to_insert:
+            db_op_result = C_ANALYZED_TWEETS.insert_many(documents_to_insert)
+            print(f'Saved {len(db_op_result.inserted_ids)} analyzed tweets')
+        
+        cached_analysis_results.extend(analyzed_results)
+    
+    return jsonify(cached_analysis_results)
