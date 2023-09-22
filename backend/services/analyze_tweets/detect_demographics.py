@@ -10,7 +10,7 @@ M3TWITTER = M3Twitter(
 )
 
 
-def detect_demographics(users : list[dict]):
+def detect_demographics(users : list[dict], batch_size: int = 16, num_workers: int = 4):
     """
     Detect demographics of users using the m3inference model.
 
@@ -63,7 +63,7 @@ def detect_demographics(users : list[dict]):
         ])
     ```
     """
-    return M3TWITTER.infer(users)
+    return M3TWITTER.infer(users, batch_size=batch_size, num_workers=num_workers)
 
 
 
