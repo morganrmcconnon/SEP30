@@ -26,7 +26,7 @@ def download_tweets_during_time_period(time_period=1):
     all_downloaded_tweets_list = []
 
     # Get the current time, but fix the year to 2022 because the Twitter Stream collection only contains tweets up to 2022
-    starting_time = datetime.now().replace(year=2022, month=8)
+    starting_time = datetime.now().replace(year=2022, month=9, day=1, hour=0, minute=0)
     
     # Calculate the previous [period] minutes from the starting_time and download the tweets at that time
     for _ in range(time_period):
@@ -309,7 +309,8 @@ def analyze_multiple_users(user_objects_list):
         users_demographics_input_list.append(user_object_preprocessed)
 
     # Detect demographics using m3inference
-    users_demographics = detect_demographics(users_demographics_input_list)
+    if len(users_demographics_input_list) > 0:
+        users_demographics = detect_demographics(users_demographics_input_list)
 
     # For each user object, store the demographics detection result
     for user_object in user_objects_list:
@@ -355,10 +356,11 @@ def aggregate_tweet_objects_analysis_result(tweet_objects_list):
 
         # ---------keyword pairs----------#
         # For each pair of keywords, add the pair to the dictionary and increment the count
-        for i in range(len(keywords)):
-            for j in range(i+1, len(keywords)):
-                keywords_pair = (keywords[i], keywords[j]) if keywords[i] < keywords[j] else (keywords[j], keywords[i])
-                keywords_pairs[keywords_pair] = keywords_pairs.get(keywords_pair, 0) + 1
+        if len(keywords) > 1:
+            for i in range(len(keywords)):
+                for j in range(i+1, len(keywords)):
+                    keywords_pair = (keywords[i], keywords[j]) if keywords[i] < keywords[j] else (keywords[j], keywords[i])
+                    keywords_pairs[keywords_pair] = keywords_pairs.get(keywords_pair, 0) + 1
 
     keywords_pairs = [{"keywords": list(keywords_pair), "count": count} for keywords_pair, count in keywords_pairs.items()]
 

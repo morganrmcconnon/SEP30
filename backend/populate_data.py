@@ -449,7 +449,8 @@ def analyze_multiple_users(user_objects_list : list):
         print('----------------------------------')
 
     # Detect demographics using m3inference
-    users_demographics = detect_demographics(users_demographics_input_list)
+    if len(users_demographics_input_list) > 0:
+        users_demographics = detect_demographics(users_demographics_input_list)
 
     # For each user object, store the demographics detection result
     for user_object in user_objects_list_to_detect_demographics:
