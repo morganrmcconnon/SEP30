@@ -1,8 +1,6 @@
 from m3inference import M3Twitter
 from m3inference.consts import UNKNOWN_LANG, LANGS
-from googletrans import Translator
-
-TRANSLATOR = Translator()
+from translate_text import detect_and_translate_language
 
 M3TWITTER = M3Twitter(
     cache_dir="./m3twitter_cache", use_full_model=False, use_cuda=True, parallel=True
@@ -104,15 +102,20 @@ def preprocess_user_object_for_m3inference(
     user_origninal_description = user.get(description_key, "")
     user_origninal_lang = user.get(lang_key, None)
 
-    if user_origninal_lang == None or user_origninal_lang not in LANGS:
+    if user_origninal_lang == None or (not (user_origninal_lang in LANGS)):
 
         # Detect language of description and translate to English
         if user_origninal_description != '' and use_translator_if_necessary:
-            translated = TRANSLATOR.translate(user_origninal_description, dest="en")
-            user_english_description = translated.text
-            user_detected_lang = translated.src
+            user_english_description, user_detected_lang, _, _ = detect_and_translate_language(user_origninal_description, dest="en")
 
-            if user_detected_lang not in LANGS:
+            if type(user_english_description) == list:
+                user_english_description = user_english_description[0]
+
+            if type(user_detected_lang) == list:
+                user_detected_lang = user_detected_lang[0]
+            
+
+            if not (user_detected_lang in LANGS):
                 new_user["lang"] = "en"
                 new_user["description"] = user_english_description
             else:
