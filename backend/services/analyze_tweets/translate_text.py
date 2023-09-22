@@ -1,6 +1,7 @@
 from googletrans import Translator
+from httpx import Timeout
 
-TRANSLATOR = Translator()
+TRANSLATOR = Translator(timeout=Timeout(3600))
 
 
 def detect_and_translate_language(text, dest: str = "en", src: str = "auto"):
@@ -15,7 +16,7 @@ def detect_and_translate_language(text, dest: str = "en", src: str = "auto"):
     Output: a tuple of (`translated text`, `detected source language code`, `pronunciation`, `extra data`)
     """
 
-    translated = TRANSLATOR.translate(text, dest="en")
+    translated = TRANSLATOR.translate(text, dest=dest, src=src)
     return (
         translated.text,
         translated.src,
