@@ -1,32 +1,28 @@
 from datetime import datetime, timedelta
-import os
-import json
 import pymongo
+from bertopic import BERTopic
+BERTOPIC_ARXIV_TOPIC_MODEL = BERTopic.load("MaartenGr/BERTopic_ArXiv")
+
 
 if __name__ == '__main__':
 
     from services.download_tweets.download_tweets import download_tweets
     from services.download_tweets.get_download_url import get_download_url
-    from services.analyze_tweets.spacy_matcher import filter_tweet, create_matcher_model, text_is_related_to_mental_health
+    from services.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
     from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
     from services.analyze_tweets.translate_text import detect_and_translate_language
     from services.analyze_tweets.sentiment_analysis import classify_sentiment
-    from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
+    from services.analyze_tweets.topic_modelling import apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
+    from services.analyze_tweets.load_pretrained_topic_model import load_pretrained_model
     from services.analyze_tweets.detect_coordinates import detect_coordinates
     from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
     from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
 
 
-    CURRENT_DIR = os.path.dirname(__file__)
-    TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, 'services/topic_model/lda_model.model')
-    TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, 'services/topic_model/topics.json')
-
 
 
     COLLECTIONS_LIST = [ 
-        'original_tweets', 
-        'analyzed_tweets', 
-        'analyzed_users', 
+        'original_tweets',
         'internet_archive_urls',
         'tweet_translated',
         'tweet_filtered_pre_translation',
@@ -255,8 +251,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         tweets_to_analyze = [tweet_object['text_analyzed']['in_english'] for tweet_object in tweet_objects if tweet_object['text_analyzed']['is_mental_health_related']]
         lda_topic_model, topics_values = topic_modelling(tweets_to_analyze, num_topics=NUM_TOPICS)
     else:
-        lda_topic_model = load_model(TOPIC_MODEL_FILE)
-        topics_values = json.load(open(TOPIC_VALUES_FILE, 'r'))
+        lda_topic_model, topics_values = load_pretrained_model()
 
     # Get the keywords of the topic model
     keywords_of_topic_model = []
@@ -483,57 +478,35 @@ def analyze_data_by(year, month, day, hour, minute):
     url = get_download_url(year, month, day, hour, minute)
     print(url)
 
-    # if url exist in colelction urls, skip
-    url_exists = DATABASE['internet_archive_urls'].count_documents({'url': url}, limit = 1) >= 1
-
-    if url_exists:
+    # if url exist in collection urls, skip
+    if DATABASE['internet_archive_urls'].count_documents({'url': url}, limit = 1) >= 1:
         print(f'URL {url} already exists in the database')
-        all_downloaded_tweets_list = list(DATABASE['original_tweets'].find({'downloaded_from': url}))
+        downloaded_tweets_list = list(DATABASE['original_tweets'].find({'downloaded_from': url}))
     else:
-        all_downloaded_tweets_list = download_tweets(url)
-        for tweet_obj in all_downloaded_tweets_list:
+        downloaded_tweets_list = download_tweets(url)
+        for tweet_obj in downloaded_tweets_list:
             tweet_obj['downloaded_from'] = url
         # Save the url to the database
         DATABASE['internet_archive_urls'].insert_one({'url': url})
 
-    # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
-    # If the tweet with the same id_str already exists, do not insert it.
-    documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in all_downloaded_tweets_list if DATABASE['original_tweets'].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
-    if len(documents_to_insert) > 0:
-        db_op_result = DATABASE['original_tweets'].insert_many(documents_to_insert)
-        print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
+        # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
+        # If the tweet with the same id_str already exists, do not insert it.
+        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list if DATABASE['original_tweets'].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+        if len(documents_to_insert) > 0:
+            db_op_result = DATABASE['original_tweets'].insert_many(documents_to_insert)
+            print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 
-    # If a tweet with the same id_str already exists, do not analyze it.
-    list_of_tweets_to_analyze = [tweet_object for tweet_object in all_downloaded_tweets_list if DATABASE['analyzed_tweets'].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
     
     # Analyze the tweet objects that are not cached
-    analyzed_tweets, topics_values = analyze_multiple_tweets(list_of_tweets_to_analyze)
-
-    # Save analyzed tweets into MongoDB collection. Set id_str as the primary key - `_id`
-    # If the tweet with the same id_str already exists, do not insert it.
-    documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in analyzed_tweets if DATABASE['analyzed_tweets'].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
-    if len(documents_to_insert) > 0:
-        db_op_result = DATABASE['analyzed_tweets'].insert_many(documents_to_insert)
-        print(f'Saved {len(db_op_result.inserted_ids)} analyzed tweets')
+    analyzed_tweets, topics_values = analyze_multiple_tweets(downloaded_tweets_list)
 
 
     # Analyze the users of the tweets
-    user_objects_list = [tweet_object['user'] for tweet_object in all_downloaded_tweets_list]
-
-    # If a user with the same id_str already exists, do not analyze it.
-    list_of_users_to_analyze = [user_object for user_object in user_objects_list if DATABASE['analyzed_users'].count_documents({'_id': user_object['id_str']}, limit = 1) == 0]
+    user_objects_list = [tweet_object['user'] for tweet_object in downloaded_tweets_list]
 
     # Analyze the user objects that are not cached
-    analyzed_users = analyze_multiple_users(list_of_users_to_analyze)
+    analyzed_users = analyze_multiple_users(user_objects_list)
 
-    # Save analyzed users into MongoDB collection. Set id_str as the primary key - `_id`
-    # If the user with the same id_str already exists, do not insert it.
-    documents_to_insert = [{**user_object, '_id': user_object['id_str']} for user_object in analyzed_users if DATABASE['analyzed_users'].count_documents({'_id': user_object['id_str']}, limit = 1) == 0]
-    # Remove documents with duplicate ids
-    documents_to_insert = {document['_id']: document for document in documents_to_insert}.values()
-    if len(documents_to_insert) > 0:
-        db_op_result = DATABASE['analyzed_users'].insert_many(documents_to_insert)
-        print(f'Saved {len(db_op_result.inserted_ids)} analyzed users')
 
 if __name__ == '__main__':    
     # Get the current time, but fix the year to 2022 because the Twitter Stream collection only contains tweets up to 2022

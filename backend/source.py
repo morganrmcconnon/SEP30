@@ -1,22 +1,16 @@
-import json
-import os
 from datetime import datetime, timedelta
-from tqdm import tqdm
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
-from services.analyze_tweets.spacy_matcher import filter_tweet, create_matcher_model, text_is_related_to_mental_health
+from services.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
 from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
 from services.analyze_tweets.translate_text import detect_and_translate_language
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-from services.analyze_tweets.topic_modelling import load_model, apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
+from services.analyze_tweets.topic_modelling import apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
+from services.analyze_tweets.load_pretrained_topic_model import load_pretrained_model
 from services.analyze_tweets.detect_coordinates import detect_coordinates
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
 from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
-
-CURRENT_DIR = os.path.dirname(__file__)
-TOPIC_MODEL_FILE = os.path.join(CURRENT_DIR, "services/topic_model/lda_model.model")
-TOPIC_VALUES_FILE = os.path.join(CURRENT_DIR, "services/topic_model/topics.json")
 
 
 def download_tweets_during_time_period(time_period=1):
@@ -185,8 +179,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         tweets_to_analyze = [tweet_object["text_analyzed"]["in_english"] for tweet_object in tweet_objects if tweet_object["text_analyzed"]["is_mental_health_related"]]
         lda_topic_model, topics_values = topic_modelling(tweets_to_analyze, num_topics=NUM_TOPICS)
     else:
-        lda_topic_model = load_model(TOPIC_MODEL_FILE)
-        topics_values = json.load(open(TOPIC_VALUES_FILE, "r"))
+        lda_topic_model, topics_values = load_pretrained_model()
 
     # Get the keywords of the topic model
     keywords_of_topic_model = []
