@@ -16,11 +16,11 @@ def label_lda_topics(lda_model: LdaModel, labels_list: list, num_topics=NUM_TOPI
     topics_label = { i: [] for i in range(num_topics) }
     for word in labels_list:
         topics = apply_lda(word, lda_model)
+        topics = [[topic[0], float(topic[1])] for topic in topics]
         topic_highest_value = max(topics, key=lambda x: x[1])
         topic_id = topic_highest_value[0]
         topic_prob = topic_highest_value[1]
         # Serialize the probability values
-        topics = [[topic[0], float(topic[1])] for topic in topics]
         obj = {
             "word": word,
             "topic_id": topic_id,
