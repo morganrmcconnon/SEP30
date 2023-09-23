@@ -50,6 +50,22 @@ def save_multiple_documents_to_collection(documents_to_insert, collection_name, 
     return db_op_result
 
 
+def get_cached_value_or_perform_analysis(tweet_object, collection_name, analysis_function):
+    tweet_id = tweet_object['id_str']
+    if document_exists_in_collection(tweet_id, collection_name):
+        saved_object = load_object_from_collection(tweet_id, collection_name)
+        tweet_object[collection_name] = saved_object['value']
+    else:
+        tweet_object[collection_name] = analysis_function(tweet_object)
+        document_to_save = {
+            '_id': tweet_id,
+            'value': tweet_object[collection_name]
+        }
+        save_document_to_collection(document_to_save, collection_name)
+
+    return tweet_object
+
+
 def analyze_tweet_preprocess_tweet_text(tweet_object):
     # Get the full, cleaned text of the tweet object
     # The 'text' key in the tweet object is not always the full text of the tweet, so we need to get the full text from the 'extended_tweet' key
