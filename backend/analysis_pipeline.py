@@ -261,8 +261,8 @@ def analyze_multiple_tweets_topic_modelling_lda(tweet_objects: list, create_new_
     
         text_to_analyze = tweet_object['text_analyzed']['in_english']
 
-        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics'):
-            saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_topics')
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics_lda'):
+            saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_topics_lda')
             topics = saved_object['topics']
         else:
             topics_detected = apply_lda(text_to_analyze, lda_topic_model)
@@ -272,7 +272,7 @@ def analyze_multiple_tweets_topic_modelling_lda(tweet_objects: list, create_new_
                 '_id': tweet_object['id_str'],
                 'topics': topics,
             }
-            save_document_to_collection(document_to_save, 'tweet_topics')
+            save_document_to_collection(document_to_save, 'tweet_topics_lda')
 
         tweet_object['text_analyzed']['topics'] = topics
 
