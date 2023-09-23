@@ -4,7 +4,6 @@ from mongo_constants import COLLECTION_NAME_REGISTRY, DATABASE
 def get_analysis_result(
     tweet_ids: list[str],
     tweet_collection_list=[
-        COLLECTION_NAME_REGISTRY["original_tweets"],
         COLLECTION_NAME_REGISTRY["tweet_text_original"],
         COLLECTION_NAME_REGISTRY["tweet_filtered_pre_translation"],
         COLLECTION_NAME_REGISTRY["tweet_translated"],
@@ -27,21 +26,21 @@ def get_analysis_result(
 ) -> list[dict]:
     all_collection_values = {}
 
-    for collection_name in tweet_collection_list + user_collection_list:
+    for collection_name in tweet_collection_list + user_collection_list + [COLLECTION_NAME_REGISTRY["original_tweets"]]:
         all_collection_values[collection_name] = DATABASE[collection_name].find({"_id": {"$in": tweet_ids}})
         all_collection_values[collection_name] = list(all_collection_values[collection_name])
         all_collection_values[collection_name] = {document["_id"]: document["value"] for document in all_collection_values[collection_name]}
 
-    for tweet_object in all_collection_values[COLLECTION_NAME_REGISTRY["original_tweets"]]:
+    tweet_object_list = all_collection_values[COLLECTION_NAME_REGISTRY["original_tweets"]]
+
+    for tweet_object in tweet_object_list:
+        tweet_id = tweet_object["id_str"]
         for collection_name in tweet_collection_list:
-            tweet_object[collection_name] = all_collection_values[collection_name].get(
-                tweet_object["id_str"], None
-            )
+            tweet_object[collection_name] = all_collection_values[collection_name].get(tweet_id, None).get("value", None)
 
         user_object = tweet_object["user"]
+        user_id = user_object["id_str"]
         for collection_name in user_collection_list:
-            user_object[collection_name] = all_collection_values[collection_name].get(
-                user_object["id_str"], None
-            )
+            user_object[collection_name] = all_collection_values[collection_name].get(user_id, None).get("value", None)
 
     return all_collection_values[COLLECTION_NAME_REGISTRY["original_tweets"]]
