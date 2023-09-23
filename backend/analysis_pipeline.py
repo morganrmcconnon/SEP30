@@ -1,61 +1,30 @@
-import pymongo
+from mongo_constants import DATABASE
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
-from services.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
+
 from services.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
+from services.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
 from services.analyze_tweets.translate_text import detect_and_translate_language
+
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
+
 from services.analyze_tweets.topic_modelling import apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling, NUM_TOPICS
 from services.analyze_tweets.load_pretrained_topic_model import load_pretrained_model
 from services.analyze_tweets.label_lda_topics import label_topics_from_preexisting_topic_model_and_keywords_list
-from services.analyze_tweets.detect_coordinates import detect_coordinates
-from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
-from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
+
 from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
 from services.analyze_tweets.topic_bertopic_arxiv import detect_topics_bertopic_arxiv
+
+from services.analyze_tweets.detect_coordinates import detect_coordinates
+from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon 
+from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
 
 
 SPACY_MATCHER_OBJ, SPACY_NLP_OBJ = create_matcher_model()
 
-TOPICS_LABELS = label_topics_from_preexisting_topic_model_and_keywords_list()
 
-
-COLLECTIONS_LIST = [ 
-    'original_tweets',
-    'internet_archive_urls',
-    'tweet_translated',
-    'tweet_filtered_pre_translation',
-    'tweet_filtered_post_translation',
-    'tweet_processed',
-    'tweet_sentiment',
-    'tweet_topics_lda',
-    'tweet_topics_lda_results',
-    'tweet_topics_bertopic_arxiv',
-    'tweet_topics_cardiffnlp',
-    'user_location_translated',
-    'user_location_coordinates',
-    'user_m3_preprocessed',
-    'user_demographics'
-]
-
-# Establish connection with MongoDB
-MONGODB_CLIENT = pymongo.MongoClient('mongodb://localhost:27017/')
-
-# Get database and collection
-
-# create a new database if it doesn't exist
-if 'twitter_db' not in MONGODB_CLIENT.list_database_names():
-    DATABASE = MONGODB_CLIENT['twitter_db']
-else:
-    DATABASE = MONGODB_CLIENT['twitter_db']
-
-# create new collections if it doesn't exist
-for collection_name in COLLECTIONS_LIST:
-    if collection_name not in DATABASE.list_collection_names():
-        DATABASE.create_collection(collection_name)
-    else:
-        print(f'Collection {collection_name} already exists')    
+TOPICS_LABELS_MAP = label_topics_from_preexisting_topic_model_and_keywords_list()
 
 
 def document_exists_in_collection(document_id, collection_name):
@@ -281,7 +250,7 @@ def analyze_multiple_tweets_topic_modelling_lda(tweet_objects: list, create_new_
         tweet_object['text_analyzed']['highest_score_topic'] = highest_score_topic[0]
         tweet_object['text_analyzed']['highest_score_topic_probability'] = highest_score_topic[1]
         # Get the topic labels associated with the topic id
-        topic_labels = TOPICS_LABELS.get(highest_score_topic[0], {})
+        topic_labels = TOPICS_LABELS_MAP.get(highest_score_topic[0], {})
         tweet_object['text_analyzed']['topic_labels'] = topic_labels
         # Get the keywords associated with the tweet
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
