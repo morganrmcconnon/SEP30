@@ -24,7 +24,9 @@ COLLECTIONS_LIST = [
 ]
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-MONGODB_EXPORTED_FILES = os.path.join(current_dir, 'exported_data')
+MONGODB_DATA_FOLDER = os.path.join(current_dir, 'mongodb_data')
+if not os.path.exists(MONGODB_DATA_FOLDER):
+    os.makedirs(MONGODB_DATA_FOLDER)
 
 try:
     # Establish connection with MongoDB
