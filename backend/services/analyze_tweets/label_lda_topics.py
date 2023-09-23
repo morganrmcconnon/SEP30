@@ -38,5 +38,5 @@ def label_topics_from_preexisting_keywords_list(lda_model: LdaModel) -> dict:
     return label_lda_topics(lda_model, KEYWORDS2_LIST)
 
 def label_topics_from_preexisting_topic_model_and_keywords_list() -> dict:
-    lda_model = load_pretrained_model()
+    lda_model, _ = load_pretrained_model()
     return label_lda_topics(lda_model, KEYWORDS2_LIST)
