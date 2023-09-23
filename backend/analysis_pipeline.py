@@ -192,15 +192,13 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
         text = tweet_object['tweet_in_english']
         highest_score_topic = max(topics_detected, key=lambda x: x[1])
         # Get the topic labels associated with the topic id
-        topic_labels = TOPICS_LABELS_MAP.get(highest_score_topic[0], {})
-        top_related_label = max(topic_labels, key=lambda x: topic_labels[x])
+        topic_labels = TOPICS_LABELS_MAP.get(highest_score_topic[0], [])
         # Get the keywords associated with the tweet
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text]
         return {
             'highest_score_topic': highest_score_topic[0],
             'highest_score_topic_probability': highest_score_topic[1],
             'topic_labels': topic_labels,
-            'top_related_label': top_related_label,
             'associated_keywords': associated_keywords
         }
 
