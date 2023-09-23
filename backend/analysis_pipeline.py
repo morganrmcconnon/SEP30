@@ -30,6 +30,7 @@ COLLECTIONS_LIST = [
     'tweet_processed',
     'tweet_sentiment',
     'tweet_topics_lda',
+    'tweet_topics_lda_results',
     'tweet_topics_bertopic_arxiv',
     'tweet_topics_cardiffnlp',
     'user_location_translated',
@@ -60,6 +61,7 @@ for collection_name in COLLECTIONS_LIST:
 def document_exists_in_collection(document_id, collection_name):
     return DATABASE[collection_name].count_documents({'_id': document_id}, limit = 1) >= 1
 
+
 def load_object_from_collection(object_id, collection_name):
     return DATABASE[collection_name].find_one({'_id': object_id})
 
@@ -69,6 +71,7 @@ def save_document_to_collection(document_to_insert, collection_name, id_key='_id
     if collection.count_documents({'_id': document_to_insert[id_key]}, limit = 1) == 0:
         collection.insert_one(document_to_insert)
 
+
 def save_multiple_documents_to_collection(documents_to_insert, collection_name, id_key='_id'):
     collection = DATABASE[collection_name]
     documents_to_insert = [document for document in documents_to_insert if collection.count_documents({'_id': document[id_key]}, limit = 1) == 0]
@@ -76,6 +79,7 @@ def save_multiple_documents_to_collection(documents_to_insert, collection_name, 
     if len(documents_to_insert) > 0:
         db_op_result = collection.insert_many(documents_to_insert)
     return db_op_result
+
 
 def analyze_tweet_preprocess_tweet_text(tweet_object):
     # Get the full, cleaned text of the tweet object
@@ -266,20 +270,32 @@ def analyze_multiple_tweets_topic_modelling_lda(tweet_objects: list, create_new_
             topics = [[topic[0], float(topic[1])] for topic in topics_detected]
             document_to_save = {
                 '_id': tweet_object['id_str'],
-                'topics': topics
+                'topics': topics,
             }
             save_document_to_collection(document_to_save, 'tweet_topics')
 
         tweet_object['text_analyzed']['topics'] = topics
 
+        # Get the topic with the highest score
         highest_score_topic = max(topics, key=lambda x: x[1])
         tweet_object['text_analyzed']['highest_score_topic'] = highest_score_topic[0]
-        tweet_object['text_analyzed']['topic_labels'] = TOPICS_LABELS.get(highest_score_topic[0], {})
-
-
+        tweet_object['text_analyzed']['highest_score_topic_probability'] = highest_score_topic[1]
+        # Get the topic labels associated with the topic id
+        topic_labels = TOPICS_LABELS.get(highest_score_topic[0], {})
+        tweet_object['text_analyzed']['topic_labels'] = topic_labels
         # Get the keywords associated with the tweet
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
         tweet_object['text_analyzed']['associated_keywords'] = associated_keywords
+
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics_lda_results') == False:
+            document_to_save = {
+                '_id': tweet_object['id_str'],
+                'highest_score_topic': highest_score_topic[0],
+                'highest_score_topic_probability': highest_score_topic[1],
+                'topic_labels': topic_labels,
+                'associated_keywords': associated_keywords
+            }
+            save_document_to_collection(document_to_save, 'tweet_topics_lda_results')
 
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
