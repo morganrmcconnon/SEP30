@@ -15,6 +15,8 @@ if __name__ == '__main__':
     from services.analyze_tweets.detect_coordinates import detect_coordinates
     from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
     from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
+    from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
+    from services.analyze_tweets.topic_bertopic_arxiv import detect_topics_bertopic_arxiv
 
 
 
@@ -27,7 +29,9 @@ if __name__ == '__main__':
         'tweet_filtered_post_translation',
         'tweet_processed',
         'tweet_sentiment',
-        'tweet_topics',
+        'tweet_topics_lda',
+        'tweet_topics_bertopic_arxiv',
+        'tweet_topics_cardiffnlp',
         'user_location_translated',
         'user_location_coordinates',
         'user_m3_preprocessed',
@@ -53,8 +57,8 @@ if __name__ == '__main__':
             print(f'Collection {collection_name} already exists')    
 
 
-def object_exists_in_collection(object_id, collection_name):
-    return DATABASE[collection_name].count_documents({'_id': object_id}, limit = 1) >= 1
+def document_exists_in_collection(document_id, collection_name):
+    return DATABASE[collection_name].count_documents({'_id': document_id}, limit = 1) >= 1
 
 def load_object_from_collection(object_id, collection_name):
     return DATABASE[collection_name].find_one({'_id': object_id})
@@ -64,6 +68,14 @@ def save_document_to_collection(document_to_insert, collection_name, id_key='_id
     collection = DATABASE[collection_name]
     if collection.count_documents({'_id': document_to_insert[id_key]}, limit = 1) == 0:
         collection.insert_one(document_to_insert)
+
+def save_multiple_documents_to_collection(documents_to_insert, collection_name, id_key='_id'):
+    collection = DATABASE[collection_name]
+    documents_to_insert = [document for document in documents_to_insert if collection.count_documents({'_id': document[id_key]}, limit = 1) == 0]
+    db_op_result = None
+    if len(documents_to_insert) > 0:
+        db_op_result = collection.insert_many(documents_to_insert)
+    return db_op_result
 
 
 def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, filter_tweets=False, filter_after_translating=True):
@@ -95,6 +107,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
             },
             'sentiment_predicted': '',
             'topics': [],
+            'topic_bertopic_arxiv': [],
             'topic_with_the_highest_score': '',
             'associated_keywords': []
         }
@@ -106,16 +119,16 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
     matcher_obj, nlp_obj = create_matcher_model()
     
     for tweet_object in tweet_objects:
-        if object_exists_in_collection(tweet_object['id_str'], 'tweet_filtered_pre_translation'):
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_filtered_pre_translation'):
             saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_filtered_pre_translation')
             tweet_object['text_analyzed']['is_mental_health_related_pre_translation'] = saved_object['is_mental_health_related_pre_translation']
         else:
             tweet_object['text_analyzed']['is_mental_health_related_pre_translation'] = text_is_related_to_mental_health(tweet_object['text_analyzed']['original'], matcher_obj, nlp_obj)
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_object['id_str'],
                 'is_mental_health_related_pre_translation': tweet_object['text_analyzed']['is_mental_health_related_pre_translation']
             }
-            save_document_to_collection(object_to_save, 'tweet_filtered_pre_translation')
+            save_document_to_collection(document_to_save, 'tweet_filtered_pre_translation')
 
 
     # ----------------------------------
@@ -135,7 +148,7 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         print(tweet_lang)
 
 
-        if object_exists_in_collection(tweet_id, 'tweet_translated'):
+        if document_exists_in_collection(tweet_id, 'tweet_translated'):
             saved_object = load_object_from_collection(tweet_id, 'tweet_translated')
             tweet_text_in_english = saved_object['in_english']
             tweet_lang_detected = saved_object['lang_detected']
@@ -158,12 +171,12 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
                 if type(tweet_lang_detected) == list:
                     print(tweet_lang_detected)
                     tweet_lang_detected = tweet_lang_detected[0]
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_id,
                 'in_english': tweet_text_in_english,
                 'lang_detected': tweet_lang_detected
             }
-            save_document_to_collection(object_to_save, 'tweet_translated')
+            save_document_to_collection(document_to_save, 'tweet_translated')
 
         
         print(tweet_text_in_english)
@@ -189,59 +202,78 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
     # if filter_tweets and filter_after_translating:
 
     for tweet_object in tweet_objects:
-        if object_exists_in_collection(tweet_object['id_str'], 'tweet_filtered_post_translation'):
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_filtered_post_translation'):
             saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_filtered_post_translation')
             tweet_object['text_analyzed']['is_mental_health_related_post_translation'] = saved_object['is_mental_health_related_post_translation']
         else:
             tweet_object['text_analyzed']['is_mental_health_related_post_translation'] = text_is_related_to_mental_health(tweet_object['text_analyzed']['in_english'], matcher_obj, nlp_obj)
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_object['id_str'],
                 'is_mental_health_related_post_translation': tweet_object['text_analyzed']['is_mental_health_related_post_translation']
             }
-            save_document_to_collection(object_to_save, 'tweet_filtered_post_translation')
-
+            save_document_to_collection(document_to_save, 'tweet_filtered_post_translation')
 
 
     # ----------------------------------
-    # Sentiment analysis of each tweet
+    # Tokenize, lemmatize, and stem tweet text
     # ----------------------------------
     for tweet_object in tweet_objects:
         
-        # We are using the English-translated text to feed to the sentiment analysis model
         text_to_analyze = tweet_object['text_analyzed']['in_english']
 
-        
         # Text tokenized, lemmatized, and stemmed. You can change the tweet_text_in_english to just tweet_text if you want to keep the original language.
-        if object_exists_in_collection(tweet_object['id_str'], 'tweet_processed'):
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_processed'):
             saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_processed')
             tweet_text_processed = saved_object['processed']
         else:    
             tweet_text_processed = tokenize_lemmatize_and_remove_stopwords(text_to_analyze)
-            tweet_object['text_analyzed']['processed'] = tweet_text_processed
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_object['id_str'],
                 'processed': tweet_text_processed
             }
-            save_document_to_collection(object_to_save, 'tweet_processed')
+            save_document_to_collection(document_to_save, 'tweet_processed')
+
+        tweet_object['text_analyzed']['processed'] = tweet_text_processed
+
+        tweet_counter += 1 # DEBUG
+        print('----------------------------------')
+        print(f'Processed {tweet_counter} / {tweet_count}')
+        print('----------------------------------')
+
+    # ----------------------------------
+    # Sentiment analysis of each tweet
+    # ----------------------------------
+    tweet_counter = 0 # DEBUG
+    tweet_count = len(tweet_objects) # DEBUG
+    for tweet_object in tweet_objects:
+
+        # We are using the English-translated text to feed to the sentiment analysis model
+        text_to_analyze = tweet_object['text_analyzed']['in_english']
 
         # Sentiment analysis
-        if object_exists_in_collection(tweet_object['id_str'], 'tweet_sentiment'):
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_sentiment'):
             saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_sentiment')
             sentiment_predicted = saved_object['sentiment_predicted']
             sentiment_confidence_probabilities = saved_object['sentiment']
         else:
             sentiment_predicted, sentiment_confidence_probabilities = classify_sentiment(text_to_analyze)
-            tweet_object['text_analyzed']['sentiment'] = sentiment_confidence_probabilities
-            tweet_object['text_analyzed']['sentiment_predicted'] = sentiment_predicted
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_object['id_str'],
                 'sentiment_predicted': sentiment_predicted,
                 'sentiment': sentiment_confidence_probabilities
             }
-            save_document_to_collection(object_to_save, 'tweet_sentiment')
+            save_document_to_collection(document_to_save, 'tweet_sentiment')
+
+        tweet_object['text_analyzed']['sentiment'] = sentiment_confidence_probabilities
+        tweet_object['text_analyzed']['sentiment_predicted'] = sentiment_predicted
+
+        tweet_counter += 1 # DEBUG
+        print('----------------------------------')
+        print(f'Sentiment {tweet_counter} / {tweet_count}')
+        print('----------------------------------')
 
     # ----------------------------------
-    # Topic modelling
+    # Topic modelling using LDA
     # ----------------------------------
 
     # We can choose to create a new topic model or load the existing one
@@ -258,23 +290,25 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
             if keyword not in keywords_of_topic_model:
                 keywords_of_topic_model.append(keyword)
 
+    tweet_counter = 0 # DEBUG
+    tweet_count = len(tweet_objects) # DEBUG
     # Topic modelling for each tweet
     for tweet_object in tweet_objects:
     
         text_to_analyze = tweet_object['text_analyzed']['in_english']
 
-        if object_exists_in_collection(tweet_object['id_str'], 'tweet_topics'):
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics'):
             saved_object = load_object_from_collection(tweet_object['id_str'], 'tweet_topics')
             topics = saved_object['topics']
         else:
             topics_detected = apply_lda(text_to_analyze, lda_topic_model)
             # Convert float32 to float
             topics = [[topic[0], float(topic[1])] for topic in topics_detected]
-            object_to_save = {
+            document_to_save = {
                 '_id': tweet_object['id_str'],
                 'topics': topics
             }
-            save_document_to_collection(object_to_save, 'tweet_topics')
+            save_document_to_collection(document_to_save, 'tweet_topics')
 
         tweet_object['text_analyzed']['topics'] = topics
         
@@ -283,6 +317,78 @@ def analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False, f
         # Get the keywords associated with the tweet
         associated_keywords = [keyword for keyword in keywords_of_topic_model if keyword in text_to_analyze]
         tweet_object['text_analyzed']['associated_keywords'] = associated_keywords
+
+        tweet_counter += 1 # DEBUG
+        print('----------------------------------')
+        print(f'Topic {tweet_counter} / {tweet_count}')
+        print('----------------------------------')
+
+
+    # ----------------------------------
+    # Topic modelling using BERTopic
+    # ----------------------------------
+    tweets_to_detect_topic = []
+    for tweet_object in tweet_objects:
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics_bertopic_arxiv'):
+            tweet_object['text_analyzed']['topic_bertopic_arxiv'] = load_object_from_collection(tweet_object['id_str'], 'tweet_topics_bertopic_arxiv')['result']
+        else:
+            tweets_to_detect_topic.append(tweet_object)
+    
+
+    if len(tweets_to_detect_topic) > 0:
+        texts_to_detect_topic = [tweet_object['text_analyzed']['in_english'] for tweet_object in tweets_to_detect_topic]
+        topics_detected_list, topics_info_list, probs_detected_list = detect_topics_bertopic_arxiv(texts_to_detect_topic)
+        documents_to_save = []
+        for i in range(len(tweets_to_detect_topic)):
+            topic_detected = int(topics_detected_list[i])
+            topic_info = topics_info_list[i]
+            probs_detected = float(probs_detected_list[i])
+            tweet_object = tweets_to_detect_topic[i]
+            tweet_object['text_analyzed']['topic_bertopic_arxiv'] = {
+                'topic_id': topic_detected, 
+                'probability': probs_detected,
+                'topic_info': topic_info
+            }
+            document_to_save = {
+                '_id': tweets_to_detect_topic[i]['id_str'],
+                'result': tweet_object['text_analyzed']['topic_bertopic_arxiv']
+            }
+            documents_to_save.append(document_to_save)
+        db_op_result = save_multiple_documents_to_collection(documents_to_save, 'tweet_topics_bertopic_arxiv')
+        if db_op_result != None:
+            print(f'Saved {len(db_op_result.inserted_ids)} tweet topics bertopic arxiv')
+
+
+    # ----------------------------------
+    # Topic inference using CardiffNLP Tweet Topic RoBERTa
+    # ----------------------------------
+    tweet_counter = 0 # DEBUG
+    tweet_count = len(tweet_objects) # DEBUG
+    for tweet_object in tweet_objects:
+
+        # We are using the English-translated text to feed to the model
+        text_to_analyze = tweet_object['text_analyzed']['in_english']
+        tweet_id = tweet_object['id_str']
+
+        # Sentiment analysis
+        if document_exists_in_collection(tweet_object['id_str'], 'tweet_topics_cardiffnlp'):
+            saved_object = load_object_from_collection(tweet_id, 'tweet_topics_cardiffnlp')
+            topics = saved_object['topics']
+        else:
+            topics = detect_topic_cardiffnlp_tweet_topic(text_to_analyze)
+            document_to_save = {
+                '_id': tweet_id,
+                'topics': topics
+            }
+            save_document_to_collection(document_to_save, 'tweet_sentiment')
+
+        tweet_object['text_analyzed']['tweet_topics_cardiffnlp'] = topics
+
+        tweet_counter += 1 # DEBUG
+        print('----------------------------------')
+        print(f'Tweet Topic CardiffNLP {tweet_counter} / {tweet_count}')
+        print('----------------------------------')
+
 
     return tweet_objects, topics_values
 
@@ -304,20 +410,9 @@ def analyze_multiple_users(user_objects_list : list):
             'country_code': ''
         }
         user_object['demographics'] = {
-            'age': {
-                '19-29': 0,
-                '30-39': 0,
-                '<=18': 0,
-                '>=40': 0
-            },
-            'gender': {
-                'female': 0, 
-                'male': 0
-            },
-            'org': {
-                'is-org': 0, 
-                'non-org': 0
-            }
+            'age': { '19-29': 0, '30-39': 0, '<=18': 0, '>=40': 0 },
+            'gender': { 'female': 0,  'male': 0 },
+            'org': { 'is-org': 0,  'non-org': 0 }
         }
         user_object['age_predicted'] = ''
         user_object['gender_predicted'] = ''
@@ -336,7 +431,7 @@ def analyze_multiple_users(user_objects_list : list):
 
         # Detect the language of the location description and translate it to English
         # Might be uneccessary if the user's lang is already defined
-        if object_exists_in_collection(user_object['id_str'], 'user_location_translated'):
+        if document_exists_in_collection(user_object['id_str'], 'user_location_translated'):
             saved_object = load_object_from_collection(user_object['id_str'], 'user_location_translated')
             location_in_english = saved_object['in_english']
             location_lang_detected = saved_object['lang_detected']
@@ -354,7 +449,7 @@ def analyze_multiple_users(user_objects_list : list):
             user_object['lang'] = location_lang_detected
 
         # Detect coordinates
-        if object_exists_in_collection(user_object['id_str'], 'user_location_coordinates'):
+        if document_exists_in_collection(user_object['id_str'], 'user_location_coordinates'):
             saved_object = load_object_from_collection(user_object['id_str'], 'user_location_coordinates')
             latitude = saved_object['latitude']
             longitude = saved_object['longitude']
@@ -407,7 +502,7 @@ def analyze_multiple_users(user_objects_list : list):
     user_objects_list_to_detect_demographics = []
 
     for user_object in user_objects_list:
-        if object_exists_in_collection(user_object['id_str'], 'user_demographics') == False:
+        if document_exists_in_collection(user_object['id_str'], 'user_demographics') == False:
             user_objects_list_to_detect_demographics.append(user_object)
         else:
             user_object['demographics'] = load_object_from_collection(user_object['id_str'], 'user_demographics')['demographics']
@@ -417,7 +512,7 @@ def analyze_multiple_users(user_objects_list : list):
     user_counter = 0 # DEBUG
     user_count = len(user_objects_list_to_detect_demographics) # DEBUG
     for user_object in user_objects_list_to_detect_demographics:
-        if object_exists_in_collection(user_object['id_str'], 'user_m3_preprocessed'):
+        if document_exists_in_collection(user_object['id_str'], 'user_m3_preprocessed'):
             saved_object = load_object_from_collection(user_object['id_str'], 'user_m3_preprocessed')
             user_object_preprocessed = saved_object['user_object_preprocessed']
         else:
@@ -454,11 +549,8 @@ def analyze_multiple_users(user_objects_list : list):
         'demographics': users_demographics[user_id]
     } for user_id in users_demographics.keys()]
 
-    # Remove duplicate user id
-    
-
-    if len(documents_to_save) > 0:
-        db_op_result = DATABASE['user_demographics'].insert_many(documents_to_save)
+    db_op_result = save_multiple_documents_to_collection(documents_to_save, 'user_demographics')
+    if db_op_result != None:
         print(f'Saved {len(db_op_result.inserted_ids)} user demographics')
 
     for user_object in user_objects_list:
