@@ -354,7 +354,7 @@ def analyze_multiple_tweets_topic_modelling_cardiffnlp_tweet_topic(tweet_object)
             '_id': tweet_id,
             'topics': topics
         }
-        save_document_to_collection(document_to_save, 'tweet_sentiment')
+        save_document_to_collection(document_to_save, 'tweet_topics_cardiffnlp')
 
     tweet_object['text_analyzed']['tweet_topics_cardiffnlp'] = topics
 
