@@ -50,20 +50,67 @@ def save_multiple_documents_to_collection(documents_to_insert, collection_name, 
     return db_op_result
 
 
-def get_cached_value_or_perform_analysis(tweet_object, collection_name, analysis_function):
-    tweet_id = tweet_object['id_str']
-    if document_exists_in_collection(tweet_id, collection_name):
-        saved_object = load_object_from_collection(tweet_id, collection_name)
-        tweet_object[collection_name] = saved_object['value']
+def get_cached_value_or_perform_analysis(twitter_object, collection_name, analysis_function, id_key_name='id_str'):
+    '''
+    Get the cached value of the tweet object if it exists in the collection, else perform the analysis function and save the result to the collection
+
+    The analysis function must take in a `tweet_object` and return a value that can be saved to the database
+
+    The `id_key_name` is the key name of the tweet object that will be used as the document id in the collection
+    '''
+    twitter_obj_id = twitter_object[id_key_name]
+    if document_exists_in_collection(twitter_obj_id, collection_name):
+        saved_document = load_object_from_collection(twitter_obj_id, collection_name)
+        analysis_value = saved_document['value']
     else:
-        tweet_object[collection_name] = analysis_function(tweet_object)
+        analysis_value = analysis_function(twitter_object)
         document_to_save = {
-            '_id': tweet_id,
-            'value': tweet_object[collection_name]
+            '_id': twitter_obj_id,
+            'value': analysis_value
         }
         save_document_to_collection(document_to_save, collection_name)
 
-    return tweet_object
+    return analysis_value
+
+
+def get_cached_values_or_perform_analysis(twitter_object_list, collection_name, analysis_function, id_key_name='id_str'):
+    '''
+    Get the cached value of the tweet object if it exists in the collection, else perform the analysis function and save the result to the collection
+
+    The analysis function must take in a list of `tweet_objects` and return a dictionary of values where the key is the tweet id and the value is the analysis value
+
+    The `id_key_name` is the key name of the tweet object that will be used as the document id in the collection
+    '''
+    analysis_values = {}
+    values_to_analyze = []
+    for twitter_object in twitter_object_list:
+        twitter_obj_id = twitter_object[id_key_name]
+        if document_exists_in_collection(twitter_obj_id, collection_name):
+            saved_document = load_object_from_collection(twitter_obj_id, collection_name)
+            analysis_values[twitter_obj_id] = saved_document['value']
+        else:
+            values_to_analyze.append(twitter_object)
+
+    if len(values_to_analyze) > 0:
+        analyzed_values_map = analysis_function(values_to_analyze)
+        documents_to_save = []
+        for twitter_obj_id, analysis_value in analyzed_values_map.items():
+            document_to_save = {
+                '_id': twitter_obj_id,
+                'value': analysis_value
+            }
+            documents_to_save.append(document_to_save)
+        save_multiple_documents_to_collection(documents_to_save, collection_name)
+        analysis_values.update(values_to_analyze)
+
+        # Expand analysis_values to include the new values
+        for twitter_object in values_to_analyze:
+            twitter_obj_id = twitter_object[id_key_name]
+            analysis_values[twitter_obj_id] = analyzed_values_map[twitter_obj_id]
+
+    return analysis_values
+
+
 
 
 def analyze_tweet_preprocess_tweet_text(tweet_object):
