@@ -32,6 +32,9 @@ def label_lda_topics(lda_model: LdaModel, labels_list: list, num_topics=NUM_TOPI
         else:
             topics_label[topic_id].append(obj)
 
+    for key in topics_label.keys():
+        topics_label[key] = sorted(topics_label[key], key=lambda x: x["topic_prob"], reverse=True)
+
     return topics_label
 
 def label_topics_from_preexisting_keywords_list(lda_model: LdaModel) -> dict:
