@@ -32,8 +32,8 @@ def main():
 
     from analysis_pipeline import analyze_data_by
     while True:
-        analyze_data_by(result_date.year, result_date.month, result_date.day, result_date.hour, result_date.minute)
-        result_date -= time_delta
+        analyze_data_by(start_date.year, start_date.month, start_date.day, start_date.hour, start_date.minute)
+        start_date -= time_delta
 
 if __name__ == "__main__":
     main()
