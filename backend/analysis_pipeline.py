@@ -120,7 +120,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
 
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, collection_name_tweet_translated, lambda tweet_object: _translate(tweet_object[collection_name_tweet_text_original]))
+        get_cached_value_or_perform_analysis(tweet_object, collection_name_tweet_translated, lambda tweet_object: _translate(tweet_object))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Translated {tweet_counter} / {tweet_count}')

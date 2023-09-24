@@ -4,7 +4,7 @@ if __name__ == '__main__':
     from analysis_pipeline import analyze_data_by
 
     # Get the current time, but fix the year to 2022 because the Twitter Stream collection only contains tweets up to 2022
-    starting_time = datetime(2022, 10, 8, 12, 0, 0)
+    starting_time = datetime(year=2022, month=10, day=8, hour=12, minute=0)
     # Calculate the previous [period] minutes from the starting_time and download the tweets at that time
     while True:
         analyze_data_by(starting_time.year, starting_time.month, starting_time.day, starting_time.hour, starting_time.minute)

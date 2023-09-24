@@ -39,23 +39,15 @@ try:
     # Establish connection with MongoDB
     MONGODB_CLIENT = MongoClient(MONGODB_URI)
     
-    # create a new database if it doesn't exist
-    if DATABASE_NAME not in MONGODB_CLIENT.list_database_names():
-        DATABASE = MONGODB_CLIENT[DATABASE_NAME]
-    else:
-        DATABASE = MONGODB_CLIENT[DATABASE_NAME]
-
-    # create new collections if it doesn't exist
-    for collection_name in COLLECTION_NAME_REGISTRY.values():
-        if collection_name not in DATABASE.list_collection_names():
-            DATABASE.create_collection(collection_name)
-            print(f'Created {collection_name}')    
-        else:
-            print(f'Collection {collection_name} already exists')    
-
-
-    
     DATABASE = MONGODB_CLIENT[DATABASE_NAME]
+    
+    # # create new collections if it doesn't exist
+    # for collection_name in COLLECTION_NAME_REGISTRY.values():
+    #     if collection_name not in DATABASE.list_collection_names():
+    #         DATABASE.create_collection(collection_name)
+    #         print(f'Created {collection_name}')    
+    #     else:
+    #         print(f'Collection {collection_name} already exists')    
 
 except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
