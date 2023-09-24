@@ -24,23 +24,25 @@ def get_analysis_result(
         COLLECTION_NAME_REGISTRY["user_m3_preprocessed"],
     ],
 ) -> list[dict]:
+    
+    tweet_object_list = DATABASE[COLLECTION_NAME_REGISTRY["original_tweets"]].find({"_id": {"$in": tweet_ids}})
+    tweet_object_list = list(tweet_object_list)
+
     all_collection_values = {}
 
-    for collection_name in tweet_collection_list + user_collection_list + [COLLECTION_NAME_REGISTRY["original_tweets"]]:
+    for collection_name in tweet_collection_list + user_collection_list:
         all_collection_values[collection_name] = DATABASE[collection_name].find({"_id": {"$in": tweet_ids}})
         all_collection_values[collection_name] = list(all_collection_values[collection_name])
         all_collection_values[collection_name] = {document["_id"]: document["value"] for document in all_collection_values[collection_name]}
 
-    tweet_object_list = all_collection_values[COLLECTION_NAME_REGISTRY["original_tweets"]]
-
     for tweet_object in tweet_object_list:
         tweet_id = tweet_object["id_str"]
         for collection_name in tweet_collection_list:
-            tweet_object[collection_name] = all_collection_values[collection_name].get(tweet_id, None).get("value", None)
+            tweet_object[collection_name] = all_collection_values[collection_name].get(tweet_id, None)
 
         user_object = tweet_object["user"]
         user_id = user_object["id_str"]
         for collection_name in user_collection_list:
-            user_object[collection_name] = all_collection_values[collection_name].get(user_id, None).get("value", None)
+            user_object[collection_name] = all_collection_values[collection_name].get(user_id, None)
 
-    return all_collection_values[COLLECTION_NAME_REGISTRY["original_tweets"]]
+    return tweet_object_list

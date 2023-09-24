@@ -154,10 +154,17 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Sentiment analysis of each tweet
     # ----------------------------------
+    def _get_sentiment(tweet_object):
+        tweet_text = tweet_object['tweet_in_english']
+        sentiment, probabilities = classify_sentiment(tweet_text)
+        return {
+            'predicted': sentiment,
+            'probabilities': probabilities
+        }
     tweet_counter = 0 # DEBUG
     tweet_count = len(tweet_objects) # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_sentiment'], lambda tweet_object: classify_sentiment(tweet_object['tweet_in_english']))
+        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_sentiment'], lambda tweet_object: _get_sentiment(tweet_object))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Sentiment {tweet_counter} / {tweet_count}')
