@@ -195,7 +195,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
         return topics_detected
     
     def _get_results_topics_lda(tweet_object):
-        topics_detected = tweet_object['tweet_topics_lda']
+        topics_detected = tweet_object[COLLECTION_NAME_REGISTRY['tweet_topics_bertopic_arxiv']]
         text = tweet_object['tweet_in_english']
         highest_score_topic = max(topics_detected, key=lambda x: x[1])
         # Get the topic labels associated with the topic id
@@ -231,7 +231,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     for tweet_object in tweet_objects:
         tweet_id = tweet_object['id_str']
         if document_exists_in_collection(tweet_id, collection_name_bertopic_arxiv):
-            tweet_object[collection_name_bertopic_arxiv] = load_document_value_from_collection(tweet_id, 'tweet_topics_bertopic_arxiv')
+            tweet_object[collection_name_bertopic_arxiv] = load_document_value_from_collection(tweet_id, COLLECTION_NAME_REGISTRY['tweet_topics_bertopic_arxiv'])
         else:
             tweets_to_detect_topic.append(tweet_object)
     
@@ -416,7 +416,7 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
                 '_id': user_id,
                 'value': user_object_preprocessed
             }
-            save_document_to_collection(document_to_save, 'user_m3_preprocessed')
+            save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
 
         users_demographics_input_list.append(user_object_preprocessed)
 
