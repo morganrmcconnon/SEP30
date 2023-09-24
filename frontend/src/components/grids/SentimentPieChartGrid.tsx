@@ -6,7 +6,7 @@ import VisHeader from "../grid_components/VisHeader";
 
 export default function SentimentPieChartGrid() {
 
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.sentimentAnalysis;
 
   return (
@@ -29,7 +29,7 @@ export default function SentimentPieChartGrid() {
               {data.data.map((item, index) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, sentiment: item.value_key });
+                    updateFilterOption('sentiment', item.value_key);
                   }}
                   key={`cell-${index}`}
                   fill={item.color}

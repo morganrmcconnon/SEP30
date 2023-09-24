@@ -67,7 +67,7 @@ export default function LocationsGrid() {
 }
 
 const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxvalue: number }) => {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   return (
     <div style={{ width: '80%', position: 'relative', left: '50%', transform: 'translateX(-40%)', top: '-10%' }}>
       <ComposableMap projection='geoEqualEarth'>
@@ -92,10 +92,7 @@ const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxval
                   geography={geo}
                   //replace 0 by 
                   fill={isHighlighted ? colorArray[Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)] * 4 / mymaxvalue)] : '#F6F0E9'}
-                  onClick={() => {
-                    updateSearch({ ...search, location: geo.id });
-                  }
-                  }
+                  onClick={() => { updateFilterOption('location', geo.id); }}
                 // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
                 // onClick={() => console.log(geo.properties.name)}
                 />

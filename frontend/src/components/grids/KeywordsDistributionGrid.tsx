@@ -6,7 +6,7 @@ import { useSearchContext } from "../../contexts/SearchContext";
 
 
 const KeywordsDistribution = () => {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { search, updateFilterOption, dashboardData } = useSearchContext();
   const griddata = dashboardData.keywordsDistribution;
   const data = griddata.data.sort((a, b) => b.value - a.value);
 
@@ -37,7 +37,7 @@ const KeywordsDistribution = () => {
               {data.map((item) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, keyword: item.name });
+                    updateFilterOption("keyword", item.name);
                   }}
                   strokeWidth={10}
                 />

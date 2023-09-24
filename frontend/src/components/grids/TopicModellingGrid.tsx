@@ -5,7 +5,7 @@ import { useSearchContext } from '../../contexts/SearchContext';
 
 
 export default function TopicModelling() {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.topicModelling;
 
   return (
@@ -22,7 +22,7 @@ export default function TopicModelling() {
           onRow={(record) => {
             return {
               onClick: () => {
-                updateSearch({ ...search, topic: record.topic });
+                updateFilterOption('topic', record.topic);
               },
             };
           }

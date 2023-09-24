@@ -5,7 +5,7 @@ import { SearchProvider, useSearchContext } from "../../contexts/SearchContext";
 import VisHeader from "../grid_components/VisHeader";
 
 export default function AgeGroups() {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">
@@ -27,7 +27,7 @@ export default function AgeGroups() {
                 {data.data.map((item, index) => (
                   <Cell
                     onClick={() => {
-                      updateSearch({ ...search, age: item.id });
+                      updateFilterOption("age", item.id);
                     }}
                     key={`cell-${index}`}
                     fill={item.color}

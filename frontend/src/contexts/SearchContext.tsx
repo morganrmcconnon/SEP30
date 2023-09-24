@@ -29,14 +29,7 @@ const defaultSearch: FilterOptionsType = {
 // Define the type for the context
 type SearchContextType = {
   search: FilterOptionsType,
-  updateSearch: ({
-    sentiment,
-    topic,
-    keyword,
-    gender,
-    location,
-    age,
-  }: FilterOptionsType) => void,
+  updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => void,
   backendData?: BackendOutputType,
   updateBackendData: (response_data: BackendOutputType) => void,
   dashboardData: ChartDataTypes,
@@ -44,7 +37,7 @@ type SearchContextType = {
 
 const SearchContext = createContext<SearchContextType>({
   search: defaultSearch,
-  updateSearch: () => { },
+  updateFilterOption: () => { },
   backendData: undefined,
   updateBackendData: () => { },
   dashboardData: DATATYPES,
@@ -79,6 +72,16 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       });
   }, []);
 
+  const updateFilterOption = (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => {
+    if (filter_option_value != false
+      && filter_option_value != undefined
+      && filter_option_value != null
+      && filter_option_value === search[filter_option_name]) {
+      filter_option_value = false;
+    }
+    updateSearch({ ...search, [filter_option_name]: filter_option_value });
+  };
+
 
   const updateSearch = ({
     sentiment,
@@ -97,25 +100,6 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       age?: string | false,
     }
   ) => {
-
-    if (search.sentiment != false && search.sentiment != undefined && search.sentiment != null && sentiment == search.sentiment) {
-      sentiment = false;
-    }
-    if (search.topic != false && search.topic != undefined && search.topic != null && topic == search.topic) {
-      topic = false;
-    }
-    if (search.keyword != false && search.keyword != undefined && search.keyword != null && keyword == search.keyword) {
-      keyword = false;
-    }
-    if (search.gender != false && search.gender != undefined && search.gender != null && gender == search.gender) {
-      gender = false;
-    }
-    if (search.location != false && search.location != undefined && search.location != null && location == search.location) {
-      location = false;
-    }
-    if (search.age != false && search.age != undefined && search.age != null && age == search.age) {
-      age = false;
-    }
 
     setSearch({
       sentiment: sentiment,
@@ -178,7 +162,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <SearchContext.Provider value={{ search, updateSearch, backendData: backendData, updateBackendData: updateBackendData, dashboardData }}>
+    <SearchContext.Provider value={{ search: search, backendData: backendData, updateBackendData: updateBackendData, dashboardData, updateFilterOption: updateFilterOption }}>
       {children}
     </SearchContext.Provider>
   );

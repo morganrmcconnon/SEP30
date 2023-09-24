@@ -5,7 +5,7 @@ import { useSearchContext } from '../../contexts/SearchContext';
 
 
 const KnowledgeGraph = () => {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.knowledgeGraph;
 
   return (
@@ -16,7 +16,7 @@ const KnowledgeGraph = () => {
           graphData={data.data}
           width={390}
           height={390}
-          onNodeClick={(node) => updateSearch({ ...search, keyword: node.id })}
+          onNodeClick={(node) => updateFilterOption('keyword', node.id)}
           nodeAutoColorBy="group"
           nodeCanvasObject={(node : any, ctx, globalScale) => {
             const label = node.id;

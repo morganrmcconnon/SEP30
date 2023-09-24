@@ -7,7 +7,7 @@ import ColorVar from "../../constants/ColorVar";
 
 export default function GendersPieChartGrid() {
 
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const griddata = dashboardData.genders;
   const data = [
     { id: 'female', title: "Female", color: ColorVar.red, value: griddata.data.female.present },
@@ -34,7 +34,7 @@ export default function GendersPieChartGrid() {
               {data.map((item, index) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, gender: item.id });
+                    updateFilterOption('gender', item.id);
                   }}
                   key={`cell-${index}`}
                   fill={item.color}

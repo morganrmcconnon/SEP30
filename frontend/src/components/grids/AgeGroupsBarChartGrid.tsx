@@ -6,7 +6,7 @@ import { useSearchContext } from "../../contexts/SearchContext.tsx";
 
 
 const AgeGroupsBarChart = () => {
-  const { search, updateSearch, dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">
@@ -40,7 +40,7 @@ const AgeGroupsBarChart = () => {
               {data.data.map((item, index) => (
                 <Cell
                   onClick={() => {
-                    updateSearch({ ...search, age: item.id });
+                    updateFilterOption("age", item.id);
                   }}
                   key={`cell-${index}`}
                   fill={item.color}
