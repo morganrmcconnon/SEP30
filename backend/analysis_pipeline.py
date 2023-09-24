@@ -262,11 +262,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Topic inference using CardiffNLP Tweet Topic RoBERTa
     # ----------------------------------
-    def _post_process_detect_topic_cardiffnlp_tweet_topic(tweet_object, analysis_value):
-        print('----------------------------------')
-        print(f'Topic CardiffNLP Tweet Topic {tweet_object["id_str"]}')
-        print('----------------------------------')
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']), post_process_function=_post_process_detect_topic_cardiffnlp_tweet_topic)
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']))
 
 
     return tweet_objects, topics_values
