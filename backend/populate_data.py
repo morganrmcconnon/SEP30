@@ -30,8 +30,6 @@ def main():
         minutes=args.delta_minute,
     )
 
-    # Calculate the resulting date by adding the time delta
-    result_date = start_date + time_delta
     from analysis_pipeline import analyze_data_by
     while True:
         analyze_data_by(result_date.year, result_date.month, result_date.day, result_date.hour, result_date.minute)
