@@ -10,7 +10,7 @@ from services.analyze_tweets.sentiment_analysis import classify_sentiment
 # from my_source import mySource
 # from source import download_tweets_during_time_period, analyze_multiple_tweets, analyze_multiple_users, aggregate_tweet_objects_analysis_result, aggregate_user_objects_analysis_result
 
-from get_analysis_result import get_analysis_result
+from get_analysis_result import get_analysis_result_joins
 
 try:
     # Try establishing connection with MongoDB
@@ -422,7 +422,7 @@ def select_tweets_by_timestamp_ms_range():
         'timestamp_ms': {'$gte': start_timestamp_ms, '$lte': end_timestamp_ms}
     }).distinct('id_str')  # Get distinct tweet IDs
 
-    analysis_results = get_analysis_result(selected_tweet_ids)
+    analysis_results = get_analysis_result_joins(selected_tweet_ids)
     
     return jsonify(analysis_results)
 

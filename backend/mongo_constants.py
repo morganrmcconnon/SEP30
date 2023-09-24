@@ -11,6 +11,7 @@ DATABASE_NAME = 'twitter_db'
 class CollectionNames(Enum):
     internet_archive_urls = 'internet_archive_urls'
     original_tweets = 'original_tweets'
+    analyzed_tweets = 'analyzed_tweets'
     tweet_text_original = 'analysis_tweet_text_original'
     tweet_filtered_pre_translation = 'analysis_tweet_filtered_pre_translation'
     tweet_translated = 'analysis_tweet_translated'

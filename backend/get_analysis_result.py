@@ -1,7 +1,7 @@
 from mongo_constants import DATABASE, CollectionNames
 
 
-def get_analysis_result(
+def get_analysis_result_joins(
     tweet_ids: list[str],
     tweet_collection_list=[
         CollectionNames.tweet_text_original.value,
@@ -30,19 +30,42 @@ def get_analysis_result(
 
     all_collection_values = {}
 
-    for collection_name in tweet_collection_list + user_collection_list:
-        all_collection_values[collection_name] = DATABASE[collection_name].find({"_id": {"$in": tweet_ids}})
-        all_collection_values[collection_name] = list(all_collection_values[collection_name])
-        all_collection_values[collection_name] = {document["_id"]: document["value"] for document in all_collection_values[collection_name]}
+    for collection_name in tweet_collection_list:
+        all_collection_values[collection_name] = {document["_id"]: document["value"] for document in DATABASE[collection_name].find({"_id": {"$in": tweet_ids}})}
+        print(f"Found {len(all_collection_values[collection_name])} documents in {collection_name}")
+    
+    user_ids = [tweet_object["user"]['id_str'] for tweet_object in tweet_object_list]
+    
+    for collection_name in user_collection_list:
+        all_collection_values[collection_name] = {document["_id"]: document["value"] for document in DATABASE[collection_name].find({"_id": {"$in": user_ids}})}
+        print(f"Found {len(all_collection_values[collection_name])} documents in {collection_name}")
+
+    tweet_objects_to_return = []
 
     for tweet_object in tweet_object_list:
         tweet_id = tweet_object["id_str"]
+        analysis_completed = True
         for collection_name in tweet_collection_list:
-            tweet_object[collection_name] = all_collection_values[collection_name].get(tweet_id, None)
+            if tweet_id not in all_collection_values[collection_name]:
+                analysis_completed = False
+            else:
+                tweet_object[collection_name] = all_collection_values[collection_name][tweet_id]
 
         user_object = tweet_object["user"]
         user_id = user_object["id_str"]
         for collection_name in user_collection_list:
-            user_object[collection_name] = all_collection_values[collection_name].get(user_id, None)
+            if user_id not in all_collection_values[collection_name]:
+                analysis_completed = False
+            else:
+                user_object[collection_name] = all_collection_values[collection_name][user_id]
+        
+        if analysis_completed:
+            tweet_objects_to_return.append(tweet_object)
 
-    return tweet_object_list
+    return tweet_objects_to_return[0:1]
+
+
+def get_analysis_result(tweet_ids: list[str]):
+    # Join 2 collections, original_tweets and analyzed_tweets
+    documents_analyzed = DATABASE[CollectionNames.analyzed_tweets.value].find({"_id": {"$in": tweet_ids}})
+    return list(documents_analyzed)

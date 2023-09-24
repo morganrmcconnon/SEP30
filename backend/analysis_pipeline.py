@@ -98,11 +98,24 @@ def get_cached_values_or_perform_analysis(twitter_object_list : list, collection
 
 
 def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
-    
+
     # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
     get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_text_original.value, analysis_function=lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))      
+
+
+    # ----------------------------------
+    # Feature extraction if necessary: Select only the necessary keys from the tweet object
+    # ----------------------------------
+    tweet_objects = [{
+        'id_str': tweet_object['id_str'],
+        'text': tweet_object['text'],
+        'lang': tweet_object['lang'],
+        'user': tweet_object['user'],
+        CollectionNames.tweet_text_original.value: tweet_object[CollectionNames.tweet_text_original.value]
+    } for tweet_object in tweet_objects]
+    
 
     # ----------------------------------
     # Filter tweets before translating to English
@@ -157,7 +170,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
         print('----------------------------------')
         print(f'Filter post {tweet_object["id_str"]}')
         print('----------------------------------')
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_post_translation.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ), post_process_function=_post_process_filter)
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_post_translation.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ), post_process_function=_post_process_filter)
 
 
     # ----------------------------------
@@ -291,6 +304,18 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     The keys in the user object follows the Twitter API v1.1 dictionary.
     '''
     user_count = len(user_objects_list) # DEBUG
+
+    # ----------------------------------
+    # Feature extraction if necessary: Select only the necessary keys from the object
+    # ----------------------------------
+    user_objects_list = [{
+        'id_str': user_object['id_str'],
+        'name': user_object['name'],
+        'screen_name': user_object['screen_name'],
+        'description': user_object['description'],
+        'lang': user_object['lang'],
+        'location': user_object['location']
+    } for user_object in user_objects_list]
 
     
     # ----------------------------------
@@ -520,6 +545,58 @@ def analysis_pipeline_download_tweets(url):
 
     return downloaded_tweets_list
 
+def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
+
+    # Analyze the tweet objects that are not cached
+    analyzed_tweets, lda_topic_values = analysis_pipeline_analyze_multiple_tweets(tweets_list, create_new_topic_model=create_new_topic_model)
+
+    # Analyze the users of the tweets
+    user_objects_list = [tweet_object['user'] for tweet_object in analyzed_tweets]
+
+    # Analyze the user objects that are not cached
+    analyzed_users = analysis_pipeline_analyze_multiple_users(user_objects_list)
+
+    # ----------------------------------
+    # Combine the analyzed tweets and users and save to the database
+    # ----------------------------------
+
+    # Feature extraction if necessary: Select only the necessary keys from the object
+    
+    # Feature extract users first
+    users_map = {}
+    for user_object in analyzed_users:
+        user_id = user_object['id_str']
+        new_user_object = {
+            'id_str': user_id,
+        }
+        for collection_name in CollectionNames:
+            if collection_name.value in user_object:
+                new_user_object[collection_name.value] = user_object[collection_name.value]
+        users_map[user_id] = new_user_object
+
+    # Feature extract tweets. Add the user object to the tweet object.
+    # This will be used to save the analyzed tweets to the database
+    documents_to_save = []
+    for tweet_object in analyzed_tweets:
+        document_to_save = {
+            '_id': tweet_object['id_str'],
+            'id_str': tweet_object['id_str'],
+        }
+        for collection_name in CollectionNames:
+            if collection_name.value in tweet_object:
+                document_to_save[collection_name.value] = tweet_object[collection_name.value]
+        # Add the user object to the tweet object
+        user_id = tweet_object['user']['id_str']
+        document_to_save['user'] = users_map[user_id]
+        documents_to_save.append(document_to_save)
+
+    # Insert or update the analyzed tweets to the database
+    for document in documents_to_save:
+        db_op_result = DATABASE[CollectionNames.analyzed_tweets.value].update_one({"_id": document["_id"]}, {"$set": document}, upsert=True)
+        print(f'Updated {db_op_result.modified_count} tweets')
+
+    return analyzed_tweets, lda_topic_values, analyzed_users
+
 
 def analyze_data_by(year, month, day, hour, minute):
 
@@ -527,17 +604,6 @@ def analyze_data_by(year, month, day, hour, minute):
     print(url)
 
     downloaded_tweets_list = analysis_pipeline_download_tweets(url)
+
+    analysis_pipeline_full(downloaded_tweets_list, create_new_topic_model=False) 
     
-    # Analyze the tweet objects that are not cached
-    analysis_pipeline_analyze_multiple_tweets(downloaded_tweets_list)
-
-    # Analyze the users of the tweets
-    user_objects_list = [tweet_object['user'] for tweet_object in downloaded_tweets_list]
-
-    # Analyze the user objects that are not cached
-    analysis_pipeline_analyze_multiple_users(user_objects_list)
-
-
-
-
-
