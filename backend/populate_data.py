@@ -11,8 +11,6 @@ def parse_args():
     parser.add_argument('-H', "--hour", type=int, default=12, help="Starting hour")
     parser.add_argument('-M', "--minute", type=int, default=0, help="Starting minute")
 
-    parser.add_argument('-dy', "--delta_year", type=int, default=0, help="Time delta in years")
-    parser.add_argument('-dm', "--delta_month", type=int, default=0, help="Time delta in months")
     parser.add_argument('-dd', "--delta_day", type=int, default=1, help="Time delta in days")
     parser.add_argument('-dH', "--delta_hour", type=int, default=0, help="Time delta in hours")
     parser.add_argument('-dM', "--delta_minute", type=int, default=0, help="Time delta in minutes")
@@ -30,8 +28,6 @@ def main():
         days=args.delta_day,
         hours=args.delta_hour,
         minutes=args.delta_minute,
-        months=args.delta_month,
-        years=args.delta_year,
     )
 
     # Calculate the resulting date by adding the time delta
