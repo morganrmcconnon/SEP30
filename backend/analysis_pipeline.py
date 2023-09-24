@@ -466,7 +466,7 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             'org_predicted': org_predicted
         }
 
-    get_cached_values_or_perform_analysis(user_objects_list, CollectionNames.user_demographics_results.value, analysis_function=_user_demographics_result)
+    get_cached_values_or_perform_analysis(user_objects_list, CollectionNames.user_demographics_result.value, analysis_function=_user_demographics_result)
 
     return user_objects_list
 
