@@ -5,7 +5,7 @@ import { useSearchContext } from "../../contexts/SearchContext";
 
 const TestEndpoint = () => {
   const [text, setText] = useState("");
-  const { updateRealData, realData } = useSearchContext();
+  const { updateBackendData: updateRealData, backendData: realData } = useSearchContext();
 
   const clearText = () => {
     setText("");

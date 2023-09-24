@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { display_backend_data_into_charts, update_dashboard_data } from "../constants/FormatData";
 import { filter_data_by } from "../constants/FilterData";
@@ -37,42 +37,47 @@ type SearchContextType = {
     location,
     age,
   }: FilterOptionsType) => void,
-  realData?: BackendOutputType,
-  updateRealData: (response_data: BackendOutputType) => void,
+  backendData?: BackendOutputType,
+  updateBackendData: (response_data: BackendOutputType) => void,
   dashboardData: ChartDataTypes,
 }
 
 const SearchContext = createContext<SearchContextType>({
   search: defaultSearch,
   updateSearch: () => { },
-  realData: undefined,
-  updateRealData: () => { },
+  backendData: undefined,
+  updateBackendData: () => { },
   dashboardData: DATATYPES,
 });
 
-export const SearchProvider: React.FC<{ children : React.ReactNode }> = ({children}) => {
+export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
   const [search, setSearch] = useState<FilterOptionsType>(defaultSearch);
 
-  const [realData, setRealData] = useState<BackendOutputType>();
+  const [backendData, setBackendData] = useState<BackendOutputType>();
 
   const [dashboardData, setDashboardData] = useState<ChartDataTypes>(DATATYPES);
 
-  const updateRealData = (response_data: BackendOutputType) => {
-    console.log("in SearchContext.jsx, before updateRealData:");
-    console.log("realData value:");
-    console.log(realData);
-    console.log("data received:");
-    console.log(response_data);
+  const updateBackendData = (response_data: BackendOutputType) => {
 
-    setRealData(response_data);
-
-    console.log("after setRealData:");
-    console.log("realData value:");
-    console.log(realData);
+    setBackendData(response_data);
 
     setDashboardData(display_backend_data_into_charts(response_data));
-
   };
+
+  useEffect(() => {
+    // Query the backend for the data on the first render
+    fetch("/backend/get_cached_static")
+      .then((res) => res.json())
+      .then((data) => {
+        updateBackendData(data);
+      })
+      .catch((err) => {
+        console.log(`Something went wrong with executing endpoint "/backend/get_cached_static"`);
+        console.log(err);
+        console.error(err);
+      });
+  }, []);
 
 
   const updateSearch = ({
@@ -124,13 +129,13 @@ export const SearchProvider: React.FC<{ children : React.ReactNode }> = ({childr
     const topic_number = typeof topic === 'string' ? topic : '0';
 
 
-    if (realData !== undefined && realData["topics_values"] !== undefined && realData["topics_values"][topic_number] !== undefined) {
+    if (backendData !== undefined && backendData["topics_values"] !== undefined && backendData["topics_values"][topic_number] !== undefined) {
       console.log("in SearchContext.jsx, updateSearch:");
-      dashboardData.keywordsDistribution.data = realData["topics_values"][topic_number].slice(0,10).map((item) => { return { name: item[0], value: item[1] } });
+      dashboardData.keywordsDistribution.data = backendData["topics_values"][topic_number].slice(0, 10).map((item) => { return { name: item[0], value: item[1] } });
     }
 
-    const tweet_objects = realData?.tweet_objects ?? [];
-    const user_objects = realData?.user_objects ?? [];
+    const tweet_objects = backendData?.tweet_objects ?? [];
+    const user_objects = backendData?.user_objects ?? [];
 
     const filtered_data = filter_data_by(tweet_objects, user_objects, sentiment, topic, keyword, location, gender, age);
     const sub_list_of_tweets = filtered_data.new_tweet_objects;
@@ -147,7 +152,7 @@ export const SearchProvider: React.FC<{ children : React.ReactNode }> = ({childr
     const female_sentiment = aggregate_data_info.female_sentiment;
     const male_sentiment = aggregate_data_info.male_sentiment;
 
-    const tweets_amount_info = realData?.tweets_amount_info;
+    const tweets_amount_info = backendData?.tweets_amount_info;
 
     const total_tweets_count = tweets_amount_info?.total_tweets_count ?? 0;
     const mental_health_related_tweets_count = tweets_amount_info?.mental_health_related_tweets_count ?? 0;
@@ -173,7 +178,7 @@ export const SearchProvider: React.FC<{ children : React.ReactNode }> = ({childr
   };
 
   return (
-    <SearchContext.Provider value={{ search, updateSearch, realData, updateRealData, dashboardData }}>
+    <SearchContext.Provider value={{ search, updateSearch, backendData: backendData, updateBackendData: updateBackendData, dashboardData }}>
       {children}
     </SearchContext.Provider>
   );
