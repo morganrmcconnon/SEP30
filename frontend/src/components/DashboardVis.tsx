@@ -10,6 +10,7 @@ import TopicModellingGrid from "./grids/TopicModellingGrid.tsx";
 import KeywordsDistribution from "./grids/KeywordsDistributionGrid.tsx";
 import AgeGroupsBarChart from "./grids/AgeGroupsBarChartGrid.tsx";
 import AgeGroupsGrid from "./grids/AgeGroupsGrid.tsx";
+import AgeGroupsWeekly from "./grids/AgeGroupsWeeklyGrid.tsx";
 import GendersGrid from "./grids/GendersGrid.tsx";
 import GendersPieChartGrid from "./grids/GendersPieChartGrid.tsx";
 import LocationsGrid from "./grids/LocationsGrid.tsx";
@@ -40,6 +41,7 @@ const DashboardVis = () => {
     { i: "Locations", vis: <LocationsGrid />, x: 0, y: 4, w: 8, h: 3 },
     { i: "TestRoBERTa", vis: <DemoRoBERTa />, x: 8, y: 4, w: 4, h: 1.5 },
     { i: "TestVader", vis: <DemoVader />, x: 8, y: 4, w: 4, h: 1.5 },
+	{ i: "AgeGroupsWeekly", vis: <AgeGroupsWeekly/>, x: 0, y: 5, w: 4, h: 3, },
   ];
   return (
     <ResponsiveGridLayout
