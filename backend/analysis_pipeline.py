@@ -1,4 +1,4 @@
-from mongo_constants import DATABASE, COLLECTION_NAME_REGISTRY
+from mongo_constants import DATABASE, CollectionNames
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
@@ -83,17 +83,17 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
-    collection_name_tweet_text_original = COLLECTION_NAME_REGISTRY['tweet_text_original']
+    CollectionNames.tweet_text_original.value
 
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, collection_name_tweet_text_original, lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))        
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_text_original.value, lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))        
 
     # ----------------------------------
     # Filter tweets before translating to English
     # ----------------------------------
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_filtered_pre_translation'], lambda tweet_object: text_is_related_to_mental_health(tweet_object[collection_name_tweet_text_original], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_filtered_pre_translation.value, lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Filter pre {tweet_counter} / {tweet_count}')
@@ -103,9 +103,8 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Translate tweets to English
     # ----------------------------------
-    collection_name_tweet_translated = COLLECTION_NAME_REGISTRY['tweet_translated']
     def _translate(tweet_object):
-        text = tweet_object[collection_name_tweet_text_original]
+        text = tweet_object[CollectionNames.tweet_text_original.value]
         translated_text, detected_language, _, _ = detect_and_translate_language(text)
         if type(translated_text) == list:
             translated_text = translated_text[0]
@@ -118,9 +117,9 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
 
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, collection_name_tweet_translated, lambda tweet_object: _translate(tweet_object))
-        tweet_object['tweet_in_english'] = tweet_object[collection_name_tweet_translated]['in_english']
-        tweet_object['tweet_lang_detected'] = tweet_object[collection_name_tweet_translated]['lang_detected']
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_translated.value, lambda tweet_object: _translate(tweet_object))
+        tweet_object['tweet_in_english'] = tweet_object[CollectionNames.tweet_translated.value]['in_english']
+        tweet_object['tweet_lang_detected'] = tweet_object[CollectionNames.tweet_translated.value]['lang_detected']
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Translated {tweet_counter} / {tweet_count}')
@@ -133,7 +132,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # if filter_tweets and filter_after_translating:
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_filtered_post_translation'], lambda tweet_object: text_is_related_to_mental_health(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_filtered_post_translation.value, lambda tweet_object: text_is_related_to_mental_health(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Filter post {tweet_counter} / {tweet_count}')
@@ -145,7 +144,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_processed'], lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english']))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_processed.value, lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english']))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Processed {tweet_counter} / {tweet_count}')
@@ -164,7 +163,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     tweet_counter = 0 # DEBUG
     tweet_count = len(tweet_objects) # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_sentiment'], lambda tweet_object: _get_sentiment(tweet_object))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_sentiment.value, lambda tweet_object: _get_sentiment(tweet_object))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Sentiment {tweet_counter} / {tweet_count}')
@@ -195,7 +194,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
         return topics_detected
     
     def _get_results_topics_lda(tweet_object):
-        topics_detected = tweet_object[COLLECTION_NAME_REGISTRY['tweet_topics_bertopic_arxiv']]
+        topics_detected = tweet_object[CollectionNames.tweet_topics_lda.value]
         text = tweet_object['tweet_in_english']
         highest_score_topic = max(topics_detected, key=lambda x: x[1])
         # Get the topic labels associated with the topic id
@@ -214,9 +213,9 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     tweet_count = len(tweet_objects) # DEBUG
     # Topic modelling for each tweet
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_topics_lda'], lambda tweet_object: _get_topics_lda(tweet_object))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_lda.value, lambda tweet_object: _get_topics_lda(tweet_object))
 
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_topics_lda_results'], lambda tweet_object: _get_results_topics_lda(tweet_object))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_lda_results.value, lambda tweet_object: _get_results_topics_lda(tweet_object))
 
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
@@ -226,12 +225,11 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Topic modelling using BERTopic
     # ----------------------------------
-    collection_name_bertopic_arxiv = COLLECTION_NAME_REGISTRY['tweet_topics_bertopic_arxiv']
     tweets_to_detect_topic = []
     for tweet_object in tweet_objects:
         tweet_id = tweet_object['id_str']
-        if document_exists_in_collection(tweet_id, collection_name_bertopic_arxiv):
-            tweet_object[collection_name_bertopic_arxiv] = load_document_value_from_collection(tweet_id, COLLECTION_NAME_REGISTRY['tweet_topics_bertopic_arxiv'])
+        if document_exists_in_collection(tweet_id, CollectionNames.tweet_topics_bertopic_arxiv.value):
+            tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value] = load_document_value_from_collection(tweet_id, CollectionNames.tweet_topics_bertopic_arxiv.value)
         else:
             tweets_to_detect_topic.append(tweet_object)
     
@@ -245,17 +243,17 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             topic_info = topics_info_list[i]
             probs_detected = float(probs_detected_list[i])
             tweet_object = tweets_to_detect_topic[i]
-            tweet_object[collection_name_bertopic_arxiv] = {
+            tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value] = {
                 'topic_id': topic_detected, 
                 'probability': probs_detected,
                 'topic_info': topic_info
             }
             document_to_save = {
                 '_id': tweets_to_detect_topic[i]['id_str'],
-                'value': tweet_object[collection_name_bertopic_arxiv]
+                'value': tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]
             }
             documents_to_save.append(document_to_save)
-        db_op_result = save_multiple_documents_to_collection(documents_to_save, collection_name_bertopic_arxiv)
+        db_op_result = save_multiple_documents_to_collection(documents_to_save, CollectionNames.tweet_topics_bertopic_arxiv.value)
         if db_op_result != None:
             print(f'Saved {len(db_op_result.inserted_ids)} tweet topics bertopic arxiv')
     
@@ -264,7 +262,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, COLLECTION_NAME_REGISTRY['tweet_topics_cardiffnlp'], lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']))
+        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_cardiffnlp.value, lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']))
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Tweet Topic CardiffNLP {tweet_counter} / {tweet_count}')
@@ -283,9 +281,9 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     user_count = len(user_objects_list) # DEBUG
 
 
-    collection_name_user_location_translated = COLLECTION_NAME_REGISTRY['user_location_translated']
-    collection_name_user_location_coordinates = COLLECTION_NAME_REGISTRY['user_location_coordinates']
-    collection_name_user_location_country = COLLECTION_NAME_REGISTRY['user_location_country']
+    collection_name_user_location_translated = CollectionNames.user_location_translated.value
+    collection_name_user_location_coordinates = CollectionNames.user_location_coordinates.value
+    collection_name_user_location_country = CollectionNames.user_location_country.value
 
 
     def _translate_location(user_object):
@@ -384,8 +382,8 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     # ----------------------------------
     # Detect demographics using m3inference
     # ----------------------------------
-    collection_name_user_demographics = COLLECTION_NAME_REGISTRY['user_demographics']
-    collection_name_user_m3_preprocessed = COLLECTION_NAME_REGISTRY['user_m3_preprocessed']
+    collection_name_user_demographics = CollectionNames.user_demographics.value
+    collection_name_user_m3_preprocessed = CollectionNames.user_m3_preprocessed.value
 
     user_objects_list_to_detect_demographics = []
 
@@ -457,14 +455,14 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
         }
 
     for user_object in user_objects_list:
-        get_cached_value_or_perform_analysis(user_object, COLLECTION_NAME_REGISTRY['user_demographics_result'], lambda user_object: _user_demographics_result(user_object))
+        get_cached_value_or_perform_analysis(user_object, CollectionNames.user_demographics_result.value, lambda user_object: _user_demographics_result(user_object))
 
     return user_objects_list
 
 
 def analysis_pipeline_download_tweets(url):
     # if url exist in collection urls, skip
-    if DATABASE[COLLECTION_NAME_REGISTRY['internet_archive_urls']].count_documents({'url': url}, limit = 1) >= 1:
+    if DATABASE[CollectionNames.internet_archive_urls.value].count_documents({'url': url}, limit = 1) >= 1:
         print(f'URL {url} already exists in the database')
         downloaded_tweets_list = list(DATABASE['original_tweets'].find({'downloaded_from': url}))
     else:
@@ -473,13 +471,13 @@ def analysis_pipeline_download_tweets(url):
         for tweet_obj in downloaded_tweets_list:
             tweet_obj['downloaded_from'] = url
         # Save the url to the database
-        DATABASE[COLLECTION_NAME_REGISTRY['internet_archive_urls']].insert_one({'url': url})
+        DATABASE[CollectionNames.internet_archive_urls.value].insert_one({'url': url})
 
         # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
         # If the tweet with the same id_str already exists, do not insert it.
-        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list if DATABASE[COLLECTION_NAME_REGISTRY['original_tweets']].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
+        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list if DATABASE[CollectionNames.original_tweets.value].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
         if len(documents_to_insert) > 0:
-            db_op_result = DATABASE[COLLECTION_NAME_REGISTRY['original_tweets']].insert_many(documents_to_insert)
+            db_op_result = DATABASE[CollectionNames.original_tweets.value].insert_many(documents_to_insert)
             print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 
     return downloaded_tweets_list
