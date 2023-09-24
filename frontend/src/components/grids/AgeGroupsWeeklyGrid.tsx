@@ -2,7 +2,6 @@ import { Col, Row, Space } from 'antd';
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
 
 import VisHeader from '../grid_components/VisHeader';
-import CircleProgressVis from '../grid_components/CircleProgressVis';
 import { useSearchContext } from '../../contexts/SearchContext';
 
 
