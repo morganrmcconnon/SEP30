@@ -111,8 +111,8 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             translated_text = translated_text[0]
         if type(detected_language) == list:
             detected_language = detected_language[0]
-        tweet_object['tweet_in_english'] = tweet_object[collection_name_tweet_translated]['in_english']
-        tweet_object['tweet_lang_detected'] = tweet_object[collection_name_tweet_translated]['lang_detected']
+        tweet_object['tweet_in_english'] = translated_text
+        tweet_object['tweet_lang_detected'] = detected_language
         return {
             'in_english': translated_text,
             'lang_detected': detected_language
