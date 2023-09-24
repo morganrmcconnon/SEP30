@@ -142,9 +142,8 @@ def get_download_url(year, month, day, hour, minute):
         month_folder = str(pattern_codes[3])
     else:
         year_folder = str(year)
-        if month < 10:
-            month_folder = '0'
-        month_folder += str(month)
+        # 2 digit month
+        month_folder = f'{int(month):02d}'
 
     base_file = f"archiveteam-twitter-json-2011" if(year_folder == '2011') else f"archiveteam-twitter-stream-{year_folder}-{month_folder}"
 
