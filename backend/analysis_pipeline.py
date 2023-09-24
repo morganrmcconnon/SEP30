@@ -52,53 +52,66 @@ def save_multiple_documents_to_collection(documents_to_insert, collection_name, 
     return db_op_result
 
 
-def get_cached_value_or_perform_analysis(twitter_object, collection_name, analysis_function, id_key_name='id_str'):
+# Given a list of ids, return all ids that are not in the collection
+def get_ids_not_in_collection(ids_list, collection_name):
+    # Find documents with _id in the provided list
+    documents_containing_ids = DATABASE[collection_name].find({'_id': { '$in': ids_list }})
+    
+    # Extract the _ids in the collection
+    ids_in_collection = set(doc['_id'] for doc in documents_containing_ids)
+    
+    # Find _ids that are not in the collection
+    ids_not_in_collection = [id for id in ids_list if id not in ids_in_collection]
+    
+    return ids_not_in_collection
+
+
+def get_cached_values_or_perform_analysis(twitter_object_list : list, collection_name : str, analysis_function, post_process_function = lambda tweet_object, analysis_value: None):
     '''
     Get the cached value of the tweet object if it exists in the collection, else perform the analysis function and save the result to the collection
 
-    The analysis function must take in a `tweet_object` and return a value that can be saved to the database
+    The analysis function must take in a `tweet_object` and return a value that can be saved to the database. It can optionally take in the list of tweet objects
 
-    The `id_key_name` is the key name of the tweet object that will be used as the document id in the collection
+    The post_process_function must take in a `tweet_object` and the analysis value and perform any post processing on the tweet object, regardless of whether the analysis value is cached or not. It can optionally take in the list of tweet objects
+
+    In this function, the analysis value will be automatically saved to the tweet object as a new key that is equal to the name of the collection, and before the post_process_function is called
     '''
-    twitter_obj_id = twitter_object[id_key_name]
-    if document_exists_in_collection(twitter_obj_id, collection_name):
-        analysis_value = load_document_value_from_collection(twitter_obj_id, collection_name)
-    else:
-        analysis_value = analysis_function(twitter_object)
-        document_to_save = {
-            '_id': twitter_obj_id,
-            'value': analysis_value
-        }
-        save_document_to_collection(document_to_save, collection_name)
-    
-    twitter_object[collection_name] = analysis_value
-
-
+    ids_list = [twitter_object['id_str'] for twitter_object in twitter_object_list]
+    documents_in_collection = DATABASE[collection_name].find({'_id': { '$in': ids_list }})
+    documents_in_collection = {doc['_id']: doc['value'] for doc in documents_in_collection}
+    for twitter_object in twitter_object_list:
+        twitter_obj_id = twitter_object['id_str']
+        if twitter_obj_id in documents_in_collection:
+            analysis_value = documents_in_collection[twitter_obj_id]
+        else:
+            analysis_value = analysis_function(twitter_object)
+            document_to_save = {
+                '_id': twitter_obj_id,
+                'value': analysis_value
+            }
+            save_document_to_collection(document_to_save, collection_name)
+        
+        twitter_object[collection_name] = analysis_value
+        
+        post_process_function(twitter_object, analysis_value)
+        
 
 
 def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
     
-    tweet_count = len(tweet_objects) # DEBUG
-    
     # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
-    CollectionNames.tweet_text_original.value
-
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_text_original.value, lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))        
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_text_original.value, analysis_function=lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))      
 
     # ----------------------------------
     # Filter tweets before translating to English
     # ----------------------------------
-    tweet_counter = 0 # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_filtered_pre_translation.value, lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
-        tweet_counter += 1 # DEBUG
+    def _post_process_filter(tweet_object, analysis_value):
         print('----------------------------------')
-        print(f'Filter pre {tweet_counter} / {tweet_count}')
+        print(f'Filter post {tweet_object["id_str"]}')
         print('----------------------------------')
-
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_pre_translation.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ), post_process_function=_post_process_filter)
 
     # ----------------------------------
     # Translate tweets to English
@@ -114,41 +127,31 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             'in_english': translated_text,
             'lang_detected': detected_language
         }
-
-    tweet_counter = 0 # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_translated.value, lambda tweet_object: _translate(tweet_object))
-        tweet_object['tweet_in_english'] = tweet_object[CollectionNames.tweet_translated.value]['in_english']
-        tweet_object['tweet_lang_detected'] = tweet_object[CollectionNames.tweet_translated.value]['lang_detected']
-        tweet_counter += 1 # DEBUG
+    def _post_process_translate(tweet_object, analysis_value):
+        tweet_object['tweet_in_english'] = analysis_value['in_english']
+        tweet_object['tweet_lang_detected'] = analysis_value['lang_detected']
         print('----------------------------------')
-        print(f'Translated {tweet_counter} / {tweet_count}')
+        print(f'Translated {tweet_object["id_str"]}')
         print('----------------------------------')
+    
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_translated.value, analysis_function=_translate, post_process_function=_post_process_translate)
 
     
     # ----------------------------------
     # Filter tweets after translating to English
     # ----------------------------------
     # if filter_tweets and filter_after_translating:
-    tweet_counter = 0 # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_filtered_post_translation.value, lambda tweet_object: text_is_related_to_mental_health(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
-        tweet_counter += 1 # DEBUG
+    def _post_process_filter(tweet_object, analysis_value):
         print('----------------------------------')
-        print(f'Filter post {tweet_counter} / {tweet_count}')
+        print(f'Filter post {tweet_object["id_str"]}')
         print('----------------------------------')
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_post_translation.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ), post_process_function=_post_process_filter)
 
 
     # ----------------------------------
     # Tokenize, lemmatize, and stem tweet text
     # ----------------------------------
-    tweet_counter = 0 # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_processed.value, lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english']))
-        tweet_counter += 1 # DEBUG
-        print('----------------------------------')
-        print(f'Processed {tweet_counter} / {tweet_count}')
-        print('----------------------------------')
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_processed.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english']))
 
     # ----------------------------------
     # Sentiment analysis of each tweet
@@ -160,14 +163,13 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             'predicted': sentiment,
             'probabilities': probabilities
         }
-    tweet_counter = 0 # DEBUG
-    tweet_count = len(tweet_objects) # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_sentiment.value, lambda tweet_object: _get_sentiment(tweet_object))
-        tweet_counter += 1 # DEBUG
+    def _post_process_get_sentiment(tweet_object, analysis_value):
+        tweet_object['sentiment_predicted'] = analysis_value['predicted']
+        tweet_object['sentiment_probabilities'] = analysis_value['probabilities']
         print('----------------------------------')
-        print(f'Sentiment {tweet_counter} / {tweet_count}')
+        print(f'Sentiment {tweet_object["id_str"]}')
         print('----------------------------------')
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_sentiment.value, analysis_function=_get_sentiment, post_process_function=_post_process_get_sentiment)
 
 
     # ----------------------------------
@@ -208,19 +210,19 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             'associated_keywords': associated_keywords
         }
 
-
-    tweet_counter = 0 # DEBUG
-    tweet_count = len(tweet_objects) # DEBUG
-    # Topic modelling for each tweet
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_lda.value, lambda tweet_object: _get_topics_lda(tweet_object))
-
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_lda_results.value, lambda tweet_object: _get_results_topics_lda(tweet_object))
-
-        tweet_counter += 1 # DEBUG
+    def _post_process_get_topics_lda(tweet_object, analysis_value):
         print('----------------------------------')
-        print(f'Topic {tweet_counter} / {tweet_count}')
+        print(f'Topic LDA {tweet_object["id_str"]}')
         print('----------------------------------')
+    def _post_process_get_results_topics_lda(tweet_object, analysis_value):
+        print('----------------------------------')
+        print(f'Topic LDA results {tweet_object["id_str"]}')
+        print('----------------------------------')
+    
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_lda.value, analysis_function=_get_topics_lda, post_process_function=_post_process_get_topics_lda)
+
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_lda_results.value, analysis_function=_get_results_topics_lda, post_process_function=_post_process_get_results_topics_lda)
+
 
     # ----------------------------------
     # Topic modelling using BERTopic
@@ -260,13 +262,11 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Topic inference using CardiffNLP Tweet Topic RoBERTa
     # ----------------------------------
-    tweet_counter = 0 # DEBUG
-    for tweet_object in tweet_objects:
-        get_cached_value_or_perform_analysis(tweet_object, CollectionNames.tweet_topics_cardiffnlp.value, lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']))
-        tweet_counter += 1 # DEBUG
+    def _post_process_detect_topic_cardiffnlp_tweet_topic(tweet_object, analysis_value):
         print('----------------------------------')
-        print(f'Tweet Topic CardiffNLP {tweet_counter} / {tweet_count}')
+        print(f'Topic CardiffNLP Tweet Topic {tweet_object["id_str"]}')
         print('----------------------------------')
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']), post_process_function=_post_process_detect_topic_cardiffnlp_tweet_topic)
 
 
     return tweet_objects, topics_values
@@ -280,6 +280,10 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     '''
     user_count = len(user_objects_list) # DEBUG
 
+    
+    # ----------------------------------
+    # Analyze the location of each user
+    # ----------------------------------
 
     collection_name_user_location_translated = CollectionNames.user_location_translated.value
     collection_name_user_location_coordinates = CollectionNames.user_location_coordinates.value
@@ -314,6 +318,13 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             'lang_detected': detected_language
         }
     
+    def _post_process_translate_location(user_object, analysis_value):
+        user_object['location_in_english'] = analysis_value['in_english']
+        user_object['location_lang_detected'] = analysis_value['lang_detected']
+        print('----------------------------------')
+        print(f'Translated location {user_object["id_str"]}')
+        print('----------------------------------')
+
     def _detect_coordinates(user_object):
         location_description = user_object['location']
         location_in_english = user_object[collection_name_user_location_translated]['in_english']
@@ -338,6 +349,13 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             'latitude': latitude,
             'longitude': longitude,
         }
+    
+    def _post_process_detect_coordinates(user_object, analysis_value):
+        user_object['location_latitude'] = analysis_value['latitude']
+        user_object['location_longitude'] = analysis_value['longitude']
+        print('----------------------------------')
+        print(f'Coordinates {user_object["id_str"]}')
+        print('----------------------------------')
 
     def _detect_country(user_object):
         latitude = user_object[collection_name_user_location_coordinates]['latitude']
@@ -360,23 +378,16 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             'country_code': country_code
         }
     
-    # ----------------------------------
-    # Analyze the location of each user
-    # ----------------------------------
-    user_counter = 0 # DEBUG
-    for user_object in user_objects_list:
-
-        # Detect the language of the location description and translate it to English
-        # Might be uneccessary if the user's lang is already defined
-
-        get_cached_value_or_perform_analysis(user_object, collection_name_user_location_translated, lambda user_object: _translate_location(user_object))
-        get_cached_value_or_perform_analysis(user_object, collection_name_user_location_coordinates, lambda user_object: _detect_coordinates(user_object))
-        get_cached_value_or_perform_analysis(user_object, collection_name_user_location_country, lambda user_object: _detect_country(user_object))
-
-        user_counter += 1 # DEBUG
+    def _post_process_detect_country(user_object, analysis_value):
+        user_object['location_country_name'] = analysis_value['country_name']
+        user_object['location_country_code'] = analysis_value['country_code']
         print('----------------------------------')
-        print(f'Location {user_counter} / {user_count}')
+        print(f'Country {user_object["id_str"]}')
         print('----------------------------------')
+    
+    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_translated, analysis_function=_translate_location, post_process_function=_post_process_translate_location)
+    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_coordinates, analysis_function=_detect_coordinates, post_process_function=_post_process_detect_coordinates)
+    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_country, analysis_function=_detect_country, post_process_function=_post_process_detect_country)
 
 
     # ----------------------------------
@@ -385,36 +396,37 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     collection_name_user_demographics = CollectionNames.user_demographics.value
     collection_name_user_m3_preprocessed = CollectionNames.user_m3_preprocessed.value
 
-    user_objects_list_to_detect_demographics = []
 
-    for user_object in user_objects_list:
-        user_id = user_object['id_str']
-        if document_exists_in_collection(user_id, collection_name_user_demographics) == False:
-            user_objects_list_to_detect_demographics.append(user_object)
-        else:
-            user_object[collection_name_user_demographics] = load_document_value_from_collection(user_id, collection_name_user_demographics)
-        
+    # Check if the user demographics is already cached
+    ids_not_in_user_demographics_collection = get_ids_not_in_collection([user_object['id_str'] for user_object in user_objects_list], collection_name_user_demographics)
+
+    user_objects_list_to_detect_demographics = [user_object for user_object in user_objects_list if user_object['id_str'] in ids_not_in_user_demographics_collection]
+
+    # Check if the user m3 preprocessed form is already cached
+    ids_not_in_user_m3_preprocessed_collection = get_ids_not_in_collection([user_object['id_str'] for user_object in user_objects_list_to_detect_demographics], collection_name_user_m3_preprocessed)
+
+    user_objects_list_to_detect_demographics = [user_object for user_object in user_objects_list_to_detect_demographics if user_object['id_str'] in ids_not_in_user_m3_preprocessed_collection]
+
+
     # Preprocess user object for m3inference
     users_demographics_input_list = []
     user_counter = 0 # DEBUG
     user_count = len(user_objects_list_to_detect_demographics) # DEBUG
+
     for user_object in user_objects_list_to_detect_demographics:
         user_id = user_object['id_str']
-        if document_exists_in_collection(user_id, collection_name_user_m3_preprocessed):
-            user_object_preprocessed = load_document_value_from_collection(user_id, collection_name_user_m3_preprocessed)
-        else:
-            user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
+        user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
                                                                           id_key='id_str', 
                                                                           name_key='name',
                                                                           screen_name_key='screen_name',
                                                                           description_key='description',
                                                                           lang_key='lang',
                                                                           use_translator_if_necessary=True)
-            document_to_save = {
-                '_id': user_id,
-                'value': user_object_preprocessed
-            }
-            save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
+        document_to_save = {
+            '_id': user_id,
+            'value': user_object_preprocessed
+        }
+        save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
 
         users_demographics_input_list.append(user_object_preprocessed)
 
@@ -454,8 +466,7 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             'org_predicted': org_predicted
         }
 
-    for user_object in user_objects_list:
-        get_cached_value_or_perform_analysis(user_object, CollectionNames.user_demographics_result.value, lambda user_object: _user_demographics_result(user_object))
+    get_cached_values_or_perform_analysis(user_objects_list, CollectionNames.user_demographics_results.value, analysis_function=_user_demographics_result)
 
     return user_objects_list
 
