@@ -111,8 +111,6 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             translated_text = translated_text[0]
         if type(detected_language) == list:
             detected_language = detected_language[0]
-        tweet_object['tweet_in_english'] = translated_text
-        tweet_object['tweet_lang_detected'] = detected_language
         return {
             'in_english': translated_text,
             'lang_detected': detected_language
@@ -121,6 +119,8 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     tweet_counter = 0 # DEBUG
     for tweet_object in tweet_objects:
         get_cached_value_or_perform_analysis(tweet_object, collection_name_tweet_translated, lambda tweet_object: _translate(tweet_object))
+        tweet_object['tweet_in_english'] = tweet_object[collection_name_tweet_translated]['in_english']
+        tweet_object['tweet_lang_detected'] = tweet_object[collection_name_tweet_translated]['lang_detected']
         tweet_counter += 1 # DEBUG
         print('----------------------------------')
         print(f'Translated {tweet_counter} / {tweet_count}')
@@ -318,8 +318,8 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     
     def _detect_coordinates(user_object):
         location_description = user_object['location']
-        location_in_english = user_object['location_in_english']
-        location_lang = user_object['location_lang_detected']
+        location_in_english = user_object[collection_name_user_location_translated]['in_english']
+        location_lang = user_object[collection_name_user_location_translated]['lang_detected']
         if location_description == None or location_description == '':
             return {
                 'latitude': None,
