@@ -19,14 +19,7 @@ def detect_topic_cardiffnlp_tweet_topic(text: str):
     Detects the topic of a tweet using cardiffnlp/tweet-topic-latest-multi pretrained using RoBERTa.
     """
 
-    tokens = tokenizer(
-        text,
-        add_special_tokens=True,
-        return_tensors="pt",
-        truncation=True,
-        padding="max_length",
-        max_length=1024,
-    )
+    tokens = tokenizer(text, return_tensors="pt", truncation=True, padding="max_length", max_length=len(text))
     output = model(**tokens)
 
     scores = output[0][0].detach().numpy()
