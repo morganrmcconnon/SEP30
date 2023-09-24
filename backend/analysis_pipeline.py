@@ -109,7 +109,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     def _post_process_filter(tweet_object, analysis_value):
         print('----------------------------------')
-        print(f'Filter post {tweet_object["id_str"]}')
+        print(f'Filter pre {tweet_object["id_str"]}')
         print('----------------------------------')
     get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_pre_translation.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ), post_process_function=_post_process_filter)
 
@@ -398,15 +398,26 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
 
 
     # Check if the user demographics is already cached
-    ids_not_in_user_demographics_collection = get_ids_not_in_collection([user_object['id_str'] for user_object in user_objects_list], collection_name_user_demographics)
 
-    user_objects_list_to_detect_demographics = [user_object for user_object in user_objects_list if user_object['id_str'] in ids_not_in_user_demographics_collection]
+    ids_list = [user_object['id_str'] for user_object in user_objects_list]
 
-    # Check if the user m3 preprocessed form is already cached
-    ids_not_in_user_m3_preprocessed_collection = get_ids_not_in_collection([user_object['id_str'] for user_object in user_objects_list_to_detect_demographics], collection_name_user_m3_preprocessed)
+    documents_containing_ids = DATABASE[collection_name_user_demographics].find({'_id': { '$in': ids_list }})
+    
+    documents_dict = {doc['_id']: doc['value'] for doc in documents_containing_ids}
+    
+    user_objects_list_to_detect_demographics = []
+    for user_object in user_objects_list:
+        user_id = user_object['id_str']
+        if user_id in documents_dict:
+            user_object[collection_name_user_demographics] = documents_dict[user_id]
+        else:
+            user_objects_list_to_detect_demographics.append(user_object)
 
-    user_objects_list_to_detect_demographics = [user_object for user_object in user_objects_list_to_detect_demographics if user_object['id_str'] in ids_not_in_user_m3_preprocessed_collection]
 
+    # Check if the user m3 preprocessed format is already cached
+    documents_containing_ids = DATABASE[collection_name_user_m3_preprocessed].find({'_id': { '$in': ids_list }})
+    
+    documents_dict = {doc['_id']: doc['value'] for doc in documents_containing_ids}
 
     # Preprocess user object for m3inference
     users_demographics_input_list = []
@@ -415,18 +426,22 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
 
     for user_object in user_objects_list_to_detect_demographics:
         user_id = user_object['id_str']
-        user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
+        if user_id in documents_dict:
+            user_object_preprocessed = documents_dict[user_id]
+        else:
+            user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
                                                                           id_key='id_str', 
                                                                           name_key='name',
                                                                           screen_name_key='screen_name',
                                                                           description_key='description',
                                                                           lang_key='lang',
                                                                           use_translator_if_necessary=True)
-        document_to_save = {
-            '_id': user_id,
-            'value': user_object_preprocessed
-        }
-        save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
+            document_to_save = {
+                '_id': user_id,
+                'value': user_object_preprocessed
+            }
+            save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
+
 
         users_demographics_input_list.append(user_object_preprocessed)
 
@@ -439,18 +454,18 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     if len(users_demographics_input_list) > 0:
         users_demographics = detect_demographics(users_demographics_input_list)
 
-    # For each user object, store the demographics detection result
-    for user_object in user_objects_list_to_detect_demographics:
-        user_object[collection_name_user_demographics] = users_demographics[user_object['id_str']]
+        # For each user object, store the demographics detection result
+        for user_object in user_objects_list_to_detect_demographics:
+            user_object[collection_name_user_demographics] = users_demographics[user_object['id_str']]
 
-    documents_to_save = [{
-        '_id': user_id,
-        'value': users_demographics[user_id]
-    } for user_id in users_demographics.keys()]
+        documents_to_save = [{
+            '_id': user_id,
+            'value': users_demographics[user_id]
+        } for user_id in users_demographics.keys()]
 
-    db_op_result = save_multiple_documents_to_collection(documents_to_save, collection_name_user_demographics)
-    if db_op_result != None:
-        print(f'Saved {len(db_op_result.inserted_ids)} user demographics')
+        db_op_result = save_multiple_documents_to_collection(documents_to_save, collection_name_user_demographics)
+        if db_op_result != None:
+            print(f'Saved {len(db_op_result.inserted_ids)} user demographics')
 
     # ----------------------------------
     # Finalize the demographics prediction of each user
