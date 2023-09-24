@@ -5,7 +5,7 @@ import torch
 
 # Load tokenizer and RoBERTa model
 MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"
-TOKENIZER = RobertaTokenizer.from_pretrained(MODEL_NAME)
+tokenizer = RobertaTokenizer.from_pretrained(MODEL_NAME)
 SENTIMENT_MODEL = RobertaForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=3)
 
 # Classify the sentiment of a string of text
@@ -13,13 +13,13 @@ def classify_sentiment(text):
     '''
     Classify the sentiment of a string of text
     '''
-    inputs = TOKENIZER.encode_plus(
+    inputs = tokenizer.encode_plus(
         text,
         add_special_tokens=True,
         return_tensors="pt",
         truncation=True,
         padding='max_length',
-        max_length=128
+        max_length=1024
     )
 
     with torch.no_grad():
