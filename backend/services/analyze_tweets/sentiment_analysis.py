@@ -19,7 +19,7 @@ def classify_sentiment(text):
         return_tensors="pt",
         truncation=True,
         padding='max_length',
-        max_length=len(text)
+        max_length=min(len(text), 512)
     )
 
     with torch.no_grad():
