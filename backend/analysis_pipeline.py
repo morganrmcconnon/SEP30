@@ -550,14 +550,18 @@ def analysis_pipeline_download_tweets(url):
         for tweet_obj in downloaded_tweets_list:
             tweet_obj['downloaded_from'] = url
         # Save the url to the database
-        DATABASE[CollectionNames.internet_archive_urls.value].insert_one({'url': url})
 
         # Insert all downloaded tweets into MongoDB collection. Set id_str as the primary key - `_id`
         # If the tweet with the same id_str already exists, do not insert it.
-        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list if DATABASE[CollectionNames.original_tweets.value].count_documents({'_id': tweet_object['id_str']}, limit = 1) == 0]
-        if len(documents_to_insert) > 0:
-            db_op_result = DATABASE[CollectionNames.original_tweets.value].insert_many(documents_to_insert)
+        documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list]
+
+        db_op_result = save_multiple_documents_to_collection(documents_to_insert, CollectionNames.original_tweets.value, id_key='_id')
+        if db_op_result != None:
             print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
+
+        # We need to confirm that all tweets are saved into the database before we save the url to the database.
+        DATABASE[CollectionNames.internet_archive_urls.value].insert_one({'url': url})
+
 
     return downloaded_tweets_list
 
