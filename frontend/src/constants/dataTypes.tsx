@@ -41,6 +41,30 @@ export type ChartDataTypes = {
       textColor: string,
     }>,
   },
+  analyticsAgeBox: any,
+  analyticsSentimentBox: any,
+  analyticsGenderBox: any,
+  // analyticsSentimentBox: {
+  //   title: string,
+  //   subTitle: string,
+  //   dataChart: {
+  //     totalData: string,
+  //     dateStart: number,
+  //     dateEnd: number,
+  //     LegendList: Array<{ title: string, color: string }>,
+  //     dataLineChart: Array<{
+  //       data: Array<{
+  //         Positive: number,
+  //         Negative: number,
+  //         Neutral: number,
+  //       }>
+  //     }>
+  //   },
+  // },
+  // analyticsGenderBox: {
+  //   title: string,
+  //   subTitle: string,
+    
   top5Trends: {
     title: string,
     subTitle: string,
