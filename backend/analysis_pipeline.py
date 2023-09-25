@@ -518,9 +518,9 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
             "org": user_object[CollectionNames.user_demographics_result.value]["org_predicted"],
             "lang": user_object["lang"],
         }
-        for collection_name in CollectionNames:
-            if collection_name.value in user_object:
-                new_user_object[collection_name.value] = user_object[collection_name.value]
+        # for collection_name in CollectionNames:
+        #     if collection_name.value in user_object:
+        #         new_user_object[collection_name.value] = user_object[collection_name.value]
         users_map[user_id] = new_user_object
 
     # Feature extract tweets. Add the user object to the tweet object.
