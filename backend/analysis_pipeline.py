@@ -317,12 +317,6 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
             translated_text = translated_text[0]
         if type(detected_language) == list:
             detected_language = detected_language[0]
-
-        if user_object['lang'] == None:
-            user_object['lang'] = detected_language
-        
-        user_object['location_in_english'] = translated_text
-        user_object['location_lang_detected'] = detected_language
         
         return {
             'in_english': translated_text,
@@ -332,6 +326,9 @@ def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     def _post_process_translate_location(user_object, analysis_value):
         user_object['location_in_english'] = analysis_value['in_english']
         user_object['location_lang_detected'] = analysis_value['lang_detected']
+        
+        if user_object['lang'] == None:
+            user_object['lang'] = analysis_value['lang_detected']
 
     def _detect_coordinates(user_object):
         location_description = user_object['location']
