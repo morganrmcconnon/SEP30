@@ -10,6 +10,10 @@ sudo apt-get update -y
 # Reference: https://github.com/nvm-sh/nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
+# You may need to log out of your ssh session and log back in for nvm to work
+# Log out of your ssh session
+exit
+
 # Install node latest version
 nvm install node
 
