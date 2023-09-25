@@ -714,5 +714,174 @@ export const DATATYPES : ChartDataTypes = {
         value: 0.008520175702869892
       }
     ],
+  },
+  analyticsAgeBox: {
+    title: ' Mental Health Tweets by Age Group',
+    subTitle: 'Age Insights on Mental Health Tweets',
+    dataChart: {
+      totalData: '1.5M',
+      dateStart: 1693902328.2943225,
+      dateEnd: 1693902328.2943225,
+      LegendList: [
+        { title: 'Under 18', color: ColorVar.blue },
+        { title: '19 - 29', color: ColorVar.green },
+        { title: '30 - 39', color: ColorVar.orange },
+		{ title: '40 and above', color: ColorVar.lightblue },
+      ],
+      dataLineChart: [
+        {
+          total: '1.5M',
+          color: ColorVar.blue,
+          data: [
+            {
+              'Under 18': 4000,
+              '19 - 29': 2400,
+			  '30 - 39': 3723,
+              '40 and above': 2100,
+            },
+            {
+              'Under 18': 3000,
+              '19 - 29': 1398,
+			  '30 - 39': 4400,
+              '40 and above': 2450,
+            },
+            {
+              'Under 18': 2000,
+              '19 - 29': 9800,
+			  '30 - 39': 4400,
+              '40 and above': 2220,
+            },
+            {
+              'Under 18': 2780,
+              '19 - 29': 3908,
+			  '30 - 39': 3200,
+              '40 and above': 2106,
+            },
+            {
+              'Under 18': 1890,
+              '19 - 29': 4800,
+			  '30 - 39': 4000,
+              '40 and above': 2400,
+            },
+            {
+              'Under 18': 2390,
+              '19 - 29': 3800,
+			  '30 - 39': 4000,
+              '40 and above': 2400,
+            },
+            {
+              'Under 18': 3490,
+              '19 - 29': 4300,
+			  '30 - 39': 4000,
+              '40 and above': 2400,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  analyticsSentimentBox: {
+    title: ' Mental Health Tweets by Sentiment Analysis Result',
+    subTitle: 'Sentiment Insights on Mental Health Tweets',
+    dataChart: {
+      totalData: '1.5M',
+      dateStart: 1693902041.6635015,
+      dateEnd: 1693902328.2943225,
+      LegendList: [
+        { title: 'Positive', color: ColorVar.blue },
+        { title: 'Negative', color: ColorVar.green },
+        { title: 'Neutral', color: ColorVar.orange },
+      ],
+      dataLineChart: [
+        {
+          data: [
+            {
+              Positive: 4000,
+              Negative: 2400,
+			  Neutral: 1900,
+            },
+            {
+              Positive: 3000,
+              Negative: 1398,
+			  Neutral: 4000,
+            },
+            {
+              Positive: 2000,
+              Negative: 9800,
+			  Neutral: 4000,
+            },
+            {
+              Positive: 2780,
+              Negative: 3908,
+			  Neutral: 4000,
+            },
+            {
+              Positive: 1890,
+              Negative: 4800,
+			  Neutral: 1900,
+            },
+            {
+              Positive: 2390,
+              Negative: 3800,
+			  Neutral: 1900,
+            },
+            {
+              Positive: 3490,
+              Negative: 4300,
+			  Neutral: 1900,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  analyticsGenderBox: {
+    title: ' Mental Health Tweets by Gender',
+    subTitle: 'Gender Insights on Mental Health Tweets',
+    dataChart: {
+      dateStart: 1693902328.2943225,
+      dateEnd: 1693902328.2943225,
+      LegendList: [
+        { title: 'Female', color: ColorVar.blue },
+        { title: 'Male', color: ColorVar.green },
+      ],
+      dataLineChart: [
+        
+        {
+          data: [
+            {
+              Female: 4000,
+              Male: 2400,
+            },
+            {
+              Female: 3000,
+              Male: 1398,
+			  
+            },
+            {
+              Female: 2000,
+              Male: 9800,
+            },
+            {
+              Female: 2780,
+              Male: 3908,
+            },
+            {
+              Female: 1890,
+              Male: 4800,
+            },
+            {
+              Female: 2390,
+              Male: 3800,
+            },
+            {
+              Female: 3490,
+              Male: 4300,
+            },
+          ],
+        },
+      ],
+    },
   }
+  
 };
