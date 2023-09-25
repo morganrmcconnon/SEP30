@@ -16,7 +16,7 @@ export default function GenderGroupsWeekly() {
         <Row>
           <Col span={24}>
             
-            {data.dataChart.dataLineChart.map((item, index) => (
+            {data.dataChart.dataLineChart.map((item : any, index : any) => (
               <Row key={index} >
                 <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <p  className='text-data' style={{ fontWeight: 'bold', transform: 'rotate(90deg)' , margin: '10px 0 0 10px' }} >
@@ -55,7 +55,7 @@ export default function GenderGroupsWeekly() {
               </Row>
             ))}
             <Space size='large' style={{ marginLeft: 30, marginTop: 20 }}>
-              {data?.dataChart.LegendList.map((item, index) => (
+              {data?.dataChart.LegendList.map((item : any, index : any) => (
                 <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
                   <div
                     style={{
