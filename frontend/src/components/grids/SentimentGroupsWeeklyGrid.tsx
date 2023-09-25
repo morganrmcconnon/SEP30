@@ -5,10 +5,10 @@ import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
 
 
-export default function AgeGroupsWeekly() {
+export default function SentimentGroupsWeekly() {
   const { dashboardData } = useSearchContext();
-  const data = dashboardData.analyticsAgeBox;
-	const color = ["#339AF0", "#51CF66", "#FF922B", "#800080"];
+  const data = dashboardData.analyticsSentimentBox;
+	const color = ["#339AF0", "#51CF66", "#FF922B"];
 
   return (
     <div className='vis-container'>
@@ -37,10 +37,10 @@ export default function AgeGroupsWeekly() {
                       <Tooltip />
 					  <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
                       <ReferenceLine y={0} stroke='#000' style={{ height: 3 }} />
-					  <Line dataKey='Under 18' stroke={color[0]} />
-                      <Line dataKey='19 - 29' stroke={color[1]} />
-					  <Line dataKey='30 - 39' stroke={color[2]} />
-                      <Line dataKey='40 and above' stroke={color[3]} />
+                      
+                      <Line dataKey='Positive' stroke={item?.color} />
+					  <Line dataKey='Negative' stroke={"#FF922B"} />
+					  <Line dataKey='Neutral' stroke={item?.color} />
                     </LineChart>
                   </ResponsiveContainer>
                   {data.dataChart.dataLineChart.length === index + 1 && (

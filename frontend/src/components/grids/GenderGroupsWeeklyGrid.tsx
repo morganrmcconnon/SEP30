@@ -5,11 +5,10 @@ import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
 
 
-export default function AgeGroupsWeekly() {
+export default function GenderGroupsWeekly() {
   const { dashboardData } = useSearchContext();
-  const data = dashboardData.analyticsAgeBox;
-	const color = ["#339AF0", "#51CF66", "#FF922B", "#800080"];
-
+  const data = dashboardData.analyticsGenderBox;
+	const color = ["#339AF0", "#51CF66", "#FFFFFF"];
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -37,10 +36,9 @@ export default function AgeGroupsWeekly() {
                       <Tooltip />
 					  <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
                       <ReferenceLine y={0} stroke='#000' style={{ height: 3 }} />
-					  <Line dataKey='Under 18' stroke={color[0]} />
-                      <Line dataKey='19 - 29' stroke={color[1]} />
-					  <Line dataKey='30 - 39' stroke={color[2]} />
-                      <Line dataKey='40 and above' stroke={color[3]} />
+                      <Line dataKey='Female' stroke={color[0]} />
+					  <Line dataKey='Male' stroke={color[1]} />
+
                     </LineChart>
                   </ResponsiveContainer>
                   {data.dataChart.dataLineChart.length === index + 1 && (
@@ -66,7 +64,7 @@ export default function AgeGroupsWeekly() {
                       border: '3px solid',
                       borderRadius: '100%',
                       marginRight: 6,
-                      borderColor: color[index],
+                      borderColor: item?.color,
                     }}
                   />
                   <span className='text-data'>{item?.title}</span>
