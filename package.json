@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && flask run --debug\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
