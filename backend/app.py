@@ -431,7 +431,7 @@ def select_tweets_by_timestamp_ms_range():
         # filter tweets that are not mental health related
         {
             "$match": {
-                f"topic_bert_id": 55 
+                f"topic_bert.id": 55 
             }
         },
     ]
