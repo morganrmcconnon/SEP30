@@ -5,7 +5,6 @@ import os
 import json
 from pymongo import MongoClient
 
-from mongo_constants import DATABASE, CollectionNames
 
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
@@ -36,11 +35,6 @@ try:
         C_ANALYZED_TWEETS = DATABASE.create_collection('analyzed_tweets')
     else:
         C_ANALYZED_TWEETS = DATABASE['analyzed_tweets']
-
-    if 'analyzed_users' not in DATABASE.list_collection_names():
-        C_ANALYZED_USERS = DATABASE.create_collection('analyzed_users')
-    else:
-        C_ANALYZED_USERS = DATABASE['analyzed_users']
     
     _USING_DATABASE_ = True
 
@@ -431,16 +425,34 @@ def select_tweets_by_timestamp_ms_range():
         # filter tweets that are not mental health related
         {
             "$match": {
-                f"topic_bert_arxiv.id": 55 
+                "$or": [
+                    { 'topic_bert_arxiv.id': 55 },
+                    { 'spacy_match.in_english': True },
+                    { 'spacy_match.original': True }
+                ]
             }
-        },
+        }
     ]
+
     print("pipeline")
     print(pipeline)
 
-    analysis_results = C_ANALYZED_TWEETS.aggregate(pipeline)
+    total_tweets_count = C_ANALYZED_TWEETS.count_documents({
+            "$match": {
+                "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
+            }
+        })
+
+    related_tweets_analyzed = C_ANALYZED_TWEETS.aggregate(pipeline)
+    related_tweets_analyzed = list(related_tweets_analyzed)
+
+    related_tweets_count = len(related_tweets_analyzed)
     
-    return jsonify(analysis_results)
+    return jsonify({
+        "total_tweets_count": total_tweets_count,
+        "related_tweets_count": related_tweets_count,
+        "tweet_objects": related_tweets_analyzed
+    })
 
 
 @app.route("/api/get_analyzed_data_by_tweet_ids", methods=["POST"])
