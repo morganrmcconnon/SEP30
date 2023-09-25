@@ -416,80 +416,29 @@ def select_tweets_by_timestamp_ms_range():
         return jsonify([])
     if start_timestamp_ms > end_timestamp_ms:
         return jsonify([])
-
+    
     
     print(start_timestamp_ms, end_timestamp_ms)
-    # Query MongoDB collection to select tweet IDs based on date range
+    # Query MongoDB collection to select tweet IDs based on timestamp range
     # Join 2 collections, original_tweets and analyzed_tweets
     pipeline = [
+        # find based on timestamp range
         {
             "$match": {
                 "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
             }
         },
-        {
-            "$lookup": {
-                "from": "analyzed_tweets",
-                "localField": "id_str",
-                "foreignField": "id_str",
-                "as": "analyzed_tweets"
-            }
-        },
-        {
-            "$unwind": "$analyzed_tweets"
-        },
+        # filter tweets that are not mental health related
         {
             "$match": {
-                f"analyzed_tweets.{CollectionNames.tweet_topics_cardiffnlp.value}.topic_id": 55
+                f"topic_bert_id": 55 
             }
         },
-        # {
-        #     "$addFields": {
-        #     "topic_cardiffnlp": {
-        #         "$reduce": {
-        #         "input": f"$analyzed_tweets.{CollectionNames.tweet_topics_cardiffnlp.value}",
-        #         "initialValue": { "topic_id": None, "topic_score": -float("inf") },
-        #         "in": {
-        #             "$cond": {
-        #                 "if": { "$gt": ["$$this.topic_score", "$$value.topic_score"] },
-        #                 "then": "$$this",
-        #                 "else": "$$value"
-        #             }
-        #         }
-        #         }
-        #     }
-        #     }
-        # },
-        {
-            "$project": {
-                "_id": 0,  # Exclude the _id field
-                "timestamp_ms": 1,
-                "analyzed_tweets": "$analyzed_tweets",
-                "original_tweets": "$$ROOT"
-                # "text": f"$analyzed_tweets.{CollectionNames.tweet_text_original.value}",
-                # "text_translated": f"$analyzed_tweets.{CollectionNames.tweet_translated.value}",
-                # "is_related_pre": f"$analyzed_tweets.{CollectionNames.tweet_filtered_pre_translation.value}",
-                # "is_related_post": f"$analyzed_tweets.{CollectionNames.tweet_filtered_post_translation.value}",
-                # "processed": f"$analyzed_tweets.{CollectionNames.tweet_processed.value}",
-                # "sentiment": f"$analyzed_tweets.{CollectionNames.tweet_sentiment.value}.predicted",
-                # "topic_lda_id": f"$analyzed_tweets.{CollectionNames.tweet_topics_lda_results.value}.highest_score_topic",
-                # "topic_labels": f"$analyzed_tweets.{CollectionNames.tweet_topics_lda_results.value}.topic_labels",
-                # "associated_keywords": f"$analyzed_tweets.{CollectionNames.tweet_topics_lda_results.value}""associated_keywords",
-                # "topic_bert_id": f"$analyzed_tweets.{CollectionNames.tweet_topics_bertopic_arxiv.value}.topic_id",
-                # "topic_bert_name": f"$analyzed_tweets.{CollectionNames.tweet_topics_bertopic_arxiv.value}.topic_info.Name",
-                # "topic_cardiffnlp": f"$analyzed_tweets.{CollectionNames.tweet_topics_cardiffnlp.value}",
-                # "country_code": f"$analyzed_tweets.user.{CollectionNames.user_location_country.value}.country_code",
-                # "country_name": f"$analyzed_tweets.{CollectionNames.user_location_country.value}.country_name",
-                # "age": f"$analyzed_tweets.user.{CollectionNames.user_demographics_result.value}.age_predicted",
-                # "gender": f"$analyzed_tweets.user.{CollectionNames.user_demographics_result.value}.gender_predicted",
-                # "org": f"$analyzed_tweets.user.{CollectionNames.user_demographics_result.value}.org_predicted",
-            }
-        }
     ]
     print("pipeline")
     print(pipeline)
 
-    analysis_results = C_ORIGINAL_TWEETS.aggregate(pipeline)
+    analysis_results = C_ANALYZED_TWEETS.aggregate(pipeline)
     
     return jsonify(analysis_results)
 
