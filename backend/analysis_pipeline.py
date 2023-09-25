@@ -133,6 +133,9 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             }
         
         translated_text, detected_language, _, _ = detect_and_translate_language(text)
+        if tweet_object["lang"] == None or tweet_object["lang"] == "und" or tweet_object["lang"] == "":
+            tweet_object["lang"] = detected_language
+
         if type(translated_text) == list:
             translated_text = translated_text[0]
         if type(detected_language) == list:
@@ -142,8 +145,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
             'lang_detected': detected_language
         }
     def _post_process_translate(tweet_object, analysis_value):
-        tweet_object['tweet_in_english'] = analysis_value['in_english']
-        tweet_object['tweet_lang_detected'] = analysis_value['lang_detected']
+        tweet_object['text_in_english'] = analysis_value['in_english']
     
     get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_translated.value, analysis_function=_translate, post_process_function=_post_process_translate)
 
@@ -152,19 +154,19 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # Filter tweets after translating to English
     # ----------------------------------
     # if filter_tweets and filter_after_translating:
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_post_translation.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object['tweet_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_filtered_post_translation.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object['text_in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
 
 
     # ----------------------------------
     # Tokenize, lemmatize, and stem tweet text
     # ----------------------------------
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_processed.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['tweet_in_english']))
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_processed.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object['text_in_english']))
 
     # ----------------------------------
     # Sentiment analysis of each tweet
     # ----------------------------------
     def _get_sentiment(tweet_object):
-        tweet_text = tweet_object['tweet_in_english']
+        tweet_text = tweet_object['text_in_english']
         sentiment, probabilities = classify_sentiment(tweet_text)
         return {
             'predicted': sentiment,
@@ -174,7 +176,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
         tweet_object['sentiment_predicted'] = analysis_value['predicted']
         tweet_object['sentiment_probabilities'] = analysis_value['probabilities']
         print('----------------------------------')
-        print(f'Sentiment {tweet_object["id_str"]}, {tweet_object["sentiment_predicted"]} {len(tweet_object["tweet_in_english"])}')
+        print(f'Sentiment {tweet_object["id_str"]}, {tweet_object["sentiment_predicted"]} {len(tweet_object["text_in_english"])}')
         print('----------------------------------')
     get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_sentiment.value, analysis_function=_get_sentiment, post_process_function=_post_process_get_sentiment)
 
@@ -184,7 +186,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # We can choose to create a new topic model or load the existing one
     if create_new_topic_model:
-        texts_to_analyze = [tweet_object['tweet_in_english'] for tweet_object in tweet_objects]
+        texts_to_analyze = [tweet_object['text_in_english'] for tweet_object in tweet_objects]
         lda_topic_model, topics_values = topic_modelling(texts_to_analyze)
     else:
         lda_topic_model, topics_values = load_pretrained_model()
@@ -197,14 +199,14 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
                 keywords_of_topic_model.append(keyword)
 
     def _get_topics_lda(tweet_object):
-        topics_detected = apply_lda(tweet_object['tweet_in_english'], lda_topic_model)
+        topics_detected = apply_lda(tweet_object['text_in_english'], lda_topic_model)
         # Convert float32 to float
         topics_detected = [[topic[0], float(topic[1])] for topic in topics_detected]
         return topics_detected
     
     def _get_results_topics_lda(tweet_object):
         topics_detected = tweet_object[CollectionNames.tweet_topics_lda.value]
-        text = tweet_object['tweet_in_english']
+        text = tweet_object['text_in_english']
         highest_score_topic = max(topics_detected, key=lambda x: x[1])
         # Get the topic labels associated with the topic id
         topic_labels = TOPICS_LABELS_MAP.get(highest_score_topic[0], [])
@@ -238,7 +240,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     
 
     if len(tweets_to_detect_topic) > 0:
-        texts_to_detect_topic = [tweet_object['tweet_in_english'] for tweet_object in tweets_to_detect_topic]
+        texts_to_detect_topic = [tweet_object['text_in_english'] for tweet_object in tweets_to_detect_topic]
         topics_detected_list, topics_info_list, probs_detected_list = detect_topics_bertopic_arxiv(texts_to_detect_topic)
         documents_to_save = []
         for i in range(len(tweets_to_detect_topic)):
@@ -263,7 +265,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     # Topic inference using CardiffNLP Tweet Topic RoBERTa
     # ----------------------------------
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['tweet_in_english']))
+    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object['text_in_english']))
 
 
     return tweet_objects, topics_values
@@ -514,6 +516,7 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
             "age": user_object[CollectionNames.user_demographics_result.value]["age_predicted"],
             "gender": user_object[CollectionNames.user_demographics_result.value]["gender_predicted"],
             "org": user_object[CollectionNames.user_demographics_result.value]["org_predicted"],
+            "lang": user_object["lang"],
         }
         for collection_name in CollectionNames:
             if collection_name.value in user_object:
@@ -531,16 +534,23 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
             'id_str': tweet_object['id_str'],
             'timestamp_ms': tweet_object['timestamp_ms'],
             "text": tweet_object[CollectionNames.tweet_text_original.value],
-            "text_translated": tweet_object[CollectionNames.tweet_translated.value],
-            "is_related_pre": tweet_object[CollectionNames.tweet_filtered_pre_translation.value],
-            "is_related_post": tweet_object[CollectionNames.tweet_filtered_post_translation.value],
-            "processed": tweet_object[CollectionNames.tweet_processed.value],
+            "text_in_english": tweet_object[CollectionNames.tweet_translated.value]["in_english"],
+            "text_processed": tweet_object[CollectionNames.tweet_processed.value],
+            "lang": tweet_object["lang"],
+            "spacy_match": {
+                "original": tweet_object[CollectionNames.tweet_filtered_pre_translation.value],
+                "in_english": tweet_object[CollectionNames.tweet_filtered_post_translation.value],
+            },
             "sentiment": tweet_object[CollectionNames.tweet_sentiment.value]["predicted"],
-            "topic_lda_id": tweet_object[CollectionNames.tweet_topics_lda_results.value]["highest_score_topic"],
-            "topic_labels": [topic['word'] for topic in tweet_object[CollectionNames.tweet_topics_lda_results.value]["topic_labels"]],
-            "associated_keywords": tweet_object[CollectionNames.tweet_topics_lda_results.value]["associated_keywords"],
-            "topic_bert_id": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"],
-            "topic_bert_name": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_info"]["Name"],
+            "topic_lda": {
+                'id': tweet_object[CollectionNames.tweet_topics_lda_results.value]["highest_score_topic"],
+                'labels': [{"word": topic['word'], "prob": topic["topic_prob"]} for topic in tweet_object[CollectionNames.tweet_topics_lda_results.value]["topic_labels"]],
+                "associated_keywords": tweet_object[CollectionNames.tweet_topics_lda_results.value]["associated_keywords"],
+            },
+            "topic_bert_arxiv": {
+                "id": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"],
+                "name": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_info"]["Name"],
+            },
             "topic_cardiffnlp": max(tweet_object[CollectionNames.tweet_topics_cardiffnlp.value], key=lambda x: x["topic_score"]),
             "user": user_object,
         }
