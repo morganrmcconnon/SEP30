@@ -102,6 +102,7 @@ def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_to
     # ----------------------------------
     tweet_objects = [{
         'id_str': tweet_object['id_str'],
+        'timestamp_ms': tweet_object['timestamp_ms'],
         'text': tweet_object['text'],
         'lang': tweet_object['lang'],
         'user': tweet_object['user'],
@@ -508,6 +509,11 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
         user_id = user_object['id_str']
         new_user_object = {
             'id_str': user_id,
+            "country_code": user_object[CollectionNames.user_location_country.value]["country_code"],
+            "country_name": user_object[CollectionNames.user_location_country.value]["country_name"],
+            "age": user_object[CollectionNames.user_demographics_result.value]["age_predicted"],
+            "gender": user_object[CollectionNames.user_demographics_result.value]["gender_predicted"],
+            "org": user_object[CollectionNames.user_demographics_result.value]["org_predicted"],
         }
         for collection_name in CollectionNames:
             if collection_name.value in user_object:
@@ -518,16 +524,32 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
     # This will be used to save the analyzed tweets to the database
     documents_to_save = []
     for tweet_object in analyzed_tweets:
+        user_id = tweet_object['user']['id_str']
+        user_object = users_map[user_id]
         document_to_save = {
             '_id': tweet_object['id_str'],
             'id_str': tweet_object['id_str'],
+            'timestamp_ms': tweet_object['timestamp_ms'],
+            "text": tweet_object[CollectionNames.tweet_text_original.value],
+            "text_translated": tweet_object[CollectionNames.tweet_translated.value],
+            "is_related_pre": tweet_object[CollectionNames.tweet_filtered_pre_translation.value],
+            "is_related_post": tweet_object[CollectionNames.tweet_filtered_post_translation.value],
+            "processed": tweet_object[CollectionNames.tweet_processed.value],
+            "sentiment": tweet_object[CollectionNames.tweet_sentiment.value]["predicted"],
+            "topic_lda_id": tweet_object[CollectionNames.tweet_topics_lda_results.value]["highest_score_topic"],
+            "topic_labels": [topic['word'] for topic in tweet_object[CollectionNames.tweet_topics_lda_results.value]["topic_labels"]],
+            "associated_keywords": tweet_object[CollectionNames.tweet_topics_lda_results.value]["associated_keywords"],
+            "topic_bert_id": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"],
+            "topic_bert_name": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_info"]["Name"],
+            "topic_cardiffnlp": max(tweet_object[CollectionNames.tweet_topics_cardiffnlp.value], key=lambda x: x["topic_score"]),
+            "user": user_object,
         }
-        for collection_name in CollectionNames:
-            if collection_name.value in tweet_object:
-                document_to_save[collection_name.value] = tweet_object[collection_name.value]
-        # Add the user object to the tweet object
-        user_id = tweet_object['user']['id_str']
-        document_to_save['user'] = users_map[user_id]
+        # for collection_name in CollectionNames:
+        #     if collection_name.value in tweet_object:
+        #         document_to_save[collection_name.value] = tweet_object[collection_name.value]
+        # # Add the user object to the tweet object
+        # user_id = tweet_object['user']['id_str']
+        # document_to_save['user'] = users_map[user_id]
         documents_to_save.append(document_to_save)
 
     # Insert or update the analyzed tweets to the database
