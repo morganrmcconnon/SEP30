@@ -114,7 +114,7 @@ pip install -r requirements.txt
 sudo apt-get install python3-dev
 sudo apt-get install python3.11-dev
 sudo apt install libpython3.11-dev
-python3 -m pip install python-dev-tools --user --upgrade
+python3 -m pip install python-dev-tools --upgrade
 pip3 install --upgrade pip
 # (Seems that after upgrading pip, it is possible to install hdbscan)
 
