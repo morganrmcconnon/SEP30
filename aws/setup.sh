@@ -1,10 +1,17 @@
-# 1. Install nginx, git, python3, pip3
+# 1. Install node, python3.11, pip3, git, mongodb, nginx
 
 # Update apt
 sudo apt update -y
 
-# Install nginx
-sudo apt install nginx-core -y
+# Update apt-get
+sudo apt-get update -y
+
+# Install nvm
+# Reference: https://github.com/nvm-sh/nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+# Install node latest version
+nvm install node
 
 # # Install git
 # sudo apt install git -y
@@ -12,98 +19,31 @@ sudo apt install nginx-core -y
 # # Install python3
 # sudo apt install python3 -y
 
+# Install python3.11 in case the default python3 is lower than 3.11 (e.g. 3.10)
+# Reference: https://www.itsupportwale.com/blog/how-to-upgrade-to-python-3-11-on-ubuntu-20-04-and-22-04-lts/
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+apt-get update
+apt list | grep python3.11
+sudo apt-get install python3.11
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
+sudo update-alternatives --config python3
+2
+python3 -V
+
 # Install pip3
 sudo apt install python3-pip -y
 
-
-# 2. Prepare the server
-
-
-# Make sure to navigate to the home directory before running this script
-cd ~
+# Upgrade pip3
+pip3 install --upgrade pip
 
 
-# 2. - Clone the repo and pull the latest changes
+# Install nginx
+sudo apt install nginx-core -y
 
 
-# Clone the repo
-git clone https://github.com/morganrmcconnon/SEP30.git
-
-# Pull the latest changes
-cd ~/SEP30
-git pull
-
-
-# 2. - Configure nginx
-
-
-# Copy the nginx config file
-sudo cp ~/SEP30/nginx/ubuntu/default /etc/nginx/sites-available/default
-
-
-# 2. - Configure the frontend
-
-
-# Copy the dist folder from your local machine to /home/ubuntu/SEP30/frontend
-# Use WinSCP if you're on Windows
-# Or use scp
-# scp -r ~/Desktop/SEP30/frontend/dist ubuntu@<ip-address>:/home/ubuntu/SEP30/frontend
-
-# Copy the dist folder to the nginx root
-sudo cp -r ~/SEP30/frontend/dist/* /var/www/html/
-
-
-# 2. - Configure the backend
-
-
-# Navigate to the backend directory
-cd ~/SEP30/backend
-
-# Install the requirements
-pip install -r requirements.txt
-
-
-
-# 3. Start the web server
-
-
-# 3. - Frontend
-
-
-# Start nginx
-sudo systemctl start nginx
-
-# Or restart nginx
-sudo systemctl restart nginx
-
-# Check the status of nginx
-sudo systemctl status nginx
-
-# Stop nginx
-sudo systemctl stop nginx
-
-
-# 3. - Backend
-
-
-# Start a tmux session called backend
-# so the backend can run in the background after you exit the ssh session
-tmux new -s backend
-
-# Navigate to the backend directory
-cd ~/SEP30/backend
-
-# Run the backend
-python3 wsgi.py &
-# Or you can run the backend with gunicorn
-
-# End tmux session if you want to
-tmux kill-session -t backend
-
-
-# 4. Install MongoDB
-
-
+# Install mongodb
 # Reference: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
 
 # From a terminal, install gnupg and curl if they are not already available:
@@ -123,44 +63,63 @@ sudo apt-get update
 # Install the MongoDB packages
 sudo apt-get install -y mongodb-org
 
-# Start MongoDB
-sudo systemctl start mongod
-
-# Verify that MongoDB has started successfully
-sudo systemctl status mongod
-
-# Stop MongoDB
-sudo systemctl stop mongod
-
-# Restart MongoDB
-sudo systemctl restart mongod
 
 
+# 2. Prepare the server
 
-# 5. Use MongoDB
+
+# Make sure to navigate to the home directory before running this script
+cd ~
 
 
-# Begin using MongoDB
+# 2. Clone the repo and pull the latest changes
+
+
+# Clone the repo
+git clone https://github.com/morganrmcconnon/SEP30.git
+
+# Pull the latest changes
+cd ~/SEP30
+git pull
+
+
+# 3. Configure nginx
+
+
+# Copy the nginx config file
+sudo cp ~/SEP30/nginx/ubuntu/default /etc/nginx/sites-available/default
+
+
+# Copy the dist folder to the nginx root
+sudo cp -r ~/SEP30/frontend/dist/* /var/www/html/
+
+
+# 4. Configure the backend
+
+
+# Navigate to the backend directory
+cd ~/SEP30/backend
+
+# Install the requirements
+pip install -r requirements.txt
+
+
+# Troubleshooting: Special case for Python.h not found and pip install hdbscan
+# https://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-or-directory
+# https://stackoverflow.com/questions/73171473/how-to-resolve-error-could-not-build-wheels-for-hdbscan-which-is-required-to-i
+sudo apt-get install python3-dev
+sudo apt-get install python3.11-dev
+sudo apt install libpython3.11-dev
+python3 -m pip install python-dev-tools --user --upgrade
+pip3 install --upgrade pip
+# (Seems that after upgrading pip, it is possible to install hdbscan)
+
+
+
+# 5. Use mongo shell
+
+# Use mongosh
 mongosh
-
-
-# Create or switch to the 'twitter_db' database
-use twitter_db;
-
-# Create 'original_tweets' collection
-db.createCollection('original_tweets');
-
-# Create 'analyzed_tweets' collection
-db.createCollection('analyzed_tweets');
-
-# Create 'analyzed_users' collection
-db.createCollection('analyzed_users');
-
-# Show collections
-show collections;
-
-# Show databases
-show dbs;
 
 # Exit mongosh
 exit;
