@@ -1,6 +1,6 @@
 import os
 
-from mongo_constants import DATABASE, CollectionNames
+from mongo_constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
@@ -248,14 +248,10 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
         if db_op_result != None:
             # TODO: Change the way the topic model id is generated
             lda_topic_model_id = str(db_op_result.inserted_id)
-        # Save the topic model binary to the file system
-        model_path = f"lda_topic_models/{lda_topic_model_id}/lda_model.model"
-        lda_topic_model.save(model_path)
-
+        
     else:
         # Convert keys to string for MongoDB
         lda_topic_model_id = "0"
-        model_path = f"lda_topic_models/{lda_topic_model_id}/lda_model.model"
         lda_topic_model, lda_topics_values = load_pretrained_model()
         lda_topics_labels_map = label_topics_from_preexisting_topic_model_and_keywords_list()
         lda_topics_values = {str(key): value for key, value in lda_topics_values.items()}
@@ -266,8 +262,13 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
                 "keywords_representation": lda_topics_values,
                 "labels": lda_topics_labels_map
             })
-        if os.path.exists(model_path) == False:
-            lda_topic_model.save(model_path)
+    
+    # Save the topic model binary to the file system
+    model_directory = os.path.join(DATA_LAKE_FOLDER, DataFolderNames.lda_topic_models.value, lda_topic_model_id)
+    print(model_directory)
+    if os.path.exists(model_directory) == False:
+        os.makedirs(model_directory, exist_ok=True)
+        lda_topic_model.save(os.path.join(model_directory, "lda_topic_model.mdl"))
 
 
     # Get the keywords of the topic model

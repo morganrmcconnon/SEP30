@@ -6,8 +6,12 @@ from enum import Enum
 MONGODB_URI = 'mongodb://localhost:27017/'
 DATABASE_NAME = 'twitter_db'
 
+DATA_LAKE_FOLDER = os.path.join(os.path.dirname(__file__), 'data.local')
 
-# class syntax
+class DataFolderNames(Enum):
+    lda_topic_models = 'lda_topic_models'
+
+
 class CollectionNames(Enum):
     internet_archive_urls = 'internet_archive_urls'
     original_tweets = 'original_tweets'
