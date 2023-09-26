@@ -38,9 +38,9 @@ export default function SentimentGroupsWeekly() {
 					  <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
                       <ReferenceLine y={0} stroke='#000' style={{ height: 3 }} />
                       
-                      <Line dataKey='Positive' stroke={item?.color} />
-					  <Line dataKey='Negative' stroke={"#FF922B"} />
-					  <Line dataKey='Neutral' stroke={item?.color} />
+                      <Line dataKey='Positive' stroke={color[0]} />
+					  <Line dataKey='Negative' stroke={color[1]} />
+					  <Line dataKey='Neutral' stroke={color[2]} />
                     </LineChart>
                   </ResponsiveContainer>
                   {data.dataChart.dataLineChart.length === index + 1 && (
