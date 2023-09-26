@@ -11,7 +11,6 @@ from services.analyze_tweets.sentiment_analysis import classify_sentiment
 # from my_source import mySource
 # from source import download_tweets_during_time_period, analyze_multiple_tweets, analyze_multiple_users, aggregate_tweet_objects_analysis_result, aggregate_user_objects_analysis_result
 
-from get_analysis_result import get_analysis_result
 
 try:
     # Try establishing connection with MongoDB
@@ -20,21 +19,11 @@ try:
     # Get database and collection
 
     # create a new database if it doesn't exist
-    if 'twitter_db' not in MONGODB_CLIENT.list_database_names():
-        DATABASE = MONGODB_CLIENT['twitter_db']
-    else:
-        DATABASE = MONGODB_CLIENT['twitter_db']
+    DATABASE = MONGODB_CLIENT['twitter_db']
 
     # create new collections if it doesn't exist
     if 'original_tweets' not in DATABASE.list_collection_names():
-        C_ORIGINAL_TWEETS = DATABASE.create_collection('original_tweets')
-    else:
-        C_ORIGINAL_TWEETS = DATABASE['original_tweets']
-
-    if 'analyzed_tweets' not in DATABASE.list_collection_names():
-        C_ANALYZED_TWEETS = DATABASE.create_collection('analyzed_tweets')
-    else:
-        C_ANALYZED_TWEETS = DATABASE['analyzed_tweets']
+        DATABASE.create_collection('original_tweets')
     
     _USING_DATABASE_ = True
 
@@ -367,7 +356,7 @@ def select_analyzed_tweets():
     end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
     
     # Query MongoDB collection to select analyzed tweets based on keyword and date range
-    selected_tweets = C_ANALYZED_TWEETS.find({
+    selected_tweets = DATABASE['analyzed_tweets'].find({
         'text': {'$regex': keyword, '$options': 'i'},  # Case-insensitive search
         'created_at': {'$gte': start_datetime, '$lte': end_datetime}
     })
@@ -387,7 +376,7 @@ def select_tweet_ids_by_date_range():
     end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
     
     # Query MongoDB collection to select tweet IDs based on date range
-    selected_tweet_ids = C_ANALYZED_TWEETS.find({
+    selected_tweet_ids = DATABASE['analyzed_tweets'].find({
         'created_at': {'$gte': start_datetime, '$lte': end_datetime}
     }).distinct('id_str')  # Get distinct tweet IDs
     
@@ -437,13 +426,13 @@ def select_tweets_by_timestamp_ms_range():
     print("pipeline")
     print(pipeline)
 
-    total_tweets_count = C_ANALYZED_TWEETS.count_documents({
+    total_tweets_count = DATABASE['analyzed_tweets'].count_documents({
             "$match": {
                 "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
             }
         })
 
-    related_tweets_analyzed = C_ANALYZED_TWEETS.aggregate(pipeline)
+    related_tweets_analyzed = DATABASE['analyzed_tweets'].aggregate(pipeline)
     related_tweets_analyzed = list(related_tweets_analyzed)
 
     related_tweets_count = len(related_tweets_analyzed)
@@ -467,7 +456,7 @@ def get_analyzed_data_by_tweet_ids():
     
     # Check which tweet IDs are already cached
     for tweet_id in tweet_ids_to_analyze:
-        cached_result = C_ANALYZED_TWEETS.find_one({'_id': tweet_id})
+        cached_result = DATABASE['analyzed_tweets'].find_one({'_id': tweet_id})
         if cached_result:
             cached_analysis_results.append(cached_result)
         else:
@@ -476,7 +465,7 @@ def get_analyzed_data_by_tweet_ids():
     # Analyze the uncached tweet IDs
     if uncached_tweet_ids:
         # Retrieve uncached tweets from MongoDB
-        uncached_tweets = C_ORIGINAL_TWEETS.find({'id_str': {'$in': uncached_tweet_ids}})
+        uncached_tweets = DATABASE['original_tweets'].find({'id_str': {'$in': uncached_tweet_ids}})
         
         # DEBUG
         # For now, we will comment this out to save time when starting the Flask app. 
