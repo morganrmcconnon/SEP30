@@ -423,6 +423,15 @@ def select_tweets_by_timestamp_ms_range():
     
     return jsonify(response_object)
 
+@app.route("/api/get_cached", methods=["GET"])
+@app.route("/backend/get_cached", methods=["GET"])
+def get_cached():
+    # Return cached analyzed result from static folder
+
+    cached_analysis_result = json.load(open(os.path.join(CACHE_FOLDER, "backend_response.json"), "r"))
+
+    return cached_analysis_result
+
 
 @app.route("/api/get_analyzed_data_by_tweet_ids", methods=["POST"])
 def get_analyzed_data_by_tweet_ids():

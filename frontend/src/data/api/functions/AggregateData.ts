@@ -28,8 +28,20 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
     associated_keywords.forEach(keyword => {
       keyword_count[keyword] = (keyword_count[keyword] || 0) + 1;
     });
+  });
 
+  // Divide keyword_count by the number of tweets
+  Object.entries(keyword_count).forEach(([keyword, count]) => {
+    keyword_count[keyword] = Math.round(count / tweet_objects.length * 10000) / 100;
+  });
 
+  // Filter top 20 keywords and remain a dictionary
+  const keywords_count_filtered = Object.entries(keyword_count).sort((a, b) => b[1] - a[1]).slice(0, 20);
+  // Convert to a dictionary
+  const keywords_count_filtered_dict = Object.fromEntries(keywords_count_filtered);
+
+  tweet_objects.forEach(tweet_object => {
+    const associated_keywords = tweet_object.text_processed.filter(keyword => keyword in keywords_count_filtered_dict);
     associated_keywords.forEach(keyword1 => {
       associated_keywords.forEach(keyword2 => {
         if (keyword1 !== keyword2) {
@@ -72,7 +84,7 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
     male_sentiment,
     sentiment_count,
     topic_count,
-    keyword_count,
+    keyword_count : keywords_count_filtered_dict,
     keywordsPairsArray
   };
 }

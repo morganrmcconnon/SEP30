@@ -5,14 +5,14 @@ import { useSearchContext } from "../../contexts/SearchContext";
 
 const TestEndpoint = () => {
   const [text, setText] = useState("");
-  const { updateBackendData: updateRealData, backendData: realData } = useSearchContext();
+  const { updateBackendData } = useSearchContext();
 
   const clearText = () => {
     setText("");
   };
 
   const setTextStatic = () => {
-    setText("/backend/get_cached_static");
+    setText("/backend/get_cached");
   };
 
   const getResult = (e : any) => {
@@ -26,12 +26,7 @@ const TestEndpoint = () => {
     fetch(text, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        updateRealData(data);
-        console.log("in TestEndpoint.jsx, after updateRealData:");
-        console.log("data received:");
-        console.log(data);
-        console.log("realData value:");
-        console.log(realData);
+        updateBackendData(data);
       })
       .catch((err) => {
         console.log(`Something went wrong with executing endpoint "${text}":`);
