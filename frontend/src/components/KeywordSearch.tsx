@@ -8,9 +8,11 @@ import dark from "../assets/dark.svg";
 import "react-grid-layout/css/styles.css";
 import "../styles/override.css";
 
+import { useSearchContext } from "../contexts/SearchContext";
 
 const KeywordSearch = () => {
   const [mode, setMode] = useState(true);
+  const { updateFilterOption } = useSearchContext();
 
   // const actionData = useActionData();
 
@@ -20,10 +22,24 @@ const KeywordSearch = () => {
     mode ? setMode(false) : setMode(true);
   }
 
+  function updateKeyword(e: any) {
+    e.preventDefault();
+    console.log(e)
+    const str = e.target[0].value;
+    console.log(str);
+    if(str === "" || str === undefined || str === null) {
+      updateFilterOption("keyword", false);
+    }
+    else {
+      updateFilterOption("keyword", str);
+    }
+  }
+
   return (
     <div className="keywordsearch-bar">
       <img className="sidebar-icon" src={search} alt="search" />
-      <Form method="post" action="/search">
+      {/* <Form method="post" action="/search"> */}
+      <Form onSubmit={updateKeyword}>
         <input
           className="keywordsearch-input"
           type="text"
@@ -32,7 +48,6 @@ const KeywordSearch = () => {
           placeholder="Search Term or Keyword"
         />
       </Form>
-      <div></div>
       <img
         className="toggle-mode"
         src={mode ? light : dark}
