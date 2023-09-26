@@ -1,5 +1,5 @@
-import { AgeGroupData, GenderData, SentimentData } from "../types/constants";
-import { DATATYPES } from "../../constants/dataTypes";
+import { AgeGroupData, GenderData, SentimentData } from "../../api/types/constants";
+import { DATATYPES } from "../constants/DATATYPES";
 
 
 function display_backend_data_into_age_groups(age_groups_count: AgeGroupData) {

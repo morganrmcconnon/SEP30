@@ -1,7 +1,7 @@
 import { BackendOutputType } from "./BackendOutputType";
 import { SentimentData } from "./TweetObjectTypes";
 import { AgeGroupData, GenderData } from "./UserObjectTypes";
-import { DATATYPES } from "./dataTypes";
+import { DATATYPES } from "../data/grids/constants/DATATYPES";
 
 
 function display_backend_data_into_age_groups(age_groups_count: AgeGroupData) {

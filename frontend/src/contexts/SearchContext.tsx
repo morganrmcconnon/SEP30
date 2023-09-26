@@ -4,7 +4,8 @@ import { display_backend_data_into_charts, update_dashboard_data } from "../cons
 import { filter_data_by } from "../constants/FilterData";
 import { aggregate_data } from "../constants/AggregateData";
 
-import { ChartDataTypes, DATATYPES } from "../constants/dataTypes";
+import { DATATYPES } from "../data/grids/constants/DATATYPES";
+import { GridsDataType } from "../data/grids/types/GridsDataType";
 import { BackendOutputType } from "../constants/BackendOutputType";
 
 type FilterOptionsType = {
@@ -32,7 +33,7 @@ type SearchContextType = {
   updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => void,
   backendData?: BackendOutputType,
   updateBackendData: (response_data: BackendOutputType) => void,
-  dashboardData: ChartDataTypes,
+  dashboardData: GridsDataType,
 }
 
 const SearchContext = createContext<SearchContextType>({
@@ -49,7 +50,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [backendData, setBackendData] = useState<BackendOutputType>();
 
-  const [dashboardData, setDashboardData] = useState<ChartDataTypes>(DATATYPES);
+  const [dashboardData, setDashboardData] = useState<GridsDataType>(DATATYPES);
 
   const updateBackendData = (response_data: BackendOutputType) => {
 
