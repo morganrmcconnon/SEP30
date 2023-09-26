@@ -8,29 +8,8 @@ from pymongo import MongoClient
 
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
-# from my_source import mySource
-# from source import download_tweets_during_time_period, analyze_multiple_tweets, analyze_multiple_users, aggregate_tweet_objects_analysis_result, aggregate_user_objects_analysis_result
 
-
-try:
-    # Try establishing connection with MongoDB
-    MONGODB_CLIENT = MongoClient('mongodb://localhost:27017/')
-
-    # Get database and collection
-
-    # create a new database if it doesn't exist
-    DATABASE = MONGODB_CLIENT['twitter_db']
-
-    # create new collections if it doesn't exist
-    if 'original_tweets' not in DATABASE.list_collection_names():
-        DATABASE.create_collection('original_tweets')
-    
-    _USING_DATABASE_ = True
-
-except Exception as e:
-    print('Failed to connect to MongoDB')
-    print(e)
-    _USING_DATABASE_ = False
+from mongo_constants import CollectionNames, DATABASE
         
 
 
@@ -404,44 +383,45 @@ def select_tweets_by_timestamp_ms_range():
     print(start_timestamp_ms, end_timestamp_ms)
     # Query MongoDB collection to select tweet IDs based on timestamp range
     # Join 2 collections, original_tweets and analyzed_tweets
-    pipeline = [
-        # find based on timestamp range
-        {
-            "$match": {
-                "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
-            }
-        },
-        # filter tweets that are not mental health related
-        {
-            "$match": {
-                "$or": [
-                    { 'topic_bert_arxiv.id': 55 },
-                    { 'spacy_match.in_english': True },
-                    { 'spacy_match.original': True }
-                ]
-            }
-        }
-    ]
 
-    print("pipeline")
-    print(pipeline)
 
     total_tweets_count = DATABASE['analyzed_tweets'].count_documents({
-            "$match": {
                 "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
-            }
-        })
+            })
+    
+    query_filter = {
+        "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms},
+        # filter tweets that are not mental health related
+        "$or": [
+            { 'topic_bert_arxiv.topic_id': 55 },
+            { 'spacy_match.in_english': True },
+            { 'spacy_match.original': True }
+        ]
+    }
 
-    related_tweets_analyzed = DATABASE['analyzed_tweets'].aggregate(pipeline)
+    related_tweets_analyzed = DATABASE['analyzed_tweets'].find(query_filter)
+    
     related_tweets_analyzed = list(related_tweets_analyzed)
 
     related_tweets_count = len(related_tweets_analyzed)
-    
-    return jsonify({
-        "total_tweets_count": total_tweets_count,
-        "related_tweets_count": related_tweets_count,
+
+    lda_model_id = related_tweets_analyzed[0]['topic_lda']['model_id']
+
+    lda_topic_model_values = DATABASE[CollectionNames.lda_topic_models.value].find_one({'_id': lda_model_id})
+
+    response_object = {
+        "aggregate_results": {
+            "total_tweets_count": total_tweets_count,
+            "related_tweets_count": related_tweets_count,
+        },
+        "lda_topic_model": lda_topic_model_values,
         "tweet_objects": related_tweets_analyzed
-    })
+    }
+
+    with open(os.path.join(CACHE_FOLDER, 'backend_response.json'), 'w') as f:
+        json.dump(response_object, f)
+    
+    return jsonify(response_object)
 
 
 @app.route("/api/get_analyzed_data_by_tweet_ids", methods=["POST"])
