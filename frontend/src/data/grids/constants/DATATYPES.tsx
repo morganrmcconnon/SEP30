@@ -219,7 +219,7 @@ export const DATATYPES : GridsDataType = {
       { id: '<=18', name: 'Under 18', percent: 18, color: ColorVar.blue },
       { id: '19-29', name: '19 - 29', percent: 40, color: '#50cc65' },
       { id: '30-39', name: '30 - 39', percent: 15, color: ColorVar.orange },
-      { id: '>=40', name: '40 and above', percent: 15, color: '#eeeeef' },
+      { id: '>=40', name: '40 and above', percent: 15, color: ColorVar.red },
     ],
   },
   genders: {

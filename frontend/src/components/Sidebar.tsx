@@ -28,28 +28,20 @@ const Sidebar = () => {
       <nav>
         <ul className="sidebar-list">
           <li>
-            <Link to="/">
               <img className="sidebar-icon" src={dashboard} alt="overview" />
               <h3>Overview</h3>
-            </Link>
           </li>
           <li>
-            <Link to="/">
               <img className="sidebar-icon" src={file} alt="dashboard" />
               <h3>Dashboard</h3>
-            </Link>
           </li>
           <li>
-            <Link to="/">
               <img className="sidebar-icon" src={contact} alt="contact" />
               <h3>Contact</h3>
-            </Link>
           </li>
           <li>
-            <Link to="/">
               <img className="sidebar-icon" src={information} alt="about" />
               <h3>About us</h3>
-            </Link>
           </li>
         </ul>
       </nav>
@@ -62,16 +54,6 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
-      <div>
-        <p>Filtered by:</p>
-        <ul>
-          {Object.entries(search).map(([key, value]) => (
-            <li key={key}>
-              {key}: {value.toString()}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };

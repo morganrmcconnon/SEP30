@@ -1,5 +1,6 @@
 import { Col, Row, Space } from 'antd';
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
+import ColorVar from "../../constants/ColorVar"
 
 import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
@@ -8,7 +9,7 @@ import { useSearchContext } from '../../contexts/SearchContext';
 export default function GenderGroupsWeekly() {
   const { dashboardData } = useSearchContext();
   const data = dashboardData.analyticsGenderBox;
-	const color = ["#339AF0", "#51CF66", "#FFFFFF"];
+	const color = [ColorVar.red, ColorVar.blue]
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
@@ -64,7 +65,7 @@ export default function GenderGroupsWeekly() {
                       border: '3px solid',
                       borderRadius: '100%',
                       marginRight: 6,
-                      borderColor: item?.color,
+                      borderColor: color[index],
                     }}
                   />
                   <span className='text-data'>{item?.title}</span>

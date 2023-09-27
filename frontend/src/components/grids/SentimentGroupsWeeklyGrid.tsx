@@ -1,5 +1,6 @@
 import { Col, Row, Space } from 'antd';
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
+import ColorVar from "../../constants/ColorVar"
 
 import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
@@ -8,7 +9,7 @@ import { useSearchContext } from '../../contexts/SearchContext';
 export default function SentimentGroupsWeekly() {
   const { dashboardData } = useSearchContext();
   const data = dashboardData.analyticsSentimentBox;
-	const color = ["#339AF0", "#51CF66", "#FF922B"];
+	const color = [ColorVar.green, ColorVar.blue, ColorVar.orange];
 
   return (
     <div className='vis-container'>
