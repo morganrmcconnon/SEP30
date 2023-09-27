@@ -12,38 +12,42 @@ const KeywordsDistribution = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title={griddata?.title} subtitle={`Keywords distribution of Topic ${search.topic}`} />
+      <VisHeader title={`Keywords representation of topic`} subtitle={search.topic !== false ? `Probability of the keyword belonging to the topic ${search.topic}` : "Please select a topic to view the keywords distribution"} />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            width={500}
-            height={300}
-            data={data}
-            layout="vertical"
-            margin={{
-              top: 5,
-              right: 30,
-              left: 40,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" />
-            <YAxis dataKey='name' type="category" />
-            <Tooltip />
-            <Legend />
-            <ReferenceLine y={0} stroke="#000" />
-            <Bar name="Frequency" dataKey="value" fill={ColorVar.blue} >
-              {data.map((item) => (
-                <Cell
-                  onClick={() => {
-                    updateFilterOption("keyword", item.name);
-                  }}
-                  strokeWidth={10}
-                />
-              ))}
-            </Bar>
-          </BarChart>
+          {
+            search.topic !== false ?
+
+              <BarChart
+                width={500}
+                height={300}
+                data={data}
+                layout="vertical"
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 40,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey='name' type="category" />
+                <Tooltip />
+                <Legend />
+                <ReferenceLine y={0} stroke="#000" />
+                <Bar name="Probability" dataKey="value" fill={ColorVar.blue} >
+                  {data.map((item) => (
+                    <Cell
+                      onClick={() => {
+                        updateFilterOption("keyword", item.name);
+                      }}
+                      strokeWidth={10}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+              : <div className="no-data"></div>}
         </ResponsiveContainer>
       </div>
     </div>
