@@ -6,7 +6,7 @@ import ProgressBar from "../grid_components/ProgressBar";
 import { useSearchContext } from "../../contexts/SearchContext";
 
 export default function GendersGrid() {
-  const { dashboardData } = useSearchContext();
+  const { updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.genders;
 
   function getIcon(sentiment: string) {
@@ -25,7 +25,7 @@ export default function GendersGrid() {
         <div style={{ padding: 20 }}>
           <Row>
             <Col span={4} style={{ display: "flex", alignItems: "center" }}>
-              <p style={{ fontSize: 16 }}>Female:</p>
+              <p style={{ fontSize: 16 }} onClick={() => updateFilterOption("gender", "female")}>Female:</p>
             </Col>
             <Col span={20}>
               <ProgressBar
@@ -42,7 +42,7 @@ export default function GendersGrid() {
               <Col span={12} style={{ marginTop: 5 }} key={index}>
                 <div style={{ display: "flex" }}>
                   {getIcon(item)}
-                  <p style={{ textTransform: "capitalize" }}>
+                  <p style={{ textTransform: "capitalize" }} onClick={() => updateFilterOption("sentiment", item)}>
                     {item} {data?.data.female.sentiment[item]}
                   </p>
                 </div>
@@ -52,7 +52,7 @@ export default function GendersGrid() {
           <Divider />
           <Row>
             <Col span={4} style={{ display: "flex", alignItems: "center" }}>
-              <p style={{ fontSize: 16 }}>Male:</p>
+              <p style={{ fontSize: 16 }} onClick={() => updateFilterOption("gender", "male")}>Male:</p>
             </Col>
             <Col span={20}>
               <ProgressBar
@@ -69,7 +69,7 @@ export default function GendersGrid() {
               <Col span={12} style={{ marginTop: 5 }} key={index}>
                 <div style={{ display: "flex" }}>
                   {getIcon(item)}
-                  <p style={{ textTransform: "capitalize" }}>
+                  <p style={{ textTransform: "capitalize" }} onClick={() => updateFilterOption("sentiment", item)}>
                     {item} {data?.data.male.sentiment[item]}
                   </p>
                 </div>
