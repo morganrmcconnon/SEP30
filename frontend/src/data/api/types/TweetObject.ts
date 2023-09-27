@@ -27,10 +27,7 @@ export type TweetObject = {
   topic_lda: {
     model_id: string,
     topic_id: string,
-    topic_labels: Array<{
-      word: string,
-      prob: number,
-    }>,
+    related_topics: Array<string>,
     associated_keywords: Array<string>,
   }
 };

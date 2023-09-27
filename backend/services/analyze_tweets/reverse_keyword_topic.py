@@ -3,14 +3,14 @@ import json
 
 if __name__ == "__main__":
 
-    from analyze_tweets.topic_modelling import load_model, apply_lda
+    from analyze_tweets.topic_modelling import load_model, apply_lda_model
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(current_dir, '..', "topic_model", "lda_model.model")
     model = load_model(model_path)
 
     def get_topics(text):
-        topics = apply_lda(text, model)
+        topics = apply_lda_model(text, model)
         # Serialize the topics
         topics = [[topic[0], float(topic[1])] for topic in topics]
         return topics

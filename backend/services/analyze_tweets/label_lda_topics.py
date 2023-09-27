@@ -1,7 +1,7 @@
 import os
 from gensim.models.ldamodel import LdaModel
 
-from .topic_modelling import apply_lda, NUM_TOPICS
+from .topic_modelling import apply_lda_model, NUM_TOPICS
 from .load_pretrained_topic_model import load_pretrained_model
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -15,7 +15,7 @@ with open(keywords2_file_path) as f:
 def label_lda_topics(lda_model: LdaModel, labels_list: list, num_topics=NUM_TOPICS) -> dict:
     topics_label = { i: [] for i in range(num_topics) }
     for word in labels_list:
-        topics = apply_lda(word, lda_model)
+        topics = apply_lda_model(word, lda_model)
         topics = [[topic[0], float(topic[1])] for topic in topics]
         topic_highest_value = max(topics, key=lambda x: x[1])
         topic_id = topic_highest_value[0]

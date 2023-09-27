@@ -1,4 +1,4 @@
-from analyze_tweets.topic_modelling import topic_modelling, NUM_TOPICS
+from analyze_tweets.topic_modelling import create_topic_model, NUM_TOPICS
 from analyze_tweets.tweet_text import clean_tweet_text
 import pandas as pd
 import os
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         os.makedirs(model_folder_path, exist_ok=True)
 
     # Create an LDA model
-    lda_model, topics_values = topic_modelling(texts, num_topics=NUM_TOPICS, save_to_file=save_model_to_file)
+    lda_model, topics_values = create_topic_model(texts, num_topics=NUM_TOPICS, save_to_file=save_model_to_file)
 
 
     # Save the topics to a json file

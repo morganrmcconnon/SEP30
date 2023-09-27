@@ -33,7 +33,7 @@ def tokenize_lemmatize_and_remove_stopwords(text):
 
 
 #  Create an lda model from a set of texts
-def topic_modelling(texts: list[str], num_topics: int = NUM_TOPICS, save_to_file=None):
+def create_topic_model(texts: list[str], num_topics: int = NUM_TOPICS, save_to_file=None):
     '''
     Create an lda topic model from a set of texts
     :param `texts`: a list of strings
@@ -58,15 +58,12 @@ def topic_modelling(texts: list[str], num_topics: int = NUM_TOPICS, save_to_file
         print(f"LDA model saved to {save_to_file}")
 
     # Get the keywords and probability distribution of each topic
-    topics_values = lda_model.show_topics(num_topics=num_topics, num_words=NUM_KEYWORDS_PER_TOPIC, formatted=False)
-    topics_values = {
-        topic_value[0]: [
-            [keyword_value[0], float(keyword_value[1])] for keyword_value in topic_value[1]
-        ]
-        for topic_value in topics_values
-    }
-
-    return lda_model, topics_values
+    topics_keywords_representations = lda_model.show_topics(num_topics=num_topics, num_words=NUM_KEYWORDS_PER_TOPIC, formatted=False)
+    # Serialize into floats
+    for topic_topics_keywords_representation in topics_keywords_representations:
+        for keyword_value in topic_topics_keywords_representation[1]:
+            keyword_value[1] = float(keyword_value[1])
+    return lda_model, topics_keywords_representations
 
 
 # Load the saved LDA model
@@ -84,12 +81,14 @@ def load_model(model_file):
 
 
 # Function to apply LDA model to detect the topics of a string of text
-def apply_lda(text : str, lda_model : LdaModel):
+def apply_lda_model(text : str, lda_model : LdaModel):
     '''
-    Apply the LDA model to detect the topics of a string of text
+    Apply the LDA model to detect the topics probability distributions of a text
     
     :param `text`: the string of text to be processed
     :param `lda_model`: the trained LDA model
+
+    Returns a list of tuples, each tuple contains the topic id and the probability of the topic, e.g. [(0, 0.1), (1, 0.2), (2, 0.3), (3, 0.4)]
     '''
     processed_text = tokenize_lemmatize_and_remove_stopwords(text)
     bow = lda_model.id2word.doc2bow(processed_text)

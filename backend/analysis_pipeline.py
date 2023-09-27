@@ -11,7 +11,7 @@ from services.analyze_tweets.translate_text import detect_and_translate_language
 
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 
-from services.analyze_tweets.topic_modelling import apply_lda, tokenize_lemmatize_and_remove_stopwords, topic_modelling
+from services.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model
 from services.analyze_tweets.load_pretrained_topic_model import load_pretrained_model
 from services.analyze_tweets.label_lda_topics import label_topics_from_preexisting_topic_model_and_keywords_list, label_topics_from_preexisting_keywords_list
 
@@ -236,10 +236,8 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
     # We can choose to create a new topic model or load the existing one
     if create_new_topic_model:
         texts_to_analyze = [tweet_object[CollectionNames.tweet_translated.value]['in_english'] for tweet_object in tweet_objects]
-        lda_topic_model, lda_topics_values = topic_modelling(texts_to_analyze)
+        lda_topic_model, lda_topics_values = create_topic_model(texts_to_analyze)
         lda_topics_labels_map = label_topics_from_preexisting_keywords_list(lda_model=lda_topic_model)
-        # Convert keys to string for MongoDB
-        lda_topics_values = {str(key): value for key, value in lda_topics_values.items()}
         lda_topics_labels_map = {str(key): value for key, value in lda_topics_labels_map.items()}
         db_op_result = DATABASE[CollectionNames.lda_topic_models.value].insert_one({
             "keywords_representation": lda_topics_values,
@@ -253,8 +251,7 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
         # Convert keys to string for MongoDB
         lda_topic_model_id = "0"
         lda_topic_model, lda_topics_values = load_pretrained_model()
-        lda_topics_labels_map = label_topics_from_preexisting_topic_model_and_keywords_list()
-        lda_topics_values = {str(key): value for key, value in lda_topics_values.items()}
+        lda_topics_labels_map = label_topics_from_preexisting_topic_model_and_keywords_list() 
         lda_topics_labels_map = {str(key): value for key, value in lda_topics_labels_map.items()}
         if DATABASE[CollectionNames.lda_topic_models.value].count_documents({"_id": lda_topic_model_id}, limit=1) == 0:
             db_op_result = DATABASE[CollectionNames.lda_topic_models.value].insert_one({
@@ -282,7 +279,7 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
                 all_keywords_of_topic_model.append(keyword)
 
     def _get_topics_lda(tweet_object):
-        topics_distribution = apply_lda(tweet_object[CollectionNames.tweet_translated.value]['in_english'], lda_topic_model)
+        topics_distribution = apply_lda_model(tweet_object[CollectionNames.tweet_translated.value]['in_english'], lda_topic_model)
         # Convert float32 to float
         topics_distribution = [{'id': str(topic[0]), 'probability': float(topic[1])} for topic in topics_distribution]
 
@@ -299,6 +296,7 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
             'highest_score_topic': highest_score_topic['id'],
             'highest_score_topic_probability': highest_score_topic['probability'],
             'topic_labels': topic_labels,
+            'related_topics': [],
             'associated_keywords': associated_keywords
         }
     
@@ -597,8 +595,8 @@ def analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, a
             "topic_lda": {
                 'model_id': tweet_object[CollectionNames.tweet_topics_lda.value]["model_id"],
                 'topic_id': tweet_object[CollectionNames.tweet_topics_lda.value]["highest_score_topic"],
-                'topic_labels': tweet_object[CollectionNames.tweet_topics_lda.value]["topic_labels"],
                 "associated_keywords": tweet_object[CollectionNames.tweet_topics_lda.value]["associated_keywords"],
+                'related_topics': tweet_object[CollectionNames.tweet_topics_lda.value]["related_topics"],
             },
             "topic_bert_arxiv": {
                 "topic_id": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"],
