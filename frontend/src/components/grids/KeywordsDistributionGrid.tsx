@@ -33,7 +33,7 @@ const KeywordsDistribution = () => {
             <Tooltip />
             <Legend />
             <ReferenceLine y={0} stroke="#000" />
-            <Bar dataKey="value" fill={ColorVar.blue} >
+            <Bar name="Frequency" dataKey="value" fill={ColorVar.blue} >
               {data.map((item) => (
                 <Cell
                   onClick={() => {
