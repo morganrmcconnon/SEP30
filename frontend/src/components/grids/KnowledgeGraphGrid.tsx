@@ -2,6 +2,7 @@ import { ForceGraph2D } from 'react-force-graph';
 
 import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
+import { useRef } from 'react';
 
 
 const KnowledgeGraph = () => {
@@ -13,6 +14,7 @@ const KnowledgeGraph = () => {
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div className="vis-svg-container">
         <ForceGraph2D
+          
           graphData={data.data}
           width={390}
           height={390}
