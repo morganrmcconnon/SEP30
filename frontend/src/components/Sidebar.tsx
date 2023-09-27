@@ -4,13 +4,14 @@ import file from "../assets/file.svg";
 import information from "../assets/information.svg";
 import settings from "../assets/settings.svg";
 import logo from "../assets/logo.png";
+import reset from "../assets/reset.svg"
 
 import { Link } from "react-router-dom";
 
 import { useSearchContext } from "../contexts/SearchContext";
 
 const Sidebar = () => {
-  const { search } = useSearchContext();
+  const { resetFilter} = useSearchContext();
   return (
     <div>
       <Link to="/">
@@ -51,6 +52,10 @@ const Sidebar = () => {
           <li>
             <img className="sidebar-icon" src={settings} alt="settings" />
             <h3>Settings</h3>
+          </li>
+          <li onClick={() => resetFilter()}>
+            <img className="sidebar-icon" src={reset} alt="reset" />
+            <h3>Reset Filters</h3>
           </li>
         </ul>
       </nav>

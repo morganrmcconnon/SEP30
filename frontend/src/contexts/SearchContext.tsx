@@ -35,12 +35,14 @@ type SearchContextType = {
   updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => void,
   backendData?: BackendOutput,
   updateBackendData: (response_data: BackendOutput) => void,
+  resetFilter: () => void,
   dashboardData: GridsDataType,
 }
 
 const SearchContext = createContext<SearchContextType>({
   search: defaultSearch,
   updateFilterOption: () => { },
+  resetFilter: () => {},
   backendData: undefined,
   updateBackendData: () => { },
   dashboardData: DATATYPES,
@@ -87,6 +89,15 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
     updateSearch({ ...search, [filter_option_name]: filter_option_value });
   };
+
+  const resetFilter = () => {
+    updateSearch({  sentiment: false,
+      topic: false,
+      keyword: false,
+      gender: false,
+      location: false,
+      age: false,})
+  }
 
   const updateDashboardData = (backend_data: BackendOutput, tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) => {
 
@@ -172,7 +183,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <SearchContext.Provider value={{ search: search, backendData: backendData, updateBackendData: updateBackendData, dashboardData, updateFilterOption: updateFilterOption }}>
+    <SearchContext.Provider value={{ search: search, backendData: backendData, updateBackendData: updateBackendData, dashboardData, updateFilterOption: updateFilterOption, resetFilter: resetFilter}}>
       {children}
     </SearchContext.Provider>
   );
