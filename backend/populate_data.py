@@ -7,7 +7,7 @@ def parse_args():
     # Define command-line arguments
     parser.add_argument('-y', "--year", type=int, default=2022, help="Starting year")
     parser.add_argument('-m', "--month", type=int, default=10, help="Starting month")
-    parser.add_argument('-d', "--day", type=int, default=8, help="Starting day")
+    parser.add_argument('-d', "--day", type=int, default=15, help="Starting day")
     parser.add_argument('-H', "--hour", type=int, default=12, help="Starting hour")
     parser.add_argument('-M', "--minute", type=int, default=0, help="Starting minute")
 
@@ -17,6 +17,8 @@ def parse_args():
 
     # Set flag to loop
     parser.add_argument('-l', "--loop", action="store_true", help="Loop through the time delta or not.")
+
+    parser.add_argument('-f', "--forward", action="store_true", help="Loop forward or backward.")
 
     return parser.parse_args()
 
@@ -35,12 +37,15 @@ def main():
 
     from analysis_pipeline import analyze_data_by
 
-    if not args.loop:
-        analyze_data_by(start_date.year, start_date.month, start_date.day, start_date.hour, start_date.minute)
-    else:   
+    if args.loop:
         while True:
             analyze_data_by(start_date.year, start_date.month, start_date.day, start_date.hour, start_date.minute)
-            start_date -= time_delta
-
+            if args.forward:
+                start_date += time_delta
+            else:
+                start_date -= time_delta
+    else:   
+        analyze_data_by(start_date.year, start_date.month, start_date.day, start_date.hour, start_date.minute)
+        
 if __name__ == "__main__":
     main()

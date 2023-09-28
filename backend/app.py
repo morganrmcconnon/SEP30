@@ -3,14 +3,11 @@ from datetime import datetime
 import time
 import os
 import json
-from pymongo import MongoClient
 
-
+from mongo_constants import CollectionNames, DATABASE
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 
-from mongo_constants import CollectionNames, DATABASE
-        
 
 
 CURRENT_DIR = os.path.dirname(__file__)
@@ -405,9 +402,10 @@ def select_tweets_by_timestamp_ms_range():
 
     related_tweets_count = len(related_tweets_analyzed)
 
+    # Temporary get the first tweet's LDA model ID
     lda_model_id = related_tweets_analyzed[0]['topic_lda']['model_id']
 
-    lda_topic_model_values = DATABASE[CollectionNames.lda_topic_models.value].find_one({'_id': lda_model_id})
+    lda_topic_model_values = DATABASE[CollectionNames.topic_models_lda.value].find_one({'_id': lda_model_id})
 
     response_object = {
         "aggregate_results": {

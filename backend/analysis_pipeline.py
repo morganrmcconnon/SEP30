@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 from mongo_constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
 
@@ -12,21 +13,61 @@ from services.analyze_tweets.translate_text import detect_and_translate_language
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 
 from services.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model
-from services.analyze_tweets.load_pretrained_topic_model import load_pretrained_model
-from services.analyze_tweets.label_lda_topics import label_topics_from_preexisting_topic_model_and_keywords_list, label_topics_from_preexisting_keywords_list
+from services.analyze_tweets.topic_lda_labelling import get_similarity_scores, get_topics_distributions
+from services.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
 
 from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
-from services.analyze_tweets.topic_bertopic_arxiv import detect_topics_bertopic_arxiv
+from services.analyze_tweets.topic_bertopic_arxiv import detect_topics_bertopic_arxiv, BERTOPIC_ARXIV_TOPIC_MODEL
 
 from services.analyze_tweets.detect_coordinates import detect_coordinates
 from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon 
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
 
 
+
 SPACY_MATCHER_OBJ, SPACY_NLP_OBJ = create_matcher_model()
 
+BERTOPIC_NAME_MAP = BERTOPIC_ARXIV_TOPIC_MODEL.get_topic_info().set_index('Topic')['Name'].to_dict()
 
+def save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id):
+    # Save the topic model binary to the file system
+    model_directory = os.path.join(DATA_LAKE_FOLDER, DataFolderNames.lda_topic_models.value, lda_topic_model_id)
+    print(model_directory)
+    if os.path.exists(model_directory) == False:
+        os.makedirs(model_directory, exist_ok=True)
+        lda_topic_model.save(os.path.join(model_directory, "lda_topic_model.mdl"))
+        print(f'Saved LDA topic model {lda_topic_model_id} to file system')
 
+def get_keywords_of_topic_model(lda_topics_representations):
+    # Get the keywords of the topic model
+    keywords_of_topic_model = {}
+    for topic_id, topic_representation in lda_topics_representations.items():
+        keywords_of_topic_model[topic_id] = []
+        for keyword, prob in topic_representation:
+            if keyword not in keywords_of_topic_model:
+                keywords_of_topic_model[topic_id].append(keyword)
+    return keywords_of_topic_model
+
+LDA_PRETRAINED_MODEL, LDA_TOPICS_REPRESENTATIONS = load_pretrained_model()
+
+LDA_PRETRAINED_MODEL_ID = "0"
+
+if DATABASE[CollectionNames.topic_models_lda.value].count_documents({"_id": LDA_PRETRAINED_MODEL_ID}, limit=1) == 0:
+    LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS = get_topics_distributions(LDA_PRETRAINED_MODEL)
+    db_op_result = DATABASE[CollectionNames.topic_models_lda.value].insert_one({
+        "_id": LDA_PRETRAINED_MODEL_ID,
+        "keywords_representation": LDA_TOPICS_REPRESENTATIONS,
+        "labels": LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS
+    })
+    if db_op_result != None:
+        print(f'Saved LDA topic model {LDA_PRETRAINED_MODEL_ID}')
+else:
+    LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS = DATABASE[CollectionNames.topic_models_lda.value].find_one({"_id": LDA_PRETRAINED_MODEL_ID}, limit=1)['labels']
+    print(f'Loaded LDA topic model {LDA_PRETRAINED_MODEL_ID}')
+
+save_topic_model_to_file_system(LDA_PRETRAINED_MODEL, LDA_PRETRAINED_MODEL_ID)
+
+KEYWORDS_OF_TOPIC_MODEL = get_keywords_of_topic_model(LDA_TOPICS_REPRESENTATIONS)
 
 
 def document_exists_in_collection(document_id, collection_name):
@@ -45,7 +86,10 @@ def save_document_to_collection(document_to_insert, collection_name, id_key='_id
 
 def save_multiple_documents_to_collection(documents_to_insert, collection_name, id_key='_id'):
     collection = DATABASE[collection_name]
+    count_1 = len(documents_to_insert)
     documents_to_insert = [document for document in documents_to_insert if collection.count_documents({'_id': document[id_key]}, limit = 1) == 0]
+    count_2 = len(documents_to_insert)
+    print(f'Saving {count_2} / {count_1} documents')
     db_op_result = None
     if len(documents_to_insert) > 0:
         db_op_result = collection.insert_many(documents_to_insert)
@@ -66,30 +110,24 @@ def get_cached_values_or_perform_analysis(twitter_object_list : list, collection
     ids_list = [twitter_object['id_str'] for twitter_object in twitter_object_list]
     documents_in_collection = DATABASE[collection_name].find({'_id': { '$in': ids_list }})
     documents_in_collection = {doc['_id']: doc['value'] for doc in documents_in_collection}
-    obj_count = len(twitter_object_list) # DEBUG
-    obj_counter = 0 # DEBUG
-    for twitter_object in twitter_object_list:
-        obj_counter += 1 # DEBUG
-        twitter_obj_id = twitter_object['id_str']
-        if twitter_obj_id in documents_in_collection:
-            analysis_value = documents_in_collection[twitter_obj_id]
-        else:
-            analysis_value = analysis_function(twitter_object)
-            document_to_save = {
-                '_id': twitter_obj_id,
-                'value': analysis_value
-            }
-            save_document_to_collection(document_to_save, collection_name)
-            print('----------------------------------')
-            print(f'{collection_name} {obj_counter} / {obj_count}')
-            print('----------------------------------')
-        
-        twitter_object[collection_name] = analysis_value
-        post_process_function(twitter_object, analysis_value)
-        
-    print('----------------------------------')
-    print(f'{collection_name} {obj_counter} / {obj_count}')
-    print('----------------------------------')
+    with tqdm(total=len(twitter_object_list), desc=collection_name) as pbar:
+        for twitter_object in twitter_object_list:
+            twitter_obj_id = twitter_object['id_str']
+            if twitter_obj_id in documents_in_collection:
+                analysis_value = documents_in_collection[twitter_obj_id]
+            else:
+                analysis_value = analysis_function(twitter_object)
+                document_to_save = {
+                    '_id': twitter_obj_id,
+                    'value': analysis_value
+                }
+                save_document_to_collection(document_to_save, collection_name)
+                # print('----------------------------------')
+                # print(f'{collection_name} {obj_counter} / {obj_count}')
+                # print('----------------------------------')    
+            twitter_object[collection_name] = analysis_value
+            post_process_function(twitter_object, analysis_value)
+            pbar.update(1)
 
 def analysis_pipeline_preprocess_tweet_text(tweet_objects: list):
     # ----------------------------------
@@ -201,17 +239,15 @@ def analysis_pipeline_bertopic_arxiv(tweet_objects: list):
 
     if len(tweets_to_detect_topic) > 0:
         texts_to_detect_topic = [tweet_object[CollectionNames.tweet_translated.value]['in_english'] for tweet_object in tweets_to_detect_topic]
-        topics_detected_list, topics_info_list, probs_detected_list = detect_topics_bertopic_arxiv(texts_to_detect_topic)
+        topics_detected_list, probs_detected_list = detect_topics_bertopic_arxiv(texts_to_detect_topic)
         documents_to_save = []
         for i in range(len(tweets_to_detect_topic)):
             topic_detected = int(topics_detected_list[i])
-            topic_info = topics_info_list[i]
             probs_detected = float(probs_detected_list[i])
             tweet_object = tweets_to_detect_topic[i]
             tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value] = {
                 'topic_id': topic_detected, 
                 'probability': probs_detected,
-                'topic_info': topic_info
             }
             document_to_save = {
                 '_id': tweets_to_detect_topic[i]['id_str'],
@@ -236,74 +272,57 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
     # We can choose to create a new topic model or load the existing one
     if create_new_topic_model:
         texts_to_analyze = [tweet_object[CollectionNames.tweet_translated.value]['in_english'] for tweet_object in tweet_objects]
-        lda_topic_model, lda_topics_values = create_topic_model(texts_to_analyze)
-        lda_topics_labels_map = label_topics_from_preexisting_keywords_list(lda_model=lda_topic_model)
-        lda_topics_labels_map = {str(key): value for key, value in lda_topics_labels_map.items()}
-        db_op_result = DATABASE[CollectionNames.lda_topic_models.value].insert_one({
-            "keywords_representation": lda_topics_values,
-            "labels": lda_topics_labels_map
+        lda_topic_model, lda_topics_representations = create_topic_model(texts_to_analyze)
+        lda_labels_topics_distributions = get_topics_distributions(lda_topic_model)
+        keywords_of_topic_model = get_keywords_of_topic_model(lda_topics_representations)
+        
+        db_op_result = DATABASE[CollectionNames.topic_models_lda.value].insert_one({
+            "keywords_representation": lda_topics_representations,
+            "labels": lda_labels_topics_distributions
         })
         if db_op_result != None:
-            # TODO: Change the way the topic model id is generated
-            lda_topic_model_id = str(db_op_result.inserted_id)
+            # Advice: Change the way the topic model id is generated
+            lda_topic_model_id = db_op_result.inserted_id
+            print(f'Saved LDA topic model {lda_topic_model_id}')
+
+        save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id)
         
     else:
         # Convert keys to string for MongoDB
-        lda_topic_model_id = "0"
-        lda_topic_model, lda_topics_values = load_pretrained_model()
-        lda_topics_labels_map = label_topics_from_preexisting_topic_model_and_keywords_list() 
-        lda_topics_labels_map = {str(key): value for key, value in lda_topics_labels_map.items()}
-        if DATABASE[CollectionNames.lda_topic_models.value].count_documents({"_id": lda_topic_model_id}, limit=1) == 0:
-            db_op_result = DATABASE[CollectionNames.lda_topic_models.value].insert_one({
-                "_id": lda_topic_model_id,
-                "keywords_representation": lda_topics_values,
-                "labels": lda_topics_labels_map
-            })
-    
-    # Save the topic model binary to the file system
-    model_directory = os.path.join(DATA_LAKE_FOLDER, DataFolderNames.lda_topic_models.value, lda_topic_model_id)
-    print(model_directory)
-    if os.path.exists(model_directory) == False:
-        os.makedirs(model_directory, exist_ok=True)
-        lda_topic_model.save(os.path.join(model_directory, "lda_topic_model.mdl"))
-
-
-    # Get the keywords of the topic model
-    all_keywords_of_topic_model = []
-    keywords_of_topic_model = {}
-    for topic_id, topic_representation in lda_topics_values.items():
-        keywords_of_topic_model[topic_id] = []
-        for keyword, prob in topic_representation:
-            if keyword not in keywords_of_topic_model:
-                keywords_of_topic_model[topic_id].append(keyword)
-                all_keywords_of_topic_model.append(keyword)
+        lda_topic_model = LDA_PRETRAINED_MODEL
+        lda_topics_representations = LDA_TOPICS_REPRESENTATIONS
+        lda_topic_model_id = LDA_PRETRAINED_MODEL_ID
+        lda_labels_topics_distributions = LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS
+        keywords_of_topic_model = KEYWORDS_OF_TOPIC_MODEL
+        
 
     def _get_topics_lda(tweet_object):
-        topics_distribution = apply_lda_model(tweet_object[CollectionNames.tweet_translated.value]['in_english'], lda_topic_model)
-        # Convert float32 to float
-        topics_distribution = [{'id': str(topic[0]), 'probability': float(topic[1])} for topic in topics_distribution]
-
         text = tweet_object[CollectionNames.tweet_translated.value]['in_english']
-        highest_score_topic = max(topics_distribution, key=lambda x: x['probability'])
-        # Get the topic labels associated with the topic id
-        topic_labels = lda_topics_labels_map.get(highest_score_topic['id'], [])
-        topic_labels = [{"word": topic['word'], "prob": topic["topic_prob"]} for topic in topic_labels]
+        topics_distribution = apply_lda_model(text, lda_topic_model)
+        highest_score_topic = max(topics_distribution, key=lambda x: x[1])
+        # Calculate the similarity scores of the topic labels to the tweet
+        related_topics_cossim = get_similarity_scores(lda_labels_topics_distributions, topics_distribution, method="cossim")
+        related_topics_cossim.sort(key=lambda x: x[1], reverse=True)
+        related_topics_hellinger = get_similarity_scores(lda_labels_topics_distributions, topics_distribution, method="hellinger")
+        related_topics_hellinger.sort(key=lambda x: x[1], reverse=False)
         # Get the keywords associated with the tweet
-        associated_keywords = [keyword for keyword in keywords_of_topic_model[highest_score_topic['id']] if keyword in text]
+        associated_keywords = [[keywords_of_topic ,[keyword for keyword in keywords_of_topic if keyword in text]] for keywords_of_topic in keywords_of_topic_model.values()]
         return {
             'model_id': lda_topic_model_id,
             'topics_distribution': topics_distribution,
-            'highest_score_topic': highest_score_topic['id'],
-            'highest_score_topic_probability': highest_score_topic['probability'],
-            'topic_labels': topic_labels,
-            'related_topics': [],
+            'highest_score_topic': highest_score_topic[0],
+            'highest_score_topic_probability': highest_score_topic[1],
+            'related_topics': {
+                'cosine_similarity': related_topics_cossim,
+                'hellinger_distance': related_topics_hellinger, 
+            },
             'associated_keywords': associated_keywords
         }
     
     get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_lda.value, analysis_function=_get_topics_lda)
 
 
-    return tweet_objects, lda_topics_values
+    return tweet_objects, lda_topics_representations
 
 
 def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
@@ -405,9 +424,9 @@ def analysis_pipeline_location_analysis(user_objects_list : list):
             'longitude': longitude,
         }
     
-    def _post_process_detect_coordinates(user_object, analysis_value):
-        user_object['location_latitude'] = analysis_value['latitude']
-        user_object['location_longitude'] = analysis_value['longitude']
+    # def _post_process_detect_coordinates(user_object, analysis_value):
+    #     user_object['location_latitude'] = analysis_value['latitude']
+    #     user_object['location_longitude'] = analysis_value['longitude']
 
     def _detect_country(user_object):
         latitude = user_object[collection_name_user_location_coordinates]['latitude']
@@ -430,13 +449,13 @@ def analysis_pipeline_location_analysis(user_objects_list : list):
             'country_code': country_code
         }
     
-    def _post_process_detect_country(user_object, analysis_value):
-        user_object['location_country_name'] = analysis_value['country_name']
-        user_object['location_country_code'] = analysis_value['country_code']
+    # def _post_process_detect_country(user_object, analysis_value):
+    #     user_object['location_country_name'] = analysis_value['country_name']
+    #     user_object['location_country_code'] = analysis_value['country_code']
     
     get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_translated, analysis_function=_translate_location, post_process_function=_post_process_translate_location)
-    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_coordinates, analysis_function=_detect_coordinates, post_process_function=_post_process_detect_coordinates)
-    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_country, analysis_function=_detect_country, post_process_function=_post_process_detect_country)
+    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_coordinates, analysis_function=_detect_coordinates)
+    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_country, analysis_function=_detect_country)
 
 
 def analysis_pipeline_demographics_analysis(user_objects_list : list):
@@ -471,34 +490,30 @@ def analysis_pipeline_demographics_analysis(user_objects_list : list):
 
     # Preprocess user object for m3inference
     users_demographics_input_list = []
-    user_counter = 0 # DEBUG
-    user_count = len(user_objects_list_to_detect_demographics) # DEBUG
 
-    for user_object in user_objects_list_to_detect_demographics:
-        user_id = user_object['id_str']
-        if user_id in documents_dict:
-            user_object_preprocessed = documents_dict[user_id]
-        else:
-            user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
-                                                                          id_key='id_str', 
-                                                                          name_key='name',
-                                                                          screen_name_key='screen_name',
-                                                                          description_key='description',
-                                                                          lang_key='lang',
-                                                                          use_translator_if_necessary=True)
-            document_to_save = {
-                '_id': user_id,
-                'value': user_object_preprocessed
-            }
-            save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
+    with tqdm(total=len(user_objects_list_to_detect_demographics), desc=collection_name_user_m3_preprocessed) as pbar:    
+        for user_object in user_objects_list_to_detect_demographics:
+            user_id = user_object['id_str']
+            if user_id in documents_dict:
+                user_object_preprocessed = documents_dict[user_id]
+            else:
+                user_object_preprocessed = preprocess_user_object_for_m3inference(user_object, 
+                                                                            id_key='id_str', 
+                                                                            name_key='name',
+                                                                            screen_name_key='screen_name',
+                                                                            description_key='description',
+                                                                            lang_key='lang',
+                                                                            use_translator_if_necessary=True)
+                document_to_save = {
+                    '_id': user_id,
+                    'value': user_object_preprocessed
+                }
+                save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
 
 
-        users_demographics_input_list.append(user_object_preprocessed)
+            users_demographics_input_list.append(user_object_preprocessed)
+            pbar.update(1)
 
-        user_counter += 1 # DEBUG
-        print('----------------------------------')
-        print(f'Preprocess M3 {user_counter} / {user_count}')
-        print('----------------------------------')
 
     # Detect demographics using m3inference
     if len(users_demographics_input_list) > 0:
@@ -576,47 +591,63 @@ def analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, a
     # Feature extract tweets. Add the user object to the tweet object.
     # This will be used to save the analyzed tweets to the database
     documents_to_save = []
-    for tweet_object in analyzed_tweets:
-        user_id = tweet_object['user']['id_str']
-        user_object = users_map[user_id]
-        document_to_save = {
-            '_id': tweet_object['id_str'],
-            'id_str': tweet_object['id_str'],
-            'timestamp_ms': tweet_object['timestamp_ms'],
-            "text": tweet_object[CollectionNames.tweet_text_original.value],
-            "text_in_english": tweet_object[CollectionNames.tweet_translated.value]["in_english"],
-            "text_processed": tweet_object[CollectionNames.tweet_processed.value],
-            "lang": tweet_object["lang"],
-            "spacy_match": {
-                "original": tweet_object[CollectionNames.tweet_spacy_match_original.value],
-                "in_english": tweet_object[CollectionNames.tweet_spacy_match_in_english.value],
-            },
-            "sentiment": tweet_object[CollectionNames.tweet_sentiment.value]["predicted"],
-            "topic_lda": {
-                'model_id': tweet_object[CollectionNames.tweet_topics_lda.value]["model_id"],
-                'topic_id': tweet_object[CollectionNames.tweet_topics_lda.value]["highest_score_topic"],
-                "associated_keywords": tweet_object[CollectionNames.tweet_topics_lda.value]["associated_keywords"],
-                'related_topics': tweet_object[CollectionNames.tweet_topics_lda.value]["related_topics"],
-            },
-            "topic_bert_arxiv": {
-                "topic_id": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"],
-                "topic_name": tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_info"]["Name"],
-            },
-            "topic_cardiffnlp": max(tweet_object[CollectionNames.tweet_topics_cardiffnlp.value], key=lambda x: x["topic_score"]),
-            "user": user_object,
-        }
-        # for collection_name in CollectionNames:
-        #     if collection_name.value in tweet_object:
-        #         document_to_save[collection_name.value] = tweet_object[collection_name.value]
-        # # Add the user object to the tweet object
-        # user_id = tweet_object['user']['id_str']
-        # document_to_save['user'] = users_map[user_id]
-        documents_to_save.append(document_to_save)
+    with tqdm(total=len(analyzed_tweets), desc=CollectionNames.analyzed_tweets.value) as pbar:
+        for tweet_object in analyzed_tweets:
+            user_id = tweet_object['user']['id_str']
+            user_object = users_map[user_id]
+            
+            related_topics_cosine_similarity = tweet_object[CollectionNames.tweet_topics_lda.value]["related_topics"]["cosine_similarity"]
+            cosine_similarity_benchmark = 0.5
+            related_topics_cosine_similarity = [related_topics_cosine_similarity[0][0]] + [topic[0] for topic in related_topics_cosine_similarity[1:5] if topic[1] > cosine_similarity_benchmark]
+            
+            related_topics_hellinger_distance = tweet_object[CollectionNames.tweet_topics_lda.value]["related_topics"]["hellinger_distance"]
+            hellinger_distance_benchmark = 0.5
+            related_topics_hellinger_distance = [related_topics_hellinger_distance[0][0]] + [topic[0] for topic in related_topics_hellinger_distance[1:5] if topic[1] < hellinger_distance_benchmark]
+
+            topic_bert_arxiv_id = tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]["topic_id"]
+            topic_bert_arxiv_name = BERTOPIC_NAME_MAP[topic_bert_arxiv_id]
+            
+            document_to_save = {
+                '_id': tweet_object['id_str'],
+                'id_str': tweet_object['id_str'],
+                'timestamp_ms': tweet_object['timestamp_ms'],
+                "text": tweet_object[CollectionNames.tweet_text_original.value],
+                "text_in_english": tweet_object[CollectionNames.tweet_translated.value]["in_english"],
+                "text_processed": tweet_object[CollectionNames.tweet_processed.value],
+                "lang": tweet_object["lang"],
+                "spacy_match": {
+                    "original": tweet_object[CollectionNames.tweet_spacy_match_original.value],
+                    "in_english": tweet_object[CollectionNames.tweet_spacy_match_in_english.value],
+                },
+                "sentiment": tweet_object[CollectionNames.tweet_sentiment.value]["predicted"],
+                "topic_lda": {
+                    'model_id': tweet_object[CollectionNames.tweet_topics_lda.value]["model_id"],
+                    'topic_id': tweet_object[CollectionNames.tweet_topics_lda.value]["highest_score_topic"],                    'related_topics': {
+                        'cosine_similarity': related_topics_cosine_similarity,
+                        'hellinger_distance': related_topics_hellinger_distance,
+                    },
+                },
+                "topic_bert_arxiv": {
+                    "topic_id": topic_bert_arxiv_id,
+                    "topic_name": topic_bert_arxiv_name,
+                },
+                "topic_cardiffnlp": max(tweet_object[CollectionNames.tweet_topics_cardiffnlp.value], key=lambda x: x["topic_score"]),
+                "user": user_object,
+            }
+            # for collection_name in CollectionNames:
+            #     if collection_name.value in tweet_object:
+            #         document_to_save[collection_name.value] = tweet_object[collection_name.value]
+            # # Add the user object to the tweet object
+            # user_id = tweet_object['user']['id_str']
+            # document_to_save['user'] = users_map[user_id]
+            documents_to_save.append(document_to_save)
+            pbar.update(1)
 
     # Insert or update the analyzed tweets to the database
-    for document in documents_to_save:
-        db_op_result = DATABASE[CollectionNames.analyzed_tweets.value].update_one({"_id": document["_id"]}, {"$set": document}, upsert=True)
-        print(f'Updated {db_op_result.modified_count} tweets')
+    db_op_result = save_multiple_documents_to_collection(documents_to_save, CollectionNames.analyzed_tweets.value, id_key='_id')
+    if db_op_result != None:
+        print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
+
 
     return documents_to_save
 
@@ -640,9 +671,9 @@ def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
 
 def analysis_pipeline_download_tweets(url):
     # if url exist in collection urls, skip
-    if DATABASE[CollectionNames.internet_archive_urls.value].count_documents({'url': url}, limit = 1) >= 1:
+    if DATABASE[CollectionNames.internet_archive_urls.value].count_documents({'_id': url}, limit = 1) >= 1:
         print(f'URL {url} already exists in the database')
-        downloaded_tweets_list = list(DATABASE['original_tweets'].find({'downloaded_from': url}))
+        downloaded_tweets_list = list(DATABASE[CollectionNames.original_tweets.value].find({'downloaded_from': url}))
     else:
         downloaded_tweets_list = download_tweets(url)
         print(f'Downloaded {len(downloaded_tweets_list)} tweets from {url}')
@@ -659,7 +690,7 @@ def analysis_pipeline_download_tweets(url):
             print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 
         # We need to confirm that all tweets are saved into the database before we save the url to the database.
-        DATABASE[CollectionNames.internet_archive_urls.value].insert_one({'url': url})
+        DATABASE[CollectionNames.internet_archive_urls.value].insert_one({'_id': url})
 
     return downloaded_tweets_list 
 

@@ -92,5 +92,8 @@ def apply_lda_model(text : str, lda_model : LdaModel):
     '''
     processed_text = tokenize_lemmatize_and_remove_stopwords(text)
     bow = lda_model.id2word.doc2bow(processed_text)
-    topics = lda_model.get_document_topics(bow)
-    return topics
+    topics_distribution = lda_model.get_document_topics(bow)
+    topics_distribution = [[topic[0], float(topic[1])] for topic in topics_distribution]
+    topics_distribution.sort(key=lambda x: x[0])
+    return topics_distribution
+
