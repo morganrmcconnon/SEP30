@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && flask run --debug\""
+    "dev": "concurrently \"cd backend && flask run\" \"cd frontend && npm run dev\""
   },
   "devDependencies": {
     "concurrently": "^8.2.1"

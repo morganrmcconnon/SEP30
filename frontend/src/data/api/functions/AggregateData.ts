@@ -20,11 +20,15 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 
   tweet_objects.forEach(tweet_object => {
     const sentiment_predicted = tweet_object.sentiment;
-    const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
+    // const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
+    const related_topics = tweet_object.topic_lda.related_topics;
     const associated_keywords = tweet_object.text_processed;
 
     sentiment_count[sentiment_predicted] += 1;
-    topic_count[topic_with_the_highest_score] = (topic_count[topic_with_the_highest_score] || 0) + 1;
+    related_topics.cosine_similarity.forEach(topic => {
+      topic_count[topic] = (topic_count[topic] || 0) + 1;
+    });
+    // topic_count[topic_with_the_highest_score] = (topic_count[topic_with_the_highest_score] || 0) + 1;
     associated_keywords.forEach(keyword => {
       keyword_count[keyword] = (keyword_count[keyword] || 0) + 1;
     });
