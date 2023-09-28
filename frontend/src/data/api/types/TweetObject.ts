@@ -27,7 +27,9 @@ export type TweetObject = {
   topic_lda: {
     model_id: string,
     topic_id: string,
-    related_topics: Array<string>,
-    associated_keywords: Array<string>,
+    related_topics: {
+      cosine_similarity: Array<string>,
+      hellinger_distance: Array<string>,
+    },
   }
 };
