@@ -2,7 +2,7 @@ import { AgeGroupData, GenderData, SentimentData } from "../../api/types/constan
 import { DATATYPES } from "../constants/DATATYPES";
 
 
-function display_backend_data_into_age_groups(age_groups_count: AgeGroupData) {
+function update_age_groups(age_groups_count: AgeGroupData) {
   let d1 = age_groups_count["<=18"];
   let d2 = age_groups_count["19-29"];
   let d3 = age_groups_count["30-39"];
@@ -42,7 +42,7 @@ function display_backend_data_into_age_groups(age_groups_count: AgeGroupData) {
 }
 
 
-function display_backend_data_into_genders(genders_count: GenderData, female_sentiment: SentimentData | undefined = undefined, male_sentiment: SentimentData | undefined = undefined) {
+function update_genders(genders_count: GenderData, female_sentiment: SentimentData | undefined = undefined, male_sentiment: SentimentData | undefined = undefined) {
   
   if (female_sentiment !== undefined) {
     DATATYPES.genders.data.female.sentiment = female_sentiment;
@@ -60,7 +60,7 @@ function display_backend_data_into_genders(genders_count: GenderData, female_sen
 }
 
 
-function display_backend_data_into_locations(countries_count: Record<string, number>) {
+function update_locations(countries_count: Record<string, number>) {
 
   DATATYPES.locations.totalUser = Object.values(countries_count).reduce((a, b) => a + b, 0);
 
@@ -77,7 +77,7 @@ function display_backend_data_into_locations(countries_count: Record<string, num
   let index = locations.findIndex((element) => element.name === "");
   
   if (index != -1){
-	  let temp = locations[0];
+	  let temp = locations[index];
 	  temp.name = "UNCATEGORISED";
 	  // Remove the element at index
 	  locations.splice(index, 1);
@@ -93,7 +93,7 @@ function display_backend_data_into_locations(countries_count: Record<string, num
 }
 
 
-function display_backend_data_into_topicModelling(topics_count: Record<string, number>) {
+function update_topicModelling(topics_count: Record<string, number>) {
 
   // For each key value pair in topics_count, add a new object to the data array
   DATATYPES.topicModelling.data = Object.entries(topics_count).map(([topic, topic_count]) => {
@@ -104,7 +104,7 @@ function display_backend_data_into_topicModelling(topics_count: Record<string, n
 }
 
 
-function display_backend_data_into_sentimentAnalysis(sentiment_count: SentimentData) {
+function update_sentimentAnalysis(sentiment_count: SentimentData) {
 
   DATATYPES.sentimentAnalysis.values.positive = sentiment_count['positive'];
   DATATYPES.sentimentAnalysis.values.neutral = sentiment_count['neutral'];
@@ -118,7 +118,7 @@ function display_backend_data_into_sentimentAnalysis(sentiment_count: SentimentD
 }
 
 
-function display_backend_data_into_analyticsBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+function update_analyticsBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
   DATATYPES.analyticsBox.dataChart.totalData = total_tweets_count.toString();
 
@@ -132,27 +132,27 @@ function display_backend_data_into_analyticsBox(total_tweets_count: number, ment
   return DATATYPES;
 }
 
-// function display_backend_data_into_analyticsSentimentBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+// function update_analyticsSentimentBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
 
 
 //   return DATATYPES;
 // }
 
-// function display_backend_data_into_analyticsGenderBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+// function update_analyticsGenderBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
  
 
 //    return DATATYPES;
 // }
 
-// function display_backend_data_into_analyticsAgeBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+// function update_analyticsAgeBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
   
 //   return DATATYPES;
 // }
 
-function display_backend_data_into_knowledge_graph(keywords_count: Record<string, number>, keywords_pairs: Array<{ keywords: Array<string>, count: number }>) {
+function update_knowledge_graph(keywords_count: Record<string, number>, keywords_pairs: Array<{ keywords: Array<string>, count: number }>) {
 
   DATATYPES.knowledgeGraph.data = {
     nodes: Object.entries(keywords_count).map(([keyword, count]) => { return { 'id': keyword, 'group': 2, 'value': count }; }),
@@ -184,22 +184,22 @@ export function update_dashboard_data(
   male_sentiment : SentimentData,
 ) {
 
-  display_backend_data_into_analyticsBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-  // display_backend_data_into_analyticsAgeBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-  // display_backend_data_into_analyticsGenderBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-  // display_backend_data_into_analyticsSentimentBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+  update_analyticsBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+  // update_analyticsAgeBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+  // update_analyticsGenderBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+  // update_analyticsSentimentBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
 
-  display_backend_data_into_topicModelling(topics_count);
+  update_topicModelling(topics_count);
 
-  display_backend_data_into_knowledge_graph(keywords_count, keywords_pairs);
+  update_knowledge_graph(keywords_count, keywords_pairs);
 
-  display_backend_data_into_sentimentAnalysis(sentiment_count);
+  update_sentimentAnalysis(sentiment_count);
 
-  display_backend_data_into_locations(countries_count);
+  update_locations(countries_count);
 
-  display_backend_data_into_age_groups(age_groups_count);
+  update_age_groups(age_groups_count);
 
-  display_backend_data_into_genders(genders_count, female_sentiment, male_sentiment);
+  update_genders(genders_count, female_sentiment, male_sentiment);
 
   return DATATYPES;
 }
