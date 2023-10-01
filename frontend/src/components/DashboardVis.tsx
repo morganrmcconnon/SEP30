@@ -38,14 +38,14 @@ const DashboardVis = () => {
     { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
     { i: "Genders", vis: <GendersGrid />, x: 0, y: 4, w: 4, h: 3 },
     { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 4, y: 3, w: 4, h: 3 },
-    { i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },
-    { i: "FilterOptionsGrid", vis: <FilterOptionsGrid />, x: 8, y: 4, w: 4, h: 1.7 },
-    { i: "Locations", vis: <LocationsGrid />, x: 0, y: 4, w: 8, h: 3 },
+    //{ i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },
+    //{ i: "FilterOptionsGrid", vis: <FilterOptionsGrid />, x: 8, y: 4, w: 4, h: 1.7 },
+    { i: "Locations", vis: <LocationsGrid />, x: 0, y: 5, w: 8, h: 3 },
     { i: "TestRoBERTa", vis: <DemoRoBERTa />, x: 8, y: 4, w: 4, h: 1.5 },
     { i: "TestVader", vis: <DemoVader />, x: 8, y: 4, w: 4, h: 1.5 },
-	{ i: "AgeGroupsWeekly", vis: <AgeGroupsWeekly/>, x: 0, y: 5, w: 4, h: 2.7, },
-	{ i: "SentimentGroupsWeekly", vis: <SentimentGroupsWeekly/>, x: 4, y: 5, w: 4, h: 2.7, },
-	{ i: "GenderGroupsWeekly", vis: <GenderGroupsWeekly/>, x: 8, y: 5, w: 4, h: 2.7, },
+	{ i: "AgeGroupsWeekly", vis: <AgeGroupsWeekly/>, x: 0, y: 4, w: 4, h: 2.7, },
+	{ i: "SentimentGroupsWeekly", vis: <SentimentGroupsWeekly/>, x: 4, y: 4, w: 4, h: 2.7, },
+	{ i: "GenderGroupsWeekly", vis: <GenderGroupsWeekly/>, x: 8, y: 4, w: 4, h: 2.7, },
   ];
   return (
     <ResponsiveGridLayout
