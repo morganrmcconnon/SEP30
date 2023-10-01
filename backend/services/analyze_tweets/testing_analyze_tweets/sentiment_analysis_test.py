@@ -4,7 +4,7 @@ from sentiment_analysis import classify_sentiment
 class TestSentimentAnalysis(unittest.TestCase):
 
     def test_classify_sentiment(self):
-        # Define test cases with text in the same format as your dataset
+        # Define test cases with text in the same format as the dataset
         test_cases = [
             {
                 "text_original": "Feeling really down today, nothing seems to be going right. #BadDay",
