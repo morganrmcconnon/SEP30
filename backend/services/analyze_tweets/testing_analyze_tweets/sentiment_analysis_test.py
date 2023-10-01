@@ -26,6 +26,26 @@ class TestSentimentAnalysis(unittest.TestCase):
                 "text_original": "No opinion on the matter. #Neutral",
                 "expected_sentiment": "neutral",
             },
+            {
+                "text_original": "I'm feeling indifferent today.",
+                "expected_sentiment": "neutral",
+            },
+            {
+                "text_original": "Great news! My favorite team won the championship.",
+                "expected_sentiment": "positive",
+            },
+            {
+                "text_original": "This weather is ruining my plans. #RainyDay",
+                "expected_sentiment": "negative",
+            },
+            {
+                "text_original": "Just received a promotion at work. #Excited",
+                "expected_sentiment": "positive",
+            },
+            {
+                "text_original": "I don't care about that topic at all.",
+                "expected_sentiment": "neutral",
+            },
         ]
 
         for test_case in test_cases:
@@ -44,3 +64,4 @@ class TestSentimentAnalysis(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
