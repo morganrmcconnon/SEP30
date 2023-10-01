@@ -141,8 +141,62 @@ class TestDetectDemographics(unittest.TestCase):
                     }
                 },
             },
- 
+            # Test case 6
+            {
+                "user": {
+                    "lang": "pt",
+                    "id_str": "555555557",
+                    "name": "Carlos Silva",
+                    "screen_name": "carlossilva",
+                    "description_original": "Amante de tecnologia e viagens. ✈️📱",
+                },
+                "expected_demographics": {
+                    "age": {
+                        "19-29": 0.7,
+                        "30-39": 0.2,
+                        "<=18": 0.05,
+                        ">=40": 0.05
+                    },
+                    "gender": {
+                        "female": 0.2,
+                        "male": 0.7,
+                        "non-binary": 0.1
+                    },
+                    "org": {
+                        "is-org": 0.6,
+                        "non-org": 0.4
+                    }
+                },
+            },
+            # Test case 7
+            {
+                "user": {
+                    "lang": "ru",
+                    "id_str": "555555558",
+                    "name": "Anna Ivanova",
+                    "screen_name": "annaivanova",
+                    "description_original": "Люблю читать и готовить. 📚🍳",
+                },
+                "expected_demographics": {
+                    "age": {
+                        "19-29": 0.7,
+                        "30-39": 0.2,
+                        "<=18": 0.05,
+                        ">=40": 0.05
+                    },
+                    "gender": {
+                        "female": 0.9,
+                        "male": 0.1,
+                        "non-binary": 0.0
+                    },
+                    "org": {
+                        "is-org": 0.4,
+                        "non-org": 0.6
+                    }
+                },
+            },
         ]
+
 
         for test_case in test_cases:
             user_data = [test_case["user"]]
