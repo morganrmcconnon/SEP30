@@ -48,6 +48,24 @@ class TestTranslateText(unittest.TestCase):
                 "expected_translation": "Hello, how are you?",
                 "expected_source_language": "ja",
             },
+            # Test case 8
+            {
+                "text": "Guten Tag, wie geht es Ihnen?",
+                "expected_translation": "Hello, how are you?",
+                "expected_source_language": "de",
+            },
+            # Test case 9
+            {
+                "text": "Olá, como você está?",
+                "expected_translation": "Hello, how are you?",
+                "expected_source_language": "pt",
+            },
+            # Test case 10
+            {
+                "text": "Hej, hur mår du?",
+                "expected_translation": "Hello, how are you?",
+                "expected_source_language": "sv",
+            },
         ]
 
         for test_case in test_cases:
