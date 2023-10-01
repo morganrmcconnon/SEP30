@@ -108,6 +108,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const keyword_pairs_count = aggregate_data_info.keywordsPairsArray;
     const genders_count = aggregate_data_info.genders_count;
     const countries_count = aggregate_data_info.countries_count;
+    const countries_name = aggregate_data_info.country_names;
     const age_groups_count = aggregate_data_info.age_groups_count;
     const female_sentiment = aggregate_data_info.female_sentiment;
     const male_sentiment = aggregate_data_info.male_sentiment;
@@ -126,6 +127,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       keyword_count,
       keyword_pairs_count,
       countries_count,
+      countries_name,
       age_groups_count,
       genders_count,
       female_sentiment,

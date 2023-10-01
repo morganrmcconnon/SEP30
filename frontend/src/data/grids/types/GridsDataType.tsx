@@ -104,6 +104,7 @@ export type GridsDataType = {
     locationHighLightData: Array<number>,
     totalUser: number,
     data: Array<{
+      id: string,
       name: string,
       value: number,
     }>,

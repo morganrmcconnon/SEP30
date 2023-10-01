@@ -20,15 +20,11 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 
   tweet_objects.forEach(tweet_object => {
     const sentiment_predicted = tweet_object.sentiment;
-    // const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
-    const related_topics = tweet_object.topic_lda.related_topics;
+    const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
     const associated_keywords = tweet_object.text_processed;
 
     sentiment_count[sentiment_predicted] += 1;
-    related_topics.cosine_similarity.forEach(topic => {
-      topic_count[topic] = (topic_count[topic] || 0) + 1;
-    });
-    // topic_count[topic_with_the_highest_score] = (topic_count[topic_with_the_highest_score] || 0) + 1;
+    topic_count[topic_with_the_highest_score] = (topic_count[topic_with_the_highest_score] || 0) + 1;
     associated_keywords.forEach(keyword => {
       keyword_count[keyword] = (keyword_count[keyword] || 0) + 1;
     });
@@ -97,6 +93,7 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 function aggregate_user_objects_list(user_objects: Array<UserObject>) {
 
   const countries_count: Record<string, number> = {};
+  const country_names: Record<string, string> = {};
   const age_groups_count: AgeGroupData = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
   const genders_count: GenderData = { "female": 0, "male": 0 };
   const org_count: OrgData = { "is-org": 0, "non-org": 0 };
@@ -108,6 +105,9 @@ function aggregate_user_objects_list(user_objects: Array<UserObject>) {
     const org_predicted = user_object.org;
 
     countries_count[country_code] = (countries_count[country_code] || 0) + 1;
+    if (!(country_code in country_names)) {
+      country_names[country_code] = user_object.country_name;
+    }
     age_groups_count[age_predicted] += 1;
     genders_count[gender_predicted] += 1;
     org_count[org_predicted] += 1;
@@ -115,6 +115,7 @@ function aggregate_user_objects_list(user_objects: Array<UserObject>) {
   });
 
   return {
+    country_names,
     countries_count,
     age_groups_count,
     genders_count,

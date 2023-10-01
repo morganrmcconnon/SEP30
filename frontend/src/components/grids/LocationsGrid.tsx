@@ -1,6 +1,8 @@
 import { Col, Row, Space } from 'antd';
-import { ComposableMap, Geographies, Geography, Graticule, Sphere } from 'react-simple-maps';
+import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup } from 'react-simple-maps';
+// import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 // import { PatternLines } from '@vx/pattern';
+// import { AiOutlineReload } from 'react-icons/ai';
 
 import VisHeader from '../grid_components/VisHeader';
 import ProgressBar from '../grid_components/ProgressBar';
@@ -25,7 +27,7 @@ export default function LocationsGrid() {
 
   // Iterate through the object's values
   data?.data.forEach(function (element) {
-    if (element.value > maxValue) {
+    if (element.id != "" && element.value > maxValue) {
       maxValue = element.value;
     }
   })
@@ -49,7 +51,7 @@ export default function LocationsGrid() {
                     height={13}
                     color={colorArray[Math.round(item.value * 4 / maxValue)]}
                     rounded={10}
-                    percent={((item.value / data.totalUser) * 100).toFixed(0)}
+                    percent={((item.value / maxValue) * 100).toFixed(0)}
                   />
                 </div>
               ))}
@@ -71,35 +73,28 @@ const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxval
   return (
     <div style={{ width: '80%', position: 'relative', left: '50%', transform: 'translateX(-40%)', top: '-10%' }}>
       <ComposableMap projection='geoEqualEarth'>
-        {/* <PatternLines
-          id='lines'
-          height={6}
-          width={6}
-          stroke='#776865'
-          strokeWidth={1}
-          background='#F6F0E9'
-          orientation={['diagonal']}
-        /> */}
-        <Sphere stroke='#DDD' id={''} fill={'#FFF'} strokeWidth={0} />
-        <Graticule stroke='#DDD' />
-        <Geographies geography={geoUrl} stroke='#FFF' strokeWidth={0.5}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const isHighlighted = Highlighted.indexOf(geo.id) !== -1;
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  //replace 0 by 
-                  fill={isHighlighted ? colorArray[Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)] * 4 / mymaxvalue)] : '#F6F0E9'}
-                  onClick={() => { updateFilterOption('location', geo.id); }}
-                // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
-                // onClick={() => console.log(geo.properties.name)}
-                />
-              );
-            })
-          }
-        </Geographies>
+        <ZoomableGroup center={[0, 0]}>
+          <Sphere stroke='#DDD' id={''} fill={'#FFF'} strokeWidth={0} />
+          <Graticule stroke='#DDD' />
+          <Geographies geography={geoUrl} stroke='#FFF' strokeWidth={0.5}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const isHighlighted = Highlighted.indexOf(geo.id) !== -1;
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    //replace 0 by 
+                    fill={isHighlighted ? colorArray[Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)] * 4 / mymaxvalue)] : '#F6F0E9'}
+                    onClick={() => { isHighlighted ? updateFilterOption('location', geo.id) : ""; }}
+                    // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
+                    // onClick={() => console.log(geo.properties.name)}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ZoomableGroup>
       </ComposableMap>
     </div>
   );

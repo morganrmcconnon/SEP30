@@ -2,7 +2,7 @@ import { BsArrowRight } from 'react-icons/bs';
 import ColorVar from '../../../constants/ColorVar';
 import { GridsDataType } from '../types/GridsDataType';
 
-export const DATATYPES : GridsDataType = {
+export const DATATYPES: GridsDataType = {
   analyticsBox: {
     title: 'Real-time Analysis',
     subTitle: 'Real-time Analysis results',
@@ -171,7 +171,7 @@ export const DATATYPES : GridsDataType = {
         title: 'Topic',
         dataIndex: 'topic',
         key: 'topic',
-        sorter: (a : { topic : string }, b : { topic : string }) => a.topic.length - b.topic.length,
+        sorter: (a: { topic: string }, b: { topic: string }) => a.topic.length - b.topic.length,
       },
       {
         title: 'Number of tweets',
@@ -183,7 +183,7 @@ export const DATATYPES : GridsDataType = {
             <BsArrowRight />
           </div>
         ),
-        sorter: (a : { mentionTimes: number }, b : { mentionTimes: number }) => a.mentionTimes - b.mentionTimes,
+        sorter: (a: { mentionTimes: number }, b: { mentionTimes: number }) => a.mentionTimes - b.mentionTimes,
       },
     ],
     data: [
@@ -503,11 +503,11 @@ export const DATATYPES : GridsDataType = {
     ],
     totalUser: 1300,
     data: [
-      { name: 'Europe', value: 580 },
-      { name: 'Asia', value: 103 },
-      { name: 'Africa', value: 239 },
-      { name: 'Australia', value: 78 },
-      { name: 'America', value: 78 },
+      { id: 'Australia', name: 'Australia', value: 78 },
+      { id: 'Europe', name: 'Europe', value: 580 },
+      { id: 'Asia', name: 'Asia', value: 103 },
+      { id: 'Africa', name: 'Africa', value: 239 },
+      { id: 'America', name: 'America', value: 78 },
     ],
   },
   knowledgeGraph: {
@@ -593,7 +593,7 @@ export const DATATYPES : GridsDataType = {
         { title: 'Under 18', color: ColorVar.blue },
         { title: '19 - 29', color: ColorVar.green },
         { title: '30 - 39', color: ColorVar.orange },
-		{ title: '40 and above', color: ColorVar.lightblue },
+        { title: '40 and above', color: ColorVar.lightblue },
       ],
       dataLineChart: [
         {
@@ -603,43 +603,43 @@ export const DATATYPES : GridsDataType = {
             {
               'Under 18': 1246,
               '19 - 29': 2400,
-			  '30 - 39': 3723,
+              '30 - 39': 3723,
               '40 and above': 2100,
             },
             {
               'Under 18': 2535,
               '19 - 29': 1398,
-			  '30 - 39': 2342,
+              '30 - 39': 2342,
               '40 and above': 2450,
             },
             {
               'Under 18': 1356,
               '19 - 29': 2583,
-			  '30 - 39': 568,
+              '30 - 39': 568,
               '40 and above': 1820,
             },
             {
               'Under 18': 3421,
               '19 - 29': 1000,
-			  '30 - 39': 1200,
+              '30 - 39': 1200,
               '40 and above': 1785,
             },
             {
               'Under 18': 2525,
               '19 - 29': 2356,
-			  '30 - 39': 2345,
+              '30 - 39': 2345,
               '40 and above': 2357,
             },
             {
               'Under 18': 2561,
               '19 - 29': 2352,
-			  '30 - 39': 2356,
+              '30 - 39': 2356,
               '40 and above': 1246,
             },
             {
               'Under 18': 657,
               '19 - 29': 5464,
-			  '30 - 39': 3467,
+              '30 - 39': 3467,
               '40 and above': 2461,
             },
           ],
@@ -665,37 +665,37 @@ export const DATATYPES : GridsDataType = {
             {
               Positive: 152,
               Negative: 141,
-			  Neutral: 135,
+              Neutral: 135,
             },
             {
               Positive: 153,
               Negative: 155,
-			  Neutral: 160,
+              Neutral: 160,
             },
             {
               Positive: 112,
               Negative: 135,
-			  Neutral: 125,
+              Neutral: 125,
             },
             {
               Positive: 155,
               Negative: 135,
-			  Neutral: 126,
+              Neutral: 126,
             },
             {
               Positive: 145,
               Negative: 115,
-			  Neutral: 146,
+              Neutral: 146,
             },
             {
               Positive: 124,
               Negative: 145,
-			  Neutral: 145,
+              Neutral: 145,
             },
             {
               Positive: 145,
               Negative: 142,
-			  Neutral: 123,
+              Neutral: 123,
             },
           ],
         },
@@ -713,7 +713,7 @@ export const DATATYPES : GridsDataType = {
         { title: 'Male', color: ColorVar.green },
       ],
       dataLineChart: [
-        
+
         {
           data: [
             {
@@ -723,7 +723,7 @@ export const DATATYPES : GridsDataType = {
             {
               Female: 39,
               Male: 23,
-			  
+
             },
             {
               Female: 46,
@@ -750,5 +750,5 @@ export const DATATYPES : GridsDataType = {
       ],
     },
   }
-  
+
 };
