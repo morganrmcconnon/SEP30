@@ -130,7 +130,7 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
   return DATATYPES;
 }
 
-<<<<<<< Updated upstream
+
 // function display_backend_data_into_analyticsSentimentBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
 
@@ -139,10 +139,9 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
 // }
 
 // function display_backend_data_into_analyticsGenderBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
-=======
 
 function update_analyticsGenderSentimentAgeBox(week_line_graphs: Record<string, Record<string, Record<string, number>>>) {
->>>>>>> Stashed changes
+
 
  
 	DATATYPES.analyticsGenderBox.dataChart.dateEnd = Object.keys(week_line_graphs)[0];	 
@@ -170,10 +169,7 @@ function update_analyticsGenderSentimentAgeBox(week_line_graphs: Record<string, 
 	return DATATYPES;
 }
 
-<<<<<<< Updated upstream
-// function display_backend_data_into_analyticsAgeBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
-=======
->>>>>>> Stashed changes
+
 
 
 function update_knowledge_graph(keywords_count: Record<string, number>, keywords_pairs: Array<{ keywords: Array<string>, count: number }>) {
@@ -211,13 +207,8 @@ export function update_dashboard_data(
 ) {
 
   update_analyticsBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-<<<<<<< Updated upstream
-  // display_backend_data_into_analyticsAgeBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-  // display_backend_data_into_analyticsGenderBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-  // display_backend_data_into_analyticsSentimentBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
-=======
+
   update_analyticsGenderSentimentAgeBox(week_line_graphs);
->>>>>>> Stashed changes
 
   update_topic_modelling_grid(topics_count);
 
