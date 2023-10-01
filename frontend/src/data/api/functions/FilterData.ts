@@ -6,13 +6,13 @@ function filter_tweet_objects_list_by(tweet_objects: Array<TweetObject>, sentime
 
     return tweet_objects.filter(tweet_object => {
         const sentiment_predicted = tweet_object.sentiment;
-        const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
+        //const topic_with_the_highest_score = tweet_object.topic_lda.topic_id;
         const associated_keywords = tweet_object.text_processed;
         const original_text = tweet_object.text;
         const text_in_english = tweet_object.text_in_english;
         return (
             (sentiment == false || sentiment_predicted === sentiment) &&
-            (topic == false || topic_with_the_highest_score.toString() === topic.toString()) &&
+            (topic == false || tweet_object.topic_lda.related_topics.cosine_similarity.includes(topic)) &&
             (keyword == false || associated_keywords.includes(keyword) || original_text.includes(keyword) || text_in_english.includes(keyword))
         );
     });
