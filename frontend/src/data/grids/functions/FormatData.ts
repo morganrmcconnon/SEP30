@@ -130,6 +130,7 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
   return DATATYPES;
 }
 
+<<<<<<< Updated upstream
 // function display_backend_data_into_analyticsSentimentBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
 
 
@@ -138,17 +139,42 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
 // }
 
 // function display_backend_data_into_analyticsGenderBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+=======
+
+function update_analyticsGenderSentimentAgeBox(week_line_graphs: Record<string, Record<string, Record<string, number>>>) {
+>>>>>>> Stashed changes
 
  
+	DATATYPES.analyticsGenderBox.dataChart.dateEnd = Object.keys(week_line_graphs)[0];	 
+	DATATYPES.analyticsAgeBox.dataChart.dateEnd = DATATYPES.analyticsGenderBox.dataChart.dateEnd;
+	DATATYPES.analyticsSentimentBox.dataChart.dateEnd = DATATYPES.analyticsAgeBox.dataChart.dateEnd;
+	
+	
+	const keysArray = Object.keys(week_line_graphs);
+	DATATYPES.analyticsGenderBox.dataChart.dateStart = keysArray[keysArray.length - 1];
+	DATATYPES.analyticsAgeBox.dataChart.dateStart = DATATYPES.analyticsGenderBox.dataChart.dateStart;
+	DATATYPES.analyticsSentimentBox.dataChart.dateStart = DATATYPES.analyticsGenderBox.dataChart.dateStart;
+	
+	DATATYPES.analyticsGenderBox.dataChart.dataLineChart[0].data = [];
+	DATATYPES.analyticsAgeBox.dataChart.dataLineChart[0].data = [];
+	DATATYPES.analyticsSentimentBox.dataChart.dataLineChart[0].data = [];
 
-//    return DATATYPES;
-// }
+	for (let [date_object, value_object] of Object.entries(week_line_graphs)) {
+		DATATYPES.analyticsGenderBox.dataChart.dataLineChart[0].data.push({"Female": value_object.gender.female, "Male": value_object.gender.male});
+		DATATYPES.analyticsAgeBox.dataChart.dataLineChart[0].data.push(value_object.age);
+		DATATYPES.analyticsSentimentBox.dataChart.dataLineChart[0].data.push({"Positive":value_object.sentiment.positive , "Negative": value_object.sentiment.negative, "Neutral":value_object.sentiment.neutral});
 
+	}
+
+
+	return DATATYPES;
+}
+
+<<<<<<< Updated upstream
 // function display_backend_data_into_analyticsAgeBox(total_tweets_count: number, mental_health_related_tweets_count: number, tweets_displayed_count: number) {
+=======
+>>>>>>> Stashed changes
 
-  
-//   return DATATYPES;
-// }
 
 function update_knowledge_graph(keywords_count: Record<string, number>, keywords_pairs: Array<{ keywords: Array<string>, count: number }>) {
 
@@ -181,12 +207,17 @@ export function update_dashboard_data(
   genders_count: GenderData,
   female_sentiment : SentimentData, 
   male_sentiment : SentimentData,
+  week_line_graphs: Record<string, Record<string, Record<string, number>>>
 ) {
 
   update_analyticsBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+<<<<<<< Updated upstream
   // display_backend_data_into_analyticsAgeBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
   // display_backend_data_into_analyticsGenderBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
   // display_backend_data_into_analyticsSentimentBox(total_tweets_count, mental_health_related_tweets_count, tweets_displayed_count);
+=======
+  update_analyticsGenderSentimentAgeBox(week_line_graphs);
+>>>>>>> Stashed changes
 
   update_topic_modelling_grid(topics_count);
 

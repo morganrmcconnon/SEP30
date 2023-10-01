@@ -45,10 +45,10 @@ export default function GenderGroupsWeekly() {
                   {data.dataChart.dataLineChart.length === index + 1 && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-    {data?.dataChart.dateStart ? new Date(data.dataChart.dateStart * 1000).toLocaleDateString(undefined, { month: 'short',day: 'numeric' }) : ''}
+					{data?.dataChart.dateStart}
                       </span>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-    {data?.dataChart.dateEnd ? new Date(data.dataChart.dateEnd * 1000).toLocaleDateString(undefined, { month: 'short',day: 'numeric' }) : ''}
+					{data?.dataChart.dateEnd}
                       </span>
                     </div>
                   )}

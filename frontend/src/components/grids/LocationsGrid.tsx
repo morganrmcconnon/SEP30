@@ -27,7 +27,11 @@ export default function LocationsGrid() {
 
   // Iterate through the object's values
   data?.data.forEach(function (element) {
+<<<<<<< Updated upstream
     if (element.id != "" && element.value > maxValue) {
+=======
+    if (element.name != 'UNCATEGORISED' && element.value > maxValue) {
+>>>>>>> Stashed changes
       maxValue = element.value;
     }
   })
@@ -49,7 +53,7 @@ export default function LocationsGrid() {
                   <ProgressBar
                     width='100%'
                     height={13}
-                    color={colorArray[Math.round(item.value * 4 / maxValue)]}
+					color={colorArray[Math.min(4, Math.round(item.value * 4 / maxValue))]}
                     rounded={10}
                     percent={((item.value / maxValue) * 100).toFixed(0)}
                   />
@@ -73,6 +77,7 @@ const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxval
   return (
     <div style={{ width: '80%', position: 'relative', left: '50%', transform: 'translateX(-40%)', top: '-10%' }}>
       <ComposableMap projection='geoEqualEarth'>
+<<<<<<< Updated upstream
         <ZoomableGroup center={[0, 0]}>
           <Sphere stroke='#DDD' id={''} fill={'#FFF'} strokeWidth={0} />
           <Graticule stroke='#DDD' />
@@ -95,6 +100,37 @@ const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxval
             }
           </Geographies>
         </ZoomableGroup>
+=======
+        {/* <PatternLines
+          id='lines'
+          height={6}
+          width={6}
+          stroke='#776865'
+          strokeWidth={1}
+          background='#F6F0E9'
+          orientation={['diagonal']}
+        /> */}
+        <Sphere stroke='#DDD' id={''} fill={'#FFF'} strokeWidth={0} />
+        <Graticule stroke='#DDD' />
+        <Geographies geography={geoUrl} stroke='#FFF' strokeWidth={0.5}>
+          {({ geographies }) =>
+            geographies.map((geo) => {
+              const isHighlighted = Highlighted.indexOf(geo.id) !== -1;
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  //replace 0 by    
+                  fill={isHighlighted ? colorArray[Math.min(4,Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)] * 4 / mymaxvalue))] : '#F6F0E9'}
+                  onClick={() => { updateFilterOption('location', geo.id); }}
+                // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
+                // onClick={() => console.log(geo.properties.name)}
+                />
+              );
+            })
+          }
+        </Geographies>
+>>>>>>> Stashed changes
       </ComposableMap>
     </div>
   );

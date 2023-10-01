@@ -112,7 +112,8 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const age_groups_count = aggregate_data_info.age_groups_count;
     const female_sentiment = aggregate_data_info.female_sentiment;
     const male_sentiment = aggregate_data_info.male_sentiment;
-
+	const week_line_graphs = aggregate_data_info.week;
+  
     const total_tweets_count = backend_data.aggregate_results.total_tweets_count ?? 0;
     const mental_health_related_tweets_count = backend_data.aggregate_results.related_tweets_count ?? 0;
     const tweets_displayed_count = tweet_objects.length;
@@ -132,6 +133,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       genders_count,
       female_sentiment,
       male_sentiment,
+	  week_line_graphs,
     );
 
     setDashboardData(newDashboardData);

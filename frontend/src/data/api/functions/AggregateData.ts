@@ -123,13 +123,55 @@ function aggregate_user_objects_list(user_objects: Array<UserObject>) {
   };
 }
 
+function timestampToShortDayMonth(timestamp: string): string {
+  const parsedTimestamp = parseInt(timestamp, 10); // Parse the string timestamp into a number
+  const date = new Date(parsedTimestamp);
+  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+  return date.toLocaleDateString(undefined, options);
+}
+
+
+function aggregate_user_objects_list_for_line_graphs(user_objects: Array<UserObject>, tweet_objects: Array<TweetObject>) {
+
+  const dates_count: Record<string, Record<string, Record<string, number>>> = {};
+ 
+	for (let i = 0; i < user_objects.length; i++) {
+		
+	const  user_object =  user_objects[i];
+    const age_predicted = user_object.age;
+    const gender_predicted = user_object.gender;
+    const org_predicted = user_object.org;
+	const user_date = timestampToShortDayMonth(tweet_objects[i].timestamp_ms);
+	const sentiment_predicted = tweet_objects[i].sentiment;
+	
+	if (!dates_count[user_date]) {
+		dates_count[user_date] =  {"age": {}, "gender": {}, "org": {}, "sentiment": {}};
+		dates_count[user_date]["age"] =  { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
+		dates_count[user_date]["gender"] =  { "female": 0, "male": 0 };
+		dates_count[user_date]["org"] =  { "is-org": 0, "non-org": 0 };
+		dates_count[user_date]["sentiment"] =  { "positive": 0, "neutral": 0, "negative": 0 };
+	
+	}
+    dates_count[user_date]["age"][age_predicted] += 1;
+    dates_count[user_date]["gender"][gender_predicted] += 1;
+    dates_count[user_date]["org"][org_predicted] += 1;
+    dates_count[user_date]["sentiment"][sentiment_predicted] += 1;
+
+	}
+
+  return {"week": dates_count};
+}
+
+
 function aggregate_data(tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) {
   const aggregated_tweet_objects = aggregate_tweet_objects_list(tweet_objects);
   const aggregated_user_objects = aggregate_user_objects_list(user_objects);
+  const aggregated_date_objects = aggregate_user_objects_list_for_line_graphs(user_objects, tweet_objects);
   return {
     ...aggregated_tweet_objects,
-    ...aggregated_user_objects
+    ...aggregated_user_objects,
+	...aggregated_date_objects
   };
 }
 
-export { aggregate_data, aggregate_tweet_objects_list, aggregate_user_objects_list };
+export { aggregate_data, aggregate_tweet_objects_list, aggregate_user_objects_list, aggregate_user_objects_list_for_line_graphs, timestampToShortDayMonth };

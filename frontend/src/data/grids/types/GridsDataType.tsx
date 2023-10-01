@@ -137,8 +137,8 @@ export type GridsDataType = {
     subTitle: string,
     dataChart: {
       totalData: string,
-      dateStart: number,
-      dateEnd: number,
+      dateStart: string,
+      dateEnd: string,
       LegendList: Array<{ title: string, color: string }>,
       dataLineChart: [
         {
@@ -159,8 +159,8 @@ export type GridsDataType = {
     subTitle: string,
     dataChart: {
       totalData: string,
-      dateStart: number,
-      dateEnd: number,
+      dateStart: string,
+      dateEnd: string,
       LegendList: Array<{ title: string, color: string }>,
       dataLineChart: [
         {
@@ -177,8 +177,8 @@ export type GridsDataType = {
     title: string,
     subTitle: string,
     dataChart: {
-      dateStart: number,
-      dateEnd: number,
+      dateStart: string,
+      dateEnd: string,
       LegendList: Array<{ title: string, color: string }>
       dataLineChart: [
         {

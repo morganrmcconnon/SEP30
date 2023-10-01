@@ -587,8 +587,8 @@ export const DATATYPES: GridsDataType = {
     subTitle: 'Age Insights on Mental Health Tweets',
     dataChart: {
       totalData: '1.5M',
-      dateStart: 1693902328.2943225,
-      dateEnd: 1694902328.2943225,
+      dateStart: "Sep 15",
+      dateEnd: "Sep 18",
       LegendList: [
         { title: 'Under 18', color: ColorVar.blue },
         { title: '19 - 29', color: ColorVar.green },
@@ -652,8 +652,8 @@ export const DATATYPES: GridsDataType = {
     subTitle: 'Sentiment Insights on Mental Health Tweets',
     dataChart: {
       totalData: '1.5M',
-      dateStart: 1693902041.6635015,
-      dateEnd: 1694902328.2943225,
+      dateStart: "Sep 15",
+      dateEnd: "Sep 18",
       LegendList: [
         { title: 'Positive', color: ColorVar.blue },
         { title: 'Negative', color: ColorVar.green },
@@ -706,8 +706,8 @@ export const DATATYPES: GridsDataType = {
     title: ' Mental Health Tweets by Gender',
     subTitle: 'Gender Insights on Mental Health Tweets',
     dataChart: {
-      dateStart: 1693902328.2943225,
-      dateEnd: 1694902328.2943225,
+      dateStart: "Sep 15",
+      dateEnd: "Sep 18",
       LegendList: [
         { title: 'Female', color: ColorVar.blue },
         { title: 'Male', color: ColorVar.green },

@@ -38,20 +38,20 @@ export default function AgeGroupsWeekly() {
                       <Tooltip />
 					  <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
                       <ReferenceLine y={0} stroke='#000' style={{ height: 3 }} />
-					  <Line dataKey='Under 18' stroke={color[0]} />
-                      <Line dataKey='19 - 29' stroke={color[1]} />
-					  <Line dataKey='30 - 39' stroke={color[2]} />
-                      <Line dataKey='40 and above' stroke={color[3]} />
+					  <Line dataKey='<=18' stroke={color[0]} />
+                      <Line dataKey='19-29' stroke={color[1]} />
+					  <Line dataKey='30-39' stroke={color[2]} />
+                      <Line dataKey='>=40' stroke={color[3]} />
                     </LineChart>
                   </ResponsiveContainer>
                   {data.dataChart.dataLineChart.length === index + 1 && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-    {data?.dataChart.dateStart ? new Date(data.dataChart.dateStart * 1000).toLocaleDateString(undefined, { month: 'short',day: 'numeric' }) : ''}
-                      </span>
+					{data?.dataChart.dateStart}       
+						</span>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-    {data?.dataChart.dateEnd ? new Date(data.dataChart.dateEnd * 1000).toLocaleDateString(undefined, { month: 'short',day: 'numeric' }) : ''}
-                      </span>
+ {data?.dataChart.dateEnd}                     
+ </span>
                     </div>
                   )}
                 </Col>
