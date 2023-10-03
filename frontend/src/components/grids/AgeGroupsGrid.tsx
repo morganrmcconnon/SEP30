@@ -31,7 +31,7 @@ export default function AgeGroups() {
                     }}
                     key={`cell-${index}`}
                     fill={item.color}
-                    strokeWidth={10}
+                    strokeWidth={1}
                   />
                 ))}
               </Pie>
@@ -61,7 +61,7 @@ export default function AgeGroups() {
                   borderColor: item.color,
                 }}
               />
-              <p>
+              <p className="text-data">
                 {item?.name} ({item?.percent}%)
               </p>
             </Col>

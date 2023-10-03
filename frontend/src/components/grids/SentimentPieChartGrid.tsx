@@ -61,7 +61,7 @@ export default function SentimentPieChartGrid() {
                   borderColor: item.color,
                 }}
               />
-              <p>
+              <p className="text-data">
                 {item?.title} ({item?.value})
               </p>
             </Col>

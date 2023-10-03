@@ -13,7 +13,7 @@ export default function RealTimeAnalysis() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title='Dashboard context' subtitle='Context of the dashboard' />
+      <VisHeader title='Dashboard overview' subtitle='Overview of the dashboard' />
       <div className='vis-svg-container'>
         <Row>
           <Col span={11} style={{ padding: 20 }}>

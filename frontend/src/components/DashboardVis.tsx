@@ -19,8 +19,6 @@ import LocationsGrid from "./grids/LocationsGrid.tsx";
 import KnowledgeGraph from "./grids/KnowledgeGraphGrid.tsx";
 // import TestEndpoint from "./grids/TestEndpoint.tsx";
 // import FilterOptionsGrid from "./grids/FilterOptionsGrid.tsx";
-import DemoRoBERTa from "./grids/DemoRoBERTa.tsx";
-import DemoVader from "./grids/DemoVader.tsx";
 
 const DashboardVis = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -34,18 +32,16 @@ const DashboardVis = () => {
     { i: "RealTimeAnalysis", vis: <RealTimeAnalysisGrid />, x: 0, y: 1, w: 8, h: 3, },
     { i: "AgeGroups", vis: <AgeGroupsGrid />, x: 8, y: 3, w: 4, h: 3 },
     { i: "AgeGroupsBarChart", vis: <AgeGroupsBarChart />, x: 0, y: 1, w: 4, h: 3 },
-    // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
     { i: "SentimentPieChart", vis: <SentimentPieChartGrid />, x: 8, y: 1, w: 4, h: 3 },
     { i: "GendersPieChartGrid", vis: <GendersPieChartGrid />, x: 0, y: 2, w: 4, h: 3 },
     { i: "TopicModelling", vis: <TopicModellingGrid />, x: 4, y: 2, w: 4, h: 3 },
-    // { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
-    { i: "Genders", vis: <GendersGrid />, x: 0, y: 4, w: 4, h: 3 },
     { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 4, y: 3, w: 4, h: 3 },
+    { i: "Genders", vis: <GendersGrid />, x: 0, y: 4, w: 4, h: 3 },
+    { i: "Locations", vis: <LocationsGrid />, x: 4, y: 4, w: 8, h: 3 },
+    // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
+    // { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
     //{ i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },
     //{ i: "FilterOptionsGrid", vis: <FilterOptionsGrid />, x: 8, y: 4, w: 4, h: 1.7 },
-    { i: "Locations", vis: <LocationsGrid />, x: 0, y: 5, w: 8, h: 3 },
-    { i: "DemoRoBERTa", vis: <DemoRoBERTa />, x: 8, y: 4, w: 4, h: 1.5 },
-    { i: "DemoVader", vis: <DemoVader />, x: 8, y: 4, w: 4, h: 1.5 },
   ];
   return (
     <ResponsiveGridLayout

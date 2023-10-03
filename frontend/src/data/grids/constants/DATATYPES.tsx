@@ -171,7 +171,7 @@ export const DATATYPES: GridsDataType = {
         title: 'Topic',
         dataIndex: 'topic',
         key: 'topic',
-        sorter: (a: { topic: string }, b: { topic: string }) => a.topic.length - b.topic.length,
+        sorter: (a: { topic: string }, b: { topic: string }) => a.topic.localeCompare(b.topic),
       },
       {
         title: 'Number of tweets',

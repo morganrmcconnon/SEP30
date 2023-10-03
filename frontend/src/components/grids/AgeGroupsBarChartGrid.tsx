@@ -1,4 +1,4 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, } from "recharts";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, LabelList, } from "recharts";
 
 import VisHeader from "../grid_components/VisHeader";
 import ColorVar from "../../constants/ColorVar.js";
@@ -23,29 +23,34 @@ const AgeGroupsBarChart = () => {
               left: 20,
               bottom: 30,
             }}
-            barCategoryGap={15}
-            onClick={(e) => {
-              console.log(e);
+            barCategoryGap={10}
+            barSize={50}
 
-            } }
-            
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" interval={0} fontSize={10} />
             <YAxis />
             <Tooltip />
             <Legend />
             <ReferenceLine y={0} stroke="#000" />
             <Bar dataKey="percent" fill={ColorVar.blue} >
               {data.data.map((item, index) => (
-                <Cell
-                  onClick={() => {
-                    updateFilterOption("age", item.id);
-                  }}
-                  key={`cell-${index}`}
-                  fill={item.color}
-                  strokeWidth={10}
-                />
+                <>
+                  <LabelList
+                    dataKey="percent"
+                    position="top"
+                    angle={0}
+                    offset={5}
+                  />
+                  <Cell
+                    onClick={() => {
+                      updateFilterOption("age", item.id);
+                    }}
+                    key={`cell-${index}`}
+                    fill={item.color}
+                    strokeWidth={10}
+                  />
+                </>
               ))}
             </Bar>
           </BarChart>
