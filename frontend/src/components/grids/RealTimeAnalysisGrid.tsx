@@ -1,5 +1,6 @@
-import { Col, Row, Space } from 'antd';
-import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
+import { Col, Row } from 'antd';
+// import { Space } from 'antd';
+// import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
 
 import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
@@ -7,16 +8,61 @@ import { useSearchContext } from '../../contexts/SearchContext';
 
 
 export default function RealTimeAnalysis() {
-  const { dashboardData } = useSearchContext();
+  const { dashboardData, search } = useSearchContext();
   const data = dashboardData.analyticsBox;
 
   return (
     <div className='vis-container'>
-      <VisHeader title={data?.title} subtitle={data?.subTitle} />
+      <VisHeader title='Dashboard context' subtitle='Context of the dashboard' />
       <div className='vis-svg-container'>
         <Row>
+          <Col span={11} style={{ padding: 20 }}>
+            {data.dataBoxRight.map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  border: '1px solid',
+                  borderColor: item.colorChart,
+                  borderRadius: 10,
+                  padding: 20,
+                  backgroundColor: item.bgColor,
+                  color: item.textColor,
+                  marginBottom: 20,
+                }}
+              >
+                <CircleProgressVis
+                  textColor={item.textColor}
+                  bgColor={item.colorChart}
+                  percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
+                />
+                <div>
+                  <p style={{ fontSize: 16 }}>{item.title}</p>
+                  <p style={{ fontSize: 26 }}>{item.value} tweets</p>
+                </div>
+              </div>
+            ))}
+          </Col>
           <Col span={12}>
-            <Row>
+            <div>
+              <p className='text-data' style={{ fontWeight: 'bold', fontSize: 25, margin: '20px 0 0 30px' }}>
+                Total number of tweets analyzed: {data?.dataChart.totalData}
+                 {/* <span className='text-data'>{data?.dataChart.totalDataChange}</span> */}
+              </p>
+              <p className='text-data' style={{ fontWeight: 'bold', fontSize: 25, margin: '10px 0 0 30px' }}>
+                Context:
+              </p>
+              <ul>
+                  {Object.entries(search).map(([key, value]) => (
+                    <li className='text-data' key={key}>
+                      {key.toUpperCase()}: {value === false ? "All" : `"${value.toString()}"`}
+                    </li>
+                  ))}
+                </ul>
+            </div>
+            {/* <Row>
               <Col
                 span={4}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
@@ -83,38 +129,9 @@ export default function RealTimeAnalysis() {
                   <span className='text-data'>{item?.title}</span>
                 </div>
               ))}
-            </Space>
+            </Space> */}
           </Col>
           <Col span={1}></Col>
-          <Col span={11} style={{ padding: 20 }}>
-            {data.dataBoxRight.map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  border: '1px solid',
-                  borderColor: item.colorChart,
-                  borderRadius: 10,
-                  padding: 20,
-                  backgroundColor: item.bgColor,
-                  color: item.textColor,
-                  marginBottom: 20,
-                }}
-              >
-                <CircleProgressVis
-                  textColor={item.textColor}
-                  bgColor={item.colorChart}
-                  percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
-                />
-                <div>
-                  <p style={{ fontSize: 16 }}>{item.title}</p>
-                  <p style={{ fontSize: 26 }}>{item.value} tweets</p>
-                </div>
-              </div>
-            ))}
-          </Col>
         </Row>
       </div>
     </div>
