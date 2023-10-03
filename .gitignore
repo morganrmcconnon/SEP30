@@ -26,3 +26,6 @@ dist-ssr
 .venv
 **/__pycache__/
 *.pyc
+
+# Ignore .vs workspace settings
+.vs
