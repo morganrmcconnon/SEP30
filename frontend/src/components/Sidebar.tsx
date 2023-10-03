@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useSearchContext } from "../contexts/SearchContext";
 
 const Sidebar = () => {
-  const { resetFilter} = useSearchContext();
+  const { resetFilter } = useSearchContext();
   return (
     <div>
       <Link to="/">
@@ -28,22 +28,30 @@ const Sidebar = () => {
       <h3 className="sidebar-title">MAIN MENU</h3>
       <nav>
         <ul className="sidebar-list">
-          <li>
+          <Link to="/">
+            <li>
               <img className="sidebar-icon" src={dashboard} alt="overview" />
               <h3>Overview</h3>
-          </li>
-          <li>
+            </li>
+          </Link>
+          <Link to="/">
+            <li>
               <img className="sidebar-icon" src={file} alt="dashboard" />
               <h3>Dashboard</h3>
-          </li>
-          <li>
+            </li>
+          </Link>
+          <Link to="/">
+            <li>
               <img className="sidebar-icon" src={contact} alt="contact" />
               <h3>Contact</h3>
-          </li>
-          <li>
+            </li>
+          </Link>
+          <Link to="/about">
+            <li>
               <img className="sidebar-icon" src={information} alt="about" />
-              <h3>About us</h3>
-          </li>
+              <h3>About</h3>
+            </li>
+          </Link>
         </ul>
       </nav>
       <h3 className="sidebar-title">PREFERENCES</h3>

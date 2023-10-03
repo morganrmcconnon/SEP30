@@ -2,7 +2,7 @@ import { ForceGraph2D } from 'react-force-graph';
 
 import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
-import { useRef } from 'react';
+// import { useRef } from 'react';
 
 
 const KnowledgeGraph = () => {

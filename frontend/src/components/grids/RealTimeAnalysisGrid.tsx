@@ -40,7 +40,7 @@ export default function RealTimeAnalysis() {
                 />
                 <div>
                   <p style={{ fontSize: 16 }}>{item.title}</p>
-                  <p style={{ fontSize: 26 }}>{item.value} tweets</p>
+                  <p style={{ fontSize: 26 }}>{item.value} {item.value === 1 ? `tweet` : `tweets`}</p>
                 </div>
               </div>
             ))}
@@ -52,7 +52,13 @@ export default function RealTimeAnalysis() {
                  {/* <span className='text-data'>{data?.dataChart.totalDataChange}</span> */}
               </h3>
               <h3 className='text-black-white' style={{ margin: '10px 0 0 30px' }}>
-                Filtered by:
+                {
+                  // Count the number of entries in the search variable where the search is true
+                  Object.entries(search).reduce((acc, [_, value]) => {
+                    if (value === false) return acc;
+                    return acc + 1;
+                  }, 0) == 0 ? 'Click on a section of the visualisation to filter the visualised tweets' : 'Filters applied:'
+                }
               </h3>
               <ul>
                   {Object.entries(search).map(([key, value]) => {

@@ -43,7 +43,7 @@ export default function LocationsGrid() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
                     <p className='text-black-white'>{item.name}</p>
-                    <p className='text-data'>{item.value} users</p>
+                    <p className='text-data'>{item.value} {item.value != 1 ? 'users' : 'user'}</p>
                   </div>
 
 

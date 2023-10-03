@@ -40,7 +40,7 @@ const DemoVader = () => {
   return (
     <div className="vis-container">
       <VisHeader title="Demo NLTK Vader sentiment model" subtitle="Enter a sentence to check its sentiment" />
-      <article>
+      <article className='text-black-white'>
         <form onSubmit={getResult}>
           <div>
             <input

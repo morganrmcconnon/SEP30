@@ -10,6 +10,10 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
+    path: "/about",
+    element: <App />,
+  },
+  {
     path: "/search",
     element: <Search />,
     async action({ request }) {
