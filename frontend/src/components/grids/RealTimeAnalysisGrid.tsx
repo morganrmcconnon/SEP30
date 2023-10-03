@@ -47,19 +47,21 @@ export default function RealTimeAnalysis() {
           </Col>
           <Col span={12}>
             <div>
-              <p className='text-data' style={{ fontWeight: 'bold', fontSize: 25, margin: '20px 0 0 30px' }}>
+              <h3 className='text-black-white' style={{ margin: '20px 0 0 30px' }}>
                 Total number of tweets analyzed: {data?.dataChart.totalData}
                  {/* <span className='text-data'>{data?.dataChart.totalDataChange}</span> */}
-              </p>
-              <p className='text-data' style={{ fontWeight: 'bold', fontSize: 25, margin: '10px 0 0 30px' }}>
-                Context:
-              </p>
+              </h3>
+              <h3 className='text-black-white' style={{ margin: '10px 0 0 30px' }}>
+                Filtered by:
+              </h3>
               <ul>
-                  {Object.entries(search).map(([key, value]) => (
-                    <li className='text-data' key={key}>
-                      {key.toUpperCase()}: {value === false ? "All" : `"${value.toString()}"`}
-                    </li>
-                  ))}
+                  {Object.entries(search).map(([key, value]) => {
+                    if (value === false) return '';
+                    return (
+                      <li className='text-black-white' key={key}>
+                        {`${key[0].toUpperCase() + key.substring(1)}: "${value.toString()}"`}
+                      </li>
+                    );})}
                 </ul>
             </div>
             {/* <Row>

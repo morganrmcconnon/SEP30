@@ -42,15 +42,15 @@ export default function LocationsGrid() {
               {data?.data.map((item) => (
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <p>{item.name}</p>
-                    <p className='text-data'>{item.value} Users</p>
+                    <p className='text-black-white'>{item.name}</p>
+                    <p className='text-data'>{item.value} users</p>
                   </div>
 
 
                   <ProgressBar
                     width='100%'
                     height={13}
-					color={colorArray[Math.min(4, Math.round(item.value * 4 / maxValue))]}
+                    color={colorArray[Math.min(4, Math.round(item.value * 4 / maxValue))]}
                     rounded={10}
                     percent={((item.value / maxValue) * 100).toFixed(0)}
                   />
@@ -87,16 +87,15 @@ const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxval
                     geography={geo}
                     //replace 0 by 
                     fill={isHighlighted ? colorArray[Math.round(dashboardData.locations?.locationHighLightData[Highlighted.indexOf(geo.id)] * 4 / mymaxvalue)] : '#F6F0E9'}
-                    onClick={() => { isHighlighted ? updateFilterOption('location', geo.id) : ""; }}
-                    // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
-                    // onClick={() => console.log(geo.properties.name)}
+                    onClick={() => { updateFilterOption('location', geo.id); }}
+                  // fill={isHighlighted ? "url('#lines')" : '#F6F0E9'}
+                  // onClick={() => console.log(geo.properties.name)}
                   />
                 );
               })
             }
           </Geographies>
         </ZoomableGroup>
-
       </ComposableMap>
     </div>
   );

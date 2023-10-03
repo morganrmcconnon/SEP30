@@ -144,12 +144,7 @@ export type GridsDataType = {
         {
           total: string,
           color: string,
-          data: Array<{
-            'Under 18': number,
-            '19 - 29': number,
-            '30 - 39': number,
-            '40 and above': number,
-          }>
+          data: Array<{[key: string]: number}>
         },
       ],
     },

@@ -20,15 +20,15 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 
   tweet_objects.forEach(tweet_object => {
     const sentiment_predicted = tweet_object.sentiment;
-	const related_topics = tweet_object.topic_lda.related_topics;
+    const related_topics = tweet_object.topic_lda.related_topics;
     const associated_keywords = tweet_object.text_processed;
 
     sentiment_count[sentiment_predicted] += 1;
-	related_topics.cosine_similarity.forEach(topic => {
+    related_topics.cosine_similarity.forEach(topic => {
       topic_count[topic] = (topic_count[topic] || 0) + 1;
     });
     // topic_count[topic_with_the_highest_score] = (topic_count[topic_with_the_highest_score] || 0) + 1;    
-	associated_keywords.forEach(keyword => {
+    associated_keywords.forEach(keyword => {
       keyword_count[keyword] = (keyword_count[keyword] || 0) + 1;
     });
   });
@@ -87,7 +87,7 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
     male_sentiment,
     sentiment_count,
     topic_count,
-    keyword_count : keywords_count_filtered_dict,
+    keyword_count: keywords_count_filtered_dict,
     keywordsPairsArray
   };
 }
@@ -134,46 +134,47 @@ function timestampToShortDayMonth(timestamp: string): string {
 }
 
 
-function aggregate_user_objects_list_for_line_graphs(user_objects: Array<UserObject>, tweet_objects: Array<TweetObject>) {
+function aggregate_user_objects_list_for_line_graphs(tweet_objects: Array<TweetObject>) {
 
   const dates_count: Record<string, Record<string, Record<string, number>>> = {};
- 
-	for (let i = 0; i < user_objects.length; i++) {
-		
-	const  user_object =  user_objects[i];
+
+  for (let i = 0; i < tweet_objects.length; i++) {
+
+    const tweet_object = tweet_objects[i];
+    const user_object = tweet_object.user;
     const age_predicted = user_object.age;
     const gender_predicted = user_object.gender;
     const org_predicted = user_object.org;
-	const user_date = timestampToShortDayMonth(tweet_objects[i].timestamp_ms);
-	const sentiment_predicted = tweet_objects[i].sentiment;
-	
-	if (!dates_count[user_date]) {
-		dates_count[user_date] =  {"age": {}, "gender": {}, "org": {}, "sentiment": {}};
-		dates_count[user_date]["age"] =  { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
-		dates_count[user_date]["gender"] =  { "female": 0, "male": 0 };
-		dates_count[user_date]["org"] =  { "is-org": 0, "non-org": 0 };
-		dates_count[user_date]["sentiment"] =  { "positive": 0, "neutral": 0, "negative": 0 };
-	
-	}
+    const user_date = timestampToShortDayMonth(tweet_object.timestamp_ms);
+    const sentiment_predicted = tweet_object.sentiment;
+
+    if (!dates_count[user_date]) {
+      dates_count[user_date] = { "age": {}, "gender": {}, "org": {}, "sentiment": {} };
+      dates_count[user_date]["age"] = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
+      dates_count[user_date]["gender"] = { "female": 0, "male": 0 };
+      dates_count[user_date]["org"] = { "is-org": 0, "non-org": 0 };
+      dates_count[user_date]["sentiment"] = { "positive": 0, "neutral": 0, "negative": 0 };
+
+    }
     dates_count[user_date]["age"][age_predicted] += 1;
     dates_count[user_date]["gender"][gender_predicted] += 1;
     dates_count[user_date]["org"][org_predicted] += 1;
     dates_count[user_date]["sentiment"][sentiment_predicted] += 1;
 
-	}
+  }
 
-  return {"week": dates_count};
+  return { "week": dates_count };
 }
 
 
 function aggregate_data(tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) {
   const aggregated_tweet_objects = aggregate_tweet_objects_list(tweet_objects);
   const aggregated_user_objects = aggregate_user_objects_list(user_objects);
-  const aggregated_date_objects = aggregate_user_objects_list_for_line_graphs(user_objects, tweet_objects);
+  const aggregated_date_objects = aggregate_user_objects_list_for_line_graphs(tweet_objects);
   return {
     ...aggregated_tweet_objects,
     ...aggregated_user_objects,
-	...aggregated_date_objects
+    ...aggregated_date_objects
   };
 }
 

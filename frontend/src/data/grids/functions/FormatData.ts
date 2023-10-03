@@ -121,10 +121,10 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
   DATATYPES.analyticsBox.dataChart.totalData = total_tweets_count.toString();
 
 
-  DATATYPES.analyticsBox.dataBoxRight[0].title = 'Mental health tweets';
+  DATATYPES.analyticsBox.dataBoxRight[0].title = 'Number of tweets related to mental health';
   DATATYPES.analyticsBox.dataBoxRight[0].total = total_tweets_count;
   DATATYPES.analyticsBox.dataBoxRight[0].value = mental_health_related_tweets_count;
-  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Displaying analysis of';
+  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Visualizing analysis of';
   DATATYPES.analyticsBox.dataBoxRight[1].total = mental_health_related_tweets_count;
   DATATYPES.analyticsBox.dataBoxRight[1].value = tweets_displayed_count;
   return DATATYPES;
@@ -158,7 +158,7 @@ function update_analyticsGenderSentimentAgeBox(week_line_graphs: Record<string, 
 	DATATYPES.analyticsAgeBox.dataChart.dataLineChart[0].data = [];
 	DATATYPES.analyticsSentimentBox.dataChart.dataLineChart[0].data = [];
 
-	for (let [date_object, value_object] of Object.entries(week_line_graphs)) {
+	for (let [_, value_object] of Object.entries(week_line_graphs)) {
 		DATATYPES.analyticsGenderBox.dataChart.dataLineChart[0].data.push({"Female": value_object.gender.female, "Male": value_object.gender.male});
 		DATATYPES.analyticsAgeBox.dataChart.dataLineChart[0].data.push(value_object.age);
 		DATATYPES.analyticsSentimentBox.dataChart.dataLineChart[0].data.push({"Positive":value_object.sentiment.positive , "Negative": value_object.sentiment.negative, "Neutral":value_object.sentiment.neutral});

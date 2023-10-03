@@ -356,3 +356,8 @@ a {
     opacity: 10;
   }
 }
+
+
+.text-black-white {
+  color: var(--color-primary);
+}
