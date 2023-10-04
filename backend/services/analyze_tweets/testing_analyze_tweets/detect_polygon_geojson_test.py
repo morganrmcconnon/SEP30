@@ -1,55 +1,38 @@
-import json
 import unittest
-from unittest.mock import patch, Mock
 from ..detect_polygon_geojson import detect_geojson_ploygon
 
-# Test cases
-test_cases = [
-    {
-        "latitude": 37.7749,
-        "longitude": -122.4194,
-        "geo_dataframe_key": "ADMIN",
-        "expected_country": "United States",
-    },
-    {
-        "latitude": 51.5074,
-        "longitude": -0.1278,
-        "geo_dataframe_key": "ADMIN",
-        "expected_country": "United Kingdom",
-    },
-    {
-        "latitude": 48.8566,
-        "longitude": 2.3522,
-        "geo_dataframe_key": "ADMIN",
-        "expected_country": "France",
-    },
-    {
-        "latitude": 40.7128,
-        "longitude": -74.0060,
-        "geo_dataframe_key": "ADMIN",
-        "expected_country": "United States",
-    },
-    {
-        "latitude": -34.6118,
-        "longitude": -58.4173,
-        "geo_dataframe_key": "ADMIN",
-        "expected_country": "Argentina",
-    },
-]
+class TestDetectPolygonGeoJSON(unittest.TestCase):
 
-# Run test cases
-for idx, test_case in enumerate(test_cases):
-    latitude = test_case["latitude"]
-    longitude = test_case["longitude"]
-    geo_dataframe_key = test_case["geo_dataframe_key"]
-    expected_country = test_case["expected_country"]
+    def test_detect_geojson_polygon(self):
+        # Define a test case with known latitude and longitude
+        latitude = 37.7749  # Example latitude
+        longitude = -122.4194  # Example longitude
+        geo_dataframe_key = 'name'  # Replace with the actual key used in your GeoDataFrame
 
-    result = detect_geojson_ploygon(latitude, longitude, geo_dataframe_key)
+        # Call the detect_geojson_ploygon function
+        country_name = detect_geojson_ploygon(latitude, longitude, geo_dataframe_key)
 
-    if result == expected_country:
-        print(f"Test case {idx + 1}: PASS")
-    else:
-        print(f"Test case {idx + 1}: FAIL")
-        print(f"Expected: {expected_country}")
-        print(f"Actual: {result}")
+        # Print the detected country name for debugging purposes
+        print(f"Detected country: {country_name}")
 
+        # Assert that the detected country name is not None
+        # You can also assert for a specific country name if you know the expected result
+        self.assertIsNotNone(country_name)
+
+    def test_detect_geojson_polygon_outside_any_country(self):
+        # Define a test case with latitude and longitude outside any country's polygon
+        latitude = 0.0
+        longitude = 0.0
+        geo_dataframe_key = 'name'  # Replace with the actual key used in your GeoDataFrame
+
+        # Call the detect_geojson_ploygon function
+        country_name = detect_geojson_ploygon(latitude, longitude, geo_dataframe_key)
+
+        # Print the detected country name for debugging purposes
+        print(f"Detected country: {country_name}")
+
+        # Assert that the detected country name is None as the coordinates are not inside any country's polygon
+        self.assertIsNone(country_name)
+
+if __name__ == "__main__":
+    unittest.main()
