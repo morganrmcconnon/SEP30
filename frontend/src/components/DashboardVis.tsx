@@ -37,7 +37,7 @@ const DashboardVis = () => {
     { i: "GendersPieChartGrid", vis: <GendersPieChartGrid />, x: 0, y: 3, w: 4, h: 3 },
     { i: "GendersBarChartGrid", vis: <GendersBarChartGrid />, x: 4, y: 3, w: 4, h: 3 },
     { i: "TopicModelling", vis: <TopicModellingGrid />, x: 4, y: 2, w: 4, h: 3 },
-    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 4, y: 3, w: 4, h: 3 },
+    { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 0, y: 4, w: 4, h: 3 },
     { i: "Genders", vis: <GendersGrid />, x: 8, y: 3, w: 4, h: 3 },
     { i: "Locations", vis: <LocationsGrid />, x: 4, y: 4, w: 8, h: 3 },
     // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
