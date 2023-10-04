@@ -48,11 +48,11 @@ const KeywordSearch = () => {
           placeholder="Search Term or Keyword"
         />
       </Form>
-      <img
+      {/*<img
         className="toggle-mode"
         src={mode ? light : dark}
         onClick={toggleTheme}
-      />
+  />*/}
     </div>
   );
 };
