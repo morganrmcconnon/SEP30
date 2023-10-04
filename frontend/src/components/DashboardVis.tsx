@@ -5,7 +5,7 @@ import "../styles/override.css";
 
 import RealTimeAnalysisGrid from "./grids/RealTimeAnalysisGrid.tsx";
 // import SentimentAnalysisGrid from "./grids/SentimentAnalysisGrid.tsx";
-import SentimentPieChartGrid from "./grids/SentimentPieChartGrid.tsx";
+import SentimentBarChartGrid from "./grids/SentimentBarChartGrid.tsx";
 import TopicModellingGrid from "./grids/TopicModellingGrid.tsx";
 // import KeywordsDistribution from "./grids/KeywordsDistributionGrid.tsx";
 import AgeGroupsBarChart from "./grids/AgeGroupsBarChartGrid.tsx";
@@ -15,6 +15,7 @@ import SentimentGroupsWeekly from "./grids/SentimentGroupsWeeklyGrid.tsx";
 import GenderGroupsWeekly from "./grids/GenderGroupsWeeklyGrid.tsx";
 import GendersGrid from "./grids/GendersGrid.tsx";
 import GendersPieChartGrid from "./grids/GendersPieChartGrid.tsx";
+import GendersBarChartGrid from "./grids/GendersBarChartGrid.tsx"
 import LocationsGrid from "./grids/LocationsGrid.tsx";
 import KnowledgeGraph from "./grids/KnowledgeGraphGrid.tsx";
 // import TestEndpoint from "./grids/TestEndpoint.tsx";
@@ -32,11 +33,12 @@ const DashboardVis = () => {
     { i: "RealTimeAnalysis", vis: <RealTimeAnalysisGrid />, x: 0, y: 1, w: 8, h: 3, },
     { i: "AgeGroups", vis: <AgeGroupsGrid />, x: 8, y: 3, w: 4, h: 3 },
     { i: "AgeGroupsBarChart", vis: <AgeGroupsBarChart />, x: 0, y: 1, w: 4, h: 3 },
-    { i: "SentimentPieChart", vis: <SentimentPieChartGrid />, x: 8, y: 1, w: 4, h: 3 },
-    { i: "GendersPieChartGrid", vis: <GendersPieChartGrid />, x: 0, y: 2, w: 4, h: 3 },
+    { i: "SentimentBarChart", vis: <SentimentBarChartGrid />, x: 8, y: 1, w: 4, h: 3 },
+    { i: "GendersPieChartGrid", vis: <GendersPieChartGrid />, x: 0, y: 3, w: 4, h: 3 },
+    { i: "GendersBarChartGrid", vis: <GendersBarChartGrid />, x: 4, y: 3, w: 4, h: 3 },
     { i: "TopicModelling", vis: <TopicModellingGrid />, x: 4, y: 2, w: 4, h: 3 },
     { i: "KnowledgeGraph", vis: <KnowledgeGraph />, x: 4, y: 3, w: 4, h: 3 },
-    { i: "Genders", vis: <GendersGrid />, x: 0, y: 4, w: 4, h: 3 },
+    { i: "Genders", vis: <GendersGrid />, x: 8, y: 3, w: 4, h: 3 },
     { i: "Locations", vis: <LocationsGrid />, x: 4, y: 4, w: 8, h: 3 },
     // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
     // { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },

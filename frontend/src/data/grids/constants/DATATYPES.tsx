@@ -200,7 +200,7 @@ export const DATATYPES: GridsDataType = {
   },
   sentimentAnalysis: {
     title: 'Sentiment Analysis',
-    subTitle: 'Sentiment Analysis',
+    subTitle: 'Total tweets per sentiment',
     values: {
       positive: 100,
       negative: 50,
