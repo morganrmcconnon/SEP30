@@ -1,5 +1,5 @@
 import unittest
-from detect_demographics import detect_demographics
+from ..detect_demographics import detect_demographics
 
 class TestDetectDemographics(unittest.TestCase):
 

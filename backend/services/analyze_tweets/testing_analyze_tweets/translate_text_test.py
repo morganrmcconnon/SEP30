@@ -1,5 +1,5 @@
 import unittest
-from translate_text import detect_and_translate_language
+from ..translate_text import detect_and_translate_language
 
 class TestTranslateText(unittest.TestCase):
 

@@ -1,4 +1,4 @@
-from sentiment_vader import check_sentiment
+from ..sentiment_vader import check_sentiment
 
 # Test cases
 test_cases = [

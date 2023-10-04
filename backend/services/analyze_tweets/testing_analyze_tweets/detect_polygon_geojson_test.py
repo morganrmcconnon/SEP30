@@ -1,5 +1,5 @@
 import json
-from detect_polygon_geojson import detect_geojson_ploygon
+from ..detect_polygon_geojson import detect_geojson_ploygon
 
 # Test cases
 test_cases = [
