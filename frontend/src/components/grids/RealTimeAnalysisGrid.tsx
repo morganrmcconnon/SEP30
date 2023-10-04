@@ -37,6 +37,7 @@ export default function RealTimeAnalysis() {
                   textColor={item.textColor}
                   bgColor={item.colorChart}
                   percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
+                  key={Math.random()}
                 />
                 <div>
                   <p style={{ fontSize: 16 }}>{item.title}</p>
