@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch, Mock
 from ..sentiment_analysis import classify_sentiment
 
 class TestSentimentAnalysis(unittest.TestCase):

@@ -1,3 +1,5 @@
+import unittest
+from unittest.mock import patch, Mock
 from ..sentiment_vader import check_sentiment
 
 # Test cases
