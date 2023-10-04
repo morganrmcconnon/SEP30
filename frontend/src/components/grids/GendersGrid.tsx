@@ -4,6 +4,7 @@ import { BsCheck2, BsXLg, BsDash } from "react-icons/bs";
 import VisHeader from "../grid_components/VisHeader";
 import ProgressBar from "../grid_components/ProgressBar";
 import { useSearchContext } from "../../contexts/SearchContext";
+import ColorVar from "../../constants/ColorVar";
 
 export default function GendersGrid() {
   const { updateFilterOption, dashboardData } = useSearchContext();
@@ -11,11 +12,11 @@ export default function GendersGrid() {
 
   function getIcon(sentiment: string) {
     if (sentiment == "positive") {
-      return <BsCheck2 color="#39b54a" size={20} style={{ marginRight: 10 }} />;
+      return <BsCheck2 color={ColorVar.green} size={20} style={{ marginRight: 10 }} />;
     } else if (sentiment == "negative") {
-      return <BsXLg color="#FF6B6B" size={20} style={{ marginRight: 10 }} />;
+      return <BsXLg color={ColorVar.orange} size={20} style={{ marginRight: 10 }} />;
     }
-    return <BsDash color="#FF922B" size={20} style={{ marginRight: 10 }} />;
+    return <BsDash color={ColorVar.blue} size={20} style={{ marginRight: 10 }} />;
   }
 
   return (

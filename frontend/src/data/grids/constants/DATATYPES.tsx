@@ -228,7 +228,7 @@ export const DATATYPES: GridsDataType = {
     data: {
       female: {
         present: 60,
-        color: '#d3f9d8',
+        color: ColorVar.lightred,
         activeList: ['1', '2', '3', '4'],
         sentiment: {
           positive: 0,

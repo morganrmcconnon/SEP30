@@ -6,5 +6,6 @@ export default {
     green: "#51CF66",
     lightgreen: "#D3F9D8",
     red: "#FF6B6B",
+    lightred:"#FFCCCC",
     orange: "#FF922B"
 }
