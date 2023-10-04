@@ -32,7 +32,7 @@ const SentimentBarChart = () => {
               console.log(e);
 
             } }
-            
+            key={Math.random()}
             
           >
             <CartesianGrid strokeDasharray="3 3" />

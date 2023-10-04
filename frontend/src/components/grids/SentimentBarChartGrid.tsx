@@ -24,12 +24,7 @@ const SentimentBarChart = () => {
               bottom: 30,
             }}
             barCategoryGap={15}
-            onClick={(e) => {
-              console.log(e);
-
-            } }
-            
-            
+            key={Math.random()}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="title" />

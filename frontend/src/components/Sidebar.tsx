@@ -40,7 +40,7 @@ const Sidebar = () => {
               <h3>Dashboard</h3>
             </li>
           </Link>
-          <Link to="/">
+          <Link to="/contact">
             <li>
               <img className="sidebar-icon" src={contact} alt="contact" />
               <h3>Contact</h3>

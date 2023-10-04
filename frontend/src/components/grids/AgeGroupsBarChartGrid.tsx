@@ -25,7 +25,7 @@ const AgeGroupsBarChart = () => {
             }}
             barCategoryGap={10}
             barSize={50}
-
+            key={Math.random()}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" interval={0} fontSize={10} />

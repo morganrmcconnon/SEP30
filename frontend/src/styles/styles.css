@@ -361,3 +361,12 @@ a {
 .text-black-white {
   color: var(--color-primary);
 }
+
+.contact-div{
+  margin-top:50px;
+  display: grid;
+  grid-template-rows: 1fr 8fr;
+  text-align: center;
+  justify-content: center;
+  height:100vh;  
+}
