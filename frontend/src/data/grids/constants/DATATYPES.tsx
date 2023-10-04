@@ -593,7 +593,7 @@ export const DATATYPES: GridsDataType = {
         { title: 'Under 18', color: ColorVar.blue },
         { title: '19 - 29', color: ColorVar.green },
         { title: '30 - 39', color: ColorVar.orange },
-        { title: '40 and above', color: ColorVar.lightblue },
+        { title: '40 and above', color: ColorVar.red },
       ],
       dataLineChart: [
         {
@@ -709,8 +709,8 @@ export const DATATYPES: GridsDataType = {
       dateStart: "Sep 15",
       dateEnd: "Sep 18",
       LegendList: [
-        { title: 'Female', color: ColorVar.blue },
-        { title: 'Male', color: ColorVar.green },
+        { title: 'Female', color: ColorVar.red },
+        { title: 'Male', color: ColorVar.blue },
       ],
       dataLineChart: [
 
