@@ -1,4 +1,4 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, } from "recharts";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, LabelList, } from "recharts";
 
 import VisHeader from "../grid_components/VisHeader.tsx";
 import ColorVar from "../../constants/ColorVar.js";
@@ -39,6 +39,14 @@ const SentimentBarChart = () => {
             <ReferenceLine y={0} stroke="#000" />
             <Bar name="Tweets" dataKey="value" fill={ColorVar.blue} >
               {data.data.map((item, index) => (
+                <>
+                <LabelList
+                    dataKey="value"
+                    position="top"
+                    angle={0}
+                    offset={5}
+                  />
+                
                 <Cell
                   onClick={() => {
                     updateFilterOption("sentiment", item.value_key);
@@ -47,6 +55,7 @@ const SentimentBarChart = () => {
                   fill={item.color}
                   strokeWidth={10}
                 />
+                </>
               ))}
             </Bar>
           </BarChart>
