@@ -1,7 +1,7 @@
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, LabelList, } from "recharts";
 
 import VisHeader from "../grid_components/VisHeader.tsx";
-import ColorVar from "../../constants/ColorVar.js";
+import { ColorMap, ColorVar } from "../../constants/Colors.js";
 import { useSearchContext } from "../../contexts/SearchContext.tsx";
 
 
@@ -9,8 +9,8 @@ const SentimentBarChart = () => {
   const { updateFilterOption, dashboardData } = useSearchContext();
   const griddata = dashboardData.genders;
   const data = [
-    { id: 'female', title: "Female", color: ColorVar.red, value: griddata.data.female.present },
-    { id: 'male', title: "Male", color: ColorVar.blue, value: griddata.data.male.present },
+    { id: 'female', title: "Female", color: ColorMap.female.normal, value: griddata.data.female.present },
+    { id: 'male', title: "Male", color: ColorMap.male.normal, value: griddata.data.male.present },
   ];
   return (
     <div className="vis-container">

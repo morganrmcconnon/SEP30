@@ -1,6 +1,6 @@
 import { Col, Row, Space } from 'antd';
 import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 'recharts';
-import ColorVar from "../../constants/ColorVar"
+import { ColorMap } from "../../constants/Colors"
 
 import VisHeader from '../grid_components/VisHeader';
 import { useSearchContext } from '../../contexts/SearchContext';
@@ -9,19 +9,19 @@ import { useSearchContext } from '../../contexts/SearchContext';
 export default function GenderGroupsWeekly() {
   const { dashboardData } = useSearchContext();
   const data = dashboardData.analyticsGenderBox;
-	const color = [ColorVar.red, ColorVar.blue]
+
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div className='vis-svg-container'>
         <Row>
           <Col span={24}>
-            
-            {data.dataChart.dataLineChart.map((item : any, index : any) => (
+
+            {data.dataChart.dataLineChart.map((item: any, index: any) => (
               <Row key={index} >
                 <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <p  className='text-data' style={{ fontWeight: 'bold', transform: 'rotate(90deg)' , margin: '10px 0 0 10px' }} >
-					  {"Tweets"}
+                  <p className='text-data' style={{ fontWeight: 'bold', transform: 'rotate(90deg)', margin: '10px 0 0 10px' }} >
+                    {"Tweets"}
                   </p>
                 </Col>
                 <Col span={22}>
@@ -35,20 +35,20 @@ export default function GenderGroupsWeekly() {
                       }}
                     >
                       <Tooltip />
-					  <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
+                      <ReferenceLine x={0} stroke='#000' style={{ height: 3 }} />
                       <ReferenceLine y={0} stroke='#000' style={{ height: 3 }} />
-                      <Line dataKey='Female' stroke={color[0]} />
-					  <Line dataKey='Male' stroke={color[1]} />
+                      <Line dataKey='Female' stroke={ColorMap.female.normal} />
+                      <Line dataKey='Male' stroke={ColorMap.male.normal} />
 
                     </LineChart>
                   </ResponsiveContainer>
                   {data.dataChart.dataLineChart.length === index + 1 && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-					{data?.dataChart.dateStart}
+                        {data?.dataChart.dateStart}
                       </span>
                       <span className='text-data' style={{ fontWeight: 'bold' }}>
-					{data?.dataChart.dateEnd}
+                        {data?.dataChart.dateEnd}
                       </span>
                     </div>
                   )}
@@ -56,7 +56,7 @@ export default function GenderGroupsWeekly() {
               </Row>
             ))}
             <Space size='large' style={{ marginLeft: 30, marginTop: 20 }}>
-              {data?.dataChart.LegendList.map((item : any, index : any) => (
+              {data?.dataChart.LegendList.map((item, index) => (
                 <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
                   <div
                     style={{
@@ -65,7 +65,7 @@ export default function GenderGroupsWeekly() {
                       border: '3px solid',
                       borderRadius: '100%',
                       marginRight: 6,
-                      borderColor: color[index],
+                      borderColor: item.color,
                     }}
                   />
                   <span className='text-data'>{item?.title}</span>

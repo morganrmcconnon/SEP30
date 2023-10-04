@@ -1,7 +1,7 @@
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, } from "recharts";
 
 import VisHeader from "../grid_components/VisHeader";
-import ColorVar from "../../constants/ColorVar";
+import { ColorVar } from "../../constants/Colors";
 import { useSearchContext } from "../../contexts/SearchContext";
 
 

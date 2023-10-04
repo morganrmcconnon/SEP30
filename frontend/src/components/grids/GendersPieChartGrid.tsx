@@ -3,7 +3,7 @@ import { Col, Row } from "antd";
 
 import { useSearchContext } from "../../contexts/SearchContext";
 import VisHeader from "../grid_components/VisHeader";
-import ColorVar from "../../constants/ColorVar";
+import { ColorVar } from "../../constants/Colors";
 
 export default function GendersPieChartGrid() {
 

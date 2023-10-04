@@ -4,7 +4,7 @@ import { BsCheck2, BsXLg, BsDash } from "react-icons/bs";
 import VisHeader from "../grid_components/VisHeader";
 import ProgressBar from "../grid_components/ProgressBar";
 import { useSearchContext } from "../../contexts/SearchContext";
-import ColorVar from "../../constants/ColorVar";
+import { ColorVar } from "../../constants/Colors";
 
 export default function GendersGrid() {
   const { updateFilterOption, dashboardData } = useSearchContext();

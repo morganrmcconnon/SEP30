@@ -1,5 +1,5 @@
 import { BsArrowRight } from 'react-icons/bs';
-import ColorVar from '../../../constants/ColorVar';
+import { ColorVar } from '../../../constants/Colors';
 import { GridsDataType } from '../types/GridsDataType';
 
 export const DATATYPES: GridsDataType = {
@@ -655,9 +655,9 @@ export const DATATYPES: GridsDataType = {
       dateStart: "Sep 15",
       dateEnd: "Sep 18",
       LegendList: [
-        { title: 'Positive', color: ColorVar.blue },
-        { title: 'Negative', color: ColorVar.green },
-        { title: 'Neutral', color: ColorVar.orange },
+        { title: 'Positive', color: ColorVar.green },
+        { title: 'Neutral', color: ColorVar.blue },
+        { title: 'Negative', color: ColorVar.orange },
       ],
       dataLineChart: [
         {
