@@ -23,7 +23,7 @@ const DemoSentimentVader = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/sentiment_vader", requestOptions)
+    fetch("/api/analysis/sentiment/vader", requestOptions)
       .then((res) => res.json())
       .then((data) => {
         setResultData({

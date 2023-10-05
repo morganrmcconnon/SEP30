@@ -27,7 +27,7 @@ const DemoSentimentRoBERTa = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/sentiment", requestOptions)
+    fetch("/api/analysis/sentiment/roberta", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 

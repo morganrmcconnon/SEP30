@@ -27,7 +27,7 @@ const DemoTopicLDA = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/topics_lda", requestOptions)
+    fetch("/api/analysis/topic/lda", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 

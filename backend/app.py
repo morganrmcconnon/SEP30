@@ -7,6 +7,15 @@ import json
 from mongo_constants import CollectionNames, DATABASE
 from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
+from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
+from services.analyze_tweets.detect_coordinates import detect_coordinates
+from services.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
+from services.analyze_tweets.spacy_matcher import text_is_related_to_mental_health
+from services.analyze_tweets.translate_text import detect_and_translate_language
+from services.analyze_tweets.topic_bertopic_arxiv import detect_topics_bertopic_arxiv
+from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
+from services.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
+from services.analyze_tweets.topic_lda_labelling import get_similarity_scores
 
 
 
@@ -49,7 +58,26 @@ def get_current_time():
     return {"time": time.time()}
 
 
+@app.route("/api/analysis/translate", methods=["POST"])
+def translate_text():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    compound_score, sentiment_label = check_sentiment(text)
+    return {"compound_score": compound_score, "sentiment_label": sentiment_label}
+
+
+@app.route("/api/analysis/filter/spacy", methods=["POST"])
+def translate_text():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    compound_score, sentiment_label = check_sentiment(text)
+    return {"compound_score": compound_score, "sentiment_label": sentiment_label}
+
+
 @app.route("/api/sentiment_vader", methods=["POST"])
+@app.route("/api/analysis/sentiment/vader", methods=["POST"])
 def check_sentiment_with_vader():
     # Get content from client, process it on server, and return it
     data = request.get_json()
@@ -59,7 +87,74 @@ def check_sentiment_with_vader():
 
 
 @app.route("/api/sentiment", methods=["POST"])
+@app.route("/api/analysis/sentiment/roberta", methods=["POST"])
 def check_sentiment_with_roberta():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    # Analyze the sentiment of text
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
+    return {
+        "sentiment_result": sentiment_result,
+        "confidence_probabilities": confidence_probabilities,
+    }
+
+
+@app.route("/api/analysis/topic/bertaxiv", methods=["POST"])
+def topic_inference_with_bertarxiv():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    # Analyze the sentiment of text
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
+    return {
+        "sentiment_result": sentiment_result,
+        "confidence_probabilities": confidence_probabilities,
+    }
+
+
+@app.route("/api/analysis/topic/cardiffnlp", methods=["POST"])
+def topic_inference_with_cardiffnlp():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    # Analyze the sentiment of text
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
+    return {
+        "sentiment_result": sentiment_result,
+        "confidence_probabilities": confidence_probabilities,
+    }
+
+
+@app.route("/api/analysis/topic/lda", methods=["POST"])
+def topic_inference_with_lda():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    # Analyze the sentiment of text
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
+    return {
+        "sentiment_result": sentiment_result,
+        "confidence_probabilities": confidence_probabilities,
+    }
+
+
+
+@app.route("/api/analysis/user/location", methods=["POST"])
+def detect_user_location():
+    # Get content from client, process it on server, and return it
+    data = request.get_json()
+    text = data["text"]
+    # Analyze the sentiment of text
+    sentiment_result, confidence_probabilities = classify_sentiment(text=text)
+    return {
+        "sentiment_result": sentiment_result,
+        "confidence_probabilities": confidence_probabilities,
+    }
+
+
+@app.route("/api/analysis/user/demographics/m3inference", methods=["POST"])
+def detect_user_demographic():
     # Get content from client, process it on server, and return it
     data = request.get_json()
     text = data["text"]

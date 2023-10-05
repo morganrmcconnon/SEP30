@@ -27,7 +27,7 @@ const DemoTranslate = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/geopy", requestOptions)
+    fetch("/api/analysis/translate", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 

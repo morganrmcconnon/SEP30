@@ -27,7 +27,7 @@ const DemoTopicBERTArxiv = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/geopy", requestOptions)
+    fetch("/api/analysis/topic/bertaxiv", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 

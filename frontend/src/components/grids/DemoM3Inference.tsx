@@ -27,7 +27,7 @@ const DemoM3Inference = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/m3inference", requestOptions)
+    fetch("/api/analysis/user/demographics/m3inference", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 
