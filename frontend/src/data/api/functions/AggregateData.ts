@@ -96,7 +96,6 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 function aggregate_user_objects_list(user_objects: Array<UserObject>) {
 
   const countries_count: Record<string, number> = {};
-  const country_names: Record<string, string> = {};
   const age_groups_count: AgeGroupData = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
   const genders_count: GenderData = { "female": 0, "male": 0 };
   const org_count: OrgData = { "is-org": 0, "non-org": 0 };
@@ -108,9 +107,6 @@ function aggregate_user_objects_list(user_objects: Array<UserObject>) {
     const org_predicted = user_object.org;
 
     countries_count[country_code] = (countries_count[country_code] || 0) + 1;
-    if (!(country_code in country_names)) {
-      country_names[country_code] = user_object.country_name;
-    }
     age_groups_count[age_predicted] += 1;
     genders_count[gender_predicted] += 1;
     org_count[org_predicted] += 1;
@@ -118,7 +114,6 @@ function aggregate_user_objects_list(user_objects: Array<UserObject>) {
   });
 
   return {
-    country_names,
     countries_count,
     age_groups_count,
     genders_count,

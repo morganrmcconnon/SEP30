@@ -5,6 +5,7 @@ import { Col, Row } from 'antd';
 import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
 import { useSearchContext } from '../../contexts/SearchContext';
+import CountryName from '../../constants/CountryName';
 
 
 export default function RealTimeAnalysis() {
@@ -37,7 +38,6 @@ export default function RealTimeAnalysis() {
                   textColor={item.textColor}
                   bgColor={item.colorChart}
                   percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
-                  key={Math.random()}
                 />
                 <div>
                   <p style={{ fontSize: 16 }}>{item.title}</p>
@@ -64,6 +64,11 @@ export default function RealTimeAnalysis() {
               <ul>
                   {Object.entries(search).map(([key, value]) => {
                     if (value === false) return '';
+                    if (key === 'location') return (
+                      <li className='text-black-white' key={key}>
+                        {`Country: "${CountryName[value]}"`}
+                      </li>
+                    );
                     return (
                       <li className='text-black-white' key={key}>
                         {`${key[0].toUpperCase() + key.substring(1)}: "${value.toString()}"`}

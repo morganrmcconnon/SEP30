@@ -7,6 +7,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 import VisHeader from '../grid_components/VisHeader';
 import ProgressBar from '../grid_components/ProgressBar';
 import { useSearchContext } from '../../contexts/SearchContext';
+import CountryName from '../../constants/CountryName';
 
 const geoUrl = '/features.json';
 
@@ -19,7 +20,7 @@ const colorArray = [
 ];
 
 export default function LocationsGrid() {
-  const { dashboardData } = useSearchContext();
+  const { dashboardData, search } = useSearchContext();
 
   const data = dashboardData.locations;
   // Initialize max to a minimum possible value
@@ -31,7 +32,12 @@ export default function LocationsGrid() {
     if (element.name != 'UNCATEGORISED' && element.value > maxValue) {
       maxValue = element.value;
     }
-  })
+  });
+
+  if (search.location !== false && search.location !== undefined && !(data?.data.map((item) => item.id).includes(search.location))) {
+    data?.data.push({ id: search.location, name: CountryName[search.location], value: 0 });
+  }
+
   return (
     <div className='vis-container'>
       <VisHeader title={data?.title} subtitle={data?.subTitle} />

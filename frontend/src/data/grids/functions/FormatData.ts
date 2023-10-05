@@ -1,3 +1,4 @@
+import CountryName from "../../../constants/CountryName";
 import { AgeGroupData, GenderData, SentimentData } from "../../api/types/constants";
 import { DATATYPES } from "../constants/DATATYPES";
 
@@ -60,8 +61,8 @@ function update_genders_grid(genders_count: GenderData, female_sentiment: Sentim
 }
 
 
-function update_map(countries_count: Record<string, number>, country_names: Record<string, string> = {}) {
-  country_names[""] = "UNCATEGORISED";
+function update_map(countries_count: Record<string, number>) {
+  CountryName[""] = "UNCATEGORISED";
   DATATYPES.locations.totalUser = Object.values(countries_count).reduce((a, b) => a + b, 0) - (countries_count[""] || 0);
   // DATATYPES.locations.totalUser = Object.values(countries_count).reduce((a, b) => a + b, 0);
 
@@ -70,7 +71,7 @@ function update_map(countries_count: Record<string, number>, country_names: Reco
   DATATYPES.locations.locationHighLightData = Object.values(countries_count);
 
   let locations = Object.entries(countries_count).map(([country_code, country_count]) => {
-    return { id: country_code, name: country_names[country_code], value: country_count };
+    return { id: country_code, name: (CountryName[country_code] || "UNCATEGORISED"), value: country_count };
   }).sort((a, b) => b.value - a.value).filter((element) => element.id !== "");
 
 
@@ -85,7 +86,7 @@ function update_map(countries_count: Record<string, number>, country_names: Reco
     locations.unshift(temp);
   }
   
-  DATATYPES.locations.data = locations.splice(0, 5);
+  DATATYPES.locations.data = locations.splice(0, 5).filter((element) => element.id !== "");
 
   return DATATYPES;
 }
@@ -198,7 +199,6 @@ export function update_dashboard_data(
   keywords_count: Record<string, number>,
   keywords_pairs: Array<{ keywords: Array<string>, count: number }>,
   countries_count: Record<string, number>,
-  country_names: Record<string, string>,
   age_groups_count: AgeGroupData,
   genders_count: GenderData,
   female_sentiment : SentimentData, 
@@ -216,7 +216,7 @@ export function update_dashboard_data(
 
   update_sentimentAnalysis_grids(sentiment_count);
 
-  update_map(countries_count, country_names);
+  update_map(countries_count);
 
   update_age_groups_grid(age_groups_count);
 
