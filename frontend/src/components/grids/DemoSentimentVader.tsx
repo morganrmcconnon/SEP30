@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
-const DemoVader = () => {
+const DemoSentimentVader = () => {
   const [text, setText] = useState("");
   const [resultData, setResultData] = useState({
     sentiment_result: '',
@@ -39,7 +39,7 @@ const DemoVader = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Demo NLTK Vader sentiment model" subtitle="Enter a sentence to check its sentiment" />
+      <VisHeader title="Sentiment Analysis" subtitle="Sentiment Analysis with NLTK Vader sentiment model" />
       <article className='text-black-white'>
         <form onSubmit={getResult}>
           <div>
@@ -65,4 +65,4 @@ const DemoVader = () => {
   );
 };
 
-export default DemoVader;
+export default DemoSentimentVader;

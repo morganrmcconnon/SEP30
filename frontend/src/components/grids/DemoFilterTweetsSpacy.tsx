@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
-const DemoRoBERTa = () => {
+const DemoFilterTweetsSpacy = () => {
   const [text, setText] = useState("");
   const [resultData, setResultData] = useState({
     sentiment_result: '',
@@ -27,7 +27,7 @@ const DemoRoBERTa = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/sentiment", requestOptions)
+    fetch("/api/geopy", requestOptions)
       .then((res) => res.json())
       .then((data) => {
 
@@ -56,7 +56,7 @@ const DemoRoBERTa = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Demo RoBERTa sentiment model" subtitle="Enter a sentence to check its sentiment" />
+      <VisHeader title="Filter tweets" subtitle="Detect if a tweet is not spam and mental health related using spacy" />
       <article className='text-black-white'>
         <form onSubmit={getResult}>
           <div>
@@ -84,4 +84,4 @@ const DemoRoBERTa = () => {
   );
 };
 
-export default DemoRoBERTa;
+export default DemoFilterTweetsSpacy;
