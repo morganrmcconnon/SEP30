@@ -2,54 +2,40 @@ import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
 const DemoM3Inference = () => {
-  const [text, setText] = useState("");
-  const [resultData, setResultData] = useState({
-    sentiment_result: '',
-    negative: '',
-    neutral: '',
-    positive: '',
+
+  const [input, setInput] = useState({
+    name: "",
+    screen_name: "",
+    description: "",
+    lang: "",
   });
+  const [resultData, setResultData] = useState({});
 
   const clearText = () => {
-    setText("");
-    setResultData({
-      sentiment_result: '',
-      negative: '',
-      neutral: '',
-      positive: '',
+    setInput({
+      name: "",
+      screen_name: "",
+      description: "",
+      lang: "",
     });
+    setResultData({});
   };
 
-  const getResult = (e : any) => {
+  const getResult = (e: any) => {
     e.preventDefault();
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 'text': text }),
+      body: JSON.stringify(input),
     };
     fetch("/api/analysis/user/demographics/m3inference", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-
-        const negative = data['confidence_probabilities']['negative'];
-        const neutral = data['confidence_probabilities']['neutral'];
-        const positive = data['confidence_probabilities']['positive'];
-        const sentiment_result = data['sentiment_result'];
-
-        // convert to percentages, round to nearest 2 decimal places
-        const negative_percent = Math.round(negative * 10000) / 100;
-        const neutral_percent = Math.round(neutral * 10000) / 100;
-        const positive_percent = Math.round(positive * 10000) / 100;
-
-        setResultData({
-          sentiment_result: sentiment_result,
-          negative: negative_percent.toString() + "%",
-          neutral: neutral_percent.toString() + "%",
-          positive: positive_percent.toString() + "%",
-        });
+        console.log("Success /api/analysis/user/demographics/m3inference!");
+        setResultData(data);
       })
       .catch((err) => {
-        console.log("Something went wrong NASA!");
+        console.log("Something went wrong /api/analysis/user/demographics/m3inference!");
         console.error(err);
       });
   };
@@ -62,22 +48,37 @@ const DemoM3Inference = () => {
           <div>
             <input
               type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Enter user id if possible..."
+              value={input.name}
+              onChange={(e) => setInput({ ...input, name: e.target.value })}
+              placeholder="Name"
+            />
+            <input
+              type="text"
+              value={input.screen_name}
+              onChange={(e) => setInput({ ...input, screen_name: e.target.value })}
+              placeholder="Screen name"
+            />
+            <input
+              type="text"
+              value={input.description}
+              onChange={(e) => setInput({ ...input, description: e.target.value })}
+              placeholder="Description"
+            />
+            <input
+              type="text"
+              value={input.lang}
+              onChange={(e) => setInput({ ...input, lang: e.target.value })}
+              placeholder="Language"
             />
           </div>
           <div>
-            <button type="submit">Check sentiment</button>
+            <button type="submit">Submit</button>
           </div>
           <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>Result: {resultData['sentiment_result']}</p>
-        <p>Negative: {resultData['negative']}</p>
-        <p>Neutral: {resultData['neutral']}</p>
-        <p>Positive: {resultData['positive']}</p>
+        <p>{JSON.stringify(resultData)}</p>
       </article>
     </div>
 

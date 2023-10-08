@@ -32,7 +32,7 @@ const DemoSentimentVader = () => {
         });
       })
       .catch((err) => {
-        console.log("Something went wrong NASA!");
+        console.log("Something went wrong /api/analysis/sentiment/vader!");
         console.error(err);
       });
   };

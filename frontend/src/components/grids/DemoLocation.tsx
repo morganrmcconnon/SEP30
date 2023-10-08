@@ -2,54 +2,33 @@ import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
 const DemoLocation = () => {
-  const [text, setText] = useState("");
-  const [resultData, setResultData] = useState({
-    sentiment_result: '',
-    negative: '',
-    neutral: '',
-    positive: '',
+  const [input, setInput] = useState({
+    text: "",
   });
+  const [resultData, setResultData] = useState({});
 
   const clearText = () => {
-    setText("");
-    setResultData({
-      sentiment_result: '',
-      negative: '',
-      neutral: '',
-      positive: '',
+    setInput({
+      text: "",
     });
+    setResultData({});
   };
 
-  const getResult = (e : any) => {
+  const getResult = (e: any) => {
     e.preventDefault();
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 'text': text }),
+      body: JSON.stringify(input),
     };
     fetch("/api/analysis/user/location", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-
-        const negative = data['confidence_probabilities']['negative'];
-        const neutral = data['confidence_probabilities']['neutral'];
-        const positive = data['confidence_probabilities']['positive'];
-        const sentiment_result = data['sentiment_result'];
-
-        // convert to percentages, round to nearest 2 decimal places
-        const negative_percent = Math.round(negative * 10000) / 100;
-        const neutral_percent = Math.round(neutral * 10000) / 100;
-        const positive_percent = Math.round(positive * 10000) / 100;
-
-        setResultData({
-          sentiment_result: sentiment_result,
-          negative: negative_percent.toString() + "%",
-          neutral: neutral_percent.toString() + "%",
-          positive: positive_percent.toString() + "%",
-        });
+        console.log("Success /api/analysis/user/location!");
+        setResultData(data);
       })
       .catch((err) => {
-        console.log("Something went wrong NASA!");
+        console.log("Something went wrong /api/analysis/user/location!");
         console.error(err);
       });
   };
@@ -62,22 +41,19 @@ const DemoLocation = () => {
           <div>
             <input
               type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Enter a description of user's location..."
+              value={input.text}
+              onChange={(e) => setInput({ ...input, text: e.target.value })}
+              placeholder="User location description"
             />
           </div>
           <div>
-            <button type="submit">Check sentiment</button>
+            <button type="submit">Submit</button>
           </div>
           <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>Result: {resultData['sentiment_result']}</p>
-        <p>Negative: {resultData['negative']}</p>
-        <p>Neutral: {resultData['neutral']}</p>
-        <p>Positive: {resultData['positive']}</p>
+        <p>{JSON.stringify(resultData)}</p>
       </article>
     </div>
 

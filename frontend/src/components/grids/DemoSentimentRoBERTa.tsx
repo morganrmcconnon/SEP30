@@ -49,7 +49,7 @@ const DemoSentimentRoBERTa = () => {
         });
       })
       .catch((err) => {
-        console.log("Something went wrong NASA!");
+        console.log("Something went wrong /api/analysis/sentiment/roberta!");
         console.error(err);
       });
   };
