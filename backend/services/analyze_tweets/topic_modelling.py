@@ -97,3 +97,22 @@ def apply_lda_model(text : str, lda_model : LdaModel):
     topics_distribution.sort(key=lambda x: x[0])
     return topics_distribution
 
+
+
+# Function to get the keywords of a topic model
+def get_keywords_of_topic_model(lda_topics_representations):
+    '''
+    Get the keywords of a topic model
+
+    :param `lda_topics_representations`: a list of lists, each list contains the keywords and probability distribution of a topic
+
+    Returns a dictionary, each key is the topic id, and each value is a list of keywords of the topic
+    '''
+    keywords_of_topic_model = {}
+    for topic_id, topic_representation in lda_topics_representations.items():
+        keywords_of_topic_model[topic_id] = []
+        for keyword, prob in topic_representation:
+            if keyword not in keywords_of_topic_model:
+                keywords_of_topic_model[topic_id].append(keyword)
+    return keywords_of_topic_model
+

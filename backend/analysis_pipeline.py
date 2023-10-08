@@ -12,7 +12,7 @@ from services.analyze_tweets.translate_text import detect_and_translate_language
 
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 
-from services.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model
+from services.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model, get_keywords_of_topic_model
 from services.analyze_tweets.topic_lda_labelling import get_similarity_scores, get_topics_distributions
 from services.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
 
@@ -38,19 +38,11 @@ def save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id):
         lda_topic_model.save(os.path.join(model_directory, "lda_topic_model.mdl"))
         print(f'Saved LDA topic model {lda_topic_model_id} to file system')
 
-def get_keywords_of_topic_model(lda_topics_representations):
-    # Get the keywords of the topic model
-    keywords_of_topic_model = {}
-    for topic_id, topic_representation in lda_topics_representations.items():
-        keywords_of_topic_model[topic_id] = []
-        for keyword, prob in topic_representation:
-            if keyword not in keywords_of_topic_model:
-                keywords_of_topic_model[topic_id].append(keyword)
-    return keywords_of_topic_model
 
 LDA_PRETRAINED_MODEL, LDA_TOPICS_REPRESENTATIONS = load_pretrained_model()
 
 LDA_PRETRAINED_MODEL_ID = "0"
+
 
 if DATABASE[CollectionNames.topic_models_lda.value].count_documents({"_id": LDA_PRETRAINED_MODEL_ID}, limit=1) == 0:
     LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS = get_topics_distributions(LDA_PRETRAINED_MODEL)
