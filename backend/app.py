@@ -85,7 +85,7 @@ def translate_text():
 
 
 @app.route("/api/analysis/filter/spacy", methods=["POST"])
-def translate_text():
+def filter_spacy():
     # Get content from client, process it on server, and return it
     data = request.get_json()
     text = data["text"]
@@ -179,10 +179,15 @@ def detect_user_location():
     # Get content from client, process it on server, and return it
     data = request.get_json()
     location_description = data["text"]
-    language = data["language"]
+    # Detect the language of the text
+    location_in_english, lang_detected, _, _ = detect_and_translate_language(location_description)
+
 
     # Get the coordinates of the user
-    coordinates = detect_coordinates(location_description, language)
+    try:
+        coordinates = detect_coordinates(location_description, lang_detected)
+    except:
+        coordinates = detect_coordinates(location_in_english)
     if coordinates == None:
         latitude = None
         longitude = None
@@ -219,8 +224,9 @@ def detect_user_location():
 def detect_user_demographic():
     # Get content from client, process it on server, and return it
     data = request.get_json()
+    user_id = '0'
     user_object = {
-        'id_str': '0',
+        'id_str': user_id,
         'name': data["name"],
         'screen_name': data["screen_name"],
         'description': data["description"],
@@ -234,7 +240,7 @@ def detect_user_demographic():
                                                                         lang_key='lang',
                                                                         use_translator_if_necessary=True)
     demographics = detect_demographics([user_object_preprocessed])
-    return demographics[0]
+    return demographics[user_id]
 
 
 @app.route("/api/analyze_multiple_tweet_cached")
