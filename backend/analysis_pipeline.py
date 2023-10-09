@@ -29,7 +29,7 @@ SPACY_MATCHER_OBJ, SPACY_NLP_OBJ = create_matcher_model()
 
 BERTOPIC_NAME_MAP = BERTOPIC_ARXIV_TOPIC_MODEL.get_topic_info().set_index('Topic')['Name'].to_dict()
 
-def save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id):
+def _save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id):
     # Save the topic model binary to the file system
     model_directory = os.path.join(DATA_LAKE_FOLDER, DataFolderNames.lda_topic_models.value, lda_topic_model_id)
     print(model_directory)
@@ -57,26 +57,19 @@ else:
     LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS = DATABASE[CollectionNames.topic_models_lda.value].find_one({"_id": LDA_PRETRAINED_MODEL_ID}, limit=1)['labels']
     print(f'Loaded LDA topic model {LDA_PRETRAINED_MODEL_ID}')
 
-save_topic_model_to_file_system(LDA_PRETRAINED_MODEL, LDA_PRETRAINED_MODEL_ID)
+_save_topic_model_to_file_system(LDA_PRETRAINED_MODEL, LDA_PRETRAINED_MODEL_ID)
 
 KEYWORDS_OF_TOPIC_MODEL = get_keywords_of_topic_model(LDA_TOPICS_REPRESENTATIONS)
 
 
-def document_exists_in_collection(document_id, collection_name):
-    return DATABASE[collection_name].count_documents({'_id': document_id}, limit = 1) >= 1
 
-
-def load_document_value_from_collection(document_id, collection_name):
-    return DATABASE[collection_name].find_one({'_id': document_id})['value']
-
-
-def save_document_to_collection(document_to_insert, collection_name, id_key='_id'):
+def _save_document_to_collection(document_to_insert, collection_name, id_key='_id'):
     collection = DATABASE[collection_name]
     if collection.count_documents({'_id': document_to_insert[id_key]}, limit = 1) == 0:
         collection.insert_one(document_to_insert)
 
 
-def save_multiple_documents_to_collection(documents_to_insert, collection_name, id_key='_id'):
+def _save_multiple_documents_to_collection(documents_to_insert, collection_name, id_key='_id'):
     collection = DATABASE[collection_name]
     count_1 = len(documents_to_insert)
     documents_to_insert = [document for document in documents_to_insert if collection.count_documents({'_id': document[id_key]}, limit = 1) == 0]
@@ -89,7 +82,7 @@ def save_multiple_documents_to_collection(documents_to_insert, collection_name, 
 
 
 
-def get_cached_values_or_perform_analysis(twitter_object_list : list, collection_name : str, analysis_function, post_process_function = lambda tweet_object, analysis_value: None):
+def _get_cached_values_or_perform_analysis(twitter_object_list : list, collection_name : str, analysis_function, post_process_function = lambda tweet_object, analysis_value: None):
     '''
     Get the cached value of the tweet object if it exists in the collection, else perform the analysis function and save the result to the collection
 
@@ -113,7 +106,7 @@ def get_cached_values_or_perform_analysis(twitter_object_list : list, collection
                     '_id': twitter_obj_id,
                     'value': analysis_value
                 }
-                save_document_to_collection(document_to_save, collection_name)
+                _save_document_to_collection(document_to_save, collection_name)
                 # print('----------------------------------')
                 # print(f'{collection_name} {obj_counter} / {obj_count}')
                 # print('----------------------------------')    
@@ -121,14 +114,14 @@ def get_cached_values_or_perform_analysis(twitter_object_list : list, collection
             post_process_function(twitter_object, analysis_value)
             pbar.update(1)
 
-def analysis_pipeline_preprocess_tweet_text(tweet_objects: list):
+def _analysis_pipeline_preprocess_tweet_text(tweet_objects: list):
     # ----------------------------------
     # Preprocess tweet text
     # ----------------------------------
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_text_original.value, analysis_function=lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_text_original.value, analysis_function=lambda tweet_object: clean_tweet_text(get_tweet_text(tweet_object)))
 
 
-def analysis_pipeline_feature_extract_tweet_objects(tweet_objects: list):
+def _analysis_pipeline_feature_extract_tweet_objects(tweet_objects: list):
     # ----------------------------------
     # Feature extraction if necessary: Select only the necessary keys from the tweet object
     # ----------------------------------
@@ -142,22 +135,22 @@ def analysis_pipeline_feature_extract_tweet_objects(tweet_objects: list):
     } for tweet_object in tweet_objects]
 
 
-def analysis_pipeline_filter_tweets_spacy(tweet_objects: list, filter_after_translating=False):  
+def _analysis_pipeline_filter_tweets_spacy(tweet_objects: list, filter_after_translating=False):  
 
     if not filter_after_translating:
         # ----------------------------------
         # Filter tweets before translating to English
         # ----------------------------------
-        get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_spacy_match_original.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))    
+        _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_spacy_match_original.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_text_original.value], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))    
     else:
         # ----------------------------------
         # Filter tweets after translating to English
         # ----------------------------------
         # if filter_tweets and filter_after_translating:
-        get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_spacy_match_in_english.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_translated.value]['in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
+        _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_spacy_match_in_english.value, analysis_function=lambda tweet_object: text_is_related_to_mental_health(tweet_object[CollectionNames.tweet_translated.value]['in_english'], SPACY_MATCHER_OBJ, SPACY_NLP_OBJ))
 
 
-def analysis_pipeline_translate(tweet_objects: list):
+def _analysis_pipeline_translate(tweet_objects: list):
     
     # ----------------------------------
     # Translate tweets to English
@@ -189,18 +182,18 @@ def analysis_pipeline_translate(tweet_objects: list):
             'lang_detected': detected_language
         }
     
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_translated.value, analysis_function=_translate)
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_translated.value, analysis_function=_translate)
 
 
-def analysis_pipeline_process_tweet_text(tweet_objects: list):
+def _analysis_pipeline_process_tweet_text(tweet_objects: list):
     # ----------------------------------
     # Tokenize, lemmatize, and stem tweet text
     # ----------------------------------
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_processed.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object[CollectionNames.tweet_translated.value]['in_english']))
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_processed.value, analysis_function=lambda tweet_object: tokenize_lemmatize_and_remove_stopwords(tweet_object[CollectionNames.tweet_translated.value]['in_english']))
 
 
 
-def analysis_pipeline_sentiment(tweet_objects: list):
+def _analysis_pipeline_sentiment(tweet_objects: list):
     # ----------------------------------
     # Sentiment analysis of each tweet
     # ----------------------------------
@@ -211,9 +204,9 @@ def analysis_pipeline_sentiment(tweet_objects: list):
             'predicted': sentiment,
             'probabilities': probabilities
         }
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_sentiment.value, analysis_function=_get_sentiment)
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_sentiment.value, analysis_function=_get_sentiment)
 
-def analysis_pipeline_bertopic_arxiv(tweet_objects: list):
+def _analysis_pipeline_bertopic_arxiv(tweet_objects: list):
     # ----------------------------------
     # Topic inference using BERTopic Arxiv
     # ----------------------------------
@@ -246,18 +239,18 @@ def analysis_pipeline_bertopic_arxiv(tweet_objects: list):
                 'value': tweet_object[CollectionNames.tweet_topics_bertopic_arxiv.value]
             }
             documents_to_save.append(document_to_save)
-        db_op_result = save_multiple_documents_to_collection(documents_to_save, CollectionNames.tweet_topics_bertopic_arxiv.value)
+        db_op_result = _save_multiple_documents_to_collection(documents_to_save, CollectionNames.tweet_topics_bertopic_arxiv.value)
         if db_op_result != None:
             print(f'Saved {len(db_op_result.inserted_ids)} tweet topics bertopic arxiv')
 
 
-def analysis_pipeline_tweet_topics_cardiffnlp(tweet_objects: list):
+def _analysis_pipeline_tweet_topics_cardiffnlp(tweet_objects: list):
     # ----------------------------------
     # Topic inference using CardiffNLP Tweet Topic RoBERTa
     # ----------------------------------
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object[CollectionNames.tweet_translated.value]['in_english']))
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_cardiffnlp.value, analysis_function=lambda tweet_object: detect_topic_cardiffnlp_tweet_topic(tweet_object[CollectionNames.tweet_translated.value]['in_english']))
 
-def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_model=False):
+def _analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_model=False):
     # ----------------------------------
     # Topic modelling using LDA
     # ----------------------------------
@@ -277,7 +270,7 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
             lda_topic_model_id = db_op_result.inserted_id
             print(f'Saved LDA topic model {lda_topic_model_id}')
 
-        save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id)
+        _save_topic_model_to_file_system(lda_topic_model, lda_topic_model_id)
         
     else:
         # Convert keys to string for MongoDB
@@ -311,34 +304,34 @@ def analysis_pipeline_lda_topic_modelling(tweet_objects: list, create_new_topic_
             'associated_keywords': associated_keywords
         }
     
-    get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_lda.value, analysis_function=_get_topics_lda)
+    _get_cached_values_or_perform_analysis(tweet_objects, CollectionNames.tweet_topics_lda.value, analysis_function=_get_topics_lda)
 
 
     return tweet_objects, lda_topics_representations
 
 
-def analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
+def _analysis_pipeline_analyze_multiple_tweets(tweet_objects: list, create_new_topic_model=False):
     '''
     Analyze multiple user object
     
     The keys in the object follows the Twitter API v1.1 dictionary.
     '''
 
-    analysis_pipeline_preprocess_tweet_text(tweet_objects)
-    analysis_pipeline_feature_extract_tweet_objects(tweet_objects)
-    analysis_pipeline_filter_tweets_spacy(tweet_objects, filter_after_translating=False)
-    analysis_pipeline_translate(tweet_objects)
-    analysis_pipeline_filter_tweets_spacy(tweet_objects, filter_after_translating=True)
-    analysis_pipeline_process_tweet_text(tweet_objects)
-    analysis_pipeline_sentiment(tweet_objects)
-    analysis_pipeline_bertopic_arxiv(tweet_objects)
-    analysis_pipeline_tweet_topics_cardiffnlp(tweet_objects)
-    tweet_objects, lda_topics_values = analysis_pipeline_lda_topic_modelling(tweet_objects, create_new_topic_model=create_new_topic_model)
+    _analysis_pipeline_preprocess_tweet_text(tweet_objects)
+    _analysis_pipeline_feature_extract_tweet_objects(tweet_objects)
+    _analysis_pipeline_filter_tweets_spacy(tweet_objects, filter_after_translating=False)
+    _analysis_pipeline_translate(tweet_objects)
+    _analysis_pipeline_filter_tweets_spacy(tweet_objects, filter_after_translating=True)
+    _analysis_pipeline_process_tweet_text(tweet_objects)
+    _analysis_pipeline_sentiment(tweet_objects)
+    _analysis_pipeline_bertopic_arxiv(tweet_objects)
+    _analysis_pipeline_tweet_topics_cardiffnlp(tweet_objects)
+    tweet_objects, lda_topics_values = _analysis_pipeline_lda_topic_modelling(tweet_objects, create_new_topic_model=create_new_topic_model)
 
     return tweet_objects, lda_topics_values
 
 
-def analysis_pipeline_feature_extract_user_objects(user_objects_list : list):
+def _analysis_pipeline_feature_extract_user_objects(user_objects_list : list):
 
     # ----------------------------------
     # Feature extraction if necessary: Select only the necessary keys from the object
@@ -352,7 +345,7 @@ def analysis_pipeline_feature_extract_user_objects(user_objects_list : list):
         'location': user_object['location']
     } for user_object in user_objects_list]
 
-def analysis_pipeline_location_analysis(user_objects_list : list):    
+def _analysis_pipeline_location_analysis(user_objects_list : list):    
     # ----------------------------------
     # Analyze the location of each user
     # ----------------------------------
@@ -445,12 +438,12 @@ def analysis_pipeline_location_analysis(user_objects_list : list):
     #     user_object['location_country_name'] = analysis_value['country_name']
     #     user_object['location_country_code'] = analysis_value['country_code']
     
-    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_translated, analysis_function=_translate_location, post_process_function=_post_process_translate_location)
-    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_coordinates, analysis_function=_detect_coordinates)
-    get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_country, analysis_function=_detect_country)
+    _get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_translated, analysis_function=_translate_location, post_process_function=_post_process_translate_location)
+    _get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_coordinates, analysis_function=_detect_coordinates)
+    _get_cached_values_or_perform_analysis(user_objects_list, collection_name_user_location_country, analysis_function=_detect_country)
 
 
-def analysis_pipeline_demographics_analysis(user_objects_list : list):
+def _analysis_pipeline_demographics_analysis(user_objects_list : list):
     # ----------------------------------
     # Detect demographics using m3inference
     # ----------------------------------
@@ -500,7 +493,7 @@ def analysis_pipeline_demographics_analysis(user_objects_list : list):
                     '_id': user_id,
                     'value': user_object_preprocessed
                 }
-                save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
+                _save_document_to_collection(document_to_save, collection_name_user_m3_preprocessed)
 
 
             users_demographics_input_list.append(user_object_preprocessed)
@@ -520,7 +513,7 @@ def analysis_pipeline_demographics_analysis(user_objects_list : list):
             'value': users_demographics[user_id]
         } for user_id in users_demographics.keys()]
 
-        db_op_result = save_multiple_documents_to_collection(documents_to_save, collection_name_user_demographics)
+        db_op_result = _save_multiple_documents_to_collection(documents_to_save, collection_name_user_demographics)
         if db_op_result != None:
             print(f'Saved {len(db_op_result.inserted_ids)} user demographics')
 
@@ -538,24 +531,24 @@ def analysis_pipeline_demographics_analysis(user_objects_list : list):
             'org_predicted': org_predicted
         }
 
-    get_cached_values_or_perform_analysis(user_objects_list, CollectionNames.user_demographics_result.value, analysis_function=_user_demographics_result)
+    _get_cached_values_or_perform_analysis(user_objects_list, CollectionNames.user_demographics_result.value, analysis_function=_user_demographics_result)
 
 
 
 
-def analysis_pipeline_analyze_multiple_users(user_objects_list : list):
+def _analysis_pipeline_analyze_multiple_users(user_objects_list : list):
     '''
     Analyze multiple user object
     
     The keys in the object follows the Twitter API v1.1 dictionary.
     '''
-    analysis_pipeline_feature_extract_user_objects(user_objects_list)
-    analysis_pipeline_location_analysis(user_objects_list)
-    analysis_pipeline_demographics_analysis(user_objects_list)
+    _analysis_pipeline_feature_extract_user_objects(user_objects_list)
+    _analysis_pipeline_location_analysis(user_objects_list)
+    _analysis_pipeline_demographics_analysis(user_objects_list)
     return user_objects_list
 
 
-def analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, analyzed_users : list):
+def _analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, analyzed_users : list):
     # ----------------------------------
     # Combine the analyzed tweets and users and save to the database
     # ----------------------------------
@@ -636,7 +629,7 @@ def analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, a
             pbar.update(1)
 
     # Insert or update the analyzed tweets to the database
-    db_op_result = save_multiple_documents_to_collection(documents_to_save, CollectionNames.analyzed_tweets.value, id_key='_id')
+    db_op_result = _save_multiple_documents_to_collection(documents_to_save, CollectionNames.analyzed_tweets.value, id_key='_id')
     if db_op_result != None:
         print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 
@@ -647,18 +640,18 @@ def analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets : list, a
 def analysis_pipeline_full(tweets_list, create_new_topic_model=False):
 
     # Analyze the tweet objects
-    analyzed_tweets, lda_topic_values = analysis_pipeline_analyze_multiple_tweets(tweets_list, create_new_topic_model=create_new_topic_model)
+    analyzed_tweets, lda_topic_values = _analysis_pipeline_analyze_multiple_tweets(tweets_list, create_new_topic_model=create_new_topic_model)
 
     # Analyze the users of the tweets
     user_objects_list = [tweet_object['user'] for tweet_object in analyzed_tweets]
 
     # Analyze the user objects that are not cached
-    analyzed_users = analysis_pipeline_analyze_multiple_users(user_objects_list)
+    analyzed_users = _analysis_pipeline_analyze_multiple_users(user_objects_list)
 
 
     # Combine the analyzed tweets and users and save to the database
     # Also feature extraction if necessary. Select only the necessary keys from the object
-    analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets, analyzed_users)
+    _analysis_pipeline_combine_feature_extract_and_save(analyzed_tweets, analyzed_users)
 
 
 def analysis_pipeline_download_tweets(url):
@@ -677,7 +670,7 @@ def analysis_pipeline_download_tweets(url):
         # If the tweet with the same id_str already exists, do not insert it.
         documents_to_insert = [{**tweet_object, '_id': tweet_object['id_str']} for tweet_object in downloaded_tweets_list]
 
-        db_op_result = save_multiple_documents_to_collection(documents_to_insert, CollectionNames.original_tweets.value, id_key='_id')
+        db_op_result = _save_multiple_documents_to_collection(documents_to_insert, CollectionNames.original_tweets.value, id_key='_id')
         if db_op_result != None:
             print(f'Inserted {len(db_op_result.inserted_ids)} tweets')
 

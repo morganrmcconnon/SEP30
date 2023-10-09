@@ -11,7 +11,7 @@ from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 from services.analyze_tweets.topic_bertopic_arxiv import BERTOPIC_ARXIV_TOPIC_MODEL, detect_topics_bertopic_arxiv
 from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
-from services.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model, get_keywords_of_topic_model
+from services.analyze_tweets.topic_modelling import apply_lda_model, get_keywords_of_topic_model
 from services.analyze_tweets.topic_lda_labelling import get_similarity_scores, get_topics_distributions
 from services.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
@@ -149,20 +149,34 @@ def topic_inference_with_cardiffnlp():
 
 @app.route("/api/analysis/topic/lda", methods=["POST"])
 def topic_inference_with_lda():
+    
     data = request.get_json()
     text = data["text"]
+    
     # Apply LDA model to detect the topics of the text
     topics_distribution = apply_lda_model(text, LDA_PRETRAINED_MODEL)
     highest_score_topic = max(topics_distribution, key=lambda x: x[1])
+    
+    
     # Calculate the similarity scores of the topic labels to the tweet
     related_topics_cossim = get_similarity_scores(LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS, topics_distribution, method="cossim")
-    related_topics_cossim.sort(key=lambda x: x[1], reverse=True)
+    related_topics_cossim.sort(key=lambda x: x[1], reverse=True)    
+    
+    cosine_similarity_benchmark = 0.5
+    related_topics_cossim = [related_topics_cossim[0][0]] + [topic[0] for topic in related_topics_cossim[1:5] if topic[1] > cosine_similarity_benchmark]
+    
+    hellinger_distance_benchmark = 0.5
+    related_topics_hellinger = [related_topics_hellinger[0][0]] + [topic[0] for topic in related_topics_hellinger[1:5] if topic[1] < hellinger_distance_benchmark]
+
     related_topics_hellinger = get_similarity_scores(LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS, topics_distribution, method="hellinger")
     related_topics_hellinger.sort(key=lambda x: x[1], reverse=False)
-    # Get the keywords associated with the tweet
+    
+
     associated_keywords = [[keywords_of_topic ,[keyword for keyword in keywords_of_topic if keyword in text]] for keywords_of_topic in KEYWORDS_OF_TOPIC_MODEL.values()]
+
+
     return {
-        'topics_distribution': topics_distribution,
+        # 'topics_distribution': topics_distribution,
         'highest_score_topic': highest_score_topic[0],
         'highest_score_topic_probability': highest_score_topic[1],
         'related_topics': {
