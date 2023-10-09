@@ -4,7 +4,7 @@ import time
 import os
 import json
 
-from mongo_constants import CollectionNames, DATABASE
+from constants import CollectionNames, DATABASE
 from services.analyze_tweets.translate_text import detect_and_translate_language
 from services.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
 from services.analyze_tweets.sentiment_vader import check_sentiment

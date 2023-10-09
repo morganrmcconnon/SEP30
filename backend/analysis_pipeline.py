@@ -1,7 +1,7 @@
 import os
 from tqdm import tqdm
 
-from mongo_constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
+from constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
 
 from services.download_tweets.download_tweets import download_tweets
 from services.download_tweets.get_download_url import get_download_url
