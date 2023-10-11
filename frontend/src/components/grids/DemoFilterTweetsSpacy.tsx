@@ -1,16 +1,24 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
+type ResultData = {
+  is_related: boolean | null,
+};
+
+const defaultResultData: ResultData = {
+  is_related: null,
+};
+
 const DemoFilterTweetsSpacy = () => {
   const [text, setText] = useState("");
-  const [resultData, setResultData] = useState({});
+  const [resultData, setResultData] = useState(defaultResultData);
 
   const clearText = () => {
     setText("");
-    setResultData({});
+    setResultData(defaultResultData);
   };
 
-  const getResult = (e : any) => {
+  const getResult = (e: any) => {
     e.preventDefault();
     const requestOptions = {
       method: "POST",
@@ -49,7 +57,10 @@ const DemoFilterTweetsSpacy = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>{JSON.stringify(resultData)}</p>
+        <p>Text is related to mental health: {
+          resultData.is_related === null ? '' :
+            resultData.is_related === true ? 'True' : 'False'
+        }</p>
       </article>
     </div>
 

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
+const defaultResultData = {};
+
 const DemoM3Inference = () => {
 
   const [input, setInput] = useState({
@@ -9,7 +11,7 @@ const DemoM3Inference = () => {
     description: "",
     lang: "",
   });
-  const [resultData, setResultData] = useState({});
+  const [resultData, setResultData] = useState(defaultResultData);
 
   const clearText = () => {
     setInput({
@@ -18,7 +20,7 @@ const DemoM3Inference = () => {
       description: "",
       lang: "",
     });
-    setResultData({});
+    setResultData(defaultResultData);
   };
 
   const getResult = (e: any) => {
