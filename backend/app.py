@@ -165,12 +165,11 @@ def topic_inference_with_lda():
     cosine_similarity_benchmark = 0.5
     related_topics_cossim = [related_topics_cossim[0][0]] + [topic[0] for topic in related_topics_cossim[1:5] if topic[1] > cosine_similarity_benchmark]
     
-    hellinger_distance_benchmark = 0.5
-    related_topics_hellinger = [related_topics_hellinger[0][0]] + [topic[0] for topic in related_topics_hellinger[1:5] if topic[1] < hellinger_distance_benchmark]
-
     related_topics_hellinger = get_similarity_scores(LDA_DEFAULT_MODEL_LABELS_TOPICS_DISTRIBUTIONS, topics_distribution, method="hellinger")
     related_topics_hellinger.sort(key=lambda x: x[1], reverse=False)
-    
+
+    hellinger_distance_benchmark = 0.5
+    related_topics_hellinger = [related_topics_hellinger[0][0]] + [topic[0] for topic in related_topics_hellinger[1:5] if topic[1] < hellinger_distance_benchmark]
 
     associated_keywords = [[keywords_of_topic ,[keyword for keyword in keywords_of_topic if keyword in text]] for keywords_of_topic in KEYWORDS_OF_TOPIC_MODEL.values()]
 
