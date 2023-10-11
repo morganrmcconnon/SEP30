@@ -18,14 +18,14 @@ const AboutGrids = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { y: 0, x: 0, w: 4, h: 1.5, i: "DemoTranslate", vis: <DemoTranslate /> },
-    { y: 0, x: 4, w: 4, h: 1.5, i: "DemoFilterTweetsSpacy", vis: <DemoFilterTweetsSpacy /> },
-    { y: 0, x: 8, w: 4, h: 1.5, i: "DemoSentimentRoBERTa", vis: <DemoSentimentRoBERTa /> },
-    { y: 1, x: 0, w: 4, h: 1.5, i: "DemoTopicLDA", vis: <DemoTopicLDA /> },
-    { y: 1, x: 4, w: 4, h: 1.5, i: "DemoTopicBERTArxiv", vis: <DemoTopicBERTArxiv /> },
-    { y: 1, x: 8, w: 4, h: 1.5, i: "DemoTopicCardiffNLP", vis: <DemoTopicCardiffNLP /> },
-    { y: 2, x: 0, w: 4, h: 1.5, i: "DemoGeopy", vis: <DemoLocation /> },
-    { y: 2, x: 4, w: 4, h: 1.5, i: "DemoM3Inference", vis: <DemoM3Inference /> },
+    { y: 0, x: 0, w: 4, h: 2, i: "DemoTranslate", vis: <DemoTranslate /> },
+    { y: 0, x: 4, w: 4, h: 2, i: "DemoFilterTweetsSpacy", vis: <DemoFilterTweetsSpacy /> },
+    { y: 0, x: 8, w: 4, h: 2, i: "DemoSentimentRoBERTa", vis: <DemoSentimentRoBERTa /> },
+    { y: 1, x: 0, w: 4, h: 2, i: "DemoTopicLDA", vis: <DemoTopicLDA /> },
+    { y: 1, x: 4, w: 4, h: 2, i: "DemoTopicBERTArxiv", vis: <DemoTopicBERTArxiv /> },
+    { y: 1, x: 8, w: 4, h: 2, i: "DemoTopicCardiffNLP", vis: <DemoTopicCardiffNLP /> },
+    { y: 2, x: 0, w: 4, h: 2, i: "DemoGeopy", vis: <DemoLocation /> },
+    { y: 2, x: 4, w: 4, h: 2, i: "DemoM3Inference", vis: <DemoM3Inference /> },
   ];
   return (
     <ResponsiveGridLayout

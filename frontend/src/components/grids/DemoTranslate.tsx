@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
+const defaultResultData = {
+  'in_english': '',
+  'lang_detected': '',
+};
+
 const DemoTranslate = () => {
   const [text, setText] = useState("");
-  const [resultData, setResultData] = useState({});
+  const [resultData, setResultData] = useState(defaultResultData);
 
   const clearText = () => {
     setText("");
-    setResultData({});
+    setResultData(defaultResultData);
   };
 
   const getResult = (e: any) => {
@@ -50,6 +55,8 @@ const DemoTranslate = () => {
           </div>
         </form>
         <p>{JSON.stringify(resultData)}</p>
+        <p>In English: {resultData['in_english']}</p>
+        <p>Language detected: {resultData['lang_detected']}</p>
       </article>
     </div>
 

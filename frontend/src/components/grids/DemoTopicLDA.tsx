@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
+const defaultResultData = {};
+
 const DemoTopicLDA = () => {
   const [text, setText] = useState("");
-  const [resultData, setResultData] = useState({});
+  const [resultData, setResultData] = useState(defaultResultData);
 
   const clearText = () => {
     setText("");
-    setResultData({});
+    setResultData(defaultResultData);
   };
 
   const getResult = (e : any) => {

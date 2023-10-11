@@ -1,17 +1,31 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
+type ResultData = {
+  country_code: string,
+  country_name: string,
+  latitude: number | null,
+  longitude: number | null,
+};
+
+const defaultResultData: ResultData = {
+  country_code: '',
+  country_name: '',
+  latitude: null,
+  longitude: null,
+};
+
 const DemoLocation = () => {
   const [input, setInput] = useState({
     text: "",
   });
-  const [resultData, setResultData] = useState({});
+  const [resultData, setResultData] = useState(defaultResultData);
 
   const clearText = () => {
     setInput({
       text: "",
     });
-    setResultData({});
+    setResultData(defaultResultData);
   };
 
   const getResult = (e: any) => {
@@ -53,7 +67,10 @@ const DemoLocation = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>{JSON.stringify(resultData)}</p>
+        <p>Country name: {resultData.country_name === "" ? "Not found" : resultData.country_name}</p>
+        <p>Country code: {resultData.country_code === "" ? "Not found" : resultData.country_code}</p>
+        <p>Lattitude: {resultData.latitude === null ? 'Not found' : resultData.latitude}</p>
+        <p>Longitude: {resultData.latitude === null ? 'Not found' : resultData.longitude}</p>
       </article>
     </div>
 
