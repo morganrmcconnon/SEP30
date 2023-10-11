@@ -34,6 +34,7 @@ type SearchContextType = {
   search: FilterOptionsType,
   updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => void,
   backendData?: BackendOutput,
+  tweetOjects?: Array<TweetObject>,
   updateBackendData: (response_data: BackendOutput) => void,
   resetFilter: () => void,
   dashboardData: GridsDataType,
@@ -42,7 +43,7 @@ type SearchContextType = {
 const SearchContext = createContext<SearchContextType>({
   search: defaultSearch,
   updateFilterOption: () => { },
-  resetFilter: () => {},
+  resetFilter: () => { },
   backendData: undefined,
   updateBackendData: () => { },
   dashboardData: DATATYPES,
@@ -56,12 +57,16 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const [dashboardData, setDashboardData] = useState<GridsDataType>(DATATYPES);
 
+  const [tweetObjects, setTweetObjects] = useState<Array<TweetObject>>([]);
+
   const updateBackendData = (response_data: BackendOutput) => {
 
     setBackendData(response_data);
 
     const tweet_objects = response_data.tweet_objects ?? [];
-    const user_objects =  tweet_objects.map((tweet) => { return tweet.user; });
+    const user_objects = tweet_objects.map((tweet) => { return tweet.user; });
+
+    setTweetObjects(tweet_objects);
 
     updateDashboardData(response_data, tweet_objects, user_objects);
   };
@@ -91,12 +96,14 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const resetFilter = () => {
-    updateSearch({  sentiment: false,
+    updateSearch({
+      sentiment: false,
       topic: false,
       keyword: false,
       gender: false,
       location: false,
-      age: false,})
+      age: false,
+    })
   }
 
   const updateDashboardData = (backend_data: BackendOutput, tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) => {
@@ -111,8 +118,8 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const age_groups_count = aggregate_data_info.age_groups_count;
     const female_sentiment = aggregate_data_info.female_sentiment;
     const male_sentiment = aggregate_data_info.male_sentiment;
-	  const week_line_graphs = aggregate_data_info.week;
-  
+    const week_line_graphs = aggregate_data_info.week;
+
     const total_tweets_count = backend_data.aggregate_results.total_tweets_count ?? 0;
     const mental_health_related_tweets_count = backend_data.aggregate_results.related_tweets_count ?? 0;
     const tweets_displayed_count = tweet_objects.length;
@@ -131,7 +138,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       genders_count,
       female_sentiment,
       male_sentiment,
-	    week_line_graphs,
+      week_line_graphs,
     );
 
     setDashboardData(newDashboardData);
@@ -173,11 +180,13 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
 
     const tweet_objects = backendData?.tweet_objects ?? [];
-    const user_objects =  tweet_objects.map((tweet) => { return tweet.user; });
+    const user_objects = tweet_objects.map((tweet) => { return tweet.user; });
 
     const filtered_data = filter_data_by(tweet_objects, user_objects, sentiment, topic, keyword, location, gender, age);
     const sub_list_of_tweets = filtered_data.new_tweet_objects;
     const sub_list_of_users = filtered_data.new_user_objects;
+
+    setTweetObjects(sub_list_of_tweets);
 
     if (backendData !== undefined) {
       updateDashboardData(backendData, sub_list_of_tweets, sub_list_of_users);
@@ -185,7 +194,15 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <SearchContext.Provider value={{ search: search, backendData: backendData, updateBackendData: updateBackendData, dashboardData, updateFilterOption: updateFilterOption, resetFilter: resetFilter}}>
+    <SearchContext.Provider value={{
+      search: search,
+      backendData: backendData,
+      updateBackendData: updateBackendData,
+      dashboardData: dashboardData,
+      updateFilterOption: updateFilterOption,
+      resetFilter: resetFilter,
+      tweetOjects: tweetObjects,
+    }}>
       {children}
     </SearchContext.Provider>
   );
