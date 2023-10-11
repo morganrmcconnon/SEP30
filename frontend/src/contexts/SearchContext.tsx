@@ -45,6 +45,7 @@ const SearchContext = createContext<SearchContextType>({
   updateFilterOption: () => { },
   resetFilter: () => { },
   backendData: undefined,
+  tweetOjects: [],
   updateBackendData: () => { },
   dashboardData: DATATYPES,
 });
