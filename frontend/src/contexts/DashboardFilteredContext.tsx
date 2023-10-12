@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { update_dashboard_data } from "../data/grids/functions/FormatData";
+import { update_dashboard_data } from "../data/grids/functions/UpdateDashboardData";
 import { filter_data_by } from "../data/api/functions/FilterData";
 import { aggregate_data } from "../data/api/functions/AggregateData";
 
