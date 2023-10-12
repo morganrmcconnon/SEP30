@@ -160,7 +160,6 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
     const topic_id = typeof topic === 'string' ? topic : '0';
 
     if (backendData?.lda_topic_model.keywords_representation[topic_id] !== undefined) {
-      console.log("in SearchContext.jsx, updateSearch:");
       dashboardData.keywordsDistribution.data = backendData?.lda_topic_model.keywords_representation[topic_id].slice(0, 10).map((item) => { return { name: item[0], value: item[1] } });
     }
 
@@ -168,13 +167,13 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
     const user_objects = tweet_objects.map((tweet) => { return tweet.user; });
 
     const filtered_data = filter_data_by(tweet_objects, user_objects, sentiment, topic, keyword, location, gender, age);
-    const sub_list_of_tweets = filtered_data.new_tweet_objects;
-    const sub_list_of_users = filtered_data.new_user_objects;
+    const filtered_tweets_list = filtered_data.new_tweet_objects;
+    const filtered_users_list = filtered_data.new_user_objects;
 
-    setTweetObjects(sub_list_of_tweets);
+    setTweetObjects(filtered_tweets_list);
 
     if (backendData !== undefined) {
-      updateDashboardData(backendData, sub_list_of_tweets, sub_list_of_users);
+      updateDashboardData(backendData, filtered_tweets_list, filtered_users_list);
     }
   };
 
