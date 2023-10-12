@@ -5,7 +5,7 @@ import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredCon
 
 
 export default function TopicModelling() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.topicModelling;
 
   return (

@@ -5,7 +5,7 @@ import { DashboardFilteredContextProvider, useDashboardFilteredContext } from ".
 import VisHeader from "../grid_components/VisHeader";
 
 export default function AgeGroups() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">

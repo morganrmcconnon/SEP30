@@ -6,7 +6,7 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 
 
 const AgeGroupsBarChart = () => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">

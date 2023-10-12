@@ -5,7 +5,7 @@ import VisHeader from "../grid_components/VisHeader";
 import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 
 export default function SentimentAnalysis() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">

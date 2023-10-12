@@ -3,14 +3,14 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 
 
 const FilterOptionsGrid = () => {
-  const { filterOptions: search } = useDashboardFilteredContext();
+  const { filterOptions } = useDashboardFilteredContext();
 
   return (
     <div className="vis-container">
       <VisHeader title="Filtered by" subtitle="Click on parts of the grid or chart to filter the dataset." />
       <article>
         <ul>
-          {Object.entries(search).map(([key, value]) => (
+          {Object.entries(filterOptions).map(([key, value]) => (
             <li key={key}>
               {key}: {value === null ? "" : value.toString()}
             </li>

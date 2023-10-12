@@ -12,7 +12,7 @@ import { useDashboardFilteredContext } from "../contexts/DashboardFilteredContex
 
 const KeywordSearch = () => {
   // const [mode, setMode] = useState(true);
-  const { updateFilterOptions: updateFilterOption } = useDashboardFilteredContext();
+  const { updateFilterOption: updateFilterOption } = useDashboardFilteredContext();
 
   // const actionData = useActionData();
 

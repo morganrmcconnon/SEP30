@@ -6,7 +6,7 @@ import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredCon
 
 
 const KnowledgeGraph = () => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.knowledgeGraph;
 
   return (

@@ -6,7 +6,7 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 
 
 const SentimentBarChart = () => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const griddata = dashboardData.genders;
   const data = [
     { id: 'female', title: "Female", color: ColorMap.female.normal, value: griddata.data.female.present },

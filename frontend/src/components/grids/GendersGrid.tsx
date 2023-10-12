@@ -7,7 +7,7 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 import { ColorVar } from "../../constants/Colors";
 
 export default function GendersGrid() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.genders;
 
   function getIcon(sentiment: string) {

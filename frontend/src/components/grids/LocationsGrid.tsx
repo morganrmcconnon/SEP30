@@ -20,7 +20,7 @@ const colorArray = [
 ];
 
 export default function LocationsGrid() {
-  const { dashboardData, filterOptions: search } = useDashboardFilteredContext();
+  const { dashboardData, filterOptions } = useDashboardFilteredContext();
 
   const data = dashboardData.locations;
   // Initialize max to a minimum possible value
@@ -34,8 +34,8 @@ export default function LocationsGrid() {
     }
   });
 
-  if (search.location !== null && search.location !== undefined && !(data?.data.map((item) => item.id).includes(search.location))) {
-    data?.data.push({ id: search.location, name: CountryName[search.location], value: 0 });
+  if (filterOptions.location !== null && filterOptions.location !== undefined && !(data?.data.map((item) => item.id).includes(filterOptions.location))) {
+    data?.data.push({ id: filterOptions.location, name: CountryName[filterOptions.location], value: 0 });
   }
 
   return (
@@ -76,7 +76,7 @@ export default function LocationsGrid() {
 }
 
 const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxvalue: number }) => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   return (
     <div style={{ width: '85%', position: 'relative', left: '42%', transform: 'translateX(-40%)', top: '-15%' }}>
       <ComposableMap projection='geoEqualEarth'>

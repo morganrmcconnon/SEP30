@@ -32,7 +32,7 @@ const defaultFilterOptions: FilterOptionsType = {
 // Define the type for the context
 type DashboardFilteredContextType = {
   filterOptions: FilterOptionsType,
-  updateFilterOptions: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | null) => void,
+  updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | null) => void,
   tweetOjects?: Array<TweetObject>,
   backendData?: BackendOutput,
   updateBackendData: (response_data: BackendOutput) => void,
@@ -42,7 +42,7 @@ type DashboardFilteredContextType = {
 
 const DashboardFilteredContext = createContext<DashboardFilteredContextType>({
   filterOptions: defaultFilterOptions,
-  updateFilterOptions: () => { },
+  updateFilterOption: () => { },
   resetFilterOptions: () => { },
   backendData: undefined,
   tweetOjects: [],
@@ -92,11 +92,11 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
       && filter_option_value === filterOptions[filter_option_name]) {
       filter_option_value = null;
     }
-    updateFilterOptions({ ...filterOptions, [filter_option_name]: filter_option_value });
+    updateDashboardBy({ ...filterOptions, [filter_option_name]: filter_option_value });
   };
 
   const resetFilterOptions = () => {
-    updateFilterOptions(defaultFilterOptions);
+    updateDashboardBy(defaultFilterOptions);
   }
 
   const updateDashboardData = (backend_data: BackendOutput, tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) => {
@@ -138,14 +138,14 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
   };
 
 
-  const updateFilterOptions = ({
+  const updateDashboardBy = ({
     sentiment,
     topic,
     keyword,
     gender,
     location,
     age,
-  } : FilterOptionsType
+  }: FilterOptionsType
   ) => {
 
     setFilterOptions({
@@ -183,7 +183,7 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
       backendData: backendData,
       updateBackendData: updateBackendData,
       dashboardData: dashboardData,
-      updateFilterOptions: updateFilterOption,
+      updateFilterOption: updateFilterOption,
       resetFilterOptions: resetFilterOptions,
       tweetOjects: tweetObjects,
     }}>

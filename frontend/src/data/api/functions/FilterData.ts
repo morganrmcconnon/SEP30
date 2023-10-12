@@ -59,22 +59,14 @@ function filter_data_by(
 
     let new_tweet_objects = filter_tweet_objects_list_by(tweet_objects, sentiment, topic, keyword);
 
-    console.log("new_tweet_objects");
-    console.log(new_tweet_objects);
 
     let new_user_objects = filter_users_by_tweets(user_objects, new_tweet_objects);
 
-    console.log("new_user_objects");
-    console.log(new_user_objects);
 
     new_user_objects = filter_user_objects_list_by(new_user_objects, location, gender, age, org);
 
-    console.log("new_user_objects");
-    console.log(new_user_objects);
 
     new_tweet_objects = filter_tweets_by_users(new_tweet_objects, new_user_objects);
-    console.log("new_tweet_objects");
-    console.log(new_tweet_objects);
 
     return {
         new_tweet_objects,

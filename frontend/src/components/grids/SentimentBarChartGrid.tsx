@@ -6,7 +6,7 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 
 
 const SentimentBarChart = () => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { updateFilterOption: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">
