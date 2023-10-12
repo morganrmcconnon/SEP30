@@ -8,10 +8,10 @@ import reset from "../assets/reset.svg"
 
 import { Link } from "react-router-dom";
 
-import { useSearchContext } from "../contexts/SearchContext";
+import { useSearchContext } from "../contexts/DashboardContext";
 
 const Sidebar = () => {
-  const { resetFilter } = useSearchContext();
+  const { resetFilterOptions: resetFilter } = useSearchContext();
   return (
     <div>
       <Link to="/">

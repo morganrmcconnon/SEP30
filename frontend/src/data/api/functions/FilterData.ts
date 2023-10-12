@@ -2,7 +2,7 @@ import { TweetObject } from "../types/TweetObject";
 import { UserObject } from "../types/UserObject";
 
 
-function filter_tweet_objects_list_by(tweet_objects: Array<TweetObject>, sentiment: string | false, topic: string | false, keyword: string | false) {
+function filter_tweet_objects_list_by(tweet_objects: Array<TweetObject>, sentiment: string | null, topic: string | null, keyword: string | null) {
 
     return tweet_objects.filter(tweet_object => {
         const sentiment_predicted = tweet_object.sentiment;
@@ -11,14 +11,14 @@ function filter_tweet_objects_list_by(tweet_objects: Array<TweetObject>, sentime
         const original_text = tweet_object.text;
         const text_in_english = tweet_object.text_in_english;
         return (
-            (sentiment == false || sentiment_predicted === sentiment) &&
-            (topic == false || tweet_object.topic_lda.related_topics.cosine_similarity.includes(topic)) &&
-            (keyword == false || associated_keywords.includes(keyword) || original_text.includes(keyword) || text_in_english.includes(keyword))
+            (sentiment === null || sentiment_predicted === sentiment) &&
+            (topic === null || tweet_object.topic_lda.related_topics.cosine_similarity.includes(topic)) &&
+            (keyword === null || associated_keywords.includes(keyword) || original_text.includes(keyword) || text_in_english.includes(keyword))
         );
     });
 }
 
-function filter_user_objects_list_by(user_objects: Array<UserObject>, location: string | false, gender: string | false, age: string | false, org: string | false) {
+function filter_user_objects_list_by(user_objects: Array<UserObject>, location: string | null, gender: string | null, age: string | null, org: string | null) {
 
     return user_objects.filter(user_object => {
         const country_code = user_object.country_code;
@@ -26,10 +26,10 @@ function filter_user_objects_list_by(user_objects: Array<UserObject>, location: 
         const gender_predicted = user_object.gender;
         const org_predicted = user_object.org;
         return (
-            (country_code === location || location == false) &&
-            (age_predicted === age || age == false) &&
-            (gender_predicted === gender || gender == false) &&
-            (org_predicted === org || org == false)
+            (country_code === location || location === null) &&
+            (age_predicted === age || age === null) &&
+            (gender_predicted === gender || gender === null) &&
+            (org_predicted === org || org === null)
         );
     });
 
@@ -48,13 +48,13 @@ function filter_users_by_tweets(user_objects: Array<UserObject>, tweet_objects: 
 function filter_data_by(
     tweet_objects: Array<TweetObject>,
     user_objects: Array<UserObject>,
-    sentiment: string | false = false,
-    topic: string | false = false,
-    keyword: string | false = false,
-    location: string | false = false,
-    gender: string | false = false,
-    age: string | false = false,
-    org: string | false = false
+    sentiment: string | null = null,
+    topic: string | null = null,
+    keyword: string | null = null,
+    location: string | null = null,
+    gender: string | null = null,
+    age: string | null = null,
+    org: string | null = null
 ) {
 
     let new_tweet_objects = filter_tweet_objects_list_by(tweet_objects, sentiment, topic, keyword);

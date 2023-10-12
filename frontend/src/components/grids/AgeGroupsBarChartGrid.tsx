@@ -2,11 +2,11 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Refe
 
 import VisHeader from "../grid_components/VisHeader";
 import { ColorVar } from "../../constants/Colors.js";
-import { useSearchContext } from "../../contexts/SearchContext.tsx";
+import { useSearchContext } from "../../contexts/DashboardContext.tsx";
 
 
 const AgeGroupsBarChart = () => {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">

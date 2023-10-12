@@ -2,21 +2,21 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Refe
 
 import VisHeader from "../grid_components/VisHeader";
 import { ColorVar } from "../../constants/Colors";
-import { useSearchContext } from "../../contexts/SearchContext";
+import { useSearchContext } from "../../contexts/DashboardContext";
 
 
 const KeywordsDistribution = () => {
-  const { search, updateFilterOption, dashboardData } = useSearchContext();
+  const { filterOptions: search, updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const griddata = dashboardData.keywordsDistribution;
   const data = griddata.data.sort((a, b) => b.value - a.value);
 
   return (
     <div className="vis-container">
-      <VisHeader title={`Keywords representation of topic`} subtitle={search.topic !== false ? `Probability of the keyword belonging to the topic ${search.topic}` : "Please select a topic to view the keywords distribution"} />
+      <VisHeader title={`Keywords representation of topic`} subtitle={search.topic !== null ? `Probability of the keyword belonging to the topic ${search.topic}` : "Please select a topic to view the keywords distribution"} />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
           {
-            search.topic !== false ?
+            search.topic !== null ?
 
               <BarChart
                 width={500}

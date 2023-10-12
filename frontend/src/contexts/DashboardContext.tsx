@@ -11,48 +11,48 @@ import { TweetObject } from "../data/api/types/TweetObject";
 import { UserObject } from "../data/api/types/UserObject";
 
 type FilterOptionsType = {
-  sentiment?: string | false,
-  topic?: string | false,
-  keyword?: string | false,
-  age?: string | false,
-  gender?: string | false,
-  location?: string | false,
+  sentiment?: string | null,
+  topic?: string | null,
+  keyword?: string | null,
+  age?: string | null,
+  gender?: string | null,
+  location?: string | null,
 };
 
-const defaultSearch: FilterOptionsType = {
-  sentiment: false,
-  topic: false,
-  keyword: false,
-  gender: false,
-  location: false,
-  age: false,
+const defaultFilterOptions: FilterOptionsType = {
+  sentiment: null,
+  topic: null,
+  keyword: null,
+  gender: null,
+  location: null,
+  age: null,
 };
 
 
 // Define the type for the context
-type SearchContextType = {
-  search: FilterOptionsType,
-  updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => void,
-  backendData?: BackendOutput,
+type DashboardFilteredContextType = {
+  filterOptions: FilterOptionsType,
+  updateFilterOptions: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | null) => void,
   tweetOjects?: Array<TweetObject>,
+  backendData?: BackendOutput,
   updateBackendData: (response_data: BackendOutput) => void,
-  resetFilter: () => void,
+  resetFilterOptions: () => void,
   dashboardData: GridsDataType,
 }
 
-const SearchContext = createContext<SearchContextType>({
-  search: defaultSearch,
-  updateFilterOption: () => { },
-  resetFilter: () => { },
+const DashboardContext = createContext<DashboardFilteredContextType>({
+  filterOptions: defaultFilterOptions,
+  updateFilterOptions: () => { },
+  resetFilterOptions: () => { },
   backendData: undefined,
   tweetOjects: [],
   updateBackendData: () => { },
   dashboardData: DATATYPES,
 });
 
-export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DashboardContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-  const [search, setSearch] = useState<FilterOptionsType>(defaultSearch);
+  const [filterOptions, setFilterOptions] = useState<FilterOptionsType>(defaultFilterOptions);
 
   const [backendData, setBackendData] = useState<BackendOutput>();
 
@@ -80,31 +80,23 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         updateBackendData(data);
       })
       .catch((err) => {
-        console.log(`Something went wrong with executing endpoint "/backend/get_cached_static"`);
+        console.log(`Something went wrong with executing endpoint "/backend/get_cached"`);
         console.log(err);
         console.error(err);
       });
   }, []);
 
-  const updateFilterOption = (filter_option_name: keyof FilterOptionsType, filter_option_value: string | false) => {
-    if (filter_option_value != false
-      && filter_option_value != undefined
+  const updateFilterOption = (filter_option_name: keyof FilterOptionsType, filter_option_value: string | null) => {
+    if (filter_option_value != undefined
       && filter_option_value != null
-      && filter_option_value === search[filter_option_name]) {
-      filter_option_value = false;
+      && filter_option_value === filterOptions[filter_option_name]) {
+      filter_option_value = null;
     }
-    updateSearch({ ...search, [filter_option_name]: filter_option_value });
+    updateFilterOptions({ ...filterOptions, [filter_option_name]: filter_option_value });
   };
 
-  const resetFilter = () => {
-    updateSearch({
-      sentiment: false,
-      topic: false,
-      keyword: false,
-      gender: false,
-      location: false,
-      age: false,
-    })
+  const resetFilterOptions = () => {
+    updateFilterOptions(defaultFilterOptions);
   }
 
   const updateDashboardData = (backend_data: BackendOutput, tweet_objects: Array<TweetObject>, user_objects: Array<UserObject>) => {
@@ -146,25 +138,17 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
 
-  const updateSearch = ({
+  const updateFilterOptions = ({
     sentiment,
     topic,
     keyword,
     gender,
     location,
     age,
-  }
-    : {
-      sentiment?: string | false,
-      topic?: string | false,
-      keyword?: string | false,
-      gender?: string | false,
-      location?: string | false,
-      age?: string | false,
-    }
+  } : FilterOptionsType
   ) => {
 
-    setSearch({
+    setFilterOptions({
       sentiment: sentiment,
       topic: topic,
       keyword: keyword,
@@ -195,20 +179,20 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   return (
-    <SearchContext.Provider value={{
-      search: search,
+    <DashboardContext.Provider value={{
+      filterOptions: filterOptions,
       backendData: backendData,
       updateBackendData: updateBackendData,
       dashboardData: dashboardData,
-      updateFilterOption: updateFilterOption,
-      resetFilter: resetFilter,
+      updateFilterOptions: updateFilterOption,
+      resetFilterOptions: resetFilterOptions,
       tweetOjects: tweetObjects,
     }}>
       {children}
-    </SearchContext.Provider>
+    </DashboardContext.Provider>
   );
 };
 
 export function useSearchContext() {
-  return useContext(SearchContext);
+  return useContext(DashboardContext);
 }

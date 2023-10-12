@@ -8,11 +8,11 @@ import dark from "../assets/dark.svg";
 import "react-grid-layout/css/styles.css";
 import "../styles/override.css";
 
-import { useSearchContext } from "../contexts/SearchContext";
+import { useSearchContext } from "../contexts/DashboardContext";
 
 const KeywordSearch = () => {
   const [mode, setMode] = useState(true);
-  const { updateFilterOption } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption } = useSearchContext();
 
   // const actionData = useActionData();
 

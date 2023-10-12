@@ -1,17 +1,17 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Col, Row } from "antd";
 
-import { SearchProvider, useSearchContext } from "../../contexts/SearchContext";
+import { DashboardContextProvider, useSearchContext } from "../../contexts/DashboardContext";
 import VisHeader from "../grid_components/VisHeader";
 
 export default function AgeGroups() {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div className="vis-svg-container">
-        <SearchProvider>
+        <DashboardContextProvider>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie
@@ -38,7 +38,7 @@ export default function AgeGroups() {
               <Tooltip />
             </PieChart>
           </ResponsiveContainer>
-        </SearchProvider>
+        </DashboardContextProvider>
         <Row style={{ margin: "20px" }}>
           {data.data.map((item, index) => (
             <Col

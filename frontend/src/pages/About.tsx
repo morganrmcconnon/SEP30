@@ -3,11 +3,11 @@ import "../styles/styles.css";
 import AboutGrids from "../components/AboutGrids.tsx";
 import KeywordSearch from "../components/KeywordSearch";
 import Sidebar from "../components/Sidebar";
-import { SearchProvider } from "../contexts/SearchContext";
+import { DashboardContextProvider } from "../contexts/DashboardContext.tsx";
 
 export default function About() {
   return (
-    <SearchProvider>
+    <DashboardContextProvider>
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
@@ -19,6 +19,6 @@ export default function About() {
           <AboutGrids />
         </div>
       </div>
-    </SearchProvider>
+    </DashboardContextProvider>
   );
 }

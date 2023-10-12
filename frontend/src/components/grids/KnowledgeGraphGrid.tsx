@@ -1,12 +1,12 @@
 import { ForceGraph2D } from 'react-force-graph';
 
 import VisHeader from '../grid_components/VisHeader';
-import { useSearchContext } from '../../contexts/SearchContext';
+import { useSearchContext } from '../../contexts/DashboardContext';
 // import { useRef } from 'react';
 
 
 const KnowledgeGraph = () => {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.knowledgeGraph;
 
   return (

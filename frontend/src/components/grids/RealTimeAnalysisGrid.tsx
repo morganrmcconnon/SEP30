@@ -4,12 +4,12 @@ import { Col, Row } from 'antd';
 
 import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
-import { useSearchContext } from '../../contexts/SearchContext';
+import { useSearchContext } from '../../contexts/DashboardContext';
 import CountryName from '../../constants/CountryName';
 
 
 export default function RealTimeAnalysis() {
-  const { dashboardData, search } = useSearchContext();
+  const { dashboardData, filterOptions: search } = useSearchContext();
   const data = dashboardData.analyticsBox;
 
   return (
@@ -56,14 +56,14 @@ export default function RealTimeAnalysis() {
                 {
                   // Count the number of entries in the search variable where the search is true
                   Object.entries(search).reduce((acc, [_, value]) => {
-                    if (value === false) return acc;
+                    if (value === null) return acc;
                     return acc + 1;
                   }, 0) == 0 ? 'Click on a section of the visualisation to filter the visualised tweets' : 'Filters applied:'
                 }
               </h3>
               <ul>
                   {Object.entries(search).map(([key, value]) => {
-                    if (value === false) return '';
+                    if (value === null) return '';
                     if (key === 'location') return (
                       <li className='text-black-white' key={key}>
                         {`Country: "${CountryName[value]}"`}

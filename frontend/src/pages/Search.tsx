@@ -4,13 +4,13 @@ import "../styles/styles.css";
 
 import Sidebar from "../components/Sidebar";
 import KeywordSearch from "../components/KeywordSearch";
-import { SearchProvider } from "../contexts/SearchContext";
+import { DashboardContextProvider } from "../contexts/DashboardContext";
 
 function Search() {
   const keyword : any = useActionData();
 
   return (
-    <SearchProvider>
+    <DashboardContextProvider>
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
@@ -22,7 +22,7 @@ function Search() {
           <h2>Keyword: {keyword}</h2>
         </div>
       </div>
-    </SearchProvider>
+    </DashboardContextProvider>
   );
 }
 

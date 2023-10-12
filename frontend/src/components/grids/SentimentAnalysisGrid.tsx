@@ -2,10 +2,10 @@ import { FaStar } from "react-icons/fa";
 import { Divider } from "antd";
 
 import VisHeader from "../grid_components/VisHeader";
-import { useSearchContext } from "../../contexts/SearchContext";
+import { useSearchContext } from "../../contexts/DashboardContext";
 
 export default function SentimentAnalysis() {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">

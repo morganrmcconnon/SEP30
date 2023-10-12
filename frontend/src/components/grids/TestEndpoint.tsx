@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
-import { useSearchContext } from "../../contexts/SearchContext";
+import { useSearchContext } from "../../contexts/DashboardContext";
 
 
 const TestEndpoint = () => {

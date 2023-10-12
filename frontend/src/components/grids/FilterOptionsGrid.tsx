@@ -1,9 +1,9 @@
 import VisHeader from '../grid_components/VisHeader';
-import { useSearchContext } from "../../contexts/SearchContext";
+import { useSearchContext } from "../../contexts/DashboardContext";
 
 
 const FilterOptionsGrid = () => {
-  const { search } = useSearchContext();
+  const { filterOptions: search } = useSearchContext();
 
   return (
     <div className="vis-container">
@@ -12,7 +12,7 @@ const FilterOptionsGrid = () => {
         <ul>
           {Object.entries(search).map(([key, value]) => (
             <li key={key}>
-              {key}: {value === false ? "" : value.toString()}
+              {key}: {value === null ? "" : value.toString()}
             </li>
           ))}
         </ul>

@@ -2,11 +2,11 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Refe
 
 import VisHeader from "../grid_components/VisHeader.tsx";
 import { ColorVar } from "../../constants/Colors.js";
-import { useSearchContext } from "../../contexts/SearchContext.tsx";
+import { useSearchContext } from "../../contexts/DashboardContext.tsx";
 
 
 const SentimentBarChart = () => {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">

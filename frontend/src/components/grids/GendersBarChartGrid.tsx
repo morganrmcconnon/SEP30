@@ -2,11 +2,11 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Refe
 
 import VisHeader from "../grid_components/VisHeader.tsx";
 import { ColorMap, ColorVar } from "../../constants/Colors.js";
-import { useSearchContext } from "../../contexts/SearchContext.tsx";
+import { useSearchContext } from "../../contexts/DashboardContext.tsx";
 
 
 const SentimentBarChart = () => {
-  const { updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
   const griddata = dashboardData.genders;
   const data = [
     { id: 'female', title: "Female", color: ColorMap.female.normal, value: griddata.data.female.present },
