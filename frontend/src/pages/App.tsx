@@ -3,7 +3,7 @@ import "../styles/styles.css";
 import DashboardVis from "../components/DashboardVis.tsx";
 import KeywordSearch from "../components/KeywordSearch.jsx";
 import Sidebar from "../components/Sidebar.jsx";
-import { DashboardFilteredContextProvider } from "../contexts/DashboardContext.js";
+import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
 function App() {
   return (
