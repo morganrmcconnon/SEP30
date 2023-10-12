@@ -2,11 +2,11 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Refe
 
 import VisHeader from "../grid_components/VisHeader";
 import { ColorVar } from "../../constants/Colors";
-import { useSearchContext } from "../../contexts/DashboardContext";
+import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 
 
 const KeywordsDistribution = () => {
-  const { filterOptions: search, updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
+  const { filterOptions: search, updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const griddata = dashboardData.keywordsDistribution;
   const data = griddata.data.sort((a, b) => b.value - a.value);
 

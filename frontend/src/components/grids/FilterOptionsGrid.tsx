@@ -1,9 +1,9 @@
 import VisHeader from '../grid_components/VisHeader';
-import { useSearchContext } from "../../contexts/DashboardContext";
+import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 
 
 const FilterOptionsGrid = () => {
-  const { filterOptions: search } = useSearchContext();
+  const { filterOptions: search } = useDashboardFilteredContext();
 
   return (
     <div className="vis-container">

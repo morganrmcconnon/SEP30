@@ -3,11 +3,11 @@ import { BsCheck2, BsXLg, BsDash } from "react-icons/bs";
 
 import VisHeader from "../grid_components/VisHeader";
 import ProgressBar from "../grid_components/ProgressBar";
-import { useSearchContext } from "../../contexts/DashboardContext";
+import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 import { ColorVar } from "../../constants/Colors";
 
 export default function GendersGrid() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.genders;
 
   function getIcon(sentiment: string) {

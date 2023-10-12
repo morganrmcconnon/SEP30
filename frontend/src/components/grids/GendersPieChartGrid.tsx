@@ -1,13 +1,13 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Col, Row } from "antd";
 
-import { useSearchContext } from "../../contexts/DashboardContext";
+import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 import VisHeader from "../grid_components/VisHeader";
 import { ColorVar } from "../../constants/Colors";
 
 export default function GendersPieChartGrid() {
 
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const griddata = dashboardData.genders;
   const data = [
     { id: 'female', title: "Female", color: ColorVar.red, value: griddata.data.female.present },

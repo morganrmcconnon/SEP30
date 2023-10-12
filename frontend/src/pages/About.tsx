@@ -3,7 +3,7 @@ import "../styles/styles.css";
 import AboutGrids from "../components/AboutGrids.tsx";
 import KeywordSearch from "../components/KeywordSearch";
 import Sidebar from "../components/Sidebar";
-import { DashboardFilteredContextProvider } from "../contexts/DashboardContext.tsx";
+import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext.tsx";
 
 export default function About() {
   return (

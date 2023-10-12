@@ -193,6 +193,6 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
   );
 };
 
-export function useSearchContext() {
+export function useDashboardFilteredContext() {
   return useContext(DashboardFilteredContext);
 }

@@ -3,11 +3,11 @@ import { Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip } from 're
 import { ColorMap } from "../../constants/Colors"
 
 import VisHeader from '../grid_components/VisHeader';
-import { useSearchContext } from '../../contexts/DashboardContext';
+import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredContext';
 
 
 export default function SentimentGroupsWeekly() {
-  const { dashboardData } = useSearchContext();
+  const { dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.analyticsSentimentBox;
 
   return (

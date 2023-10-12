@@ -8,11 +8,11 @@ import search from "../assets/search.svg";
 import "react-grid-layout/css/styles.css";
 import "../styles/override.css";
 
-import { useSearchContext } from "../contexts/DashboardContext";
+import { useDashboardFilteredContext } from "../contexts/DashboardFilteredContext";
 
 const KeywordSearch = () => {
   // const [mode, setMode] = useState(true);
-  const { updateFilterOptions: updateFilterOption } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption } = useDashboardFilteredContext();
 
   // const actionData = useActionData();
 

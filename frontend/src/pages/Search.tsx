@@ -4,7 +4,7 @@ import "../styles/styles.css";
 
 import Sidebar from "../components/Sidebar";
 import KeywordSearch from "../components/KeywordSearch";
-import { DashboardFilteredContextProvider } from "../contexts/DashboardContext";
+import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
 function Search() {
   const keyword : any = useActionData();

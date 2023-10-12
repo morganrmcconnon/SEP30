@@ -1,11 +1,11 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Col, Row } from "antd";
 
-import { DashboardFilteredContextProvider, useSearchContext } from "../../contexts/DashboardContext";
+import { DashboardFilteredContextProvider, useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 import VisHeader from "../grid_components/VisHeader";
 
 export default function AgeGroups() {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const data = dashboardData.agegroups;
   return (
     <div className="vis-container">

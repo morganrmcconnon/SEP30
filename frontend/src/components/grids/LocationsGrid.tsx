@@ -6,7 +6,7 @@ import { ComposableMap, Geographies, Geography, Graticule, Sphere, ZoomableGroup
 
 import VisHeader from '../grid_components/VisHeader';
 import ProgressBar from '../grid_components/ProgressBar';
-import { useSearchContext } from '../../contexts/DashboardContext';
+import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredContext';
 import CountryName from '../../constants/CountryName';
 
 const geoUrl = '/features.json';
@@ -20,7 +20,7 @@ const colorArray = [
 ];
 
 export default function LocationsGrid() {
-  const { dashboardData, filterOptions: search } = useSearchContext();
+  const { dashboardData, filterOptions: search } = useDashboardFilteredContext();
 
   const data = dashboardData.locations;
   // Initialize max to a minimum possible value
@@ -76,7 +76,7 @@ export default function LocationsGrid() {
 }
 
 const MapChart = ({ Highlighted, mymaxvalue }: { Highlighted: string[], mymaxvalue: number }) => {
-  const { updateFilterOptions: updateFilterOption, dashboardData } = useSearchContext();
+  const { updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
   return (
     <div style={{ width: '85%', position: 'relative', left: '42%', transform: 'translateX(-40%)', top: '-15%' }}>
       <ComposableMap projection='geoEqualEarth'>

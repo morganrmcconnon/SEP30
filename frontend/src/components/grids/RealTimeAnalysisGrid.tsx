@@ -4,12 +4,12 @@ import { Col, Row } from 'antd';
 
 import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
-import { useSearchContext } from '../../contexts/DashboardContext';
+import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredContext';
 import CountryName from '../../constants/CountryName';
 
 
 export default function RealTimeAnalysis() {
-  const { dashboardData, filterOptions: search } = useSearchContext();
+  const { dashboardData, filterOptions: search } = useDashboardFilteredContext();
   const data = dashboardData.analyticsBox;
 
   return (
