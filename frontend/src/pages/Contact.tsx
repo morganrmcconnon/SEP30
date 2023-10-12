@@ -2,11 +2,11 @@ import "../styles/styles.css";
 
 import KeywordSearch from "../components/KeywordSearch";
 import Sidebar from "../components/Sidebar";
-import { DashboardContextProvider } from "../contexts/DashboardContext";
+import { DashboardFilteredContextProvider } from "../contexts/DashboardContext";
 
 export default function About() {
   return (
-    <DashboardContextProvider>
+    <DashboardFilteredContextProvider>
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
@@ -23,6 +23,6 @@ export default function About() {
             </div>
           </div>
       </div>
-    </DashboardContextProvider>
+    </DashboardFilteredContextProvider>
   );
 }

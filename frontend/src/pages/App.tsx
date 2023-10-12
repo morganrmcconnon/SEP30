@@ -3,11 +3,11 @@ import "../styles/styles.css";
 import DashboardVis from "../components/DashboardVis.tsx";
 import KeywordSearch from "../components/KeywordSearch.jsx";
 import Sidebar from "../components/Sidebar.jsx";
-import { DashboardContextProvider } from "../contexts/DashboardContext.js";
+import { DashboardFilteredContextProvider } from "../contexts/DashboardContext.js";
 
 function App() {
   return (
-    <DashboardContextProvider>
+    <DashboardFilteredContextProvider>
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
@@ -19,7 +19,7 @@ function App() {
           <DashboardVis />
         </div>
       </div>
-    </DashboardContextProvider>
+    </DashboardFilteredContextProvider>
   );
 }
 

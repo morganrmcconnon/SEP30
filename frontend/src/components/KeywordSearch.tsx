@@ -1,9 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { /* useActionData, */ Form } from "react-router-dom";
 
 import search from "../assets/search.svg";
-import light from "../assets/light.svg";
-import dark from "../assets/dark.svg";
+// import light from "../assets/light.svg";
+// import dark from "../assets/dark.svg";
 
 import "react-grid-layout/css/styles.css";
 import "../styles/override.css";
@@ -11,16 +11,16 @@ import "../styles/override.css";
 import { useSearchContext } from "../contexts/DashboardContext";
 
 const KeywordSearch = () => {
-  const [mode, setMode] = useState(true);
+  // const [mode, setMode] = useState(true);
   const { updateFilterOptions: updateFilterOption } = useSearchContext();
 
   // const actionData = useActionData();
 
-  function toggleTheme() {
-    let element = document.body;
-    element.classList.toggle("dark");
-    mode ? setMode(false) : setMode(true);
-  }
+  // function toggleTheme() {
+  //   let element = document.body;
+  //   element.classList.toggle("dark");
+  //   mode ? setMode(false) : setMode(true);
+  // }
 
   function updateKeyword(e: any) {
     e.preventDefault();
@@ -28,7 +28,7 @@ const KeywordSearch = () => {
     const str = e.target[0].value;
     console.log(str);
     if(str === "" || str === undefined || str === null) {
-      updateFilterOption("keyword", false);
+      updateFilterOption("keyword", null);
     }
     else {
       updateFilterOption("keyword", str);

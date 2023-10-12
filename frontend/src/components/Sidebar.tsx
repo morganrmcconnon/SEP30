@@ -1,6 +1,6 @@
 import dashboard from "../assets/dashboard.svg";
 import contact from "../assets/contact.svg";
-import file from "../assets/file.svg";
+// import file from "../assets/file.svg";
 import information from "../assets/information.svg";
 import settings from "../assets/settings.svg";
 import logo from "../assets/logo.png";
@@ -30,13 +30,7 @@ const Sidebar = () => {
         <ul className="sidebar-list">
           <Link to="/">
             <li>
-              <img className="sidebar-icon" src={dashboard} alt="overview" />
-              <h3>Overview</h3>
-            </li>
-          </Link>
-          <Link to="/">
-            <li>
-              <img className="sidebar-icon" src={file} alt="dashboard" />
+              <img className="sidebar-icon" src={dashboard} alt="dashboard" />
               <h3>Dashboard</h3>
             </li>
           </Link>

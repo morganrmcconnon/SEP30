@@ -40,7 +40,7 @@ type DashboardFilteredContextType = {
   dashboardData: GridsDataType,
 }
 
-const DashboardContext = createContext<DashboardFilteredContextType>({
+const DashboardFilteredContext = createContext<DashboardFilteredContextType>({
   filterOptions: defaultFilterOptions,
   updateFilterOptions: () => { },
   resetFilterOptions: () => { },
@@ -50,7 +50,7 @@ const DashboardContext = createContext<DashboardFilteredContextType>({
   dashboardData: DATATYPES,
 });
 
-export const DashboardContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const [filterOptions, setFilterOptions] = useState<FilterOptionsType>(defaultFilterOptions);
 
@@ -179,7 +179,7 @@ export const DashboardContextProvider: React.FC<{ children: React.ReactNode }> =
   };
 
   return (
-    <DashboardContext.Provider value={{
+    <DashboardFilteredContext.Provider value={{
       filterOptions: filterOptions,
       backendData: backendData,
       updateBackendData: updateBackendData,
@@ -189,10 +189,10 @@ export const DashboardContextProvider: React.FC<{ children: React.ReactNode }> =
       tweetOjects: tweetObjects,
     }}>
       {children}
-    </DashboardContext.Provider>
+    </DashboardFilteredContext.Provider>
   );
 };
 
 export function useSearchContext() {
-  return useContext(DashboardContext);
+  return useContext(DashboardFilteredContext);
 }
