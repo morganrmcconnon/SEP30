@@ -3,14 +3,14 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "../styles/override.css";
 
-import DemoTranslate from "./grids/DemoTranslate.tsx";
-import DemoFilterTweetsSpacy from "./grids/DemoFilterTweetsSpacy.tsx";
-import DemoSentimentRoBERTa from "./grids/DemoSentimentRoBERTa.tsx";
-import DemoTopicLDA from "./grids/DemoTopicLDA.tsx";
-import DemoTopicBERTArxiv from "./grids/DemoTopicBERTArxiv.tsx";
-import DemoTopicCardiffNLP from "./grids/DemoTopicCardiffNLP.tsx";
-import DemoLocation from "./grids/DemoLocation.tsx";
-import DemoM3Inference from "./grids/DemoM3Inference.tsx";
+import DemoTranslate from "./about_grids/DemoTranslate.tsx";
+import DemoFilterTweetsSpacy from "./about_grids/DemoFilterTweetsSpacy.tsx";
+import DemoSentimentRoBERTa from "./about_grids/DemoSentimentRoBERTa.tsx";
+import DemoTopicLDA from "./about_grids/DemoTopicLDA.tsx";
+import DemoTopicBERTArxiv from "./about_grids/DemoTopicBERTArxiv.tsx";
+import DemoTopicCardiffNLP from "./about_grids/DemoTopicCardiffNLP.tsx";
+import DemoLocation from "./about_grids/DemoLocation.tsx";
+import DemoM3Inference from "./about_grids/DemoM3Inference.tsx";
 
 const AboutGrids = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);

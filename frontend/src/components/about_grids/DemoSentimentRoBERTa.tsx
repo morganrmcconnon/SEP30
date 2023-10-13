@@ -56,34 +56,39 @@ const DemoSentimentRoBERTa = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Sentiment analysis" subtitle="Sentiment analysis with CardiffNLP's Twitter RoBERTa Sentiment" />
-      <article className='text-black-white'>
+      <VisHeader title="RoBERTa Sentiment model" subtitle="Sentiment analysis with CardiffNLP's Twitter RoBERTa Sentiment" />
+      <article className='text-black-white' style={
+        {
+          marginTop: '0.5em', marginLeft: '1em', marginRight: '1em', marginBottom: '0.5em', 
+        }
+      }>
         <form onSubmit={getResult}>
           <input
             type="text"
             style={
               // make input text box in the middle, almost full width
               {
+                marginRight: '1em', marginBottom: '0.5em',
                 width: '90%',
-                margin: 'auto',
                 display: 'block',
                 padding: '10px',
                 border: '1px solid #ccc',
                 borderRadius: '4px',
                 boxSizing: 'border-box',
-                marginBlock: '1em',
               }
             }
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Enter a sentence to check it's sentiment"
           />
-          <div>
+          <div style={{
+            marginRight: '1em', marginBottom: '0.5em',
+          }}>
             <button type="submit"
               style={
                 // Make button style consistent with input text box
                 {
-                  margin: 'auto',
+                  marginRight: '0.5em',
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '4px',
@@ -91,23 +96,28 @@ const DemoSentimentRoBERTa = () => {
               }
             >Check sentiment</button>
             <button type="button" onClick={clearText} style={
-                // Make button style consistent with input text box
-                {
-                  margin: 'auto',
-                  padding: '10px',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                }
-              }>Clear</button>
+              // Make button style consistent with input text box
+              {
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+              }
+            }>Clear</button>
           </div>
 
         </form>
-        <p>Result: {resultData['sentiment_result']}</p>
-        <p>Negative: {resultData['negative']}</p>
-        <p>Neutral: {resultData['neutral']}</p>
-        <p>Positive: {resultData['positive']}</p>
-      </article>
-    </div>
+        <div>
+          <p style={{marginRight: '1em', marginBottom: '0.5em',}}>Result: {resultData['sentiment_result']}</p>
+          <p>Probability of the text sentiment being:
+            <ul style={{marginTop: '0.5em', marginBottom: '0.5em', paddingInlineStart: '1em'}}>
+              <li>Positive: {resultData['positive']}</li>
+              <li>Neutral: {resultData['neutral']}</li>
+              <li>Negative: {resultData['negative']}</li>
+            </ul>
+          </p>
+        </div>
+      </article >
+    </div >
 
   );
 };
