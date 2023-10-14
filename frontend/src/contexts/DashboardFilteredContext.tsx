@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { update_dashboard_data } from "../data/grids/functions/UpdateDashboardData";
-import { filter_data_by } from "../data/api/functions/FilterData";
+// import { filter_data_by } from "../data/api/functions/FilterData";
 import { aggregate_data } from "../data/api/functions/AggregateData";
 
 import { DATATYPES } from "../data/grids/constants/DATATYPES";
@@ -11,13 +11,37 @@ import { TweetObject } from "../data/api/types/TweetObject";
 import { UserObject } from "../data/api/types/UserObject";
 
 type FilterOptionsType = {
-  sentiment?: string | null,
-  topic?: string | null,
-  keyword?: string | null,
-  age?: string | null,
-  gender?: string | null,
-  location?: string | null,
+  sentiment: string | null,
+  topic: string | null,
+  keyword: string | null,
+  age: string | null,
+  gender: string | null,
+  location: string | null,
 };
+
+function filter_tweets_list_by(
+  tweet_objects: Array<TweetObject>,
+  filter_option: FilterOptionsType,
+) {
+  return tweet_objects.filter(tweet_object => {
+    const sentiment_predicted = tweet_object.sentiment;
+    const associated_keywords = tweet_object.text_processed;
+    const original_text = tweet_object.text;
+    const text_in_english = tweet_object.text_in_english;
+    const user_object = tweet_object.user;
+    const country_code = user_object.country_code;
+    const age_predicted = user_object.age;
+    const gender_predicted = user_object.gender;
+    return (
+      (filter_option.sentiment === null || sentiment_predicted === filter_option.sentiment)
+      && (filter_option.topic === null || tweet_object.topic_lda.related_topics.cosine_similarity.includes(filter_option.topic))
+      && (filter_option.keyword === null || associated_keywords.includes(filter_option.keyword) || original_text.includes(filter_option.keyword) || text_in_english.includes(filter_option.keyword))
+      && (country_code === filter_option.location || filter_option.location === null)
+      && (age_predicted === filter_option.age || filter_option.age === null)
+      && (gender_predicted === filter_option.gender || filter_option.gender === null)
+    );
+  });
+}
 
 const defaultFilterOptions: FilterOptionsType = {
   sentiment: null,
@@ -33,7 +57,7 @@ const defaultFilterOptions: FilterOptionsType = {
 type DashboardFilteredContextType = {
   filterOptions: FilterOptionsType,
   updateFilterOption: (filter_option_name: keyof FilterOptionsType, filter_option_value: string | null) => void,
-  tweetOjects?: Array<TweetObject>,
+  tweetOjects: Array<TweetObject>,
   backendData?: BackendOutput,
   updateBackendData: (response_data: BackendOutput) => void,
   resetFilter: () => void,
@@ -138,37 +162,12 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
   };
 
 
-  const updateDashboardBy = ({
-    sentiment,
-    topic,
-    keyword,
-    gender,
-    location,
-    age,
-  }: FilterOptionsType
-  ) => {
+  const updateDashboardBy = (filter_option: FilterOptionsType) => {
 
-    setFilterOptions({
-      sentiment: sentiment,
-      topic: topic,
-      keyword: keyword,
-      gender: gender,
-      location: location,
-      age: age,
-    });
-
-    const topic_id = typeof topic === 'string' ? topic : '0';
-
-    if (backendData?.lda_topic_model.keywords_representation[topic_id] !== undefined) {
-      dashboardData.keywordsDistribution.data = backendData?.lda_topic_model.keywords_representation[topic_id].slice(0, 10).map((item) => { return { name: item[0], value: item[1] } });
-    }
-
+    setFilterOptions(filter_option);
     const tweet_objects = backendData?.tweet_objects ?? [];
-    const user_objects = tweet_objects.map((tweet) => { return tweet.user; });
-
-    const filtered_data = filter_data_by(tweet_objects, user_objects, sentiment, topic, keyword, location, gender, age);
-    const filtered_tweets_list = filtered_data.new_tweet_objects;
-    const filtered_users_list = filtered_data.new_user_objects;
+    const filtered_tweets_list = filter_tweets_list_by(tweet_objects, filter_option);
+    const filtered_users_list = filtered_tweets_list.map((tweet) => { return tweet.user; });
 
     setTweetObjects(filtered_tweets_list);
 
