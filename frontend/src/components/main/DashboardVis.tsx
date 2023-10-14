@@ -1,24 +1,24 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 
 import "react-grid-layout/css/styles.css";
-import "../styles/override.css";
+import "../../styles/override.css";
 
-import RealTimeAnalysisGrid from "./grids/RealTimeAnalysisGrid.tsx";
+import RealTimeAnalysisGrid from "../grids/RealTimeAnalysisGrid.tsx";
 // import SentimentAnalysisGrid from "./grids/SentimentAnalysisGrid.tsx";
-import SentimentBarChartGrid from "./grids/SentimentBarChartGrid.tsx";
-import TopicsTable from "./grids/TopicsTable.tsx";
-import TopicsCountBarChart from "./grids/TopicsCountBarChart.tsx";
-import KeywordsCountBarChart from "./grids/KeywordsCountBarChart.tsx";
-import AgeGroupsBarChart from "./grids/AgeGroupsBarChartGrid.tsx";
-import AgeGroupsGrid from "./grids/AgeGroupsPieChartGrid.tsx";
-import AgeGroupsWeekly from "./grids/AgeGroupsWeeklyGrid.tsx";
-import SentimentGroupsWeekly from "./grids/SentimentGroupsWeeklyGrid.tsx";
-import GenderGroupsWeekly from "./grids/GenderGroupsWeeklyGrid.tsx";
-import GendersGrid from "./grids/GendersGrid.tsx";
-import GendersPieChartGrid from "./grids/GendersPieChartGrid.tsx";
-import GendersBarChartGrid from "./grids/GendersBarChartGrid.tsx"
-import LocationsGrid from "./grids/LocationsGrid.tsx";
-import KnowledgeGraph from "./grids/KnowledgeGraphGrid.tsx";
+import SentimentBarChartGrid from "../grids/SentimentBarChartGrid.tsx";
+import TopicsTable from "../grids/TopicsTable.tsx";
+import TopicsCountBarChart from "../grids/TopicsCountBarChart.tsx";
+import KeywordsCountBarChart from "../grids/KeywordsCountBarChart.tsx";
+import AgeGroupsBarChart from "../grids/AgeGroupsBarChartGrid.tsx";
+import AgeGroupsGrid from "../grids/AgeGroupsPieChartGrid.tsx";
+import AgeGroupsWeekly from "../grids/AgeGroupsWeeklyGrid.tsx";
+import SentimentGroupsWeekly from "../grids/SentimentGroupsWeeklyGrid.tsx";
+import GenderGroupsWeekly from "../grids/GenderGroupsWeeklyGrid.tsx";
+import GendersGrid from "../grids/GendersGrid.tsx";
+import GendersPieChartGrid from "../grids/GendersPieChartGrid.tsx";
+import GendersBarChartGrid from "../grids/GendersBarChartGrid.tsx"
+import LocationsGrid from "../grids/LocationsGrid.tsx";
+import KnowledgeGraph from "../grids/KnowledgeGraphGrid.tsx";
 // import TestEndpoint from "./grids/TestEndpoint.tsx";
 // import FilterOptionsGrid from "./grids/FilterOptionsGrid.tsx";
 

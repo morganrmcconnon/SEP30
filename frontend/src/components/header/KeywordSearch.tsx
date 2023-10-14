@@ -1,14 +1,14 @@
 // import { useState } from "react";
 import { /* useActionData, */ Form } from "react-router-dom";
 
-import search from "../assets/search.svg";
-// import light from "../assets/light.svg";
-// import dark from "../assets/dark.svg";
+import search from "../../assets/search.svg";
+// import light from ".../../assets/light.svg";
+// import dark from "../../assets/dark.svg";
 
 import "react-grid-layout/css/styles.css";
-import "../styles/override.css";
+import "../../styles/override.css";
 
-import { useDashboardFilteredContext } from "../contexts/DashboardFilteredContext";
+import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 
 const KeywordSearch = () => {
   // const [mode, setMode] = useState(true);

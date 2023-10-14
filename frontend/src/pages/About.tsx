@@ -1,24 +1,24 @@
 import "../styles/styles.css";
 
-import AboutGrids from "../components/AboutGrids.tsx";
-import KeywordSearch from "../components/KeywordSearch";
+// import file from "../../assets/file.svg";
+import information from "../assets/information.svg";
+
+import AboutGrids from "../components/main/AboutGrids.tsx";
+import PageHeader from "../components/header/PageHeader.tsx";
 import Sidebar from "../components/sidebar/Sidebar.tsx";
-import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext.tsx";
 
 export default function About() {
   return (
-    <DashboardFilteredContextProvider>
-      <div className="body-container">
-        <div className="sidebar-container">
-          <Sidebar />
-        </div>
-        <div className="keywordsearch-container">
-          <KeywordSearch />
-        </div>
-        <div className="dashboard-container">
-          <AboutGrids />
-        </div>
+    <div className="body-container">
+      <div className="sidebar-container">
+        <Sidebar />
       </div>
-    </DashboardFilteredContextProvider>
+      <div className="keywordsearch-container">
+        <PageHeader icon={information} title={"Data science methods that we used"} />
+      </div>
+      <div className="dashboard-container">
+        <AboutGrids />
+      </div>
+    </div>
   );
 }

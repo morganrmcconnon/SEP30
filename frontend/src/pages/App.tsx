@@ -1,7 +1,7 @@
 import "../styles/styles.css";
 
-import DashboardVis from "../components/DashboardVis.tsx";
-import KeywordSearch from "../components/KeywordSearch.jsx";
+import DashboardVis from "../components/main/DashboardVis.tsx";
+import KeywordSearch from "../components/header/KeywordSearch.js";
 import Sidebar from "../components/sidebar/Sidebar.js";
 import SidebarPreferences from "../components/sidebar/SidebarPreferences.tsx";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";

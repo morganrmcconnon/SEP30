@@ -1,6 +1,8 @@
 import "../styles/styles.css";
 
-import KeywordSearch from "../components/KeywordSearch";
+import contact from "../assets/contact.svg";
+
+import PageHeader from "../components/header/PageHeader";
 import Sidebar from "../components/sidebar/Sidebar";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
@@ -12,16 +14,16 @@ export default function About() {
           <Sidebar />
         </div>
         <div className="keywordsearch-container">
-          <KeywordSearch />
+          <PageHeader icon={contact} title={"Contact us!"} />
         </div>
         <div className="contact-div">
-            <div>
-                <h2>We'd Love to Hear From You</h2>
-            </div>
-            <div>
-                <p>For any enquiries or suggestions please reach out via our <a href={'mailto:twittermentalhealth30@gmail.com'}>email</a></p>
-            </div>
+          <div>
+            <h2>We'd Love to Hear From You</h2>
           </div>
+          <div>
+            <p>For any enquiries or suggestions please reach out via our <a href={'mailto:twittermentalhealth30@gmail.com'}>email</a></p>
+          </div>
+        </div>
       </div>
     </DashboardFilteredContextProvider>
   );

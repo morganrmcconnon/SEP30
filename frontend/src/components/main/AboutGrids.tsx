@@ -1,17 +1,17 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 
 import "react-grid-layout/css/styles.css";
-import "../styles/override.css";
+import "../../styles/override.css";
 
-import DemoTranslate from "./about_grids/DemoTranslate.tsx";
-import DemoTextProcessed from "./about_grids/DemoTextProcessed.tsx";
-import DemoSentimentRoBERTa from "./about_grids/DemoSentimentRoBERTa.tsx";
-import DemoTopicLDA from "./about_grids/DemoTopicLDA.tsx";
-import DemoTopicBERTArxiv from "./about_grids/DemoTopicBERTArxiv.tsx";
-import DemoTopicCardiffNLP from "./about_grids/DemoTopicCardiffNLP.tsx";
-import DemoLocation from "./about_grids/DemoLocation.tsx";
-import DemoM3Inference from "./about_grids/DemoM3Inference.tsx";
-import DemoFilterTweetsSpacy from "./about_grids/DemoFilterTweetsSpacy.tsx";
+import DemoTranslate from "../about_grids/DemoTranslate.tsx";
+import DemoTextProcessed from "../about_grids/DemoTextProcessed.tsx";
+import DemoSentimentRoBERTa from "../about_grids/DemoSentimentRoBERTa.tsx";
+import DemoTopicLDA from "../about_grids/DemoTopicLDA.tsx";
+import DemoTopicBERTArxiv from "../about_grids/DemoTopicBERTArxiv.tsx";
+import DemoTopicCardiffNLP from "../about_grids/DemoTopicCardiffNLP.tsx";
+import DemoLocation from "../about_grids/DemoLocation.tsx";
+import DemoM3Inference from "../about_grids/DemoM3Inference.tsx";
+import DemoFilterTweetsSpacy from "../about_grids/DemoFilterTweetsSpacy.tsx";
 
 const AboutGrids = () => {
   const ResponsiveGridLayout = WidthProvider(Responsive);

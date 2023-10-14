@@ -123,20 +123,20 @@ export const DATATYPES: GridsDataType = {
     },
     dataBoxRight: [
       {
-        title: 'Related Tweets',
+        title: 'Mental health related',
         value: 1602,
         total: 2000,
-        colorChart: 'white',
-        bgColor: ColorVar.blue,
-        textColor: 'white'
+        colorChart: ColorVar.blue,
+        bgColor: 'white',
+        textColor: 'black'
       },
       {
-        title: 'Displaying',
+        title: 'Visualising analysis of',
         value: 1255,
         total: 2000,
         colorChart: ColorVar.orange,
         bgColor: 'white',
-        textColor: '#000',
+        textColor: 'black',
       },
     ],
   },

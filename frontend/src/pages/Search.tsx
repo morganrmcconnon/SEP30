@@ -3,7 +3,7 @@ import { useActionData } from "react-router-dom";
 import "../styles/styles.css";
 
 import Sidebar from "../components/sidebar/Sidebar";
-import KeywordSearch from "../components/KeywordSearch";
+import KeywordSearch from "../components/header/KeywordSearch";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
 function Search() {
