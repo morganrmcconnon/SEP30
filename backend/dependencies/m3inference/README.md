@@ -2,11 +2,18 @@
 This is a fork of the m3inference package at [https://github.com/euagendas/m3inference](https://github.com/euagendas/m3inference), with a few changes to the source code.
 
 ## Install this package
-To install this package using `pip`, run
+To install this package using `pip`, navigate to this directory and run
+```bash
+pip install .
+```
+
+This package is cloned from https://github.com/thanhan910/m3inference
+
+Therefore, you can also install this package by running:
 ```bash
 pip install git+https://github.com/thanhan910/m3inference.git
 ```
-If the URL of this repository changes, replace `https://github.com/thanhan910/m3inference.git` with the new URL.
+
 
 ## Changes compared to the orignial package
 - Replaced `pycld2` with another language detector model.
