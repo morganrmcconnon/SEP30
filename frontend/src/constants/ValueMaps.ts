@@ -22,3 +22,11 @@ export const ORG_KEY_MAP : OrgData<string> = {
   'is-org': 'Organization',
   'non-org': 'Non-Organization',
 };
+
+export const ALL_KEY_MAPS : Record<string, Record<string, string>> = {
+  sentiment: SENTIMENT_KEY_MAP,
+  age: AGE_KEY_MAP,
+  gender: GENDER_KEY_MAP,
+  org: ORG_KEY_MAP,
+};
+

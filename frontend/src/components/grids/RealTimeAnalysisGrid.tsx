@@ -6,10 +6,11 @@ import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
 import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredContext';
 import CountryName from '../../constants/CountryName';
+import { ALL_KEY_MAPS } from '../../constants/ValueMaps';
 
 
 export default function RealTimeAnalysis() {
-  const { dashboardData, filterOptions: search } = useDashboardFilteredContext();
+  const { dashboardData, filterOptions } = useDashboardFilteredContext();
   const data = dashboardData.analyticsBox;
 
   return (
@@ -58,25 +59,36 @@ export default function RealTimeAnalysis() {
               <h3 className='text-black-white' style={{ margin: '10px 0 0 30px' }}>
                 {
                   // Count the number of entries in the search variable where the search is true
-                  Object.entries(search).reduce((acc, [_, value]) => {
+                  Object.entries(filterOptions).reduce((acc, [_, value]) => {
                     if (value === null) return acc;
                     return acc + 1;
                   }, 0) == 0 ? '' : 'Filters applied:'
                 }
               </h3>
               <ul>
-                  {Object.entries(search).map(([key, value]) => {
+                  {Object.entries(filterOptions).map(([key, value]) => {
                     if (value === null) return '';
+
                     if (key === 'location') return (
                       <li className='text-black-white' key={key}>
                         {`Country: "${CountryName[value]}"`}
                       </li>
                     );
+
+                    if (key in ALL_KEY_MAPS) return (
+
+                      <li className='text-black-white' key={key}>
+                        {`${key[0].toUpperCase() + key.substring(1)}: "${ALL_KEY_MAPS[key][value.toString()]}"`}
+                      </li>
+                    );
+
                     return (
                       <li className='text-black-white' key={key}>
-                        {`${key[0].toUpperCase() + key.substring(1)}: "${value.toString()}"`}
+                        {`${key[0].toUpperCase() + key.substring(1)}: "${value}"`}
                       </li>
-                    );})}
+                    );
+                    
+                    })}
                 </ul>
             </div>
             {/* <Row>
