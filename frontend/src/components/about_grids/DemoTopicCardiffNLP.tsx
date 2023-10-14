@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
-const defaultResultData = {};
+type ResultData = {
+  topic_score: number | null,
+  topic_id: number | null,
+  topic_name: string | null,
+};
+
+const defaultResultData: ResultData = {
+  topic_score: null,
+  topic_id: null,
+  topic_name: null,
+};
 
 const DemoTopicCardiffNLP = () => {
   const [text, setText] = useState("");
@@ -33,25 +43,28 @@ const DemoTopicCardiffNLP = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Topic inference" subtitle="Detect topic of a text with CardiffNLP's Tweet Topic RoBERTa Model" />
-      <article className='text-black-white'>
+      <VisHeader title="CardiffNLP Tweet Text model" subtitle="Detect topic of a text with CardiffNLP's Tweet Topic RoBERTa Model" />
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
             <input
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Enter a sentence..."
+              placeholder="Enter text..."
             />
           </div>
-          <div>
-            <button type="submit">Check topic</button>
-          </div>
-          <div>
+          <div className='about-card-buttons'>
+            <button type="submit">Predict the text's topic</button>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>{JSON.stringify(resultData)}</p>
+        <div className='about-card-result'>
+          <ul>
+            <li>Topic id: {resultData.topic_id}</li>
+            <li>Topic name: {resultData.topic_name}</li>
+          </ul>
+        </div>
       </article>
     </div>
 

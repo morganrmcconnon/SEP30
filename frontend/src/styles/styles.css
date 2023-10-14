@@ -156,7 +156,7 @@ a {
   padding-right: 20px;
 }
 
-.sidebar-list li{
+.sidebar-list li {
   display: flex;
   list-style: none;
   padding: 10px;
@@ -362,11 +362,68 @@ a {
   color: var(--color-primary);
 }
 
-.contact-div{
-  margin-top:50px;
+.contact-div {
+  margin-top: 50px;
   display: grid;
   grid-template-rows: 1fr 8fr;
   text-align: center;
   justify-content: center;
-  height:100vh;  
+  height: 100vh;
+}
+
+
+.about-card {
+  margin-top: 0.5em;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+
+.about-card form input[type=text] {
+    margin-bottom: 0.5em;
+    width: 100%;
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.about-card .about-card-input-half {
+    width: 10%;
+    display: inline-block;
+}
+
+.about-card form input[type=text]:focus {
+  border: 3px solid #555;
+}
+
+.about-card form button {
+    margin-right: 0.5em;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.about-card form button:hover {
+    /* Create box shadow */
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.24);
+}
+
+.about-card .about-card-buttons {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
+.about-card .about-card-result ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-inline-start: 1em;
+}
+
+.about-card .about-card-result p {
+  margin-bottom: 0.5em;
 }

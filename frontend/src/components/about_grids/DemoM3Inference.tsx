@@ -1,7 +1,21 @@
 import { useState } from 'react';
+
+import { Row, Col } from 'antd';
+
 import VisHeader from '../grid_components/VisHeader';
 
-const defaultResultData = {};
+type ResultData = {
+  age_predicted: string | null,
+  gender_predicted: string | null,
+  org_predicted: string | null,
+};
+
+
+const defaultResultData: ResultData = {
+  age_predicted: null,
+  gender_predicted: null,
+  org_predicted: null,
+};
 
 const DemoM3Inference = () => {
 
@@ -44,45 +58,59 @@ const DemoM3Inference = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Detect demographics with m3inference" subtitle="Detect user's demographics with m3inference from user's name, screen name, description, and language" />
-      <article className='text-black-white'>
+      <VisHeader title="m3inference" subtitle="Predict user's demographics from user's name, screen name, description, and language" />
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
-          <div>
-            <input
-              type="text"
-              value={input.name}
-              onChange={(e) => setInput({ ...input, name: e.target.value })}
-              placeholder="Name"
-            />
-            <input
-              type="text"
-              value={input.screen_name}
-              onChange={(e) => setInput({ ...input, screen_name: e.target.value })}
-              placeholder="Screen name"
-            />
-            <input
-              type="text"
-              value={input.description}
-              onChange={(e) => setInput({ ...input, description: e.target.value })}
-              placeholder="Description"
-            />
-            <input
-              type="text"
-              value={input.lang}
-              onChange={(e) => setInput({ ...input, lang: e.target.value })}
-              placeholder="Language"
-            />
-          </div>
+          <Row>
+            <Col span={12}>
+              <input
+                type="text"
+                value={input.name}
+                onChange={(e) => setInput({ ...input, name: e.target.value })}
+                placeholder="Name"
+              />
+            </Col>
+            <Col span={12}>
+              <input
+                type="text"
+                value={input.screen_name}
+                onChange={(e) => setInput({ ...input, screen_name: e.target.value })}
+                placeholder="Screen name (@handle)"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <input
+                type="text"
+                value={input.description}
+                onChange={(e) => setInput({ ...input, description: e.target.value })}
+                placeholder="User description"
+              />
+            </Col>
+            <Col span={12}>
+              <input
+                type="text"
+                value={input.lang}
+                onChange={(e) => setInput({ ...input, lang: e.target.value })}
+                placeholder="(Optional) Language"
+              />
+            </Col>
+          </Row>
           <div>
             <button type="submit">Submit</button>
-          </div>
-          <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>{JSON.stringify(resultData)}</p>
-      </article>
-    </div>
+        <div className='about-card-result'>
+          <ul>
+            <li>Age group: {resultData.age_predicted}</li>
+            <li>Gender: {resultData.gender_predicted}</li>
+            {resultData.org_predicted == 'non-org' ? <li>Is a person</li> : resultData.org_predicted == 'is-org' ? <li>Is an orgianization</li> : ""}
+          </ul>
+        </div>
+      </article >
+    </div >
 
   );
 };

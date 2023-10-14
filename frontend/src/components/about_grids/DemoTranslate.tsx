@@ -37,24 +37,21 @@ const DemoTranslate = () => {
   return (
     <div className="vis-container">
       <VisHeader title="Translate text" subtitle="Translate text with Google Translate" />
-      <article className='text-black-white'>
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
             <input
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Enter a text to translate..."
+              placeholder="Text to translate..."
             />
           </div>
-          <div>
-            <button type="submit">Translate</button>
-          </div>
-          <div>
+          <div className='about-card-buttons'>
+            <button type="submit">Translate text</button>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>{JSON.stringify(resultData)}</p>
         <p>In English: {resultData['in_english']}</p>
         <p>Language detected: {resultData['lang_detected']}</p>
       </article>

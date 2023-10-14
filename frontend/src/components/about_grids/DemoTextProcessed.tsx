@@ -2,20 +2,14 @@ import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
 type ResultData = {
-  related_topics: {
-    cosine_similarity: string[] | null,
-    hellinger_distance: string[] | null,
-  }
+  text_processed: string[] | null,
 };
 
 const defaultResultData: ResultData = {
-  related_topics: {
-    cosine_similarity: null,
-    hellinger_distance: null,
-  }
+  text_processed: null,
 };
 
-const DemoTopicLDA = () => {
+const DemoTextProcessed = () => {
   const [text, setText] = useState("");
   const [resultData, setResultData] = useState(defaultResultData);
 
@@ -31,22 +25,21 @@ const DemoTopicLDA = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 'text': text }),
     };
-    fetch("/api/analysis/topic/lda", requestOptions)
+    fetch("/api/analysis/text/processed", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Success /api/analysis/topic/lda!");
+        console.log("Success /api/analysis/text/processed!");
         setResultData(data);
       })
       .catch((err) => {
-        console.log("Something went wrong /api/analysis/topic/lda!");
+        console.log("Something went wrong /api/analysis/text/processed!");
         console.error(err);
       });
   };
 
-
   return (
     <div className="vis-container">
-      <VisHeader title="Topic modelling with LDA" subtitle="Topic Modelling and Inference using Latent Dirichlet Allocation" />
+      <VisHeader title="Process sentence" subtitle="Tokenize sentence, lemmatize words, and remove stop words." />
       <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
@@ -54,28 +47,27 @@ const DemoTopicLDA = () => {
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Enter text..."
+              placeholder="Enter sentence..."
             />
           </div>
           <div className='about-card-buttons'>
-            <button type="submit">Predict related topics</button>
+            <button type="submit">Submit</button>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <div className='about-card-result'>
-          {
-            resultData.related_topics.cosine_similarity === null ? '' :
-              resultData.related_topics.cosine_similarity.length === 0 ? <p>Unsure related topics</p> :
-                <p>Related topics: {
-                  resultData.related_topics.cosine_similarity.map((topic) => <li>{topic}</li>)
-                }
-                </p>
-          }
-        </div>
+        {
+          resultData.text_processed === null ? (<p>Enter a sentence to process.</p>) :
+            (resultData.text_processed === undefined || resultData.text_processed.length === 0) ? (<p>[No words]</p>) : (
+              <>
+                <p>Words:</p>
+                <p>{resultData.text_processed.join(', ')}</p>
+              </>
+            )
+        }
       </article>
     </div>
 
   );
 };
 
-export default DemoTopicLDA;
+export default DemoTextProcessed;

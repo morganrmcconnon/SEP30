@@ -2,17 +2,17 @@ import { useState } from 'react';
 import VisHeader from '../grid_components/VisHeader';
 
 type ResultData = {
-  country_code: string,
-  country_name: string,
-  latitude: number | null,
-  longitude: number | null,
+  country_code: string | undefined,
+  country_name: string | undefined,
+  latitude: number | null | undefined,
+  longitude: number | null | undefined,
 };
 
 const defaultResultData: ResultData = {
-  country_code: '',
-  country_name: '',
-  latitude: null,
-  longitude: null,
+  country_code: undefined,
+  country_name: undefined,
+  latitude: undefined,
+  longitude: undefined,
 };
 
 const DemoLocation = () => {
@@ -49,28 +49,34 @@ const DemoLocation = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Location detection" subtitle="Detect coordinates and country from location description" />
-      <article className='text-black-white'>
+      <VisHeader title="Location analysis" subtitle="Predict coordinates and country from location description" />
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
             <input
               type="text"
               value={input.text}
               onChange={(e) => setInput({ ...input, text: e.target.value })}
-              placeholder="User location description"
+              placeholder="User's location description"
             />
           </div>
-          <div>
+          <div className='about-card-buttons'>
             <button type="submit">Submit</button>
-          </div>
-          <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>Country name: {resultData.country_name === "" ? "Not found" : resultData.country_name}</p>
-        <p>Country code: {resultData.country_code === "" ? "Not found" : resultData.country_code}</p>
-        <p>Lattitude: {resultData.latitude === null ? 'Not found' : resultData.latitude}</p>
-        <p>Longitude: {resultData.latitude === null ? 'Not found' : resultData.longitude}</p>
+        <div className='about-card-result'>
+          {
+            resultData.country_name === undefined && resultData.country_code === undefined && resultData.latitude === undefined && resultData.longitude === undefined ? (<p>Enter a user's location description to predict.</p>) : (
+              <ul>
+                <li>Country name: {resultData.country_name === "" ? "Not found" : resultData.country_name}</li>
+                <li>Country code: {resultData.country_code === "" ? "Not found" : resultData.country_code}</li>
+                <li>Lattitude: {resultData.latitude === null ? 'Not found' : resultData.latitude}</li>
+                <li>Longitude: {resultData.latitude === null ? 'Not found' : resultData.longitude}</li>
+              </ul>
+            )
+          }
+        </div>
       </article>
     </div>
 

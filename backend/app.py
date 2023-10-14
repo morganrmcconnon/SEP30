@@ -11,7 +11,7 @@ from services.analyze_tweets.sentiment_vader import check_sentiment
 from services.analyze_tweets.sentiment_analysis import classify_sentiment
 from services.analyze_tweets.topic_bertopic_arxiv import BERTOPIC_ARXIV_TOPIC_MODEL, detect_topics_bertopic_arxiv
 from services.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
-from services.analyze_tweets.topic_modelling import apply_lda_model, get_keywords_of_topic_model
+from services.analyze_tweets.topic_modelling import apply_lda_model, get_keywords_of_topic_model, tokenize_lemmatize_and_remove_stopwords
 from services.analyze_tweets.topic_lda_labelling import get_similarity_scores, get_topics_distributions
 from services.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
 from services.analyze_tweets.detect_demographics import detect_demographics, preprocess_user_object_for_m3inference
@@ -82,6 +82,13 @@ def translate_text():
     text = data["text"]
     text_en, src, _, _ = detect_and_translate_language(text)
     return {"in_english": text_en, "lang_detected": src}
+
+
+@app.route("/api/analysis/text/processed", methods=["POST"])
+def process_text():
+    data = request.get_json()
+    text = data["text"]
+    return {"text_processed": tokenize_lemmatize_and_remove_stopwords(text) }
 
 
 @app.route("/api/analysis/filter/spacy", methods=["POST"])
@@ -253,7 +260,15 @@ def detect_user_demographic():
                                                                         lang_key='lang',
                                                                         use_translator_if_necessary=True)
     demographics = detect_demographics([user_object_preprocessed])
-    return demographics[user_id]
+    user_demographics = demographics[user_id]
+    age_predicted = max(user_demographics['age'], key=user_demographics['age'].get)
+    gender_predicted = max(user_demographics['gender'], key=user_demographics['gender'].get)
+    org_predicted = max(user_demographics['org'], key=user_demographics['org'].get)
+    return {
+        'age_predicted': age_predicted,
+        'gender_predicted': gender_predicted,
+        'org_predicted': org_predicted
+    }
 
 
 @app.route("/api/analyze_multiple_tweet_cached")
@@ -279,6 +294,8 @@ def get_analyzed_data_cached_static():
 
 @app.route("/api/analyze_multiple_tweet")
 @app.route("/backend/get_analyzed_data", methods=["GET"])
+@app.route("/api/data", methods=["GET"])
+@app.route("/backend/data", methods=["GET"])
 def get_analyze_multiple_tweet_data():
     # Return content from server
 

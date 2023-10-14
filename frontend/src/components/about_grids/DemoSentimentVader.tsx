@@ -40,7 +40,7 @@ const DemoSentimentVader = () => {
   return (
     <div className="vis-container">
       <VisHeader title="Sentiment Analysis" subtitle="Sentiment Analysis with NLTK Vader sentiment model" />
-      <article className='text-black-white'>
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
             <input
@@ -50,10 +50,8 @@ const DemoSentimentVader = () => {
               placeholder="Enter a sentence..."
             />
           </div>
-          <div>
+          <div className='about-card-buttons'>
             <button type="submit">Check sentiment</button>
-          </div>
-          <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>

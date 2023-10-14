@@ -40,20 +40,18 @@ const DemoFilterTweetsSpacy = () => {
   return (
     <div className="vis-container">
       <VisHeader title="Filter tweets" subtitle="Detect if a tweet is not spam and mental health related using spacy" />
-      <article className='text-black-white'>
+      <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
             <input
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Enter a sentence..."
+              placeholder="Enter text..."
             />
           </div>
-          <div>
+          <div className='about-card-buttons'>
             <button type="submit">Submit</button>
-          </div>
-          <div>
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
