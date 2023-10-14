@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\frontend"
+    "\\frontend",
+    "\\frontend\\public"
   ],
-  "SelectedNode": "\\frontend\\NewFolder",
+  "SelectedNode": "\\frontend\\public\\features.json",
   "PreviewInSolutionExplorer": false
 }
