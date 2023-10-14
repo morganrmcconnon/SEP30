@@ -1,6 +1,6 @@
 
 
-import { AgeGroupData, SentimentData } from '../../api/types/constants';
+import { AgeGroupValue, SentimentData, SentimentValue } from '../../api/types/constants';
 
 
 export type TopicRow = {
@@ -60,9 +60,9 @@ export type GridsDataType = {
   sentimentAnalysis: {
     title: string,
     subTitle: string,
-    values: SentimentData,
+    values: SentimentData<number>,
     data: Array<{
-      value_key: keyof SentimentData,
+      value_key: SentimentValue,
       title: string,
       subTitle: string,
       value: number,
@@ -73,7 +73,7 @@ export type GridsDataType = {
     title: string,
     subTitle: string,
     data: Array<{
-      id: keyof AgeGroupData,
+      id: AgeGroupValue,
       name: string,
       percent: number,
       color: string,

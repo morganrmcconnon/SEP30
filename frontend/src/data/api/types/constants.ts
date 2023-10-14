@@ -6,10 +6,10 @@ export type OrgValue = "is-org" | "non-org";
 
 export type SentimentValue = "negative" | "neutral" | "positive";
 
-export type AgeGroupData = Record<AgeGroupValue, number>;
+export type AgeGroupData<T> = Record<AgeGroupValue, T>;
 
-export type GenderData = Record<GenderValue, number>;
+export type GenderData<T> = Record<GenderValue, T>;
 
-export type OrgData = Record<OrgValue, number>;
+export type OrgData<T> = Record<OrgValue, T>;
 
-export type SentimentData = { [value in SentimentValue] : number};
+export type SentimentData<T> = { [value in SentimentValue] : T};

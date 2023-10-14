@@ -3,7 +3,7 @@ import { AgeGroupData, GenderData, SentimentData } from "../../api/types/constan
 import { DATATYPES } from "../constants/DATATYPES";
 
 
-function update_age_groups_grid(age_groups_count: AgeGroupData) {
+function update_age_groups_grid(age_groups_count: AgeGroupData<number>) {
   let d1 = age_groups_count["<=18"];
   let d2 = age_groups_count["19-29"];
   let d3 = age_groups_count["30-39"];
@@ -43,7 +43,7 @@ function update_age_groups_grid(age_groups_count: AgeGroupData) {
 }
 
 
-function update_genders_grid(genders_count: GenderData, female_sentiment: SentimentData | undefined = undefined, male_sentiment: SentimentData | undefined = undefined) {
+function update_genders_grid(genders_count: GenderData<number>, female_sentiment: SentimentData<number> | undefined = undefined, male_sentiment: SentimentData<number> | undefined = undefined) {
   
   if (female_sentiment !== undefined) {
     DATATYPES.genders.data.female.sentiment = female_sentiment;
@@ -103,7 +103,7 @@ function update_topic_modelling_grid(topics_count: Record<string, number>) {
 }
 
 
-function update_sentimentAnalysis_grids(sentiment_count: SentimentData) {
+function update_sentimentAnalysis_grids(sentiment_count: SentimentData<number>) {
 
   DATATYPES.sentimentAnalysis.values.positive = sentiment_count['positive'];
   DATATYPES.sentimentAnalysis.values.neutral = sentiment_count['neutral'];
@@ -194,15 +194,15 @@ export function update_dashboard_data(
   total_tweets_count: number,
   mental_health_related_tweets_count: number,
   tweets_displayed_count: number,
-  sentiment_count: SentimentData,
+  sentiment_count: SentimentData<number>,
   topics_count: Record<string, number>,
   keywords_count: Record<string, number>,
   keywords_pairs: Array<{ keywords: Array<string>, count: number }>,
   countries_count: Record<string, number>,
-  age_groups_count: AgeGroupData,
-  genders_count: GenderData,
-  female_sentiment : SentimentData, 
-  male_sentiment : SentimentData,
+  age_groups_count: AgeGroupData<number>,
+  genders_count: GenderData<number>,
+  female_sentiment : SentimentData<number>, 
+  male_sentiment : SentimentData<number>,
   week_line_graphs: Record<string, Record<string, Record<string, number>>>
 ) {
 

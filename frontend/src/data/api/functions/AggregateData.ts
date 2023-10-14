@@ -3,7 +3,7 @@ import { UserObject } from "../types/UserObject";
 import { SentimentData, AgeGroupData, GenderData, OrgData } from "../types/constants";
 
 function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
-  const sentiment_count: SentimentData = {
+  const sentiment_count: SentimentData<number> = {
     "positive": 0,
     "negative": 0,
     "neutral": 0
@@ -96,9 +96,9 @@ function aggregate_tweet_objects_list(tweet_objects: Array<TweetObject>) {
 function aggregate_user_objects_list(user_objects: Array<UserObject>) {
 
   const countries_count: Record<string, number> = {};
-  const age_groups_count: AgeGroupData = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
-  const genders_count: GenderData = { "female": 0, "male": 0 };
-  const org_count: OrgData = { "is-org": 0, "non-org": 0 };
+  const age_groups_count: AgeGroupData<number> = { "<=18": 0, "19-29": 0, "30-39": 0, ">=40": 0 };
+  const genders_count: GenderData<number> = { "female": 0, "male": 0 };
+  const org_count: OrgData<number> = { "is-org": 0, "non-org": 0 };
 
   user_objects.forEach(user_object => {
     const country_code = user_object.country_code;
