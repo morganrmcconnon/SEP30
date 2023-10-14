@@ -1,0 +1,11 @@
+torch>=1.0.0
+numpy>=1.13
+tqdm
+Pillow
+torchvision>=0.2.2
+# pycld2>=0.31
+# lingua-language-detector>=1.3.2
+googletrans==3.1.0a0
+requests
+pandas>=0.20
+rauth
