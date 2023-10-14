@@ -6,17 +6,17 @@ import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredCon
 
 
 const KeywordsDistribution = () => {
-  const { filterOptions: search, updateFilterOptions: updateFilterOption, dashboardData } = useDashboardFilteredContext();
+  const { filterOptions, updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const griddata = dashboardData.keywordsDistribution;
   const data = griddata.data.sort((a, b) => b.value - a.value);
 
   return (
     <div className="vis-container">
-      <VisHeader title={`Keywords representation of topic`} subtitle={search.topic !== null ? `Probability of the keyword belonging to the topic ${search.topic}` : "Please select a topic to view the keywords distribution"} />
+      <VisHeader title={`Keywords representation of topic`} subtitle={filterOptions.topic !== null ? `Probability of the keyword belonging to the topic ${filterOptions.topic}` : "Please select a topic to view the keywords distribution"} />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
           {
-            search.topic !== null ?
+            filterOptions.topic !== null ?
 
               <BarChart
                 width={500}
