@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { BsArrowRight } from 'react-icons/bs';
+// import { BsArrowRight } from 'react-icons/bs';
 
 // import { ColorVar } from '../../../constants/Colors';
 // import { GridsDataType } from '../types/GridsDataType';
@@ -31,7 +31,7 @@ const columns = [
     render: (proportion: number) => (
       <div className='text-black-white' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <p>{Math.round(proportion * 10000) / 100}%</p>
-        <BsArrowRight />
+        {/* <BsArrowRight /> */}
       </div>
     ),
     sorter: (a: { proportion: number }, b: { proportion: number }) => a.proportion - b.proportion,
