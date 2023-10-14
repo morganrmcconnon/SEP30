@@ -1,7 +1,7 @@
 import "../styles/styles.css";
 
 import KeywordSearch from "../components/KeywordSearch";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
 export default function About() {

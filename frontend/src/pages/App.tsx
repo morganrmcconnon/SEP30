@@ -2,7 +2,8 @@ import "../styles/styles.css";
 
 import DashboardVis from "../components/DashboardVis.tsx";
 import KeywordSearch from "../components/KeywordSearch.jsx";
-import Sidebar from "../components/Sidebar.jsx";
+import Sidebar from "../components/sidebar/Sidebar.js";
+import SidebarPreferences from "../components/sidebar/SidebarPreferences.tsx";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <div className="body-container">
         <div className="sidebar-container">
           <Sidebar />
+          <SidebarPreferences />
         </div>
         <div className="keywordsearch-container">
           <KeywordSearch />

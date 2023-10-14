@@ -2,7 +2,7 @@ import { useActionData } from "react-router-dom";
 
 import "../styles/styles.css";
 
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import KeywordSearch from "../components/KeywordSearch";
 import { DashboardFilteredContextProvider } from "../contexts/DashboardFilteredContext";
 
