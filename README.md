@@ -49,6 +49,7 @@ To auto generate `requirements.txt` file, run the following command while in the
 pip freeze > requirements.txt
 ```
 
+
 ## Prototype sketch
 
 [Figma Prototype](https://www.figma.com/file/ScVgs5wpsr3FTM7npCqg1n/Dashy-Dashboard-(Community)?type=design&node-id=302-925)
