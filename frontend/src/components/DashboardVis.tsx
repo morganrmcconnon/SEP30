@@ -6,7 +6,6 @@ import "../styles/override.css";
 import RealTimeAnalysisGrid from "./grids/RealTimeAnalysisGrid.tsx";
 // import SentimentAnalysisGrid from "./grids/SentimentAnalysisGrid.tsx";
 import SentimentBarChartGrid from "./grids/SentimentBarChartGrid.tsx";
-import TopicModellingGrid from "./grids/TopicModellingGrid.tsx";
 import TopicsTable from "./grids/TopicsTable.tsx";
 import TopicsCountBarChart from "./grids/TopicsCountBarChart.tsx";
 import KeywordsCountBarChart from "./grids/KeywordsCountBarChart.tsx";
@@ -29,21 +28,21 @@ const DashboardVis = () => {
   //Defines initial size and location of vis components in dashboard
   //vis defines the component that will be mapped in dashboard render
   const items = [
-    { x: 0, y: 0, w: 4, h: 2.7, i: "AgeGroupsWeekly", vis: <AgeGroupsWeekly/>},
-    { x: 4, y: 0, w: 4, h: 2.7, i: "SentimentGroupsWeekly", vis: <SentimentGroupsWeekly/>},
-    { x: 8, y: 0, w: 4, h: 2.7, i: "GenderGroupsWeekly", vis: <GenderGroupsWeekly/>},
-    { x: 0, y: 1, w: 8, h: 3, i: "RealTimeAnalysis", vis: <RealTimeAnalysisGrid />},
-    { x: 0, y: 1, w: 4, h: 3, i: "AgeGroupsBarChart", vis: <AgeGroupsBarChart />},
-    { x: 8, y: 1, w: 4, h: 3, i: "SentimentBarChart", vis: <SentimentBarChartGrid />},
-    { x: 4, y: 2, w: 4, h: 3, i: "TopicsTable", vis: <TopicsTable />},
-    { x: 0, y: 3, w: 4, h: 3, i: "GendersPieChartGrid", vis: <GendersPieChartGrid />},
-    { x: 4, y: 3, w: 4, h: 3, i: "GendersBarChartGrid", vis: <GendersBarChartGrid />},
-    { x: 8, y: 3, w: 4, h: 3, i: "AgeGroups", vis: <AgeGroupsGrid />},
-    { x: 8, y: 3, w: 4, h: 3, i: "Genders", vis: <GendersGrid />},
-    { x: 0, y: 4, w: 4, h: 3, i: "KnowledgeGraph", vis: <KnowledgeGraph />},
-    { x: 4, y: 4, w: 8, h: 3, i: "Locations", vis: <LocationsGrid />},
-    { x: 4, y: 5, w: 4, h: 3, i: "TopicsCountBarChart", vis: <TopicsCountBarChart />},
-    { x: 8, y: 5, w: 4, h: 3, i: "KeywordsCountBarChart", vis: <KeywordsCountBarChart />},
+    { x: 0, y: 0, w: 4, h: 2.7, i: "AgeGroupsWeekly", vis: <AgeGroupsWeekly /> },
+    { x: 4, y: 0, w: 4, h: 2.7, i: "SentimentGroupsWeekly", vis: <SentimentGroupsWeekly /> },
+    { x: 8, y: 0, w: 4, h: 2.7, i: "GenderGroupsWeekly", vis: <GenderGroupsWeekly /> },
+    { x: 0, y: 1, w: 8, h: 3, i: "RealTimeAnalysis", vis: <RealTimeAnalysisGrid /> },
+    { x: 0, y: 1, w: 4, h: 3, i: "AgeGroupsBarChart", vis: <AgeGroupsBarChart /> },
+    { x: 8, y: 1, w: 4, h: 3, i: "SentimentBarChart", vis: <SentimentBarChartGrid /> },
+    { x: 4, y: 2, w: 4, h: 3, i: "TopicsTable", vis: <TopicsTable /> },
+    { x: 0, y: 3, w: 4, h: 3, i: "GendersPieChartGrid", vis: <GendersPieChartGrid /> },
+    { x: 4, y: 3, w: 4, h: 3, i: "GendersBarChartGrid", vis: <GendersBarChartGrid /> },
+    { x: 8, y: 3, w: 4, h: 3, i: "AgeGroups", vis: <AgeGroupsGrid /> },
+    { x: 8, y: 3, w: 4, h: 3, i: "Genders", vis: <GendersGrid /> },
+    { x: 0, y: 4, w: 4, h: 3, i: "KnowledgeGraph", vis: <KnowledgeGraph /> },
+    { x: 4, y: 4, w: 8, h: 3, i: "Locations", vis: <LocationsGrid /> },
+    { x: 4, y: 5, w: 4, h: 3, i: "TopicsCountBarChart", vis: <TopicsCountBarChart /> },
+    { x: 8, y: 5, w: 4, h: 3, i: "KeywordsCountBarChart", vis: <KeywordsCountBarChart /> },
     // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
     // { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
     //{ i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },

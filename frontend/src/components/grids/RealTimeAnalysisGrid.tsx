@@ -50,15 +50,18 @@ export default function RealTimeAnalysis() {
             <div>
               <h3 className='text-black-white' style={{ margin: '20px 0 0 30px' }}>
                 Total number of tweets analyzed: {data?.dataChart.totalData}
-                 {/* <span className='text-data'>{data?.dataChart.totalDataChange}</span> */}
               </h3>
+              <h3 className='text-black-white' style={{ margin: '20px 0 0 30px' }}>
+                Click on a data point (a section of the visualisation) to filter the visualised tweets.
+              </h3>
+              
               <h3 className='text-black-white' style={{ margin: '10px 0 0 30px' }}>
                 {
                   // Count the number of entries in the search variable where the search is true
                   Object.entries(search).reduce((acc, [_, value]) => {
                     if (value === null) return acc;
                     return acc + 1;
-                  }, 0) == 0 ? 'Click on a section of the visualisation to filter the visualised tweets' : 'Filters applied:'
+                  }, 0) == 0 ? '' : 'Filters applied:'
                 }
               </h3>
               <ul>
