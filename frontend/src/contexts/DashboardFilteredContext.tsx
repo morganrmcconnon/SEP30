@@ -17,6 +17,7 @@ type FilterOptionsType = {
   age: string | null,
   gender: string | null,
   location: string | null,
+  date: string | null,
 };
 
 function filter_tweets_list_by(
@@ -50,6 +51,7 @@ const defaultFilterOptions: FilterOptionsType = {
   gender: null,
   location: null,
   age: null,
+  date: null,
 };
 
 
