@@ -6,17 +6,17 @@ import VisHeader from "../grid_components/VisHeader";
 
 export default function AgeGroups() {
   const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
-  const data = dashboardData.agegroups;
+  const data = dashboardData.agegroups.data.slice().sort((a, b) => b.percent - a.percent);
   return (
     <div className="vis-container">
-      <VisHeader title={data?.title} subtitle={data?.subTitle} />
+      <VisHeader title='Demographic Analysis - Age Groups' subtitle='Age Groups proportion' />
       <div className="vis-svg-container">
         <DashboardFilteredContextProvider>
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 dataKey="percent"
-                data={data.data}
+                data={data}
                 cy={130}
                 innerRadius={60}
                 outerRadius={100}
@@ -24,12 +24,10 @@ export default function AgeGroups() {
                 startAngle={-270}
                 endAngle={90}
               >
-                {data.data.map((item, index) => (
+                {data.map((item) => (
                   <Cell
-                    onClick={() => {
-                      updateFilterOption("age", item.id);
-                    }}
-                    key={`cell-${index}`}
+                    onClick={() => {updateFilterOption("age", item.key);}}
+                    key={`cell-${item.key}`}
                     fill={item.color}
                     strokeWidth={1}
                   />
@@ -40,7 +38,7 @@ export default function AgeGroups() {
           </ResponsiveContainer>
         </DashboardFilteredContextProvider>
         <Row style={{ margin: "20px" }}>
-          {data.data.map((item, index) => (
+          {data.map((item, index) => (
             <Col
               span={12}
               style={{

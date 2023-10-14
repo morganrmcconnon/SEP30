@@ -10,7 +10,7 @@ export const AGE_KEY_MAP : AgeGroupData<string> = {
   '<=18': 'Under 18',
   '19-29': '19-29',
   '30-39': '30-39',
-  '>=40': 'Over 40',
+  '>=40': '40 and above',
 };
 
 export const GENDER_KEY_MAP : GenderData<string> = {

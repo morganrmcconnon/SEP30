@@ -19,10 +19,10 @@ const SentimentBarChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
-            height={300}
+            height={280}
             data={data}
             margin={{
-              top: 20,
+              top: 30,
               right: 30,
               left: 20,
               bottom: 30,

@@ -17,7 +17,7 @@ const KnowledgeGraph = () => {
           
           graphData={data.data}
           width={390}
-          height={390}
+          height={350}
           onNodeClick={(node) => updateFilterOption('keyword', node.id)}
           nodeAutoColorBy="group"
           nodeCanvasObject={(node : any, ctx, globalScale) => {

@@ -73,7 +73,7 @@ export type GridsDataType = {
     title: string,
     subTitle: string,
     data: Array<{
-      id: AgeGroupValue,
+      key: AgeGroupValue,
       name: string,
       percent: number,
       color: string,

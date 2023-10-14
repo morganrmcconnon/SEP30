@@ -12,7 +12,7 @@ export default function SentimentAnalysis() {
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div
         className="vis-svg-container"
-        style={{ height: 350, overflow: "auto" }}
+        style={{ height: 300, overflow: "auto" }}
       >
         {data.data.map((item, index) => (
           <>

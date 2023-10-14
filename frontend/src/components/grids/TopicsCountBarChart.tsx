@@ -52,13 +52,13 @@ const TopicsCountBarChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
-            height={300}
+            height={280}
             data={data}
             layout="vertical"
             margin={{
               top: 5,
-              right: 30,
-              left: 80,
+              right: 50,
+              left: 50,
               bottom: 5,
             }}
             barGap={100}

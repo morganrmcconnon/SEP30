@@ -1,5 +1,5 @@
 import arrowAll from "../../assets/arrow-all.svg";
-import dotsVertical from "../../assets/dots-vertical.svg";
+// import dotsVertical from "../../assets/dots-vertical.svg";
 
 const VisHeader = ({ title, subtitle }: { title: string, subtitle: string }) => {
 
@@ -12,7 +12,7 @@ const VisHeader = ({ title, subtitle }: { title: string, subtitle: string }) => 
                 <h3>{title}</h3>
                 <p className="text-subtitle">{subtitle}</p>
             </div>
-            <img className="vis-dots" src={dotsVertical} />
+            {/* <img className="vis-dots" src={dotsVertical} /> */}
         </div>
     );
 };

@@ -77,7 +77,7 @@ const KeywordsCountBarChart = () => {
             margin={{
               top: 5,
               right: 30,
-              left: 40,
+              left: 20,
               bottom: 5,
             }}
           >
@@ -94,12 +94,14 @@ const KeywordsCountBarChart = () => {
                     dataKey="count"
                     position="right"
                     offset={5}
+                    key={`cell-${item.name}`}
                   />
                   <Cell
                     fill={(item.name === filterOptions.keyword ? ColorVar.red : ColorVar.blue)}
                     onClick={() => {
                       updateFilterOption("keyword", item.name);
                     }}
+                    key={`cell-${item.name}`}
                     strokeWidth={10}
                   />
                 </>

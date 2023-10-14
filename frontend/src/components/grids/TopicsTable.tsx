@@ -64,14 +64,14 @@ export default function TopicsTable() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title={'Topics'} subtitle={'List of related topics'} />
+      <VisHeader title={'Topic modelling'} subtitle={'List of related topics'} />
       <div className='vis-svg-container'>
         <Table
           columns={columns}
           dataSource={data}
           pagination={false}
           scroll={{
-            y: 300,
+            y: 280,
           }}
           onRow={(record) => {
             return {

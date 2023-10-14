@@ -216,10 +216,10 @@ export const DATATYPES: GridsDataType = {
     title: 'Demographic Analysis - Age Groups',
     subTitle: 'Age Groups percentage',
     data: [
-      { id: '<=18', name: 'Under 18', percent: 18, color: ColorVar.blue },
-      { id: '19-29', name: '19 - 29', percent: 40, color: '#50cc65' },
-      { id: '30-39', name: '30 - 39', percent: 15, color: ColorVar.orange },
-      { id: '>=40', name: '40 and above', percent: 15, color: ColorVar.red },
+      { key: '<=18', name: 'Under 18', percent: 18, color: ColorVar.blue },
+      { key: '19-29', name: '19 - 29', percent: 40, color: ColorVar.green },
+      { key: '30-39', name: '30 - 39', percent: 15, color: ColorVar.orange },
+      { key: '>=40', name: '40 and above', percent: 15, color: ColorVar.red },
     ],
   },
   genders: {
