@@ -36,14 +36,14 @@ type DashboardFilteredContextType = {
   tweetOjects?: Array<TweetObject>,
   backendData?: BackendOutput,
   updateBackendData: (response_data: BackendOutput) => void,
-  resetFilterOptions: () => void,
+  resetFilter: () => void,
   dashboardData: GridsDataType,
 }
 
 const DashboardFilteredContext = createContext<DashboardFilteredContextType>({
   filterOptions: defaultFilterOptions,
   updateFilterOption: () => { },
-  resetFilterOptions: () => { },
+  resetFilter: () => { },
   backendData: undefined,
   tweetOjects: [],
   updateBackendData: () => { },
@@ -184,7 +184,7 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
       updateBackendData: updateBackendData,
       dashboardData: dashboardData,
       updateFilterOption: updateFilterOption,
-      resetFilterOptions: resetFilterOptions,
+      resetFilter: resetFilterOptions,
       tweetOjects: tweetObjects,
     }}>
       {children}

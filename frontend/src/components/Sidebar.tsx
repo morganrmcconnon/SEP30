@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useDashboardFilteredContext } from "../contexts/DashboardFilteredContext";
 
 const Sidebar = () => {
-  const { resetFilterOptions: resetFilter } = useDashboardFilteredContext();
+  const { resetFilter } = useDashboardFilteredContext();
   return (
     <div>
       <Link to="/">
