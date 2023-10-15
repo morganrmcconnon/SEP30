@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from ..detect_demographics import detect_demographics, M3TWITTER
+from components.analyze_tweets.detect_demographics import detect_demographics, M3TWITTER
 
 class TestDetectDemographics(unittest.TestCase):
 

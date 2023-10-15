@@ -1,5 +1,5 @@
 import unittest
-from ..detect_polygon_geojson import detect_geojson_ploygon
+from components.analyze_tweets.detect_polygon_geojson import detect_geojson_ploygon
 
 class TestDetectPolygonGeoJSON(unittest.TestCase):
 

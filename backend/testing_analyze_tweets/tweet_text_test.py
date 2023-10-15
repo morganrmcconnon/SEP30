@@ -1,6 +1,6 @@
 
 import unittest
-from tweet_text import get_tweet_text, clean_tweet_text
+from components.analyze_tweets.tweet_text import get_tweet_text, clean_tweet_text
 
 class TestTweetText(unittest.TestCase):
 

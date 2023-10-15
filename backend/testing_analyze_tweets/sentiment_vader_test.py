@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from ..sentiment_vader import check_sentiment
+from components.analyze_tweets.sentiment_vader import check_sentiment
 
 # Test cases
 test_cases = [

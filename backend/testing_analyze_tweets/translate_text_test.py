@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from ..translate_text import detect_and_translate_language, TRANSLATOR
+from components.analyze_tweets.translate_text import detect_and_translate_language, TRANSLATOR
 
 class TestTranslateText(unittest.TestCase):
 

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, Mock
-from ..download_tweets import download_tweets
+from components.download_tweets.download_tweets import download_tweets
 class TestDownloadTweets(unittest.TestCase):
 
     def test_download_tweets_bz2(self):
