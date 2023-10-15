@@ -1,6 +1,6 @@
 from pymongo import MongoClient
-from services.download_tweets.download_tweets import *
-from services.download_tweets.get_download_url import *
+from components.download_tweets.download_tweets import *
+from components.download_tweets.get_download_url import *
 
 # MongoDB connection
 client = MongoClient('mongodb://localhost:27017/')
