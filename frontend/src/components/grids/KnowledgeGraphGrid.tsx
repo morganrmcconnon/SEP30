@@ -125,7 +125,7 @@ const KnowledgeGraph = () => {
   if (filterOptions.keyword !== null || filterOptions.topic !== null) {
     legendList.push({
       title: 'Selected',
-      color: ColorVar.red,
+      color: ColorVar.orange,
     });
   }
 
@@ -415,7 +415,7 @@ const KnowledgeGraph = () => {
               ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
               ctx.lineWidth = 3 / globalScale; // border width
               // Hex color code, but change opacity to 0.5
-              ctx.strokeStyle = ColorVar.red;
+              ctx.strokeStyle = ColorVar.orange;
               ctx.stroke();
             }
 
