@@ -21,7 +21,7 @@ export default function About() {
             <h2>We'd Love to Hear From You</h2>
           </div>
           <div>
-            <p>For any enquiries or suggestions please reach out via our <a href={'mailto:twittermentalhealth30@gmail.com'}>email</a></p>
+            <p className="text-black-white">For any enquiries or suggestions please reach out via our <a href={'mailto:twittermentalhealth30@gmail.com'}>email</a></p>
           </div>
         </div>
       </div>

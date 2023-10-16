@@ -17,17 +17,17 @@ const KeywordSearch = () => {
   // const actionData = useActionData();
 
   function toggleTheme() {
-     const element = document.body;
-     element.classList.toggle("dark");
-     mode ? setMode(false) : setMode(true);
-   }
+    const element = document.body;
+    element.classList.toggle("dark");
+    mode ? setMode(false) : setMode(true);
+  }
 
   function updateKeyword(e: any) {
     e.preventDefault();
     console.log(e)
     const str = e.target[0].value;
     console.log(str);
-    if(str === "" || str === undefined || str === null) {
+    if (str === "" || str === undefined || str === null) {
       updateFilterOption("keyword", null);
     }
     else {
@@ -52,7 +52,7 @@ const KeywordSearch = () => {
         className="toggle-mode"
         src={mode ? light : dark}
         onClick={toggleTheme}
-  />
+      />
     </div>
   );
 };
