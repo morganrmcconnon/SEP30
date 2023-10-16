@@ -1,6 +1,9 @@
 //Stores colours for usage in Vis components
 
+const white = getComputedStyle(document.body).getPropertyValue('--color-white')
+
 export const ColorVar = {
+    white: white,
     blue: "#339AF0",
     lightblue: "#D0EBFF",
     green: "#51CF66",

@@ -19,8 +19,8 @@ export default function GendersPieChartGrid() {
       <VisHeader title={griddata?.title} subtitle={griddata?.subTitle} />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height={262}>
-          <PieChart>
-            <Pie
+          <PieChart >
+            <Pie 
               dataKey="value"
               data={data}
               //Determines y coord offset
@@ -32,7 +32,7 @@ export default function GendersPieChartGrid() {
               endAngle={90}
             >
               {data.map((item, index) => (
-                <Cell
+                <Cell 
                   onClick={() => {
                     updateFilterOption('gender', item.id);
                   }}
@@ -46,7 +46,7 @@ export default function GendersPieChartGrid() {
         </ResponsiveContainer>
         <Row style={{ margin: "20px" }}>
           {data.map((item, index) => (
-            <Col
+            <Col 
               span={12}
               style={{
                 display: "flex",
@@ -56,7 +56,7 @@ export default function GendersPieChartGrid() {
               }}
               key={index}
             >
-              <div
+              <div 
                 style={{
                   width: 6,
                   height: 6,
@@ -66,7 +66,7 @@ export default function GendersPieChartGrid() {
                   borderColor: item.color,
                 }}
               />
-              <p>
+              <p className="text-data">
                 {item?.title} ({item?.value})
               </p>
             </Col>

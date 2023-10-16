@@ -63,7 +63,7 @@ const TopicsCountBarChart = () => {
             }}
             barGap={100}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid  strokeDasharray="3 3" />
             <XAxis type="number" />
             <YAxis dataKey='name' type="category" interval={0} fontSize={12} />
             <Tooltip content={<CustomTooltip />} />

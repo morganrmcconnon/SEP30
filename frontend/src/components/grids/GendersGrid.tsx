@@ -23,7 +23,7 @@ export default function GendersGrid() {
     <div className="vis-container">
       <VisHeader title={data?.title} subtitle={data?.subTitle} />
       <div className="vis-svg-container">
-        <div style={{ padding: 20 }}>
+        <div className="comp-text" style={{ padding: 20 }}>
           <Row>
             <Col span={4} style={{ display: "flex", alignItems: "center" }}>
               <p style={{ fontSize: 16 }} onClick={() => updateFilterOption("gender", "female")}>Female:</p>
@@ -41,10 +41,10 @@ export default function GendersGrid() {
           <Row style={{ marginTop: 20 }}>
             {Object.keys(data?.data.female.sentiment).map((item, index) => (
               <Col span={12} style={{ marginTop: 5 }} key={index}>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", alignItems: "center"  }}>
                   {getIcon(item)}
-                  <p style={{ textTransform: "capitalize" }} onClick={() => updateFilterOption("sentiment", item)}>
-                    {item} {data?.data.female.sentiment[item]}
+                  <p className="text-data" style={{ textTransform: "capitalize"}} onClick={() => updateFilterOption("sentiment", item)}>
+                    {item} ({data?.data.female.sentiment[item]})
                   </p>
                 </div>
               </Col>
@@ -68,10 +68,10 @@ export default function GendersGrid() {
           <Row style={{ marginTop: 20 }}>
             {Object.keys(data?.data.male.sentiment).map((item, index) => (
               <Col span={12} style={{ marginTop: 5 }} key={index}>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", alignItems: "center"}}>
                   {getIcon(item)}
-                  <p style={{ textTransform: "capitalize" }} onClick={() => updateFilterOption("sentiment", item)}>
-                    {item} {data?.data.male.sentiment[item]}
+                  <p className="text-data" style={{ textTransform: "capitalize"}} onClick={() => updateFilterOption("sentiment", item)}>
+                    {item} ({data?.data.male.sentiment[item]})
                   </p>
                 </div>
               </Col>

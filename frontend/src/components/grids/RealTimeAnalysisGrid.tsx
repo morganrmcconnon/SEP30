@@ -18,9 +18,10 @@ export default function RealTimeAnalysis() {
       <VisHeader title='Dashboard overview' subtitle='Overview of the dashboard' />
       <div className='vis-svg-container'>
         <Row>
-          <Col span={11} style={{ padding: 20 }}>
+          <Col className="comp-text" span={11} style={{ padding: 20 }}>
             {data.dataBoxRight.map((item, index) => (
               <div
+                className="background"
                 key={index}
                 style={{
                   display: 'flex',
@@ -30,13 +31,11 @@ export default function RealTimeAnalysis() {
                   borderColor: item.colorChart,
                   borderRadius: 10,
                   padding: 20,
-                  backgroundColor: item.bgColor,
-                  color: item.textColor,
                   marginBottom: 20,
                 }}
               >
                 <CircleProgressVis
-                  textColor={item.textColor}
+                  textColor=""
                   bgColor={item.colorChart}
                   percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
                 />

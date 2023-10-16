@@ -17,7 +17,7 @@ const SentimentBarChart = () => {
       <VisHeader title={griddata?.title} subtitle={griddata?.subTitle} />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
+          <BarChart 
             width={500}
             height={280}
             data={data}
@@ -44,7 +44,7 @@ const SentimentBarChart = () => {
             <Bar name="Tweets per Gender" dataKey="value" fill={ColorVar.blue} >
               {data.map((item, index) => (
                 <>
-                <LabelList
+                <LabelList 
                     dataKey="value"
                     position="top"
                     angle={0}

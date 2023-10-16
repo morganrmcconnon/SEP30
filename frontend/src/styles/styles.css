@@ -32,7 +32,7 @@ p {
 
 .dark {
   --color-primary: white;
-  --color-faint: #868e96;
+  --color-faint: #d9d9d9;
   --color-secondary: #23272b;
   --color-blue: #339af0;
   --color-lightblue: #d0ebff;
@@ -426,4 +426,30 @@ a {
 
 .about-card .about-card-result p {
   margin-bottom: 0.5em;
+}
+
+.comp-background {
+  background-color: var(--color-white);
+}
+
+.recharts-cartesian-axis-tick-value{
+  fill: var(--color-faint) !important;
+}
+
+.comp-text{
+  color: var(--color-primary) !important;
+}
+
+.ant-table-cell{
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-secondary) !important;
+  color:var(--color-primary);
+}
+
+.ant-table-thead .ant-table-cell{
+  background-color: var(--color-secondary) !important;
+}
+
+.ant-table-column-title {
+  color: var(--color-primary);
 }
