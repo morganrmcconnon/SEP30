@@ -401,7 +401,7 @@ const KnowledgeGraph = () => {
             const centerX = node.x!;
             const centerY = node.y!;
             // Map node value from 0 to 100 to radius from 0 to 10
-            const radius = 3 * node.group;
+            const radius = 6;
 
             ctx.beginPath();
 
