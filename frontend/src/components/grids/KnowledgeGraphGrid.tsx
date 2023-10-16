@@ -184,10 +184,25 @@ const KnowledgeGraph = () => {
   });
 
   // Get only the top 10 keywords and topics
+  // But keep the selected keyword and topic
   const top_keywords = data.nodes.filter((node) => node.group === 1).sort((a, b) => b.value - a.value).slice(0, 10);
   const top_topics = data.nodes.filter((node) => node.group === 2).sort((a, b) => b.value - a.value).slice(0, 10);
 
-  data.nodes = [...top_keywords, ...top_topics];
+  const new_data_nodes = [...top_keywords, ...top_topics];
+
+  const keyword_find = data.nodes.find((node) => node.name === filterOptions.keyword && node.group === 1);
+
+  if (keyword_find !== undefined && new_data_nodes.includes(keyword_find) === false) {
+    new_data_nodes.push(keyword_find);
+  }
+
+  const topic_find = data.nodes.find((node) => node.name === filterOptions.topic && node.group === 2);
+
+  if (topic_find !== undefined && new_data_nodes.includes(topic_find) === false) {
+    new_data_nodes.push(topic_find);
+  }
+  
+  data.nodes = new_data_nodes;
 
   data.nodes.forEach((node, index) => {
     node.id = index.toString();

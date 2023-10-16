@@ -13,7 +13,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
   if (active && payload && payload.length) {
     const item = payload[0].payload;
     return (
-      <div style={{ backgroundColor: '#fff', padding: 8, border: '1px solid black' }} className="text-black-white">
+      <div style={{ backgroundColor: 'white', padding: 8, border: '1px solid black' }}>
         <p>{`"${label}"`}</p>
         <p>Occured in {item.count} tweets ({Math.round(item.proportion * 10000) / 100}%)</p>
         <p>Mentioned {item.frequency} times</p>
@@ -97,7 +97,7 @@ const KeywordsCountBarChart = () => {
                     key={`cell-${item.name}`}
                   />
                   <Cell
-                    fill={(item.name === filterOptions.keyword ? ColorVar.red : ColorVar.blue)}
+                    fill={(item.name === filterOptions.keyword ? ColorVar.orange : ColorVar.blue)}
                     onClick={() => {
                       updateFilterOption("keyword", item.name);
                     }}
