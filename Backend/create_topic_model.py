@@ -1,5 +1,5 @@
-from analyze_tweets.topic_modelling import create_topic_model, NUM_TOPICS
-from analyze_tweets.tweet_text import clean_tweet_text
+from components.analyze_tweets.topic_modelling import create_topic_model, NUM_TOPICS
+from components.analyze_tweets.tweet_text import clean_tweet_text
 import pandas as pd
 import os
 import json
@@ -7,8 +7,8 @@ import json
 if __name__ == "__main__":
     
     current_dir = os.path.dirname(__file__)
-    training_data_path = os.path.join(current_dir, "../data/Mental-Health-Twitter.csv")
-    model_folder_path = os.path.join(current_dir, "../topic_model")
+    training_data_path = os.path.join(current_dir, "../components/data/Mental-Health-Twitter.csv")
+    model_folder_path = os.path.join(current_dir, "../components/topic_model")
     save_model_to_file = os.path.join(model_folder_path, "lda_model.model")
     save_topics_to_file = os.path.join(model_folder_path, "topics.json")
 

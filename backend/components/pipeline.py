@@ -1,7 +1,7 @@
 import os
 from tqdm import tqdm
 
-from constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
+from components.constants import DATABASE, CollectionNames, DATA_LAKE_FOLDER, DataFolderNames
 
 from components.download_tweets.download_tweets import download_tweets
 from components.download_tweets.get_download_url import get_download_url

@@ -4,7 +4,7 @@ import time
 import os
 import json
 
-from constants import CollectionNames, DATABASE
+from components.constants import CollectionNames, DATABASE
 from components.analyze_tweets.translate_text import detect_and_translate_language
 from components.analyze_tweets.spacy_matcher import create_matcher_model, text_is_related_to_mental_health
 from components.analyze_tweets.sentiment_vader import check_sentiment
