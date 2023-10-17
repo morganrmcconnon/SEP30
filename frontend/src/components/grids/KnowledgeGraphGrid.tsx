@@ -416,7 +416,7 @@ const KnowledgeGraph = () => {
             const centerX = node.x!;
             const centerY = node.y!;
             // Map node value from 0 to 100 to radius from 0 to 10
-            const radius = 6;
+            const radius = node.selected ? 6 : 3;
 
             ctx.beginPath();
 
@@ -455,36 +455,34 @@ const KnowledgeGraph = () => {
             const bckgDimensions = [textWidth + fontSize * padding / 2, fontSize + fontSize * padding / 2]
             ctx.fillStyle = "rgba(0,0,0, 0.5)"; // Transparent black
 
-            // Draw the text in the middle of the circle
-            // const text = "Hello";
-            // const textWidth = ctx.measureText(text).width;
-            ctx.fillRect(centerX - bckgDimensions[0] / 2, centerY - bckgDimensions[1] / 2, bckgDimensions[0], bckgDimensions[1]);
+            // Draw the text
+            ctx.fillRect(centerX - bckgDimensions[0] / 2, centerY - bckgDimensions[1] / 2  + radius + fontSize, bckgDimensions[0], bckgDimensions[1]);
             ctx.fillStyle = 'white'; // Set the text color back to white
             ctx.font = `${fontSize}px Sans-Serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(label, centerX, centerY, bckgDimensions[0]);
+            ctx.fillText(label, centerX, centerY + radius + fontSize, bckgDimensions[0]);
 
             node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
           }}
-          nodePointerAreaPaint={(node, color, ctx) => {
-            ctx.fillStyle = color;
-            const bckgDimensions = node.__bckgDimensions;
-            const centerX = node.x!;
-            const centerY = node.y!;
-            const radius = 5;
-            if (bckgDimensions !== undefined) {
-              const backgroundDimensions = [Math.max(2 * radius, bckgDimensions[0]), Math.max(2 * radius, bckgDimensions[1])];
-              bckgDimensions && ctx.fillRect(centerX - backgroundDimensions[0] / 2, centerY - backgroundDimensions[1] / 2, backgroundDimensions[0], backgroundDimensions[1]);
-            }
+          // nodePointerAreaPaint={(node, color, ctx) => {
+          //   ctx.fillStyle = color;
+          //   const bckgDimensions = node.__bckgDimensions;
+          //   const centerX = node.x!;
+          //   const centerY = node.y!;
+          //   const radius = 5;
+          //   if (bckgDimensions !== undefined) {
+          //     const backgroundDimensions = [Math.max(2 * radius, bckgDimensions[0]), Math.max(2 * radius, bckgDimensions[1])];
+          //     bckgDimensions && ctx.fillRect(centerX - backgroundDimensions[0] / 2, centerY - backgroundDimensions[1] / 2, backgroundDimensions[0], backgroundDimensions[1]);
+          //   }
 
 
-          }}
+          // }}
           nodeVal={5}
           nodeLabel={node => `${node.name}: ${node.value}`}
           // nodeOpacity={1}
           // nodeThreeObjectExtend={true}
-          linkWidth={5}
+          linkWidth={1}
           // show link labels
           linkLabel={(link: any) => `${link.source?.name} & ${link.target.name}: ${link.value}`}
         />
