@@ -20,7 +20,7 @@ The test_analyze_tweets.py file contains various test cases to validate the func
 
 Feel free to add more test cases or modify existing ones as needed to ensure the robustness and accuracy of the backend tweet analysis processes.
 
-Contact
+## Contact
 For any inquiries or issues related to the testing of tweet analysis, please contact us at twittermentalhealth30@gmail.com.
 
 Thank you for your contributions to the testing and improvement of the Mental Health Dashboard! Your efforts are invaluable in ensuring the accuracy and reliability of our data analysis processes.

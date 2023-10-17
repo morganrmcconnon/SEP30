@@ -1,10 +1,10 @@
 # Components Folder
 The components folder in this project houses essential modules and scripts that form the backbone of the Mental Health Dashboard. Below is an overview of the folders and files contained within the components directory:
 
-1. __pycache__
+1. `__pycache__`
 This folder contains Python bytecode compiled from the source files. It is generated automatically and is used to improve the startup time of the Python interpreter.
 
-2. analyze_tweets Folder
+2. 'analyze_tweets' Folder
 The analyze_tweets folder contains scripts responsible for processing and analyzing raw tweet data. These scripts handle tasks such as sentiment analysis, topic modeling, and demographic analysis.
 
 Files:
