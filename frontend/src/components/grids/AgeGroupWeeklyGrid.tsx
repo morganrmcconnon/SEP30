@@ -79,7 +79,7 @@ export default function AgeGroupsWeekly() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title='Mental Health Tweets by Age Group' subtitle='Age Insights on Mental Health Tweets' />
+      <VisHeader title='Mental Health Tweets by Age Group' subtitle='Tweets count over time by Age Group' />
       <div className='vis-svg-container'>
         <Row>
           <Col span={24}>
