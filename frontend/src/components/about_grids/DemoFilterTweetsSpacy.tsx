@@ -39,7 +39,7 @@ const DemoFilterTweetsSpacy = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Filter tweets" subtitle="Detect if a tweet is not spam and mental health related using spacy" />
+      <VisHeader title="Filter tweets" subtitle="Predict if a tweet is not spam and mental health related using spacy" />
       <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>

@@ -44,7 +44,7 @@ const DemoTopicBERTArxiv = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="BERTArxiv topic model" subtitle="Detect a text's topic with BERTArxiv topic model" />
+      <VisHeader title="BERTArxiv topic model" subtitle="Predict a text's topic with BERTArxiv topic model" />
       <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
@@ -64,7 +64,7 @@ const DemoTopicBERTArxiv = () => {
           <ul>
             <li>Topic id: {resultData.topic_id}</li>
             <li>Topic name: {resultData.topic_name}</li>
-            <li>Mental Health related: {(resultData.topic_id === 55) ? 'Yes' : (resultData.topic_id !== null) ? 'No' : ''}</li>
+            <li>Mental Health related (ID = 55?): {(resultData.topic_id === 55) ? 'Yes' : (resultData.topic_id !== null) ? 'No' : ''}</li>
           </ul>
         </div>
       </article>
