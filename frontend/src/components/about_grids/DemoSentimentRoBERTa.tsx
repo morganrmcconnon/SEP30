@@ -57,7 +57,7 @@ const DemoSentimentRoBERTa = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="RoBERTa Sentiment model" subtitle="Sentiment analysis with CardiffNLP's Twitter RoBERTa Sentiment" />
+      <VisHeader title="RoBERTa Sentiment model" subtitle="Sentiment analysis with CardiffNLP's Twitter RoBERTa Sentiment model" />
       <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <input

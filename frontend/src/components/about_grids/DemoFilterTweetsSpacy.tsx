@@ -55,10 +55,12 @@ const DemoFilterTweetsSpacy = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>Text is related to mental health: {
-          resultData.is_related === null ? '' :
-            resultData.is_related === true ? 'True' : 'False'
-        }</p>
+        <div className='about-card-result'>
+          <p>Text is related to mental health: {
+            resultData.is_related === null ? '' :
+              resultData.is_related === true ? 'True' : 'False'
+          }</p>
+        </div>
       </article>
     </div>
 

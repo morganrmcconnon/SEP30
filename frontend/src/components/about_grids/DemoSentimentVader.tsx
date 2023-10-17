@@ -55,8 +55,10 @@ const DemoSentimentVader = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>Result: {resultData['sentiment_result']}</p>
-        <p>Compound Score: {resultData['compound_score']}</p>
+        <div className='about-card-result'>
+          <p>Result: {resultData['sentiment_result']}</p>
+          <p>Compound Score: {resultData['compound_score']}</p>
+        </div>
       </article>
     </div>
 

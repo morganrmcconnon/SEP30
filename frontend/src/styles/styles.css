@@ -424,6 +424,10 @@ a {
   margin-bottom: 0.5em;
 }
 
+.about-card .about-card-result * {
+  font-size: 14px;
+}
+
 .about-card .about-card-result ul {
   margin-top: 0.5em;
   margin-bottom: 0.5em;

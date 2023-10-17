@@ -55,15 +55,17 @@ const DemoTextProcessed = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        {
-          resultData.text_processed === null ? (<p>Enter a sentence to process.</p>) :
-            (resultData.text_processed === undefined || resultData.text_processed.length === 0) ? (<p>[No words]</p>) : (
-              <>
-                <p>Words:</p>
-                <p>{resultData.text_processed.join(', ')}</p>
-              </>
-            )
-        }
+        <div className='about-card-result'>
+          {
+            resultData.text_processed === null ? (<p>Enter a sentence to process.</p>) :
+              (resultData.text_processed === undefined || resultData.text_processed.length === 0) ? (<p>[No words]</p>) : (
+                <>
+                  <p>Words:</p>
+                  <p>{resultData.text_processed.join(', ')}</p>
+                </>
+              )
+          }
+        </div>
       </article>
     </div>
 

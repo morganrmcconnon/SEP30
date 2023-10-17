@@ -52,8 +52,10 @@ const DemoTranslate = () => {
             <button type="button" onClick={clearText}>Clear</button>
           </div>
         </form>
-        <p>In English: {resultData['in_english']}</p>
-        <p>Language detected: {resultData['lang_detected']}</p>
+        <div className='about-card-result'>
+          <p>In English: {resultData['in_english']}</p>
+          <p>Language detected: {resultData['lang_detected']}</p>
+        </div>
       </article>
     </div>
 
