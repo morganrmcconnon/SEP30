@@ -21,7 +21,7 @@ export default function GendersGrid() {
 
   return (
     <div className="vis-container">
-      <VisHeader title={data?.title} subtitle={data?.subTitle} />
+      <VisHeader title='Demographic Analysis - Genders' subtitle='Tweets count by gender and sentiment' />
       <div className="vis-svg-container">
         <div className="comp-text" style={{ padding: 20 }}>
           <Row>
