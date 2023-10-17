@@ -16,7 +16,7 @@ export default function GendersPieChartGrid() {
 
   return (
     <div className="vis-container">
-      <VisHeader title={griddata?.title} subtitle={griddata?.subTitle} />
+      <VisHeader title='Demographic Analysis - Genders' subtitle='Tweets proportion by gender' />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height={262}>
           <PieChart >
