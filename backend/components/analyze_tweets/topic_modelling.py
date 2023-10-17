@@ -1,4 +1,4 @@
-import os 
+import os
 
 from gensim import corpora
 from gensim.models import LdaModel
