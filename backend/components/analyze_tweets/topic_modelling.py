@@ -1,9 +1,9 @@
-import os #from TLL
+import os 
 
 from gensim import corpora
 from gensim.models import LdaModel
-from gensim.models.ldamodel import LdaModel #from TLL
-from gensim.matutils import cossim, hellinger #from TLL
+from gensim.models.ldamodel import LdaModel
+from gensim.matutils import cossim, hellinger
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
 import nltk

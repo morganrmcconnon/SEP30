@@ -13,7 +13,6 @@ from components.analyze_tweets.translate_text import detect_and_translate_langua
 from components.analyze_tweets.sentiment_analysis import classify_sentiment
 
 from components.analyze_tweets.topic_modelling import apply_lda_model, tokenize_lemmatize_and_remove_stopwords, create_topic_model, get_keywords_of_topic_model, get_similarity_scores, get_topics_distributions
-#from components.analyze_tweets.topic_lda_labelling import get_similarity_scores, get_topics_distributions
 from components.analyze_tweets.topic_lda_load_pretrained import load_pretrained_model
 
 from components.analyze_tweets.topic_cardiffnlp_tweet_topic import detect_topic_cardiffnlp_tweet_topic
