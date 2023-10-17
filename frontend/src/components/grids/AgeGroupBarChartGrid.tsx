@@ -59,7 +59,7 @@ const AgeGroupsBarChart = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="Demographic Analysis - Age groups" subtitle="Age groups distribution" />
+      <VisHeader title="Demographic Analysis - Age groups" subtitle="Distribution of tweets by age groups" />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart

@@ -9,7 +9,7 @@ export default function AgeGroups() {
   const data = dashboardData.agegroups.data.slice().sort((a, b) => b.percent - a.percent);
   return (
     <div className="vis-container">
-      <VisHeader title='Demographic Analysis - Age Groups' subtitle='Age Groups proportion' />
+      <VisHeader title='Demographic Analysis - Age Groups' subtitle='Proportion of tweets by age groups' />
       <div className="vis-svg-container">
         <DashboardFilteredContextProvider>
           <ResponsiveContainer width="100%" height={250}>
