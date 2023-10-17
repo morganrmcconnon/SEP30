@@ -40,7 +40,7 @@ export default function LocationsGrid() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title={data?.title} subtitle={data?.subTitle} />
+      <VisHeader title='Demographic Analysis - Location' subtitle='Top countries with the most tweets (plus Australia)' />
       <div className='vis-svg-container'>
         <Row style={{ margin: 30 }}>
           <Col span={6}>
@@ -49,7 +49,7 @@ export default function LocationsGrid() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
                     <p className='text-black-white'>{item.name}</p>
-                    <p className='text-data'>{item.value} {item.value != 1 ? 'users' : 'user'}</p>
+                    <p className='text-data'>{item.value} {item.value != 1 ? 'tweets' : 'tweet'}</p>
                   </div>
 
 
