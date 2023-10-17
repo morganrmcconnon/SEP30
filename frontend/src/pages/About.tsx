@@ -14,7 +14,7 @@ export default function About() {
         <Sidebar />
       </div>
       <div className="keywordsearch-container">
-        <PageHeader icon={information} title={"Data science methods that we used"} />
+        <PageHeader icon={information} title={"Data science methods used by the system"} />
       </div>
       <div className="dashboard-container">
         <AboutGrids />

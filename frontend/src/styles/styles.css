@@ -386,6 +386,8 @@ a {
     display: block;
     padding: 10px;
     border: 1px solid #ccc;
+    color: var(--color-primary);
+    background-color: var(--color-white);
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -396,14 +398,16 @@ a {
 }
 
 .about-card form input[type=text]:focus {
-  border: 3px solid #555;
+  border: 3px solid var(--color-primary);
 }
 
 .about-card form button {
     margin-right: 0.5em;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-secondary);
+    color: var(--color-primary);
     border-radius: 4px;
+    background-color: var(--color-secondary);
     cursor: pointer;
 }
 
@@ -411,6 +415,8 @@ a {
 .about-card form button:hover {
     /* Create box shadow */
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.24);
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 
 .about-card .about-card-buttons {
