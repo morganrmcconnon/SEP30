@@ -76,7 +76,7 @@ export default function GenderGroupsWeekly() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title='Mental Health Tweets by Gender' subtitle='Gender Insights on Mental Health Tweets' />
+      <VisHeader title='Mental Health Tweets by Gender' subtitle='Tweets count over time by Gender' />
       <div className='vis-svg-container'>
         <Row>
           <Col span={24}>
