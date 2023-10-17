@@ -76,7 +76,7 @@ export default function SentimentGroupsWeekly() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title={'Mental Health Tweets by Sentiment Analysis Result'} subtitle={'Sentiment Insights on Mental Health Tweets'} />
+      <VisHeader title={'Mental Health Tweets by Sentiment'} subtitle={'Tweets count over time by Sentiment'} />
       <div className='vis-svg-container'>
         <Row>
           <Col span={24}>

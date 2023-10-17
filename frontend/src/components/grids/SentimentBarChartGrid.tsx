@@ -10,7 +10,7 @@ const SentimentBarChart = () => {
   const data = dashboardData.sentimentAnalysis;
   return (
     <div className="vis-container">
-      <VisHeader title={data?.title} subtitle={data?.subTitle} />
+      <VisHeader title='Sentiment Analysis' subtitle='Tweets distribution by sentiment' />
       <div className="vis-svg-container">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
