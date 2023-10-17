@@ -436,6 +436,10 @@ a {
   fill: var(--color-faint) !important;
 }
 
+.recharts-sector{
+  stroke: var(--color-secondary);
+}
+
 .comp-text{
   color: var(--color-primary) !important;
 }
@@ -446,10 +450,22 @@ a {
   color:var(--color-primary);
 }
 
+.ant-table-cell.ant-table-cell-row-hover{
+  background-color: var(--color-secondary) !important;
+}
+
 .ant-table-thead .ant-table-cell{
   background-color: var(--color-secondary) !important;
 }
 
+.ant-table.ant-table-fixed-header{
+  background-color: var(--color-white);
+}
+
 .ant-table-column-title {
   color: var(--color-primary);
+}
+
+.ant-table-column-sorter-inner{
+  filter: var(--filter-dark)
 }
