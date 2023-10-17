@@ -1,11 +1,12 @@
 # Components Folder
 The components folder in this project houses essential modules and scripts that form the backbone of the Mental Health Dashboard. Below is an overview of the folders and files contained within the components directory:
 
-1. `__pycache__`
+## 1. `__pycache__`
 
 This folder contains Python bytecode compiled from the source files. It is generated automatically and is used to improve the startup time of the Python interpreter.
 
-2. `analyze_tweets` Folder
+
+## 2. `analyze_tweets` Folder
 
 The `analyze_tweets` folder contains scripts responsible for processing and analyzing raw tweet data. These scripts handle tasks such as sentiment analysis, topic modeling, and demographic analysis.
 
@@ -38,11 +39,13 @@ Files:
 `tweet_text.py`: Extracts text content from raw tweets.
 
 
-3. `data` Folder
+
+## 3. `data` Folder
 
 The `data` separates code from data.
 
-4. `download_tweets` Folder
+
+## 4. `download_tweets` Folder
 
 The `download_tweets` folder contains scripts responsible for downloading tweets from an online Twitter Archive dataset.
 
@@ -55,7 +58,8 @@ Files:
 `__init__.py`: Python package initializer.
 
 
-5. `topic_model` Folder
+
+## 5. `topic_model` Folder
 
 The `topic_model` folder includes files related to topic modeling. Topic modeling identifies prevalent themes within collected tweets.
 
@@ -71,15 +75,18 @@ Files:
 
 `topics.json`: Extracted topics with corresponding keywords.
 
-6. `__init__.py`
+
+## 6. `__init__.py`
 
 This file is a Python package initializer. It defines what symbols the module exports when the package is imported.
 
-7. `constants.py`
+
+## 7. `constants.py`
 
 `constants.py` contains constant values used throughout the project. Constants provide meaningful names to values, enhancing the code's readability and maintainability.
 
-8. `pipeline.py`
+
+## 8. `pipeline.py`
 
 `pipeline.py` defines the main data processing pipeline for the Mental Health Dashboard project. It orchestrates the various components, ensuring data flows seamlessly through the system.
 
