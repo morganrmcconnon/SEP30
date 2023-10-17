@@ -1,0 +1,10 @@
+*ipynb_checkpoints/
+api_key.json
+*.pyc
+*.tmp
+*.txt
+*.json
+.datawand/
+datawand_info.json
+*/luigi.cfg
+reports/

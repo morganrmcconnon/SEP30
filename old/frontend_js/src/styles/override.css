@@ -1,0 +1,17 @@
+:root
+{
+	--color-dark:#343a40;
+	--color-grey:#868e96;
+	--color-secondary:#f5f5f5;
+	--color-blue:#339AF0;
+	--color-lightblue:#D0EBFF;
+	--color-green:#51CF66;
+	--color-lightgreen:#D3F9D8;
+	--color-orange:#FF922B;
+	--color-red:#FF6B6B
+}
+
+.react-grid-item.react-grid-placeholder{
+	background: var(--color-grey);
+	border-radius:15px;
+}
