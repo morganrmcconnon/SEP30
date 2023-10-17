@@ -1,3 +1,4 @@
+'''
 import os
 from gensim.models.ldamodel import LdaModel
 from gensim.matutils import cossim, hellinger
@@ -52,3 +53,4 @@ def get_similarity_scores(labels_topics_distributions_list : list[str, list[int,
         label_topics_distribution = item[1]
         similarity_scores.append([label, get_similarity_score(label_topics_distribution, topics_distribution, method)])
     return similarity_scores
+'''
