@@ -7,8 +7,8 @@ import json
 if __name__ == "__main__":
     
     current_dir = os.path.dirname(__file__)
-    training_data_path = os.path.join(current_dir, "../components/data/Mental-Health-Twitter.csv")
-    model_folder_path = os.path.join(current_dir, "../components/topic_model")
+    training_data_path = os.path.join(current_dir, "components/data/Mental-Health-Twitter.csv")
+    model_folder_path = os.path.join(current_dir, "components/topic_model")
     save_model_to_file = os.path.join(model_folder_path, "lda_model.model")
     save_topics_to_file = os.path.join(model_folder_path, "topics.json")
 

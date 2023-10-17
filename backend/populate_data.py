@@ -35,7 +35,7 @@ def main():
         minutes=args.delta_minute,
     )
 
-    from backend.components.pipeline import analyze_data_by
+    from components.pipeline import analyze_data_by
 
     if args.loop:
         while True:
