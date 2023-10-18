@@ -99,14 +99,42 @@ export const DashboardFilteredContextProvider: React.FC<{ children: React.ReactN
   };
 
   useEffect(() => {
-    // Query the backend for the data on the first render
-    fetch("/backend/get_cached")
+    // Use this code if you want to get data from the database
+    // // Get last week's data
+
+    // const lastMonday = new Date();
+    // lastMonday.setDate(lastMonday.getDate() - ((lastMonday.getDay() + 6) % 7));
+    // lastMonday.setHours(0, 0, 0, 0);
+
+    // const lastLastMonday = new Date(lastMonday);
+    // lastLastMonday.setDate(lastLastMonday.getDate() - 7);
+
+    // // For testing purposes only
+    // // Since we only have data for 2022 (from Internet Archive's Twitter Stream), we need to set the year to 2022 to get the data for the last week of 2022
+    // lastLastMonday.setFullYear(2022);
+    // lastLastMonday.setMonth(10);
+    // lastLastMonday.setDate(1);
+    
+    // lastMonday.setFullYear(2022);
+    // lastMonday.setMonth(10);
+    // lastMonday.setDate(15);
+
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ 
+    //     'start': lastLastMonday, 
+    //     'end': lastMonday,
+    //   }),
+    // };
+    // fetch("/api/data", requestOptions)
+    fetch("/api/get_cached")
       .then((res) => res.json())
       .then((data) => {
         updateBackendData(data);
       })
       .catch((err) => {
-        console.log(`Something went wrong with executing endpoint "/backend/get_cached"`);
+        console.log(`Something went wrong with getting data from the backend.`);
         console.log(err);
         console.error(err);
       });
