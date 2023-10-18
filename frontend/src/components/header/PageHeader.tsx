@@ -3,7 +3,7 @@ import "../../styles/override.css";
 
 import DarkMode from "./DarkMode";
 
-const PageHeader  : React.FC<{
+const PageHeader : React.FC<{
   icon: string;
   title: string;
 }> = (props) => {

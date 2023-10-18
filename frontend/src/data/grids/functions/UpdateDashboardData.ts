@@ -125,7 +125,7 @@ function update_analyticsBox(total_tweets_count: number, mental_health_related_t
   DATATYPES.analyticsBox.dataBoxRight[0].title = 'Mental health related';
   DATATYPES.analyticsBox.dataBoxRight[0].total = total_tweets_count;
   DATATYPES.analyticsBox.dataBoxRight[0].value = mental_health_related_tweets_count;
-  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Visualizing analysis of';
+  DATATYPES.analyticsBox.dataBoxRight[1].title = 'Visualising analysis of';
   DATATYPES.analyticsBox.dataBoxRight[1].total = mental_health_related_tweets_count;
   DATATYPES.analyticsBox.dataBoxRight[1].value = tweets_displayed_count;
   return DATATYPES;

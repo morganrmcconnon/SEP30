@@ -14,6 +14,8 @@ export const ColorVar = {
 }
 
 export const ColorMap = {
+    topic: ColorVar.blue,
+    keyword: ColorVar.green,
     positive: ColorVar.green,
     neutral: ColorVar.blue,
     negative: ColorVar.orange,

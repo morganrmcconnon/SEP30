@@ -5,12 +5,11 @@ import { Col, Row } from 'antd';
 import VisHeader from '../grid_components/VisHeader';
 import CircleProgressVis from '../grid_components/CircleProgressVis';
 import { useDashboardFilteredContext } from '../../contexts/DashboardFilteredContext';
-import CountryName from '../../constants/CountryName';
-import { ALL_KEY_MAPS } from '../../constants/ValueMaps';
+import AllTweetsLineChart from '../grid_components/AllTweetsLineChart';
 
 
 export default function RealTimeAnalysis() {
-  const { dashboardData, filterOptions } = useDashboardFilteredContext();
+  const { dashboardData, backendData } = useDashboardFilteredContext();
   const data = dashboardData.analyticsBox;
 
   return (
@@ -18,77 +17,16 @@ export default function RealTimeAnalysis() {
       <VisHeader title='Dashboard overview' subtitle='Overview of the dashboard' />
       <div className='vis-svg-container'>
         <Row>
-          <Col className="comp-text" span={11} style={{ padding: 20 }}>
-            {data.dataBoxRight.map((item, index) => (
-              <div
-                className="background"
-                key={index}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  border: '1px solid',
-                  borderColor: item.colorChart,
-                  borderRadius: 10,
-                  padding: 20,
-                  marginBottom: 20,
-                }}
-              >
-                <CircleProgressVis
-                  textColor=""
-                  bgColor={item.colorChart}
-                  percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
-                />
-                <div>
-                  <p style={{ fontSize: 16 }}>{item.title}</p>
-                  <p style={{ fontSize: 26 }}>{item.value} {item.value === 1 ? `tweet` : `tweets`}</p>
-                </div>
-              </div>
-            ))}
-          </Col>
+          {/* <Col span={1}></Col> */}
           <Col span={12}>
             <div>
               <h3 className='text-black-white' style={{ margin: '20px 0 0 30px' }}>
-                Total number of tweets analyzed: {data?.dataChart.totalData}
+                Analysed {data?.dataChart.totalData} tweets. {backendData?.tweet_objects.length || 0} mental health related.
               </h3>
-              <h3 className='text-black-white' style={{ margin: '20px 0 0 30px' }}>
-                Click on a data point (a section of the visualisation) to filter the visualised tweets.
+              <h3 className='text-black-white' style={{ margin: '0 0 0 30px', fontWeight: 'normal' }}>
+                Click on a data point to filter the visualised tweets.
               </h3>
-              
-              <h3 className='text-black-white' style={{ margin: '10px 0 0 30px' }}>
-                {
-                  // Count the number of entries in the search variable where the search is true
-                  Object.entries(filterOptions).reduce((acc, [_, value]) => {
-                    if (value === null) return acc;
-                    return acc + 1;
-                  }, 0) == 0 ? '' : 'Filters applied:'
-                }
-              </h3>
-              <ul>
-                  {Object.entries(filterOptions).map(([key, value]) => {
-                    if (value === null) return '';
-
-                    if (key === 'location') return (
-                      <li className='text-black-white' key={key}>
-                        {`Country: "${CountryName[value]}"`}
-                      </li>
-                    );
-
-                    if (key in ALL_KEY_MAPS) return (
-
-                      <li className='text-black-white' key={key}>
-                        {`${key[0].toUpperCase() + key.substring(1)}: "${ALL_KEY_MAPS[key][value.toString()]}"`}
-                      </li>
-                    );
-
-                    return (
-                      <li className='text-black-white' key={key}>
-                        {`${key[0].toUpperCase() + key.substring(1)}: "${value}"`}
-                      </li>
-                    );
-                    
-                    })}
-              </ul>
+              <AllTweetsLineChart height={180} />
             </div>
             {/* <Row>
               <Col
@@ -159,7 +97,34 @@ export default function RealTimeAnalysis() {
               ))}
             </Space> */}
           </Col>
-          <Col span={1}></Col>
+          <Col className="comp-text" span={12} style={{ padding: 20 }}>
+            {data.dataBoxRight.map((item, index) => (
+              <div
+                className="background"
+                key={index}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  border: '1px solid',
+                  borderColor: item.colorChart,
+                  borderRadius: 10,
+                  padding: 20,
+                  marginBottom: 20,
+                }}
+              >
+                <CircleProgressVis
+                  textColor=""
+                  bgColor={item.colorChart}
+                  percent={parseInt(((item.value / item.total) * 100).toFixed(0))}
+                />
+                <div>
+                  <p style={{ fontSize: 16 }}>{item.title}</p>
+                  <p style={{ fontSize: 26 }}>{item.value} {item.value === 1 ? `tweet` : `tweets`}</p>
+                </div>
+              </div>
+            ))}
+          </Col>
         </Row>
       </div>
     </div>

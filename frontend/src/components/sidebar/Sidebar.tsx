@@ -1,11 +1,11 @@
-import SidebarNav from "./SidebarNav";
+import SidebarMain from "./SidebarMain";
 import SidebarLogo from "./SidebarLogo";
 
 const Sidebar = () => {
   return (
     <>
       <SidebarLogo />
-      <SidebarNav />
+      <SidebarMain />
     </>
   );
 };

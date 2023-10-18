@@ -19,7 +19,6 @@ import GendersPieChartGrid from "../grids/GendersPieChartGrid.tsx";
 import GendersBarChartGrid from "../grids/GendersBarChartGrid.tsx"
 import LocationsGrid from "../grids/LocationsGrid.tsx";
 import KnowledgeGraph from "../grids/KnowledgeGraphGrid.tsx";
-import TweetsWeekly from "../grids/TweetsWeeklyGrid.tsx";
 // import TestEndpoint from "./grids/TestEndpoint.tsx";
 // import FilterOptionsGrid from "./grids/FilterOptionsGrid.tsx";
 
@@ -44,7 +43,6 @@ const DashboardVis = () => {
     { y: 4, x: 4, w: 4, h: 2.7, i: "GendersBarChartGrid", vis: <GendersBarChartGrid /> },
     { y: 4, x: 8, w: 4, h: 2.7, i: "Genders", vis: <GendersGrid /> },
     { y: 5, x: 0, w: 8, h: 2.7, i: "Locations", vis: <LocationsGrid /> },
-    { y: 5, x: 8, w: 4, h: 2.7, i: "TweetsDaily", vis: <TweetsWeekly /> },
     // { i: "SentimentAnalysis", vis: <SentimentAnalysisGrid />, x: 4, y: 1, w: 4, h: 3, },
     // { i: "KeywordsDistribution", vis: <KeywordsDistribution />, x: 8, y: 2, w: 4, h: 3 },
     //{ i: "TestEndpoint", vis: <TestEndpoint />, x: 8, y: 3, w: 4, h: 1.3 },

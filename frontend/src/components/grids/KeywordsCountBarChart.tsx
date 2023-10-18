@@ -6,7 +6,7 @@ import {
 } from 'recharts/types/component/DefaultTooltipContent';
 
 import VisHeader from "../grid_components/VisHeader";
-import { ColorVar } from "../../constants/Colors";
+import { ColorMap, ColorVar } from "../../constants/Colors";
 import { useDashboardFilteredContext } from "../../contexts/DashboardFilteredContext";
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
@@ -87,7 +87,7 @@ const KeywordsCountBarChart = () => {
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <ReferenceLine y={0} stroke="#000" />
-            <Bar name="Number of tweets" dataKey="count" fill={ColorVar.blue} >
+            <Bar name="Number of tweets" dataKey="count" fill={ColorMap.keyword} >
               {data.map((item) => (
                 <>
                   <LabelList
@@ -97,7 +97,7 @@ const KeywordsCountBarChart = () => {
                     key={`cell-${item.name}`}
                   />
                   <Cell
-                    fill={(item.name === filterOptions.keyword ? ColorVar.orange : ColorVar.blue)}
+                    fill={(item.name === filterOptions.keyword ? ColorVar.orange : ColorMap.keyword)}
                     onClick={() => {
                       updateFilterOption("keyword", item.name);
                     }}

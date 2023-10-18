@@ -5,7 +5,7 @@ import information from "../../assets/information.svg";
 
 import { Link } from "react-router-dom";
 
-const SidebarNav = () => {
+const SidebarMain = () => {
   return (
     <>
       <h3 className="sidebar-title">MAIN MENU</h3>
@@ -35,4 +35,4 @@ const SidebarNav = () => {
   );
 };
 
-export default SidebarNav;
+export default SidebarMain;
