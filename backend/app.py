@@ -293,8 +293,6 @@ def get_analyzed_data_cached_static():
 
 @app.route("/api/analyze_multiple_tweet")
 @app.route("/backend/get_analyzed_data", methods=["GET"])
-@app.route("/api/data", methods=["GET"])
-@app.route("/backend/data", methods=["GET"])
 def get_analyze_multiple_tweet_data():
     # Return content from server
 
@@ -311,6 +309,58 @@ def get_analyze_multiple_tweet_data():
         
     else:
         return get_analyzed_data_cached()
+
+@app.route("/api/data", methods=["POST"])
+@app.route("/backend/data", methods=["POST"])
+def data_select_tweets_by_timestamp_ms_range():
+    data = request.get_json()
+    start_timestamp_ms = str(data['start'])
+    end_timestamp_ms = str(data['end'])
+
+
+    # Query MongoDB collection to select tweet IDs based on timestamp range
+
+    total_tweets_count = DATABASE['analyzed_tweets'].count_documents({
+                "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms}
+            })
+    
+    print(total_tweets_count)
+    
+    query_filter = {
+        "timestamp_ms": {"$gte": start_timestamp_ms, "$lte": end_timestamp_ms},
+        # filter tweets that are not mental health related
+        "$or": [
+            { 'topic_bert_arxiv.topic_id': 55 },
+            { 'spacy_match.in_english': True },
+            { 'spacy_match.original': True }
+        ]
+    }
+
+    related_tweets_analyzed = DATABASE['analyzed_tweets'].find(query_filter)
+    
+    related_tweets_analyzed = list(related_tweets_analyzed)
+
+    related_tweets_count = len(related_tweets_analyzed)
+
+    # Temporary get the first tweet's LDA model ID
+    lda_model_id = related_tweets_analyzed[0]['topic_lda']['model_id']
+
+    lda_topic_model_values = DATABASE[CollectionNames.topic_models_lda.value].find_one({'_id': lda_model_id})
+
+    response_object = {
+        "aggregate_results": {
+            "total_tweets_count": total_tweets_count,
+            "related_tweets_count": related_tweets_count,
+        },
+        "lda_topic_model": lda_topic_model_values,
+        "tweet_objects": related_tweets_analyzed
+    }
+
+    
+    return jsonify(response_object)
+
+
+
 
 #Additional MongoDB functionalities
 @app.route("/api/select_analyzed_tweets", methods=["GET"])
