@@ -1,8 +1,6 @@
 export function timestampToShortDayMonth(timestamp: string): string {
   const parsedTimestamp = parseInt(timestamp, 10); // Parse the string timestamp into a number
-  const date = new Date(parsedTimestamp);
-  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
-  return date.toLocaleDateString(undefined, options);
+  return timestampIntToShortDayMonth(parsedTimestamp);
 }
 
 export function timestampIntToShortDayMonth(timestamp: number): string {

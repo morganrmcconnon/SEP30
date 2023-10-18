@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
 
 
 export default function SentimentGroupsWeekly() {
-  const { tweetOjects } = useDashboardFilteredContext();
+  const { tweetOjects, updateFilterOption } = useDashboardFilteredContext();
 
   const min_timestamp = Math.min(...tweetOjects.map((item) => parseInt(item.timestamp_ms, 10)));
   const max_timestamp = Math.max(...tweetOjects.map((item) => parseInt(item.timestamp_ms, 10)));
@@ -95,6 +95,11 @@ export default function SentimentGroupsWeekly() {
                       top: 20,
                       bottom: 5,
                       left: 10,
+                    }}
+                    onClick={(event) => {
+                      if(event.activePayload) {
+                        updateFilterOption('date', event.activePayload[0].payload.date_string);
+                      }
                     }}
                   >
                     <Tooltip content={<CustomTooltip />} />

@@ -35,7 +35,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
 const AllTweetsLineChart: React.FC<{
   height: number;
 }> = (props) => {
-  const { tweetOjects, backendData, filterOptions } = useDashboardFilteredContext();
+  const { tweetOjects, backendData, filterOptions, updateFilterOption } = useDashboardFilteredContext();
 
   const original_tweetOjects = backendData?.tweet_objects || [];
 
@@ -91,6 +91,11 @@ const AllTweetsLineChart: React.FC<{
                 top: 20,
                 bottom: 5,
                 left: 10,
+              }}
+              onClick={(event) => {
+                if(event.activePayload) {
+                  updateFilterOption('date', event.activePayload[0].payload.date_string);
+                }
               }}
             >
               <Tooltip content={<CustomTooltip />} />

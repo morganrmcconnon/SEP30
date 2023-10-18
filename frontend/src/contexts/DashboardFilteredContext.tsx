@@ -3,12 +3,12 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { update_dashboard_data } from "../data/grids/functions/UpdateDashboardData";
 // import { filter_data_by } from "../data/api/functions/FilterData";
 import { aggregate_data } from "../data/api/functions/AggregateData";
-
 import { DATATYPES } from "../data/grids/constants/DATATYPES";
 import { GridsDataType } from "../data/grids/types/GridsDataType";
 import { BackendOutput } from "../data/api/types/BackendOutput";
 import { TweetObject } from "../data/api/types/TweetObject";
 import { UserObject } from "../data/api/types/UserObject";
+import { timestampToShortDayMonth } from "../utils/DateTimeFunctions";
 
 export type FilterOptionsType = {
   sentiment: string | null,
@@ -33,6 +33,7 @@ function filter_tweets_list_by(
     const country_code = user_object.country_code;
     const age_predicted = user_object.age;
     const gender_predicted = user_object.gender;
+    const timestamp_ms = tweet_object.timestamp_ms;
     return (
       (filter_option.sentiment === null || sentiment_predicted === filter_option.sentiment)
       && (filter_option.topic === null || tweet_object.topic_lda.related_topics.cosine_similarity.includes(filter_option.topic))
@@ -40,6 +41,7 @@ function filter_tweets_list_by(
       && (country_code === filter_option.location || filter_option.location === null)
       && (age_predicted === filter_option.age || filter_option.age === null)
       && (gender_predicted === filter_option.gender || filter_option.gender === null)
+      && (filter_option.date === null || timestampToShortDayMonth(timestamp_ms) === filter_option.date)
     );
   });
 }
