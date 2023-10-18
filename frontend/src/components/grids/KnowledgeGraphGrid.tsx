@@ -368,7 +368,7 @@ const KnowledgeGraph = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title='Knowledge Graph' subtitle='Knowledge Graph' />
+      <VisHeader title='Knowledge Graph' subtitle='Concepts related by the same tweets.' />
       <div className="vis-svg-container">
         <ForceGraph2D
 
@@ -479,7 +479,7 @@ const KnowledgeGraph = () => {
 
           // }}
           nodeVal={5}
-          nodeLabel={node => `${node.name}: ${node.value}`}
+          nodeLabel={node => `${node.name}: ${node.count}`}
           // nodeOpacity={1}
           // nodeThreeObjectExtend={true}
           linkWidth={1}
