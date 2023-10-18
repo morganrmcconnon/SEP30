@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\frontend",
-    "\\frontend\\public"
+    "\\frontend\\public",
+    "\\frontend\\src",
+    "\\frontend\\src\\components",
+    "\\frontend\\src\\components\\grids"
   ],
-  "SelectedNode": "\\frontend\\public\\features.json",
   "PreviewInSolutionExplorer": false
 }
