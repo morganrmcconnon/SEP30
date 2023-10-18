@@ -27,7 +27,7 @@ const SentimentBarChart = () => {
             key={Math.random()}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="title" />
+            <XAxis dataKey="title" interval={0} fontSize={12} />
             <YAxis />
             <Tooltip />
             <Legend />

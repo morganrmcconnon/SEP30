@@ -77,7 +77,7 @@ const AgeGroupsBarChart = () => {
             key={Math.random()}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" interval={0} fontSize={10} />
+            <XAxis dataKey="name" interval={0} fontSize={12} />
             <YAxis />
             <Tooltip />
             <Legend />

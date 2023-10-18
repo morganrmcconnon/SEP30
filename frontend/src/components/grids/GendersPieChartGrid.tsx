@@ -10,8 +10,8 @@ export default function GendersPieChartGrid() {
   const { updateFilterOption, dashboardData } = useDashboardFilteredContext();
   const griddata = dashboardData.genders;
   const data = [
-    { id: 'female', title: "Female", color: ColorVar.red, value: griddata.data.female.present },
-    { id: 'male', title: "Male", color: ColorVar.blue, value: griddata.data.male.present },
+    { id: 'female', name: "Female", color: ColorVar.red, value: griddata.data.female.present },
+    { id: 'male', name: "Male", color: ColorVar.blue, value: griddata.data.male.present },
   ];
 
   return (
@@ -67,7 +67,7 @@ export default function GendersPieChartGrid() {
                 }}
               />
               <p className="text-data">
-                {item?.title} ({item?.value})
+                {item?.name} ({item?.value})
               </p>
             </Col>
           ))}

@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
     const item = payload[0].payload;
     return (
       <div style={{ backgroundColor: 'white', padding: 8, border: '1px solid black' }}>
-        <p className='text-data'>Date: {item.date_string}</p>
+        <p className='text-data' style={{ color: 'black' }}>Date: {item.date_string}</p>
         {payload.sort((a, b) => ((b.value as number) - (a.value as number))).map((item, index) => {
           return (
             <p key={index} className='text-data' style={{ color: item.color }}>{legendMap[item.name!].title}: {item.value} users</p>
