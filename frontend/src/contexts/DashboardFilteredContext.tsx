@@ -10,7 +10,7 @@ import { BackendOutput } from "../data/api/types/BackendOutput";
 import { TweetObject } from "../data/api/types/TweetObject";
 import { UserObject } from "../data/api/types/UserObject";
 
-type FilterOptionsType = {
+export type FilterOptionsType = {
   sentiment: string | null,
   topic: string | null,
   keyword: string | null,

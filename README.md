@@ -36,7 +36,7 @@ In order to locally run project, you will need to:
 
 ## Backend
 
-### Installation and run
+### Installation and deploy
 
 Run the following command to start the app:
 ```bash

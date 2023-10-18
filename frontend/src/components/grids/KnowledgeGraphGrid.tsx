@@ -368,7 +368,7 @@ const KnowledgeGraph = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title='Knowledge Graph' subtitle='Concepts related by the same tweets.' />
+      <VisHeader title='Knowledge Graph' subtitle='Multi-attribute network of tweet elements' />
       <div className="vis-svg-container">
         <ForceGraph2D
 

@@ -88,7 +88,7 @@ export default function RealTimeAnalysis() {
                     );
                     
                     })}
-                </ul>
+              </ul>
             </div>
             {/* <Row>
               <Col

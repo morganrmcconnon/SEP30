@@ -17,16 +17,16 @@ const SidebarNav = () => {
               <h3>Dashboard</h3>
             </li>
           </Link>
-          <Link to="/contact">
-            <li>
-              <img className="sidebar-icon" src={contact} alt="contact" />
-              <h3>Contact</h3>
-            </li>
-          </Link>
           <Link to="/about">
             <li>
               <img className="sidebar-icon" src={information} alt="about" />
               <h3>About</h3>
+            </li>
+          </Link>
+          <Link to="/contact">
+            <li>
+              <img className="sidebar-icon" src={contact} alt="contact" />
+              <h3>Contact</h3>
             </li>
           </Link>
         </ul>
