@@ -85,6 +85,11 @@ function update_map(countries_count: Record<string, number>) {
 	  // Add the element to the top of the array
     locations.unshift(temp);
   }
+
+  else {
+    // Add the element to the top of the array
+    locations.unshift({ id: "AUS", name: CountryName["AUS"], value: 0 });
+  }
   
   DATATYPES.locations.data = locations.splice(0, 5).filter((element) => element.id !== "");
 

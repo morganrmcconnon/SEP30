@@ -406,6 +406,7 @@ const KnowledgeGraph = () => {
           linkWidth={1}
           // show link labels
           linkLabel={(link: any) => `${link.source?.name} & ${link.target.name}: ${link.value}`}
+          linkColor={ColorVar.white}
         />
         <Space size='large' style={{ marginLeft: 30, marginTop: 20 }}>
           {legendList.map((item, index) => (

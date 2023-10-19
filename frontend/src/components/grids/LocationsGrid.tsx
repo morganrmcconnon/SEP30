@@ -40,7 +40,7 @@ export default function LocationsGrid() {
 
   return (
     <div className='vis-container'>
-      <VisHeader title='Demographic Analysis - Location' subtitle='Top countries with the most tweets (plus Australia)' />
+      <VisHeader title='Demographic Analysis - Location' subtitle='Top countries with the most tweets (highlighting Australia)' />
       <div className='vis-svg-container'>
         <Row style={{ margin: 30 }}>
           <Col span={6}>
