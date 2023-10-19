@@ -135,24 +135,12 @@ python populate_data.py
 python3 populate_data.py
 ```
 
-The `populate_data.py` script is a CLI that will use the `components/pipeline.py` module to start collecting, processing, and analysing Twitter data from the Internet Archive's Twitter Stream Collection on October 15th, 2022 at 12:00 pm.
+The `populate_data.py` script is a CLI that will use the `components/pipeline.py` module to start collecting, processing, and analysing Twitter data on October 15th, 2022 at 12:00 pm. The data is downloaded from the Internet Archive's Twitter Stream Collection.
 
-Optionally, you can also run the following command to start the `populate_data.py` script to download data from a specific date, and/or to download data on loop from a starting date forward/backward a specific time. For example, to download data from October 9th, 2022, at 16:30 pm, looping from that date, forward, in an interval of 1 day, 2 hours, and 3 minues, run the following command:
-
-```bash
-python populate_data.py -d 9 -m 10 -y 2022 -H 0 -M 0 -dd 1 -dH 2 -dM 3 -l -f
-```
-
-### Development
-
-\[TBC\]
-
-### Auto genereate `requirements.txt`
-
-To auto generate `requirements.txt` file, run the following command while in the Python virtual environment:
+Optionally, you can also run the following command to start the `populate_data.py` script to download data from a specific date, and/or to download data on loop from a starting date forward/backward a specific time. For example, to download data from October 9th, 2022, at 1:30 pm, looping from that date, forward, in an interval of 1 day, 2 hours, and 3 minues, run the following command:
 
 ```bash
-pip freeze > requirements.txt
+python populate_data.py -d 9 -m 10 -y 2022 -H 13 -M 30 -dd 1 -dH 2 -dM 3 -l -f
 ```
 
 ## Deployment in a production environment
@@ -220,6 +208,27 @@ python server.py
 ### Deployment of the analysis pipeline
 
 Deploying the analysis pipeline is the same as deploying the analysis pipeline in the development environment.
+
+## Development
+
+\[TBC\]
+
+### Auto genereate `requirements.txt`
+
+To auto generate `requirements.txt` file, run the following command while in the Python virtual environment:
+
+```bash
+pip freeze > requirements.txt
+```
+
+### API Endpoints
+
+### Source code, folder and file structure
+
+### System Architecture
+
+## Testing
+
 
 ## Project description
 
