@@ -9,14 +9,7 @@ export type BackendOutput = {
     keywords_representation: {
       [topic_id: string]: Array<[string, number]>,
     },
-    labels: {
-      [topic_id: string]: Array<{
-        word: string,
-        topic_id: number,
-        topic_prob: number,
-        topics: Array<[number, number]>
-      }>;
-    }
+    labels: Array<[string, Array<[number, number]>]>,
   }
   tweet_objects: TweetObject[];
 };
