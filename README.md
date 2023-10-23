@@ -270,7 +270,7 @@ The response body will be a JSON object with the following properties:
 - `topic_bert_arxiv`: An object containing the information regarding the tweet's related topic, resulted from topic modelling using BERTArxiv  topic model. This object has the following properties:
    - `topic_id`: The BERT topic id with the highest probability.
    - `topic_name`: The BERT topic name with the highest probability.
-- `topic_cardiffnlp`: An object containing the information regarding the tweet's related topic, resulted from topic modelling using CardiffNLP's RoBERTa Tweet Text topic model. This object has the following properties:
+- `topic_cardiffnlp`: An object containing the information regarding the tweet's related topic, resulted from topic modelling using CardiffNLP's RoBERTa Tweet Topic model. This object has the following properties:
    - `topic_id`: The CardiffNLP topic id with the highest score.
    - `topic_name`: The CardiffNLP topic name with the highest score.
    - `topic_score`: The CardiffNLP topic score with the highest score.
