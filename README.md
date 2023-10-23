@@ -21,13 +21,13 @@ Our system consists of a data warehouse, a data analysis server side application
 
 - In the backend, we have a list of **Python components** that are Python modules that provide the ability to collect, process, and analyse data from Twitter. These modules are used by the **data analysis server side application** to collect, process, and analyse data from Twitter, and by the **API** to expose those functions to the **frontend**. In this document, we will refer to these modules as **Python components** or **components**. 
 
-- The **data analysis server side application** is responsible for collecting, processing, and analysing data from Twitter. For this document, we will refer to this application as the **analysis pipeline**.
+- The **data analysis server side application** is responsible for collecting, processing, and analysing data from Twitter. For this document, we will refer to this application as the **data pipeline**, **analysis pipeline**, or just **pipeline**.
 
-- The **data warehouse** is responsible for storing the collected data, processed data, and analysis results by the **analysis pipeline**. For our project, we are using a MongoDB database called `twitter_db` as our data warehouse. We will refer to this database as the **data warehouse** or **database** in this document.
+- The **data warehouse** is responsible for storing the collected data, processed data, and analysis results by the **data pipeline**. For our project, we are using a MongoDB database called `twitter_db` as our data warehouse. We will refer to this database as the **data warehouse** or **database** in this document.
 
 - The **API** is responsible for providing the frontend web application with the processed data from the **data warehouse**, and the analysis functions provided by the **Python components**. In this document, we will refer to this application as the **API**.
 
-- All the **Python components**, the **analysis pipeline**, and the **API** are stored in the `backend` folder.
+- All the **Python components**, the **data pipeline**, and the **API** are stored in the `backend` folder.
 
 - The **frontend web application** is responsible for displaying the **dashboard**. The **dashboard** is a **web application** that provides users with various visualisations, insights and analysis results related to mental health discussions on Twitter. In this document, we will refer to this application as the **frontend**.
 
@@ -90,7 +90,7 @@ You can also choose to install all the dependencies from the `requirements-full-
 
 To deploy the dashboard, you will only need to start the **frontend**, and the **API**. You may also need to start MongoDB so that the dashboard can collect data from the database, however the current implementation is set up so that you don't need to start MongoDB. The API will instead send data from a cached file called `backend/cache/backend_response.json`. 
 
-In addition, you will also need to start the analysis pipeline to collect, process, and analyse Twitter data.
+In addition, you will also need to start the **data pipeline** to collect, process, and analyse Twitter data.
 
 #### Frontend
 
@@ -111,11 +111,11 @@ flask run
 ```
 (this command will automatically run the Flask API application since we named the main python file as `app.py`)
 
-### Deployment of the analysis pipeline
+### Deployment of the data pipeline
 
 #### MongoDB
 
-To run the analysis pipeline, you will first need to start MongoDB so that the **analysis pipeline** can store the collected data, processed data, and analysis results in the database. 
+To execute the data pipeline, you will first need to start MongoDB so that the **data pipeline** can store the collected data, processed data, and analysis results in the database. 
 
 Run the following command to start MongoDB:
 
@@ -126,7 +126,7 @@ sudo systemctl start mongod
 
 #### Analysis pipeline
 
-Run the following command to start the **analysis pipeline**:
+Run the following command to start the **data pipeline**:
 
 ```bash
 # On Windows:
@@ -205,9 +205,9 @@ Run the following command to serve the Flask application using the `server.py` f
 python server.py
 ```
 
-### Deployment of the analysis pipeline
+### Deployment of the data pipeline
 
-Deploying the analysis pipeline is the same as deploying the analysis pipeline in the development environment.
+Deploying the data pipeline is the same as deploying the pipeline in the development environment.
 
 ## API documentation
 
@@ -818,7 +818,7 @@ The backend contains the following folders and files:
 
 - `app.py`: A program (i.e. a script). The main file containing the Flask application.
 - `server.py`: A program (i.e. a script). The file containing the code to serve the Flask application using a WSGI HTTP Server.
-- `populate_data.py`: A program (i.e. a script). The file containing the code to start the analysis pipeline.
+- `populate_data.py`: A program (i.e. a script). The file containing the code to start the data pipeline.
 - `create_topic_model.py`: A program (i.e. a script). The file containing the code to create the default LDA topic model.
 - `requirements.txt`: The file containing the list of all the backend's dependencies.
 - `requirements-full-ubuntu.txt`: The file containing the list of all the backend's dependencies, including the dependencies of the dependencies. This file is used if you are using Ubuntu 22.04.
@@ -838,7 +838,7 @@ The `components` folder contains the following folders:
 It also contains a number of files, including:
 - `__init__.py`: The file containing the code to make the `components` folder a Python module.
 - `constants.py`: The file containing the constants used by the programs.
-- `pipeline.py`: The file detailing the analysis pipeline. It contains functions that can be imported to analyze tweets.
+- `pipeline.py`: The file detailing the data pipeline. It contains functions that can be imported to analyze tweets.
 
 
 ## Testing
