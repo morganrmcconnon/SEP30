@@ -119,14 +119,7 @@ flask run
 
 To execute the data pipeline, you will first need to start MongoDB so that the **data pipeline** can store the collected data, processed data, and analysis results in the database. 
 
-Run the following command to start MongoDB:
-
-```bash
-# On Ubuntu:
-sudo systemctl start mongod
-```
-
-#### Analysis pipeline
+#### Data pipeline
 
 Run the following command to start the **data pipeline**:
 
