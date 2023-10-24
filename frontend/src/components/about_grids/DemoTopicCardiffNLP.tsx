@@ -43,7 +43,7 @@ const DemoTopicCardiffNLP = () => {
 
   return (
     <div className="vis-container">
-      <VisHeader title="CardiffNLP Tweet Text model" subtitle="Predict the topic of a text with CardiffNLP's Tweet Topic RoBERTa Model" />
+      <VisHeader title="CardiffNLP Tweet Topic model" subtitle="Predict the topic of a text with CardiffNLP's Tweet Topic RoBERTa Model" />
       <article className='text-black-white about-card'>
         <form onSubmit={getResult}>
           <div>
