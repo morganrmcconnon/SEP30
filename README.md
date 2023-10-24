@@ -1,5 +1,9 @@
 # SEP30 - Mental Health Dashboard
 
+## Table of contents
+
+
+
 ## Technologies used
 
 ### Frontend
@@ -171,6 +175,8 @@ location /backend/ {
    proxy_pass http://127.0.0.1:5000/backend/;
 }
 ```
+
+We have also written example NGINX configuration files in the `nginx` folder
 
 ### Deployment of the dashboard
 
@@ -405,7 +411,7 @@ The response body will be a JSON object with the following properties:
 - `labels`: An array containing the topic labels. Each topic label is represented by an array of 2 elements, the first element is the topic label, and the second element is an array of topic_ids, where each topic_id is an array of 2 elements, the first element is the topic id, and the second element is the topic's probability (weight).
 
 
-Example:
+For example:
 
 ```json
 {
@@ -729,6 +735,8 @@ Example:
 The response body will be a JSON object with the following properties:
 
 - `topic_id`: The topic id of the text.
+- `topic_name`: The topic name.
+- `topic_score`: The topic score.
 
 Example:
 
@@ -771,25 +779,25 @@ Example:
 
 ```json
 {
-    "topics_distribution": [
-        [1, 0.1],
-        [2, 0.1],
-        [3, 0.1],
-        [4, 0.1],
-        [5, 0.1],
-        [6, 0.1],
-        [7, 0.1],
-        [8, 0.1],
-        [9, 0.1],
-        [10, 0.1]
-    ],
-    "highest_score_topic": 1,
-    "highest_score_topic_probability": 0.1,
-    "related_topics": {
-        "cosine_similarity": [ "A", "B", "C", "D", "E"],
-        "hellinger_distance": [ "A", "B", "C", "D", "E"]
-    },
-    "associated_keywords": ["word1", "word2"]
+   "topics_distribution": [
+      [1, 0.1],
+      [2, 0.1],
+      [3, 0.1],
+      [4, 0.1],
+      [5, 0.1],
+      [6, 0.1],
+      [7, 0.1],
+      [8, 0.1],
+      [9, 0.1],
+      [10, 0.1]
+   ],
+   "highest_score_topic": 1,
+   "highest_score_topic_probability": 0.1,
+   "related_topics": {
+      "cosine_similarity": [ "A", "B", "C", "D", "E"],
+      "hellinger_distance": [ "A", "B", "C", "D", "E"]
+   },
+   "associated_keywords": ["word1", "word2"]
 }
 ```
 
@@ -919,7 +927,7 @@ To allow the grid component to get the data from the backend, you can either do 
 
 To add a new data analysis function to the backend, you can create a new Python module/file in the `backend/components` folder, then import and use that module in the `backend/components/pipeline.py` file.
 
-### Analyzing a list of tweets collected using Twitter API
+### Analyzing a list of tweets collected if Twitter API is available 
 
 In the `backend/components/pipline.py` module, there is a function called `analysis_pipeline_full` that can analyse any list of tweet objects. In this project, we used this function to analyse the tweets collected from Internet Archive's Twitter Stream collection, however this function can be used to analyse any list of tweet objects, as long as the tweet objects have the same syntax as the syntax of the tweet object defined by Twitter API's dictionary.
 
